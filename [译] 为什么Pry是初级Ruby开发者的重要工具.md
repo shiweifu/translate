@@ -56,6 +56,42 @@ Pry 停住了你的程序，因此可以深入的了解代码的执行，以及�
 
 
 
+假设我们检查用户的某些设置是否正确。首先我们在代码中添加 `binding.pry `。在可能引起问题的代码上方，增加 `binding.pry` ，然后重新执行代码。
+
+
+
+![Setting our Breakpoint](.\static\images\set_binding_pry.png)
+
+
+
+接着，我们尝试触发我们的调试代码。假设我们在本地运行 `rails server`，我们尝试访问 `localhost:3000/users/1`。
+
+
+
+此时，会进入一个类似 `IRB` 的终端，在此，你可以测试你的代码，以及观察输出。
+
+
+
+![Hitting Pry](.\static\images\hitting_pry.png)
+
+
+
+此时，我们检查 `@user` 是否包含正确的用户 ID。
+
+
+
+![Checking @user](https://www.honeybadger.io/images/blog/posts/debugging-ruby-with-pry/finding_user.png?1602785016)
+
+
+
+同样也可以检查用户的登录状态：
+
+
+
+![Checking logged in status](https://www.honeybadger.io/images/blog/posts/debugging-ruby-with-pry/check_logged_in.png?1602785016)
+
+
+
 
 
 
