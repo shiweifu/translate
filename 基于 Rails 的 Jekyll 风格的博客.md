@@ -70,5 +70,49 @@ end
 
 
 
+这段代码看上去非常简单，但包含了很多细节，我们在做很多工作的时候，都需要构建这些细节。 我们的 `index` action 展示了我们将需要一个用于所有帖子的查找方法，并将返回结果排序。`show` `action` 的前面，有一层 `find_post` 过滤器，我们的帖子需要某种类型的 `key`，同样，我们已经确定我们需要 `html` 实例方法。最后，我们将通过帖子的 `Cache-Control` 标头，检查帖子是否过时。
 
+
+
+### 我们的日志模型
+
+
+
+我们的 `:id` 键，将使用文件名 。控制器在 `app/views/blog` 目录下查找我们的 `markdown` 文件。在此创建第一篇日志，使用当前日期作为文件名 `2014-04-19-my-first-post.md`。现在，这是我们对 `BlogPost` 模型的一个测试，它使我们能够找到更多的帖子。
+
+
+
+```
+class BlogPost
+
+  attr_reader :slug
+
+  class << self
+
+    def all
+      all_slugs.map{ |slug| new(slug) }.sort
+    end
+
+    def find(slug)
+      all.detect { |post| post.slug == slug }
+    end
+
+    def directory
+      Rails.root.join 'app', 'views', 'blog'
+    end
+
+    private
+
+    def all_slugs
+      @all_slugs ||= Dir.glob("#{directory}/*.md").map { |f| File.basename(f).sub(/\.md$/,'') }
+    end
+
+  end
+
+  def initialize(slug)
+    @slug = slug
+  end
+
+end
+```
 
