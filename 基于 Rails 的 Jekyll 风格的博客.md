@@ -2,6 +2,10 @@
 
 
 
+翻译自：[Jekyll-Style Blogging On Rails - Ken Collins @MetaSkills.net](https://metaskills.net/2014/04/19/jekyll-style-blogging-on-rail/)
+
+
+
 是否想在新博客中使用已经存在的 Rails 布局和业务逻辑？是否喜欢 Jekyll，但是想让两者进行结合？
 
 
@@ -115,4 +119,61 @@ class BlogPost
 
 end
 ```
+
+
+
+需要注意的是，私有类方法 `all_slugs`，在生产环境中，一次一次的扫描文件系统？这种做法并不是很好，我们后续可以根据需要，来更新这个方法。所以，除了类方法之外，我们可以刷新模型之外的东西。我们现在先来讨论 `Jeykll`。
+
+
+
+### Jeykll相关
+
+
+
+我现在使用 Jeykll 用于静态网站和博客。大部分情况下，我都使用 Jeykll 暂时未正式发布的下一个大版本。Jeykll v2 很棒，我们在本项目中使用它。我们需要使用 bundle 来安装它。别忘了，当 Jeykll v2 正式发布后，更新 Gemfile 文件的引用为正式版本。
+
+
+
+```
+# In Gemfile
+gem 'jekyll', '~> 2.0.0.alpha'
+gem 'redcarpet'
+gem 'rouge'
+```
+
+
+
+通常，我们都很熟悉 `Redcarpet` gem。它用于将 markdown 转换为我们想要的格式，但 `rouge` 是什么东东？ `Rouge` gem 是纯 ruby 实现的语法高亮组件。它可以高亮超过 60 种语言，并输出 HTML 或者 ANSI 256-color 文本。它输出的 HTML，兼容已经存在的为 `pygments` 设计的样式。
+
+
+
+```
+class BlogPost
+
+  # ...
+
+  private
+
+  def to_html
+    Jekyll::Converters::Markdown::RedcarpetParser.new({
+      'highlighter' => 'rouge',
+      'redcarpet' => {
+        'extensions' => [
+          "no_intra_emphasis", "fenced_code_blocks", "autolink",
+          "strikethrough", "lax_spacing",  "superscript", "with_toc_data"
+        ]
+      }
+    }).convert(markdown)
+  end
+
+end
+```
+
+
+
+不止是看起来很棒，`Rouge` 的执行速度也非常快！通过使用它，我们避免绑定 pygments，其具有 Python 依赖。我们将让 `Jekyll` 努力工作，并实现我们的私有 `to_html` 方法。这可以让我们的 Github 风格的 markdown，支持语法高亮。
+
+
+
+
 
