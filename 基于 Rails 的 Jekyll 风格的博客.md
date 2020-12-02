@@ -175,5 +175,50 @@ end
 
 
 
+### 其他 BLOGSPOT 的细节
 
+
+
+在 `BlogPost.all` 类方法中，我们对合集进行了排序，期待最新的帖子在最前面。我们通过 Ruby 的 `<=>` 方法，比较每个帖子的日期，来实现这一功能。这完成了我们控制器的索引需求。
+
+
+
+````
+class BlogPost
+  # ...
+  def <=> other
+    other.date <=> date
+  end
+  # ...
+end
+````
+
+
+
+我们希望每个帖子都有 `title` 和 `date` 方法。可以通过简单的解析帖子的 `slug` 来获取。我同样增加了 `date_formatted` 方法，使用 `ActiveSupport` 的 `Inflector` 来在我们的视图中进行调用。它返回格式化的字符串，类似 `Arpil 19th, 2014`。我们也有一个 `path` 方法，当我们的网站中的内容需要链接我们的日志时，使用它。该方法使用 `slug` 作为 `:id` 参数。通过该方法，完成了我们控制器的 `find_post` 功能，并提供了类似 Jeykll 漂亮的 URL。
+
+
+
+```
+class BlogPost
+  # ...
+  def title
+    slug.sub(/\d{4}-\d{2}-\d{2}-/, '').titleize
+  end
+
+  def date
+    Date.parse(slug)
+  end
+
+  def date_formatted
+    day_format = ActiveSupport::Inflector.ordinalize(date.day)
+    date.strftime "%B #{day_format}, %G"
+  end
+
+  def path
+    "/blog/#{slug}"
+  end
+  # ...
+end
+```
 
