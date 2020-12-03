@@ -222,3 +222,52 @@ class BlogPost
 end
 ```
 
+
+
+在实现我们的 markdown 转换 HTML 时，我们应该考虑缓存。根据 Rails 的约定，我们实现 `cache_key` 方法，该方法将博客名称空间与帖子唯一的 `slug` 和 `timestamp` 结合在一起。 `updated_at` 时间戳，只是标识文件在磁盘上的最后一次修改。通常，将转换为自 `unix epoch` 开始的秒数的整数。确定响应 `ETag`，控制器的 `show` 方法，使用 `cache_key`。
+
+
+
+ ```
+class BlogPost
+  # ...
+  def updated_at
+    File.mtime(file_path)
+  end
+
+  def cache_key
+    ActiveSupport::Cache.expand_cache_key ['blog', slug, updated_at.to_i]
+  end
+  # ...
+end
+ ```
+
+
+
+现在到了有趣的部分，转换 `markdown` 为 `HTML`。我们仍然使用 `Rails.cache`，它在本地开发中，使用简单的内存存储，在生产环境中是 `memcached`。`fetch` 方法需要一个密钥和一个回调函数。仅当高速缓存未命中时才执行该块。
+
+
+
+```
+class BlogPost
+  # ...
+  def html
+    Rails.cache.fetch("#{cache_key}/html") { to_html }
+  end
+
+
+  private
+
+  def file_path
+    self.class.directory.join "#{slug}.md"
+  end
+
+  def markdown
+    Rails.cache.fetch("#{cache_key}/markdown") { File.read(file_path) }
+  end
+  # ...
+end
+```
+
+
+
