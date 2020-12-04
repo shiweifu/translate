@@ -271,3 +271,26 @@ end
 
 
 
+### 代码高亮
+
+
+
+只剩下一件事，就是对 `Rouge` gem 输出的内容进行语法高亮适配。幸运的是，互联网上已经存在许多 `pygment` 主题。下面是其中能找到的一部分。
+
+
+
+- [pygments-css](https://github.com/richleland/pygments-css) - 从 `pygment` 内联样式创建的 CSS 文件
+- [GitHub-Dark](https://github.com/StylishThemes/GitHub-Dark/) - GitHub 暗黑风格，用于 `Stylish`。请浏览主题目录
+- [pygments-github-style](https://github.com/aahan/pygments-github-style) - 用于 `Pygments` 的GitHub 样式 
+
+
+
+对于 [HomeMarks](http://homemarks.com/) 的博客，我使用上面最后一个资源中的 github `jeykll-github.css`。自由的选择自己项目，然后以自己项目相匹配的方式，将其 `@import` 到现有的 CSS 包中。
+
+
+
+### 接下来怎么办？
+
+
+
+到此为止，我们已经跑起来这个项目了！但像 `YAML` 顶部格式问题，`ERB` 模板，`Rails` 路由/helpers，以及其他问题该如何解决呢？好消息是我们有时间做所有这些事情。你可以`Jekyll-Style Blogging On Rails` 这个 gist 中找到这些实现。
