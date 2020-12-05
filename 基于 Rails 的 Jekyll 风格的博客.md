@@ -289,8 +289,52 @@ end
 
 
 
-### 接下来怎么办？
+### 哪里可以改进？
 
 
 
-到此为止，我们已经跑起来这个项目了！但像 `YAML` 顶部格式问题，`ERB` 模板，`Rails` 路由/helpers，以及其他问题该如何解决呢？好消息是我们有时间做所有这些事情。你可以`Jekyll-Style Blogging On Rails` 这个 gist 中找到这些实现。
+到此为止，我们已经跑起来这个项目了！但像 `YAML` 顶部格式问题，`ERB` 模板，`Rails` 路由/helpers，以及其他问题该如何解决呢？好消息是我们有时间做所有这些事情。你可以在[Jekyll-Style Blogging On Rails](https://gist.github.com/metaskills/11071934) 这个 gist 中找到这些实现。
+
+
+
+```
+def scope
+  ApplicationController.helpers.clone.tap do |h|
+    h.singleton_class.send :include, Rails.application.routes.url_helpers
+  end
+end
+```
+
+
+
+我特别得以的一个地方，是通过对 Rails 的路由和帮助方法的评估，来实现的对 `ERB` 的预处理。在深入挖掘 `IRB console` 帮助方法和 `ActionPack` 后，变得非常简单。我上面的解决方案在 Tilt 的 erubis 模板中，通过 `scope` 关键字进行使用。
+
+
+
+### 接下来的有哪些事？
+
+
+
+通过 [初始化](https://gist.github.com/metaskills/11071934)，对于 Jeykll On Rails，你有了一个很好的构建基础。根据你的需要随意去定制吧。下面是一些主意：
+
+
+
+- 在生产环境中，更好的缓存处理。当前使用 `cache_key` 来命中文件系统。
+- 也许可以构建一个 `jeykll-rails` 引擎？
+- 为你的日志，增加 emoji HTML 过滤器
+
+
+
+### 资源
+
+
+
+感谢阅读至此！要是能听到你的反馈就更好啦。
+
+
+
+下面是一些资源：
+
+- [The Final "Jekyll-Style Blogging On Rails" Gist](https://gist.github.com/metaskills/11071934)
+
+- [Do Simple Things](http://c2.com/cgi/wiki?DoSimpleThings)
