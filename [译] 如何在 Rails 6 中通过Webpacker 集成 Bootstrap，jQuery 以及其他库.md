@@ -30,3 +30,21 @@ yarn add bootstrap jquery popper.js
 
 
 
+接下来，我们将在 `app/javascript` 目录下，创建名为 `stylesheets` 的文件夹（完成路径`**app/javascript/stylesheets**`），行为类似 `app/assets/stylesheets`，不同之处则为此处的样式文件通常与 `javascript` 打包在一起。（例如：bootstrap 模块将其 CSS 打包在一起）。
+
+
+
+在 `app/javascript/stylesheets` 目录下，创建名为 `application.scss` 的文件（类似资源文件夹）。然后引入 bootstrap CSS 在此文件：
+
+
+
+```
+/* app/javascript/stylesheets/application.scss */
+@import "~bootstrap/scss/bootstrap";
+/* this will import the scss file inside node_modules/bootstrap/scss/bootstrap.scss
+```
+
+
+
+可选步骤 ：也许将样式文件夹放在 javascript 目录下让你感到补输入。如果你希望组织资源文件夹中的所有样式文件，可以在 `app/assets/stylesheets/application.scss` （由 .css 改名为 .scss）中引入座位替代。
+
