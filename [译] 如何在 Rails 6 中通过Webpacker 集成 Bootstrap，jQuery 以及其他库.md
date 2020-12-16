@@ -117,5 +117,47 @@ import "../stylesheets/application"
 
 
 
+![isolated modules](https://rubyyagi.s3.amazonaws.com/3a-bootstrap-jquery-rails-6/provide1.png)
+
+通过使用 ProvidePlugin 插件并执行 [shimming](https://webpack.js.org/guides/shimming/) 操作，我们可以在其他模块中访问变量。
+
+
+
+>  [`ProvidePlugin`](https://webpack.js.org/plugins/provide-plugin) 插件通过 webpack，使变量得以在编译后的不同模块中共享。如果 webpack 发现某个变量被用到，他将引入最终打包文件中的对应的模块。
+
+
+
+![provide plugin](https://rubyyagi.s3.amazonaws.com/3a-bootstrap-jquery-rails-6/provide2.png)
+
+打开 `config/webpack/environment.js` 文件，然后添加 ProvidePlugin 插件，并使用 "$"，"jQuery" 以及 "Propper" 插件。
+
+
+
+```
+// config/webpack/environment.js
+const { environment } = require('@rails/webpacker')
+const webpack = require("webpack");
+
+// Add an additional plugin of your choosing : ProvidePlugin
+environment.plugins.append(
+  "Provide",
+  new webpack.ProvidePlugin({
+    $: "jquery",
+    jQuery: "jquery",
+    Popper: ["popper.js", "default"] // for Bootstrap 4
+  })
+);
+
+module.exports = environment
+```
+
+
+
+在改变 `environment.js` 文件后，你也许需要重启你的 rails 服务端以更新。
+
+
+
+现在，你可以在你的视图代码中，使用 Bootstrap 啦。
+
 
 
