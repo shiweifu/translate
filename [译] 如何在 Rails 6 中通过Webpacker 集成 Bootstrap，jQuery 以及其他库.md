@@ -161,3 +161,44 @@ module.exports = environment
 
 
 
+### 在视图代码中使用 jQuery
+
+
+
+此时，如果你尝试在你的布局代码中使用 jQuery（如 html.erb，html.haml 等），你将会收到报错："Uncaught ReferenceError, $ is not defined"：
+
+![uncaught reference error](https://rubyyagi.s3.amazonaws.com/3a-bootstrap-jquery-rails-6/uncaught_reference.png)
+
+
+
+这是因为我们虽然设置了 "$" 在全局作用域内可访问，但 "$" 并不在全局作用域。ProvidePlugin 只会使其在其他模块可见，但并不一定在全局。
+
+
+
+![not on global](https://rubyyagi.s3.amazonaws.com/3a-bootstrap-jquery-rails-6/no_access.png)
+
+要解决这个问题，我们可以将 "$" 和 "jQuery" 变量挂载到全局作用域（或者 window 作用域，它也背用于浏览器的顶级作用域）。在打包文件中（**app/javascript/packs/application.js**）挂载到全局作用域：
+
+
+
+```
+// app/javascript/packs/application.js
+
+require("@rails/ujs").start()
+require("turbolinks").start()
+require("@rails/activestorage").start()
+require("channels")
+
+import "bootstrap"
+import "../stylesheets/application"
+
+var jQuery = require('jquery')
+
+// include jQuery in global and window scope (so you can access it globally)
+// in your web browser, when you type $('.div'), it is actually refering to global.$('.div')
+global.$ = global.jQuery = jQuery;
+window.$ = window.jQuery = jQuery;
+```
+
+
+
