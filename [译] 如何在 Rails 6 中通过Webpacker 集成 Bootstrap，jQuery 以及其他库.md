@@ -202,3 +202,60 @@ window.$ = window.jQuery = jQuery;
 
 
 
+### 使用依赖 jQuery 的库
+
+
+
+举个例子，我想使用  [DateRangePicker](https://www.daterangepicker.com/)，我常用它作为选择日期的组件。这个库依赖 jQuery 和 moment.js 实现一些功能。
+
+
+
+首先使用 yarn 安装 moment.js 和 daterangepicker，当然，他们在 yarn 的仓库：
+
+
+
+```
+yarn add moment daterangepicker
+```
+
+
+
+接下来，我们将在全局作用域引入 moment，这是为了让 DateRangePicker 可以引用到他，打开打包文件 `**app/javascript/packs/application.js**,`，添加 moment 的引用，并绑定到全局作用域。
+
+
+
+不要忘记引入 daterangepicker，并确保它在 bootstrap 和 jQuery 之前被引入。
+
+
+
+```
+// app/javascript/packs/application.js
+
+require("@rails/ujs").start()
+require("turbolinks").start()
+require("@rails/activestorage").start()
+require("channels")
+
+import "bootstrap"
+import "../stylesheets/application"
+
+var moment = require('moment')
+
+var jQuery = require('jquery')
+
+import "daterangepicker"
+
+// include jQuery in global and window scope (so you can access it globally)
+// in your web browser, when you type $('.div'), it is actually refering to global.$('.div')
+global.$ = global.jQuery = jQuery;
+window.$ = window.jQuery = jQuery;
+
+// include moment in global and window scope (so you can access it globally)
+global.moment = moment;
+window.moment = moment;
+```
+
+
+
+由于 DateRangePicker 有自己的 CSS 文件，我们需要在样式打包文件中，引入它。（**app/javascript/stylesheets/application.scss**）
+
