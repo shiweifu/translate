@@ -259,3 +259,49 @@ window.moment = moment;
 
 由于 DateRangePicker 有自己的 CSS 文件，我们需要在样式打包文件中，引入它。（**app/javascript/stylesheets/application.scss**）
 
+
+
+```
+/* app/javascript/stylesheets/application.scss */
+
+@import "~bootstrap/scss/bootstrap";
+
+@import "../../../node_modules/daterangepicker/daterangepicker.css";
+```
+
+
+
+因为一些原因，`"~"` 在 .css 文件中，并不能工作，所以我们不能使用 @import ~daterangepicker/daterangepicker.css。所以，我们必须使用相对路径，向上三个文件夹，使用 `../../../node_modules` 来在 `/app/javascript/styles` 中引用  `/node_modules` 目录。
+
+
+
+如果 node 模块包含 .scss 文件，你可以在前面使用 `~` 符号来进行导入，如导入相对地址的 node_modules 文件一样。
+
+
+
+现在，在你的视图代码，你可以像下面这样访问 daterangepicker 的输入：
+
+
+
+```
+<h1>Page#index</h1>
+<p>Find me in app/views/page/index.html.erb</p>
+ 
+<input type="text" name="dates"/>
+<script>
+$( document ).ready(function() {
+  $('input[name="dates"]').daterangepicker();
+});
+</script>
+```
+
+
+
+### 使用 npm 中不存在的 javascript 库
+
+
+
+如何使用 npm 仓库中不存在的 javascript 库？有一些库只有单独的 .js 文件，如何使用 webpacker 安装并使用他们？
+
+
+
