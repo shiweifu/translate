@@ -305,3 +305,39 @@ $( document ).ready(function() {
 
 
 
+比如，我打算使用 [select2](https://select2.org/getting-started/installation)，它有一个封装好的 gem（[select2-rails](https://github.com/argerim/select2-rails)），但我们想下载它的 .js 和 .css 引入到我们的 Rails 应用中。我们可以下载已经发行的代码：https://github.com/select2/select2/tags，选择一个版本，解压缩，并打开 "dist" 文件夹，然后选择 `select2.min.css` 和 `select2.min.js`。
+
+
+
+通常我会为自定义的 javascript 类库创建文件夹，并放到 `app/javascript` 目录中，在本案例中，`app/javascript/select2` 是我要放的地方，将文件放好后，如图所示：
+
+
+
+![js css location](https://rubyyagi.s3.amazonaws.com/3a-bootstrap-jquery-rails-6/custom_js.png)
+
+
+
+接着在你应用打包文件中（app/javascript/packs/application.js），引入 select2.min.js 文件：
+
+
+
+```
+// app/javascript/packs/application.js
+
+import "../select2/select2.min"
+```
+
+
+
+我们可以省略 `.js` 文件扩展名，确保路径正确。
+
+
+
+接下来，我们需要在 `stylesheet` 打包文件中引入我们先前创建的 css 文件（**app/javascript/stylesheets/application.scss**）
+
+
+
+```
+/* app/javascript/stylesheets/application.scss */
+@import "../select2/select2.min.css"
+```
