@@ -341,3 +341,26 @@ import "../select2/select2.min"
 /* app/javascript/stylesheets/application.scss */
 @import "../select2/select2.min.css"
 ```
+
+
+
+现在，我们可以在视图代码中使用 select2 中的方法：
+
+
+
+```
+<select class="js-example-basic-single" name="state">
+  <option value="AL">Alabama</option>
+  <option value="WY">Wyoming</option>
+</select>
+ 
+
+<script>
+$( document ).ready(function() {
+  $('.js-example-basic-single').select2();
+});
+</script>
+```
+
+
+
