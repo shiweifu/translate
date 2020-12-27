@@ -74,15 +74,128 @@ Rails 的视图通常使用慢速集成进行测试，该慢速集成测试除�
 
 
 
-传统 Rails 视图有一个隐式接口，使得难以推理需要呈现哪些信息，从而在不同上下文中，呈现同一视图，会导致细微的错误。
+传统 Rails 视图有一个隐式的接口，这使得那些需要被呈现的信息，难以被呈现，而在不同上下文中呈现同一视图时会导致细微的错误。
 
 
 
+ViewComponent 使用标准的 Ruby 初始化，明确定义什么是需要被渲染的，相较于片段方式，可以确保更加容易的被复用。
 
 
 
+##### 性能
 
 
 
+基于我们的[测试](https://viewcomponent.org/performance/benchmark.rb)，ViewComponent 相较于片段方式，有十倍的速度提升。
 
 
+
+##### 标准
+
+
+
+视图常常不符合 Ruby 代码的质量标准：方法过长，深层条件嵌套，以及一些因为随意编写而变得神秘的东西。
+
+ViewComponet 是 Ruby 对象，它可以以符合 Ruby 代码标准的质量来编写。
+
+
+
+#### 构建组件
+
+
+
+##### 约定
+
+
+
+组件是 `ViewComponent::Base` 的子类，保存在 `app/components` 目录中。在我们的实践中，它通常不直接继承自 `ViewComponent::Baes`，而是继承自 `ApplicationComponent`，该类也是从 `ViewComponent::Base` 承的。
+
+组件的名字通常以 `Component` 作为结尾。
+
+组件的模块通常使用复数，比如控制器和作业的例子：`Users::AvatarComponent`。
+
+组件的名称应该描述他们的用途，而不是他们被用在哪里（应用 `AvatarComponent`代替`UserComponent`）。
+
+
+
+##### 快速开始
+
+
+
+可以使用组件生成器来创建一个新的 ViewComponent。
+
+通过传递 ViewComponent 的名称和打算使用的参数给生成器来进行创建：
+
+
+
+```
+bin/rails generate component Example title content
+      invoke  test_unit
+      create  test/components/example_component_test.rb
+      create  app/components/example_component.rb
+      create  app/components/example_component.html.erb
+```
+
+
+
+ViewComponent 支持生成的模板包括 `erb`，`haml` 和 `slim` 三种模板引擎，默认的模板引擎通过 `config.generators.template_engine` 来指定。
+
+
+
+所使用的模板引擎也可以在命令行中通过参数来指定。
+
+
+
+```
+bin/rails generate component Example title content --template-engine slim
+```
+
+
+
+##### 实现
+
+
+
+视图组件是一个 Ruby 文件，文件中包含的组件类与文件同名：
+
+`app/components/test_component.rb`:
+
+
+
+```
+class TestComponent < ViewComponent::Base
+  def initialize(title:)
+    @title = title
+  end
+end
+```
+
+
+
+`app/components/test_component.html.erb`:
+
+
+
+```
+<span title="<%= @title %>"><%= content %></span>
+```
+
+
+
+视图被渲染如下：
+
+
+
+```
+<%= render(TestComponent.new(title: "my title")) do %>
+  Hello, World!
+<% end %>
+```
+
+
+
+返回：
+
+```
+<span title="my title">Hello, World!</span>
+```
