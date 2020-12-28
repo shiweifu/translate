@@ -199,3 +199,75 @@ end
 ```
 <span title="my title">Hello, World!</span>
 ```
+
+
+
+##### 内容
+
+
+
+内容被当作一个被捕获的代码块，传递给 ViewComponent，并赋予访问权限。
+
+View Component 可以定义额外的内容区域。举一个例子：
+
+```
+app/components/modal_component.rb:
+```
+
+```
+class ModalComponent < ViewComponent::Base
+  with_content_areas :header, :body
+end
+```
+
+`app/components/modal_component.html.erb`：
+
+```
+<div class="modal">
+  <div class="header"><%= header %></div>
+  <div class="body"><%= body %></div>
+</div>
+```
+
+渲染视图：
+
+```
+<%= render(ModalComponent.new) do |component| %>
+  <% component.with(:header) do %>
+    Hello Jane
+  <% end %>
+  <% component.with(:body) do %>
+    <p>Have a great day.</p>
+  <% end %>
+<% end %>
+```
+
+返回：
+
+```
+<div class="modal">
+  <div class="header">Hello Jane</div>
+  <div class="body"><p>Have a great day.</p></div>
+</div>
+```
+
+
+
+##### 插槽（实验性质的）
+
+
+
+插槽当前还在开发中，她是用于访问内容区域的。`Slot APIs` 应被视为未完成，以及将会发生重大改变。
+
+
+
+插槽允许多个块传递到一个 ViewComponent，从而降低了复杂组件的复杂度。
+
+
+
+
+
+
+
+
+
