@@ -265,9 +265,83 @@ end
 
 
 
+插槽通过 `renders_one` 和 `renders_many` 来定义。
 
 
 
+`renders_one` 定义一个在每个组件中，最多可以渲染一次的插槽：`renders_one :header`
+
+`renders_many` 定义一个在每个组件中都可以渲染多次的插槽：`renders_may :blog_posts`
 
 
 
+##### 定义插槽
+
+
+
+插槽有三种形式：
+
+- [Delegate slots](https://viewcomponent.org/#delegate-slots) 渲染其他组件。
+- [Lambda slots](https://viewcomponent.org/#lambda-slots) 渲染为字符串或其他组件。
+- [Pass through slots](https://viewcomponent.org/#pass-through-slots) 将内容直接传递给其他组件。
+
+
+
+##### 代理组件
+
+
+
+代理组件代理为其他组件：
+
+`# blog_component.rb`
+
+```
+class BlogComponent < ViewComponent::Base
+  include ViewComponent::SlotableV2
+
+  # Since `HeaderComponent` is nested inside of this component, we have to
+  # reference it as a string instead of a class name.
+  renders_one :header, "HeaderComponent"
+
+  # `PostComponent` is defined in another file, so we can refer to it by class name.
+  renders_many :posts, PostComponent
+
+  class HeaderComponent < ViewComponent::Base
+    attr_reader :title
+
+    def initialize(title:)
+    end
+  end
+end
+```
+
+
+
+`# blog_component.html.erb`
+
+```
+
+<div>
+  <h1><%= header %></h1> <!-- render the header component -->
+
+  <% posts.each do |post| %>
+    <div class="blog-post-wrapper">
+      <%= post %> <!-- render an individual post -->
+    </div>
+  <% end %>
+</div>
+# index.html.erb
+<%= render BlogComponent.new do |c| %>
+  <% c.header do %>
+    <%= link_to "My Site", root_path %>
+  <% end %>
+
+  <%= c.post(title: "My blog post") do %>
+    Really interesting stuff.
+  <% end %>
+
+  <%= c.post(title: "Another post!") do %>
+    Blog every day.
+  <% end %>
+<% end %>
+```
