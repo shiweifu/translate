@@ -345,3 +345,84 @@ end
   <% end %>
 <% end %>
 ```
+
+
+
+##### Lambda 插槽
+
+
+
+Lambda 插槽渲染表达式的返回值。Lambda 插槽被用于与`content_tag` 一同工作，或者作为具有特定默认值的另一个组件的封装。
+
+
+
+```
+class Blogcomponent < ViewComponent::Base
+  include ViewComponent::SlotableV2
+
+  # Renders the returned string
+  renders_one :header, -> (title:) do
+    content_tag :h1 do
+      link_to title, root_path
+    end
+  end
+
+  # Returns a component that will be rendered in that slot with a default argument.
+  renders_many :posts, -> (title:, classes:) do
+    PostComponent.new(title: title, classes: "my-default-class " + classes)
+  end
+end
+```
+
+
+
+##### 直通插槽
+
+
+
+直通插槽捕获通过块传递的内容。
+
+通过省略 `renders_one` 和 `renders_many` 的第二个参数，来定义直通插槽：
+
+```
+# blog_component.rb
+class BlogComponent < ViewComponent::Base
+  include ViewComponent::SlotableV2
+
+  renders_one :header
+  renders_many :posts
+end
+```
+
+
+
+`#blog_component.html.erb `
+
+```
+<div>
+  <h1><%= header %></h1>
+
+  <%= posts %>
+</div>
+```
+
+
+
+`# index.html.erb`
+
+
+
+```
+<div>
+  <%= render BlogComponent.new do |c| %>
+    <%= c.header do %>
+      <%= link_to "My blog", root_path %>
+    <% end %>
+
+    <% @posts.each do |post| %>
+      <%= c.post(post: post) %>
+    <% end %>
+  <% end %>
+</div>
+```
+
