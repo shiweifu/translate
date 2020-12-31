@@ -426,3 +426,99 @@ end
 </div>
 ```
 
+
+
+##### 渲染集合
+
+几何插槽（通过 `renders_may` 定义）也可以传递一个集合。
+
+
+
+`# navigation_component.rb`
+
+
+
+```
+class NavigationComponent < ViewComponent::Base
+  include ViewComponent::SlotableV2
+
+  renders_many :links, "LinkComponent"
+
+  class LinkComponent < ViewComponent::Base
+    def initialize(name:, href:)
+      @name = name
+      @href = href
+    end
+  end
+end
+```
+
+```
+# navigation_component.html.erb
+```
+
+```
+<div>
+  <% links.each do |link| %>
+    <%= link %>
+  <% end %>
+</div>
+```
+
+```
+# index.html.erb
+```
+
+```
+<%= render(NavigationComponent.new) do |c| %>
+  <%= c.links([
+    { name: "Home", href: "/" },
+    { name: "Pricing", href: "/pricing" },
+    { name: "Sign Up", href: "/sign-up" },
+  ]) %>
+<% end %>
+```
+
+
+
+#### 内联组件
+
+
+
+ViewComponent 可以不依赖模板文件进行渲染，只定义一个 `call` 方法：
+
+`app/components/inline_component.rb`:
+
+```
+class InlineComponent < ViewComponent::Base
+  def call
+    if active?
+      link_to "Cancel integration", integration_path, method: :delete
+    else
+      link_to "Integrate now!", integration_path
+    end
+  end
+end
+```
+
+可以为不同种类的产品定义方法：
+
+```
+class InlineVariantComponent < ViewComponent::Base
+  def call_phone
+    link_to "Phone", phone_path
+  end
+
+  def call
+    link_to "Default", default_path
+  end
+end
+```
+
+然后通过 `with_variant` 进行渲染：
+
+```
+<%= render InlineVariantComponent.new.with_variant(:phone) %>
+
+# output: <%= link_to "Phone", phone_path %>
+```
