@@ -1,0 +1,11 @@
+categories: 
+  - blogs:
+    - name: 日志
+      path: blog
+  - pages:
+    - name: 页面
+      path: page
+  - translate:
+    - name: 翻译
+      path: translate
+

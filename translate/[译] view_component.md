@@ -522,3 +522,68 @@ end
 
 # output: <%= link_to "Phone", phone_path %>
 ```
+
+
+
+#### 模板继承
+
+
+
+如果组件继承自其他组件，那么也会继承其的模板。如果自定义模板，则会覆盖。
+
+
+
+```
+# If `my_link_component.html.erb` is not defined the component will fall back
+# to `LinkComponent`s template
+class MyLinkComponent < LinkComponent
+end
+```
+
+
+
+#### Sidecar 资源
+
+
+
+ViewComponent 支持两种方式定义其视图文件。
+
+##### Sidecar view
+
+最简单的方式是定义在保存组件的 Ruby 文件后面：
+
+```
+app/components
+├── ...
+├── test_component.rb
+├── test_component.html.erb
+├── ...
+```
+
+##### Sidecar 目录
+
+另一种方式，视图和其资源文件，可以保存在与组件同名的文件中，目录中的资源文件，如 JavaScript 和 CSS 文件将会被使用。
+
+```
+app/components
+├── ...
+├── example_component.rb
+├── example_component
+|   ├── example_component.css
+|   ├── example_component.html.erb
+|   └── example_component.js
+├── ...
+```
+
+可以使用`--sidecar` 参数，来通过命令生成 sidecar 目录：
+
+```
+bin/rails generate component Example title content --sidecar
+      invoke  test_unit
+      create  test/components/example_component_test.rb
+      create  app/components/example_component.rb
+      create  app/components/example_component/example_component.html.erb
+```
+
+
+
