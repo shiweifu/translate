@@ -587,3 +587,60 @@ bin/rails generate component Example title content --sidecar
 
 
 
+##### Sidecar 目录中的组件文件
+
+
+
+另一个可能保存 Ruby 组件文件的位置是 sidecar 目录，将所有相关的文件放在一个文件夹中。
+
+
+
+>  注意：不要将包含的文件夹和 .rb 文件保存为相同的名称，否则模块定义和类定义之间将会发生冲突。
+
+````
+app/components
+├── ...
+├── example
+|   ├── component.rb
+|   ├── component.css
+|   ├── component.html.erb
+|   └── component.js
+├── ...
+````
+
+
+
+组件可以使用与文件夹相同的名字作为命名空间，进行渲染：
+
+```
+<%= render(Example::Component.new(title: "my title")) do %>
+  Hello, World!
+<% end %>
+```
+
+##### 条件渲染
+
+组件可以实现 `#render?` 方法，在组件初始化后，通过调用这个方法，来判断是否渲染组件。
+
+传统上，是否渲染视图的逻辑，放在两个组件模板中：
+
+`app/components/confirm_email_component.html.erb`
+
+```
+<% if user.requires_confirmation? %>
+  <div class="alert">Please confirm your email address.</div>
+<% end %>
+```
+
+或者呈现组件的视图：
+
+`app/views/_banners.html.erb`
+
+```
+<% if current_user.requires_confirmation? %>
+  <%= render(ConfirmEmailComponent.new(user: current_user)) %>
+<% end %>
+```
+
+
+
