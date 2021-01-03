@@ -644,3 +644,116 @@ app/components
 
 
 
+通过调用 `ViewComponent::TestHelpers` 模块中的 `refute_component_rendered` 方法，可以验证组件是否已经渲染。
+
+
+
+##### before_render
+
+
+
+组件可以定义 `before_render` 方法，该方法在组件渲染之前被调用，`herlpers` 允许在此时被调用：
+
+`app/components/confirm_email_component.rb`
+
+
+
+```
+class MyComponent < ViewComponent::Base
+  def before_render
+    @my_icon = helpers.star_icon
+  end
+end
+```
+
+
+
+##### 渲染合集
+
+使用 `with_collection` 来渲染一组 `ViewComponent`：
+
+`app/view/products/index.html.erb`
+
+```
+<%= render(ProductComponent.with_collection(@products)) %>
+```
+
+```
+app/components/product_component.rb
+class ProductComponent < ViewComponent::Base
+  def initialize(product:)
+    @product = product
+  end
+end
+```
+
+[默认情况下](https://github.com/github/view_component/blob/89f8fab4609c1ef2467cf434d283864b3c754473/lib/view_component/base.rb#L249)，组件的名称被用于定义从集合传递给组件的参数。
+
+##### with_collection_parameter
+
+使用 `with_collection_parameter` 改变集合参数的名称：
+
+`app/components/product_component.rb`
+
+```
+class ProductComponent < ViewComponent::Base
+  with_collection_parameter :item
+
+  def initialize(item:)
+    @item = item
+  end
+end
+```
+
+
+
+##### 额外参数
+
+额外参数用于遍历集合时，传递给每个组件实例：
+
+
+
+```
+app/view/products/index.html.erb
+```
+
+
+
+```
+<%= render(ProductComponent.with_collection(@products, notice: "hi")) %>
+```
+
+
+
+```
+app/components/product_component.rb
+```
+
+
+
+```
+class ProductComponent < ViewComponent::Base
+  with_collection_parameter :item
+
+  def initialize(item:, notice:)
+    @item = item
+    @notice = notice
+  end
+end
+```
+
+
+
+```
+app/components/product_component.html.erb
+```
+
+
+
+```
+<li>
+  <h2><%= @item.name %></h2>
+  <span><%= @notice %></span>
+</li>
+```
+
