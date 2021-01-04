@@ -757,3 +757,82 @@ app/components/product_component.html.erb
 </li>
 ```
 
+
+
+#### Collection counter
+
+
+
+ViewComponent 在匹配参数名字的时候，定义了一个计数器变量，以 `_counter` 结尾。要访问这个变量，在 `initialize` 以参数的形式接受：
+
+`app/components/product_component.rb`
+
+```
+class ProductComponent < ViewComponent::Base
+  def initialize(product:, product_counter:)
+    @product = product
+    @counter = product_counter
+  end
+end
+```
+
+`app/components/product_component.html.erb`
+
+```
+<li>
+  <%= @counter %> <%= @product.name %>
+</li>
+```
+
+
+
+#### 使用帮助函数
+
+帮助函数通过 `helpers` 代理进行使用：
+
+```
+module IconHelper
+  def icon(name)
+    tag.i data: { feather: name.to_s.dasherize }
+  end
+end
+
+class UserComponent < ViewComponent::Base
+  def profile_icon
+    helpers.icon :user
+  end
+end
+```
+
+它可以被用于代理：
+
+```
+class UserComponent < ViewComponent::Base
+  delegate :icon, to: :helpers
+
+  def profile_icon
+    icon :user
+  end
+end
+```
+
+帮助同样可以被引用：
+
+```
+class UserComponent < ViewComponent::Base
+  include IconHelper
+
+  def profile_icon
+    icon :user
+  end
+end
+```
+
+
+
+
+
+
+
+
+
