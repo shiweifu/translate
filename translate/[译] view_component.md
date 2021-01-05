@@ -830,6 +830,69 @@ end
 
 
 
+#### 编写测试
+
+
+
+组件可以直接进行单元测试，使用 `render_inline` 测试方法，通过断言渲染输出结果。
+
+如果 `Capybara` 的 gem 已经安装，可以直接使用：
+
+```
+require "view_component/test_case"
+
+class MyComponentTest < ViewComponent::TestCase
+  def test_render_component
+    render_inline(TestComponent.new(title: "my title")) { "Hello, World!" }
+
+    assert_selector("span[title='my title']", text: "Hello, World!")
+    # or, to just assert against the text:
+    assert_text("Hello, World!")
+  end
+end
+```
+
+如果 `capybara` 没有安装，断言通过 `render_inline` 实现，返回值为 `Nokogiri::HTML::DocumentFragment` 的实例。
+
+```
+def test_render_component
+  result = render_inline(TestComponent.new(title: "my title")) { "Hello, World!" }
+
+  assert_includes result.css("span[title='my title']").to_html, "Hello, World!"
+end
+```
+
+另一种方案，对组件的原始输出进行断言，原始输出通过 `render_component` 暴露：
+
+```
+def test_render_component
+  render_inline(TestComponent.new(title: "my title")) { "Hello, World!" }
+
+  assert_includes rendered_component, "Hello, World!"
+end
+```
+
+ 使用 `with_content_areas` 进行测试：
+
+```
+def test_renders_content_areas_template_with_content
+  render_inline(ContentAreasComponent.new(footer: "Bye!")) do |component|
+    component.with(:title, "Hello!")
+    component.with(:body) { "Have a nice day." }
+  end
+
+  assert_selector(".title", text: "Hello!")
+  assert_selector(".body", text: "Have a nice day.")
+  assert_selector(".footer", text: "Bye!")
+end
+```
+
+
+
+
+
+
+
 
 
 
