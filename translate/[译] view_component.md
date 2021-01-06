@@ -889,9 +889,68 @@ end
 
 
 
+##### Action Pack Variants
+
+使用 `with_variant` 帮助方法来测试指定的变体：
+
+```
+def test_render_component_for_tablet
+  with_variant :tablet do
+    render_inline(TestComponent.new(title: "my title")) { "Hello, tablets!" }
+
+    assert_selector("span[title='my title']", text: "Hello, tablets!")
+  end
+end
+
+```
 
 
 
+#### 预览组件
+
+
+
+`ViewComponent::Preview`，与 `ActionMailer::Preview` 类似，提供一种在隔离状态下的方式来预览组件：
+
+`test/components/previews/test_component_preview.rb`
+
+```
+class TestComponentPreview < ViewComponent::Preview
+  def with_default_title
+    render(TestComponent.new(title: "Test component default"))
+  end
+
+  def with_long_title
+    render(TestComponent.new(title: "This is a really long title to see how the component renders this"))
+  end
+
+  def with_content_block
+    render(TestComponent.new(title: "This component accepts a block of content")) do
+      tag.div do
+        content_tag(:span, "Hello")
+      end
+    end
+  end
+end
+```
+
+这生成了 http://localhost:3000/rails/view_components/test_component/with_default_title，http://localhost:3000/rails/view_components/test_component/with_long_title， 和 http://localhost:3000/rails/view_components/test_component/with_content_block。
+
+
+
+同样可以使用从获取动态变量，并传递为参数：
+
+`test/components/previews/test_component_preview.rb`
+
+```
+class TestComponentPreview < ViewComponent::Preview
+  def with_dynamic_title(title: "Test component default")
+    render(TestComponent.new(title: title))
+  end
+end
+```
+
+允许以这种方式传递值： http://localhost:3000/rails/components/test_component/with_dynamic_title?title=Custom+title。
 
 
 
