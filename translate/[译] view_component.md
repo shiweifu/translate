@@ -954,7 +954,47 @@ end
 
 
 
+`ViewComponent::Preview` 的基类引入了[`ActionView::Helpers::TagHelper`](https://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html)，该类提供了  [`tag`](https://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html#method-i-tag) 和 [`content_tag`](https://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html#method-i-content_tag) 视图帮助方法。
 
 
 
+之前的应用使用了默认的 application 布局，但可以通过 `layout` 选项来指定一个布局：
 
+`test/components/previews/test_component_preview.rb`
+
+```
+class TestComponentPreview < ViewComponent::Preview
+  layout "admin"
+
+  ...
+end
+```
+
+你也可以通过 `default_preview_layout` 配置选项，来设置默认的的布局文件：
+
+`config/application.rb`
+
+```
+# Set the default layout to app/views/layouts/component_preview.html.erb
+config.view_component.default_preview_layout = "component_preview"
+```
+
+刚刚创建的类保存在 `test/components/previews`，地址通过 `preview_paths` 选项来指定：
+
+`config/application.rb`
+
+```
+config.view_component.preview_paths << "#{Rails.root}/lib/component_previews"
+```
+
+默认情况下，预览地址为 http://localhost:3000/rails/view_components. 如果需要使用不同的地址，通过 `preview_route` 选项来指定：
+
+```
+config/application.rb
+```
+
+```
+config.view_component.preview_route = "/previews"
+```
+
+此时，预览地址为：http://localhost:3000/previews。
