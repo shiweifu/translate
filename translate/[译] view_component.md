@@ -998,3 +998,88 @@ config.view_component.preview_route = "/previews"
 ```
 
 此时，预览地址为：http://localhost:3000/previews。
+
+
+
+#### 预览模板
+
+预览保存在 `test/components/previews/cell_component_preview/` 的文件时， 它的模板文件可以保存在：
+
+`test/components/previews/cell_component_preview.rb`
+
+
+
+```
+class CellComponentPreview < ViewComponent::Preview
+  def default
+  end
+end
+```
+
+
+
+`test/components/previews/cell_component_preview/default.html.erb`
+
+
+
+```
+<table class="table">
+  <tbody>
+    <tr>
+      <%= render CellComponent.new %>
+    </tr>
+  </tbody>
+</div>
+```
+
+
+
+预览不同位置的文件时，传递 `template` 参数：该参数在 `config/view_component.preview_path`：
+
+`test/components/previews/cell_component_preview.rb`
+
+```
+class CellComponentPreview < ViewComponent::Preview
+  def default
+    render_with_template(template: 'custom_cell_component_preview/my_preview_template')
+  end
+end
+```
+
+通过 `params` 参数传递过来的值，可以通过 `locals` 来进行访问：
+
+`test/components/previews/cell_component_preview.rb`
+
+```
+class CellComponentPreview < ViewComponent::Preview
+  def default(title: "Default title", subtitle: "A subtitle")
+    render_with_template(locals: {
+      title: title,
+      subtitle: subtitle
+    })
+  end
+end
+```
+
+允许传值通过URL：http://localhost:3000/rails/components/cell_component/default?title=Custom+title&subtitle=Another+subtitle。
+
+
+
+#### 配置预览控制器
+
+模板的预览可以被扩展，比如增加权限验证等需要在实际掉用之前被执行的方法，通过 `preview_controller` 的选项来进行配置：
+
+`config/application.rb`
+
+```
+config.view_component.preview_controller = "MyPreviewController"
+```
+
+
+
+
+
+
+
+
+
