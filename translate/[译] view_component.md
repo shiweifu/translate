@@ -1077,9 +1077,87 @@ config.view_component.preview_controller = "MyPreviewController"
 
 
 
+##### 配置测试控制器
 
 
 
+组件测试时假设存在 `ApplicationController` 类，可以使用 `test_controller` 选项对其进行测试：
+
+
+
+`config/application.rb`
+
+```
+config.view_component.test_controller = "BaseController"
+```
+
+
+
+#### 设置RSpec
+
+
+
+要使用 RSpec，添加以下语句：
+
+```
+spec/rails_helper.rb
+```
+
+
+
+```
+require "view_component/test_helpers"
+
+RSpec.configure do |config|
+  config.include ViewComponent::TestHelpers, type: :component
+end
+```
+
+
+
+Specs 通过访问帮助方法 `render_inline` 来生成。
+
+使用组件预览：
+
+```
+config/application.rb
+```
+
+```
+config.view_component.preview_paths << "#{Rails.root}/spec/components/previews"
+```
+
+
+
+#### 使渲染的 monkey patch（Rails<6.1）无效
+
+
+
+为了避免 `ViewComponent` 和其他 `monkey patch` `render` 方法互相覆盖，可以将 `ViewComponent` 配置为不引入 `monkey patch`：
+
+
+
+```
+config.view_component.render_monkey_patch_enabled = false # defaults to true
+```
+
+
+
+在禁用 `monkey patch` 的情况下，请改用 `render_component`（或者 render_component_to_string）：
+
+
+
+```
+<%= render_component Component.new(message: "bar") %>
+```
+
+
+
+#### Sidecar assets （实验）
+
+
+
+可以在组件（有时称为 `sidecar` 资源或文件）旁边添加 `JavaScript` 和 `CSS`。
 
 
 
