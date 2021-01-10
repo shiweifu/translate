@@ -1161,3 +1161,40 @@ config.view_component.render_monkey_patch_enabled = false # defaults to true
 
 
 
+使用 Webpacker gem 变异 sidecar 资源时，将文件放在 `app/component` 目录：
+
+1. 在 `config/webpacker.yml`，增加 `app/components` 到 `resloved_array` 数组（比如： `resolved_paths: ["app/components"]`）。
+2. In the Webpack entry file (often `app/javascript/packs/application.js`), add an import statement to a helper file, and in the helper file, import the components’ Javascript：
+
+
+
+```
+import "..components"
+```
+
+
+
+然后，在`app/javascript/component.js` 文件，添加：
+
+
+
+```
+function importAll(r) {
+  r.keys().forEach(r)
+}
+
+importAll(require.context("../components", true, /_component.js$/))
+```
+
+
+
+任何以`_component.js` 为后缀的文件，将被打包成 `Webpack`  的文件，举个例子：`app/component/widge_coomponent.css`。如果 Webpack 
+
+
+
+任何带有_component.js后缀的文件（例如app / components / widget_component.js）都将被编译到Webpack捆绑包中。 如果该文件本身导入了另一个文件（例如app / components / widget_component.css），则在将Webpack用于样式的情况下，该文件也将被编译并捆绑到Webpack的输出样式表中。
+
+
+
+
+
