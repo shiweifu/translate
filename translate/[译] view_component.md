@@ -1196,5 +1196,13 @@ importAll(require.context("../components", true, /_component.js$/))
 
 
 
+##### Encapsulating sidecar assets
+
+
+
+
+
+
+
 
 

@@ -1,0 +1,41 @@
+翻译自：https://css-tricks.com/alpine-js-the-javascript-framework-thats-used-like-jquery-written-like-vue-and-inspired-by-tailwindcss/
+
+
+
+我们已经有了许多非常流行的前段框架，比如 React，Vue，Angular，以及 Svelte。我们还需要另外的 JavaScript 库吗？我们来看看  [Alpine.js](https://github.com/alpinejs/alpine)，然后你自己来判断。Alpine.js 不用用来给开发者开发单页面应用的。他很轻量级（压缩后约等于7KB），设计用来通过标记语言，编写客户端的 JS 代码。
+
+
+
+语法借鉴自 `Vue` 和 `Angular`。这意味着如果你使用过这两款框架，你会对语法感到熟悉。但再重复一下，Alpine.js 不是用来开发 SPA的，而是通过少量的 JavaScript 来增强模板。
+
+
+
+举个例子，这是一个 Alpine.js 模板，用来实现 "alert" 组件。
+
+
+
+```
+<div class="m-4" x-data="{ msg: 'Something not ideal might be happening.', level: '', capitalize: str => str.charAt(0).toUpperCase() + str.slice(1) }">
+  <label for="alert-message" class="block mb-2">Alert Message</label>
+  <input id="alert-message" name="alert-message" class="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 mb-2" x-model="msg" />
+  <button @click="level = 'info'" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    Alert Info
+  </button>
+  <button @click="level = 'error'" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+    Alert Error
+  </button>
+  <button @click="msg = '', level = ''" class="font-bold py-2 px-4 rounded">
+    Clear
+  </button>
+  <template x-if="msg && level">
+    <div role="alert" class="mt-2">
+      <div class="text-white font-bold rounded-t px-4 py-2" :class="{'bg-red-500': level === 'error', 'bg-blue-500': level === 'info'}" x-text="capitalize(level)">
+      </div>
+      <div class="border border-t-0 rounded-b px-4 py-3" :class="{'bg-red-100 text-red-700 border-red-400': level === 'error', 'bg-blue-100 text-blue-700 border-blue-400': level === 'info'}">
+        <p x-text="msg"></p>
+      </div>
+    </div>
+  </template>
+</div>
+```
+
