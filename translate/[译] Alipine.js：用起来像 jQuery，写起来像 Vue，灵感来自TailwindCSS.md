@@ -39,3 +39,26 @@
 </div>
 ```
 
+
+
+警告信息使用 `x-model="msg"`，以两种方式绑定。不通等级的的警告信息使用 `level` 属性进行设定。当 `msg` 和 `level` 两个属性都有值时，才进行显示。
+
+
+
+### Alpine 像是一个以 declar饿ative 方式实现渲染的一个 jQuery 和 JavaScript 替代方案
+
+
+
+Alpine.js 是一个类似 `Vue` 模板语法的，用于替代 jQuery 和 原生 JavaScript 的类 React/Vue/Svelte 等框架的方案。
+
+
+
+Alpine.js 还很年轻，他的一些使用方式 jQuery 并不具备，让我们简单的比较一下两者。
+
+
+
+#### 查询 vs 绑定
+
+
+
+JavaScript 的体积和特性的背后是跨浏览器的兼容，这通常被称为 `jQuery Core`，通常利用他们可以查询 DOM 和操作他们。
