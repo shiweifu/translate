@@ -62,3 +62,23 @@ Alpine.js 还很年轻，他的一些使用方式 jQuery 并不具备，让我�
 
 
 JavaScript 的体积和特性的背后是跨浏览器的兼容，这通常被称为 `jQuery Core`，通常利用他们可以查询 DOM 和操作他们。
+
+
+
+Alpine.js 解决 jQuery Core 的问题，是通过 `x-bind` 绑定属性，通过声明式的方式来绑定 DOM。它可以用于将任何属性绑定到 Alpine.js 组件上。`Alpine.js` 与其他声明式的框架一样（React，Vue），暴露 `x-ref` 作为直接通过 JavaScript 操作 DOM 元素的方式，以解决在绑定无法满足需求时，直接操作 DOM 节点。
+
+
+
+#### 事件处理
+
+
+
+jQuery 同样提供一种方式来处理事件，创建并触发事件。`Alpine.js` 提供 `x-on 指令`和 `$event 魔法值`，允许 JavaScript 方法来处理事件。要触发自定义事件，`Alpine.js` 提供 `$dispatch magic property` 来实现，它封装了浏览器的 [事件和处理事件的接口](https://developer.mozilla.org/en-US/docs/Web/API/Event)。
+
+
+
+#### 动效处理 
+
+
+
+jQuery 有一个核心特性，就是它封装了许多方法，让用户可以方便的实现各种动画效果，如 `slideUp`，`slideDown`，`fadeIn`，`fadeOut` 等。
