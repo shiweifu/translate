@@ -81,4 +81,19 @@ jQuery 同样提供一种方式来处理事件，创建并触发事件。`Alpine
 
 
 
-jQuery 有一个核心特性，就是它封装了许多方法，让用户可以方便的实现各种动画效果，如 `slideUp`，`slideDown`，`fadeIn`，`fadeOut` 等。
+jQuery 有一个核心特性，就是它封装了许多方法，让用户可以方便的实现各种动画效果，如 `slideUp`，`slideDown`，`fadeIn`，`fadeOut` 等。Alpine.js 提供一组 `x-transition` 指令，通过添加和删除元素的类，来实现动画。灵感来自 Vue Transition API。
+
+
+
+同样的，jQuery 的 Ajax 客户端调用，在Alpine.js 中也没有完全一样的解决方案，你可以使用 Fetch API 或者 axios 这类的第三方 HTTP 库。
+
+
+
+#### 插件
+
+
+
+jQuery 的插件系统也同样很有价值。而 Alpine.js 的生态系统中，还没有类似的实现。共享 Alpine.js 组件很简单，通常只需要复制、粘贴。Alpine.js 的组件只是函数，他们往往不访问 Alpine.js 本身，通过在脚本的不同页面上，包含<script>标签，使他们相对容易共享。当 Alpine 初始化后者传递给绑定时，它的一些魔法属性会被添加，如 `x-on` 中绑定 `$event`。
+
+
+
