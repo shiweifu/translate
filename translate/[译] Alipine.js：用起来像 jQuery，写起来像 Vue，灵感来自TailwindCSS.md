@@ -97,3 +97,24 @@ jQuery 的插件系统也同样很有价值。而 Alpine.js 的生态系统中�
 
 
 
+虽然存在一些关于扩展的讨论，并已经有了一些将其他库挂载链接到 Alpine.js 核心事件的请求，但当前还没有 Alpine.js 扩展的示例。Alpine.js 的作者 `Caleb Porzio` 似乎是基于 Vue API 的处理来作出决策的，我希望将来任何有关扩展的点，都受到 Vue.js 提供的内容启发。
+
+
+
+#### 体积
+
+
+
+Alpine.js 相较于 jQuery，更加轻量级。gzipped 压缩前为 21.9kB，压缩后为 7.1kB。而 jQuery 压缩前 为 87.6kB，压缩后 30.4kB。
+
+
+
+Alpine.js 的大多数接口，都是以声明式的方式来操作DOM的（属性绑定，事件监听，以及动画）。
+
+
+
+![img](https://i2.wp.com/css-tricks.com/wp-content/uploads/2020/04/Screenshot-2020-04-18-at-13.58.59.png?fit=1024%2C507&ssl=1)
+
+
+
+作为比较，Vue 的最小体积为 63.5kB，压缩后为 22.8kB。两者的 API 相同，但为何 Alpine.js 的体积更加小巧？因为 Alpine.js 没有实现虚拟 DOM。相反，它直接更改 DOM，同时暴露与 Vue 相同的声明式 API。
