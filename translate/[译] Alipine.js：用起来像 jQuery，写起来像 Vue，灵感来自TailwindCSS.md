@@ -118,3 +118,84 @@ Alpine.js 的大多数接口，都是以声明式的方式来操作DOM的（属�
 
 
 作为比较，Vue 的最小体积为 63.5kB，压缩后为 22.8kB。两者的 API 相同，但为何 Alpine.js 的体积更加小巧？因为 Alpine.js 没有实现虚拟 DOM。相反，它直接更改 DOM，同时暴露与 Vue 相同的声明式 API。
+
+
+
+#### 来看一个例子
+
+
+
+使用 Alpine.js  是紧凑的，因为所编写的代码是声明式的，通过模板进行声明。下面以一个宝可梦搜索页面的例子来演示：
+
+
+
+```
+<div class="flex flex-col md:flex-row">
+  <div x-data="pokeSearch()" x-init="fetchPokemon()" class="md:w-1/3 flex flex-col p-10">
+    <div class="flex flex-row">
+      <input type="text" name="pokemonSearch" x-model="pokemonSearch" class="flex w-2/3 bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 appearance-none leading-normal" />
+      <button type="submit" @click="fetchPokemon()" class="flex bg-blue-500 text-white font-bold py-2 px-4 rounded" :class="[ isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700' ]" :disabled="isLoading">
+        Search
+      </button>
+    </div>
+    <template x-if="pokemon">
+      <div class="flex flex-row pt-10">
+        <div class="flex mr-4">
+          <img :src="pokemon.sprites.front_default" :alt="pokemon.name" />
+        </div>
+        <div class="text-sm justify-center flex flex-col">
+          <h3 class="text-gray-900 text-sm font-bold uppercase leading-none mb-2" x-text="pokemon.name"></h3>
+          <div class="flex flex-row flex-wrap">
+            <template x-for="abilityObj in pokemon.abilities" :key="abilityObj.ability.url">
+              <span x-text="abilityObj.ability.name" class="flex bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700"></span>
+            </template>
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+</div>
+```
+
+
+
+```
+function pokeSearch() {
+  return {
+    pokemonSearch: "charizard",
+    pokemon: null,
+    isLoading: false,
+    fetchPokemon() {
+      this.isLoading = true;
+      fetch(`https://pokeapi.co/api/v2/pokemon/${this.pokemonSearch}`)
+        .then(res => res.json())
+        .then(data => {
+          this.isLoading = false;
+          this.pokemon = data;
+        });
+    }
+  };
+}
+```
+
+这个例子展示了组件如何使用`x-data`，以及通过方法返回组件的初始数据，定义方法，以及`x-init`指令指定的在组件加载完毕后执行的函数。
+
+
+
+在 Alpine.js 中，绑定以及事件监听的语法与 Vue 类似：
+
+- `Alpine`：`x-bind:attribute="express"` 和 `x-on:eventName="expression"`，缩写为：`:attribute="expression"`和`@eventName="expression"`。
+- `Vue`：`v-bind:attribute="express"` 和 `v-on:eventName="expression"`, 缩写为：`:attribute="expression"` 和 `@eventName="expression"`
+
+
+
+列表渲染通过 `x-for` 配合 `template`  元素，条件控制使用 `x-if` 配合 `template` 元素。
+
+注意，alpine.js 并不提供完整的模板语言支持，所以无法使用嵌入语法（比如 Vue.js 中的 `{{ myValue }}`，及Handlebars 和 AngularJS 中的类似语法）。作为替代，alpine.js 使用 `x-text` 和 `x-html` 语句来实现（通过调用 `Node.innerText` 和 `Node.innerHTML`）。
+
+
+
+
+
+
+
