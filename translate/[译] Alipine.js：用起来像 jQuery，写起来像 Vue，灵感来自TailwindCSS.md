@@ -195,7 +195,22 @@ function pokeSearch() {
 
 
 
+使用 jQuery 实现相同功能，传统风格，需要以下几个步骤：
+
+- 使用 `$('button').click(/* callback */)` 来绑定按钮点击事件。
+- 在回掉函数中，得到输入组件 DOM 的值，然后去掉用接口。
+- 掉用完成后，根据 API 的返回值，将新生成的节点更新上去。
+
+如果你感兴趣一步一步的来比较同样功能的代码在 jQuery 和 Alpine.js 中的实现，[Alex Justesen](https://twitter.com/alexjustesen/status/1248286627467755520) 创建了一个相同功能的计数器，分别使用 [jQuery](https://jsfiddle.net/alexjustesen/4ant7cm6/) 和 [Alpine.js](https://jsfiddle.net/alexjustesen/97va6d1h/) 来实现。
 
 
 
+#### 重新流行：以 HTML 为中心的工具
 
+
+
+Alpine.js 从 TailwindCSS 的设计中获取灵感。Alpine.js 的介绍中提到，该库是“Tailwind 的 JavaScript 版”。
+
+
+
+为什么这一点它如此重要？
