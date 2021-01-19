@@ -213,4 +213,45 @@ Alpine.js 从 TailwindCSS 的设计中获取灵感。Alpine.js 的介绍中提�
 
 
 
-为什么这一点它如此重要？
+为什么这一点很重要？
+
+
+
+Tailwind 的一个卖点是，它提供低级的工具类，让你有很方便可以构建你自己的　HTML　页面。这正是 Alpine 想实现的目标。它嵌入在 HTML 文件中，所以不需要再额外提供 JavaScript 模板，比如 Vue，React。甚至许多社区中使用 Alpine.js 的例子，连 script 标签都不需要。
+
+
+
+让我们通过一个例子，来看看差异化。这是 Alpine.js 中，一个访问导航菜单的例子，它从头到尾都没有使用 script 标签。
+
+
+
+```
+<nav aria-labelledby="nav-heading" x-data="{ isOpen: false }" :aria-expanded="isOpen">
+  <h2 id="nav-heading">Alpine.js Accessible Navigation</h2>
+  <button :aria-expanded="isOpen" aria-controls="nav-list" @click="isOpen = !isOpen">
+    Alpine.js a11y Navigation
+  </button>
+  <ul :hidden="!isOpen" x-cloak id="nav-list">
+    <li>
+      <a href="https://github.com/alpinejs/alpine">Alpine.js Docs</a>
+    </li>
+    <li>
+      <a href="https://github.com/alpinejs/awesome-alpine">Awesome Alpine.js list</a>
+    </li>
+    <li>
+      <a href="https://alpinejs.codewithhugo.com/newsletter">Alpine.js Weekly Newsletter</a>
+    </li>
+  </ul>
+</nav>
+```
+
+
+
+```
+[x-cloak] {
+  display: none;
+}
+```
+
+
+
