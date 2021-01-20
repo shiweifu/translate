@@ -255,3 +255,12 @@ Tailwind 的一个卖点是，它提供低级的工具类，让你有很方便�
 
 
 
+本示例利用Alpine.js外部的aria-labeledby和aria-controls（具有ID引用）。 Alpine.js确保“ toggle”元素（即按钮）具有一个aria-expanded属性，该属性在导航展开时为true，在折叠状态为false。 此aria展开的绑定也应用于菜单本身，我们通过绑定到隐藏来显示/隐藏其中的链接列表。
+
+
+
+以标记为中心意味着Alpine.js和TailwindCSS示例易于共享。 它所要做的只是复制粘贴到HTML中，该文件也正在运行Alpine.js / TailwindCSS。 没有疯狂的目录，没有可编译并渲染为HTML的模板！
+
+
+
+由于HTML是Web的基本构建块，因此Alpine.js是增强服务器渲染（Laravel，Rails，Django）或静态站点（Hugo，Hexo，Jekyll）的理想选择。 通过将一些JSON输出到x-data =“ {}”绑定中，将数据与这种工具集成起来很简单。 从后端/静态站点模板直接将一些JSON传递到Alpine.js组件中，避免了构建“另一个API端点”，而该API端点仅提供JavaScript小部件所需的数据片段。
