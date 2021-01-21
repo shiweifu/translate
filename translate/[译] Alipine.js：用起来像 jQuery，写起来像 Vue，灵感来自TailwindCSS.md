@@ -264,3 +264,24 @@ Tailwind 的一个卖点是，它提供低级的工具类，让你有很方便�
 
 
 由于HTML是Web的基本构建块，因此Alpine.js是增强服务器渲染（Laravel，Rails，Django）或静态站点（Hugo，Hexo，Jekyll）的理想选择。 通过将一些JSON输出到x-data =“ {}”绑定中，将数据与这种工具集成起来很简单。 从后端/静态站点模板直接将一些JSON传递到Alpine.js组件中，避免了构建“另一个API端点”，而该API端点仅提供JavaScript小部件所需的数据片段。
+
+
+
+#### 客户端渲染，没有编译的步骤
+
+
+
+Alipine.js 设计被用于直接从 CDN 引入，而无需编译构建。它的开发者对此有丰富的经验。这也是为什么可以拿它和 jQuery 进行对比，并替换掉它：它可以开箱即用，而无需编译构建步骤。
+
+
+
+Vue 也可以直接被链接。Sarah Drasner 写过展示此种用法的例子，[jQuery substituted with Vue](https://www.smashingmagazine.com/2018/02/jquery-vue-javascript/)。然而，如果你这么用，你将错过以下内容：
+
+
+
+- Vue 终端命令行工具
+- 单文件组件
+- 压缩/优化打包
+- 客户端内联模板的CSP
+
+所以，即使 Vue 也可以实现直接引用，但它的设计理念是依赖 Vue 终端命令行。这就相当于 React 依赖于  [Create React App](https://reactjs.org/docs/create-a-new-react-app.html#create-react-app)，Angular 依赖 Angular CLI。不使用构建方式，则无法达到这些框架的最佳质量。
