@@ -280,8 +280,19 @@ Vue 也可以直接被链接。Sarah Drasner 写过展示此种用法的例子�
 
 
 - Vue 终端命令行工具
+
 - 单文件组件
+
 - 压缩/优化打包
+
 - 客户端内联模板的CSP
 
-所以，即使 Vue 也可以实现直接引用，但它的设计理念是依赖 Vue 终端命令行。这就相当于 React 依赖于  [Create React App](https://reactjs.org/docs/create-a-new-react-app.html#create-react-app)，Angular 依赖 Angular CLI。不使用构建方式，则无法达到这些框架的最佳质量。
+  所以，即使 Vue 也可以实现直接引用，但它的设计理念是依赖 Vue 终端命令行。这就相当于 React 依赖于  [Create React App](https://reactjs.org/docs/create-a-new-react-app.html#create-react-app)，Angular 依赖 Angular CLI。不使用构建方式，则无法达到这些框架的最佳质量。
+
+
+
+以上为全部内容！Alpine.js 是一个现代的，CDN 友好的基于声明式的库。它还省掉了构建的步骤，以及其他框架依赖的特定模板语言。它是以 HTML 为中心，可以在现代前端环境中替代 HTML 的框架。
+
+
+
+有过你正在寻找一个 jQuery 的替代品，而又不想被迫切换到 SPA 架构中，那么 Alpine.js 适合你。感兴趣吗？你可以在 [Alpine.js Weekly](https://alpinejs.codewithhugo.com/newsletter) 中找到更多信息，这是一个围绕 [Alpine.js ](https://github.com/alpinejs/alpine) 新闻及文章的自由刊物。
