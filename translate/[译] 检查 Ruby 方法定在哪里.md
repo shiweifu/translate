@@ -1,11 +1,5 @@
 # 检查 Ruby 的方法定义在哪里
 
-
-
-I was working on a pull request for [Sinatra-ActiveRecord](https://github.com/sinatra-activerecord/sinatra-activerecord/pull/103) gem recently, and I was not sure where does the “set” method is defined, as it is not shown in the gem code.
-
-
-
 我最近向 [Sinatra-ActiveRecord](https://github.com/sinatra-activerecord/sinatra-activerecord/pull/103) gem 提交了一个 合并请求，然而我无法确定 `set` 方法在哪里定义，它并不能直接在 gem 的代码中看到。
 
 
@@ -62,3 +56,65 @@ puts matz.method('greet').call
 # "Howdy human"
 ```
 
+
+
+### 检查方法的所属类
+
+
+
+我们可以使用 `owner` 方法，来查看所属类：
+
+```
+puts matz.method('greet').owner
+# Human
+```
+
+
+
+对于 "set" 方法，我想更早的检查，
+
+```
+module ActiveRecordExtension
+  def database_file=(path)
+    path = File.join(root, path) if Pathname(path).relative? and root
+    spec = YAML.load(ERB.new(File.read(path)).result) || {}
+
+    set :database, spec
+    puts method('set').owner
+    #<Class:Sinatra::Base>
+  end
+end
+```
+
+
+
+可以看到，`set` 方法被定义在 Sinatra::Base 类中。现在，我可以在 Github 中查看 Sinatra gem 代码，`set` 方法是否被定义，或者使用 `source_location` 方法来检查。
+
+
+
+### 检查一个方法是否被定义
+
+
+
+`source_location` 将告诉我们，方法被定义的文件名和行号。
+
+
+
+继续看先前的例子：
+
+```
+module ActiveRecordExtension
+  def database_file=(path)
+    path = File.join(root, path) if Pathname(path).relative? and root
+    spec = YAML.load(ERB.new(File.read(path)).result) || {}
+
+    set :database, spec
+    puts method('set').source_location
+    # /Users/soulchild/.rbenv/versions/2.7.1/lib/ruby/gems/2.7.0/gems/sinatra-2.1.0/lib/sinatra/base.rb , 1262
+  end
+end
+```
+
+
+
+`set` 方法属于 Sinatra gem 中，它将会输出 `base.rb` 所在 gem 的路径，以及行号。
