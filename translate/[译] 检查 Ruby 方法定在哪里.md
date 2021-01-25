@@ -118,3 +118,22 @@ end
 
 
 `set` 方法属于 Sinatra gem 中，它将会输出 `base.rb` 所在 gem 的路径，以及行号。
+
+
+
+如果你使用的是 Mac，你可以打开 Finder，按住 `Command + Shift + G`，粘贴路径并导航过去，然后你可以打开目标文件。
+
+
+
+当然，`set` 方法在 Sinatra gem 中的 `base.rb` 文件的 1262 行，感谢 `source_location`！
+
+
+
+![set source code](https://rubyyagi.s3.amazonaws.com/10-method-defined/set_source.png)
+
+
+
+我发现 `source_location` 和 `owner` 方法在追溯某个方法定义时，非常有用，特别是项目的代码仓库比较大时。希望这对你也有用。
+
+
+
