@@ -1,5 +1,11 @@
 # 检查 Ruby 的方法定义在哪里
 
+
+
+原文地址：https://rubyyagi.com/where-method-defined/
+
+
+
 我最近向 [Sinatra-ActiveRecord](https://github.com/sinatra-activerecord/sinatra-activerecord/pull/103) gem 提交了一个 合并请求，然而我无法确定 `set` 方法在哪里定义，它并不能直接在 gem 的代码中看到。
 
 
