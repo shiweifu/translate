@@ -83,7 +83,7 @@ https://my.parallels.com/desktop/beta?_ga=2.129307786.781108954.1612060720-41402
 
 PD 16 Technology Preview M1 版。安装时候需要序列号，PD 官方提供了序列号，直接使用就可以了。
 
-
+ 
 
 然后下载 Windows 10 ARM 版：
 
@@ -101,7 +101,7 @@ PD 16 Technology Preview M1 版。安装时候需要序列号，PD 官方提供�
 
 
 
-因为有很多陈年数据，512 G 硬盘已经所剩不多，下一步计划买一个 nvme 的固态硬盘，然后将 Windows 10 ARM 的镜像迁移过去，然后下载一些游戏玩一玩。看了 youtube 上的视频，貌似玩玩 GTA 5 这级别的游戏还是可以的。
+因为有很多陈年数据，512 G 硬盘已经所剩不多，下一步计划买一个 nvme 的固态硬盘，然后将 Windows 10 ARM 的镜像迁移过去，然后下载一些游戏玩一玩。看了 youtube 上的视频，貌似玩玩 GTA 5 这级别的游戏还是可以的。 v    b
 
 
 
