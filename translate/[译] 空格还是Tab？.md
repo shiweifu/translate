@@ -23,5 +23,33 @@
 
 
 
+那么，当人们已经清楚的知道 TAB 有更多好处的时候，为什么还要使用空格作为缩进么？让我们看看使用 `TABs` 的时候，上面的例子是什么样子的。
+
 ![tabs01](https://anadoxin.org/blog/youre-using-tabs-in-a-wrong-way.html/tabs_01.png)
+
+
+
+在上面的例子中，我们有一条与 TAB 对齐的注释。当前设置为每个 TAB 4 字符。当我们将 TAB 设置为 8 个字符缩进时会发生什么？
+
+
+
+![tabs02](https://anadoxin.org/blog/youre-using-tabs-in-a-wrong-way.html/tabs_02.png)
+
+
+
+所以，我猜当这个函数参数有三五个的时候，就会溢出屏幕之外。我们可以调试一下这种情况吗？我们再回过头看一下四个字符作为 TAB 缩进时的情况：
+
+
+
+![tabs03](https://anadoxin.org/blog/youre-using-tabs-in-a-wrong-way.html/tabs_03.png)
+
+
+
+八个字符作为缩进的情况：
+
+
+
+![tabs04](https://anadoxin.org/blog/youre-using-tabs-in-a-wrong-way.html/tabs_04.png)
+
+
 
