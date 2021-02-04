@@ -53,3 +53,41 @@
 
 
 
+这里我们可以在第二行注释中，看到将 TAB 设置为 8 个字符的情况。使用 TAB，不会使你的代码表示，与代码结构分开，现在，我们必须更改结构才能更改外观。
+
+
+
+另一个使用四个字符作为 TAB 缩进的情况：
+
+
+
+![tabs05](https://anadoxin.org/blog/youre-using-tabs-in-a-wrong-way.html/tabs_05.png)
+
+
+
+设置8个字符作为缩进，显然不太合适。
+
+
+
+![tabs06](https://anadoxin.org/blog/youre-using-tabs-in-a-wrong-way.html/tabs_06.png)
+
+
+
+### 如何修复？
+
+
+
+事实上，使用 TAB 无法修复这种情况。你必须使用空格来辅助 TAB。只在行内第一个非空白字之前使用 TAB。对于其余的缩进需求，请使用空格，像这样：
+
+
+
+![tabs06](https://anadoxin.org/blog/youre-using-tabs-in-a-wrong-way.html/tabs_06.png)
+
+
+
+
+
+
+
+
+
