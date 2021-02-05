@@ -85,6 +85,46 @@
 
 
 
+就这种方式，设置 TAB 为 8 个字符缩进的情况（如上图所示），可以正常的工作，4 个字符的缩进也可以正常工作，2 个字符的缩紧情况也可以正常的工作：
+
+
+
+![tabs08](https://anadoxin.org/blog/youre-using-tabs-in-a-wrong-way.html/tabs_08.png)
+
+
+
+![tabs09](https://anadoxin.org/blog/youre-using-tabs-in-a-wrong-way.html/tabs_09.png)
+
+
+
+记住，下次当你遇到像下面这种 TAB 和空格的问题时，不要再纳闷：
+
+
+
+![tabs10](https://anadoxin.org/blog/youre-using-tabs-in-a-wrong-way.html/tabs_10.png)
+
+
+
+当 TAB 和空格混合使用时，就会出现这个问题：
+
+
+
+![tabs11](https://anadoxin.org/blog/youre-using-tabs-in-a-wrong-way.html/tabs_11.png)
+
+
+
+使用空格可以避免你遇到类似的问题。同样的，你也不需要再按四次空格来进行缩进，你仍然可以使用 TAB 键。你可以使用 ctrl + 方向键，一次跳过整个单词和所有空格。
+
+
+
+缺点是，每个人都需要使用你的缩进格式。不喜欢两个字符的缩紧？请尝试别的代码库。
+
+
+
+那么最终的方案是什么？同时使用 TAB 和空格。这样，您将获得两全其美的体验：同时拥有自由性和灵活性，并且在所有应用程序和设备中，都拥有一致的表现。
+
+
+
 
 
 
