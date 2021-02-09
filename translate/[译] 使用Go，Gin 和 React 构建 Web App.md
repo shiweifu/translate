@@ -79,6 +79,78 @@
 
 
 
+这将展示给我们使用 Gin 来开发 Web 应用程序，或者 API。
+
+
+
+![golang-gin-demo-shot](https://res.cloudinary.com/practicaldev/image/fetch/s--78Nii8DR--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://user-images.githubusercontent.com/9336187/38371873-6ccabb50-38e5-11e8-9b67-b97cc2ce98c6.png)
+
+
+
+我们将使用 Gin，完成以下功能：
+
+
+
+- 中间件
+- 路由
+- 路由组
+
+
+
+### 准备开始
+
+
+
+我们在 `main.go` 文件中，编写我们的整个 Go 应用。当它的规模还很小时，可以简单的进行构建，并通过 `go run` 在终端中执行。
+
+
+
+我们创建新的目录，`golang-gin` 在 Go 工作环境，然后创建 `main.go` 文件：
+
+```
+$ mkdir -p $GOPATH/src/github.com/user/golang-gin
+$ cd $GOPATH/src/github.com/user/golang-gin
+$ touch main.go
+```
+
+当前 `main.go` 文件的内容是：
+
+```
+package main
+
+import (
+  "net/http"
+
+  "github.com/gin-gonic/contrib/static"
+  "github.com/gin-gonic/gin"
+)
+
+func main() {
+  // Set the router as the default one shipped with Gin
+  router := gin.Default()
+
+  // Serve frontend static files
+  router.Use(static.Serve("/", static.LocalFile("./views", true)))
+
+  // Setup route group for the API
+  api := router.Group("/api")
+  {
+    api.GET("/", func(c *gin.Context) {
+      c.JSON(http.StatusOK, gin.H {
+        "message": "pong",
+      })
+    })
+  }
+
+  // Start and run the server
+  router.Run(":3000")
+}
+```
+
+
+
+
+
 
 
 
