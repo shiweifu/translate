@@ -149,6 +149,54 @@ func main() {
 
 
 
+我们将为不同类型的文件创建新的目录。在 `main.go` 文件的目录下，我们创建 `views`文件夹。在 `views` 文件夹中，创建 `js` 文件夹和 `index.html` 文件。
+
+
+
+`index.html` 文件的内容如下：
+
+
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jokeish App</title>
+</head>
+
+<body>
+  <h1>Welcome to the Jokeish App</h1>
+</body>
+</html>
+```
+
+
+
+在我们进行测试之前，我们先安装依赖：
+
+
+
+```
+$ go get -u github.com/gin-gonic/gin
+$ go get -u github.com/gin-gonic/contrib/static
+```
+
+
+
+我们通过 `go run main.go` 命令来启动服务端，然后验证其是否可以正常工作：
+
+
+
+![go-gin-gorun-1](https://res.cloudinary.com/practicaldev/image/fetch/s--xw7zq4UA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://user-images.githubusercontent.com/9336187/38358547-700bc822-38bd-11e8-88a6-246559fbe57f.png)
+
+
+
+在应用运行起来后，我们在浏览器访问 `http://localhost:3000`。如果一切正常，你将看到一级文本 `Welcome to the Jokeish App` 被显示。
+
+
+
+![golang-welcome-de](https://res.cloudinary.com/practicaldev/image/fetch/s--KMuSBeR3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://user-images.githubusercontent.com/9336187/38385072-cdaa2168-3908-11e8-9889-e9c1e713ce0a.png)
+
 
 
 
