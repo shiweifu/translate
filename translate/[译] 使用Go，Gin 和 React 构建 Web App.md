@@ -199,7 +199,102 @@ $ go get -u github.com/gin-gonic/contrib/static
 
 
 
+### 定义 API
 
+让我们添加更多代码在 `main.go` 文件中，用于 API 定义。我们更新我们的 `main` 函数，增加两个路由 `/jokes/` 和 `/jokes/like/:jokeID`，将这两个路由放在 `/api/` 中。
+
+
+
+```
+func main() {
+  // ... leave the code above untouched...
+
+  // Our API will consit of just two routes
+  // /jokes - which will retrieve a list of jokes a user can see
+  // /jokes/like/:jokeID - which will capture likes sent to a particular joke
+  api.GET("/jokes", JokeHandler)
+  api.POST("/jokes/like/:jokeID", LikeJoke)
+}
+
+// JokeHandler retrieves a list of available jokes
+func JokeHandler(c *gin.Context) {
+  c.Header("Content-Type", "application/json")
+  c.JSON(http.StatusOK, gin.H {
+    "message":"Jokes handler not implemented yet",
+  })
+}
+
+// LikeJoke increments the likes of a particular joke Item
+func LikeJoke(c *gin.Context) {
+  c.Header("Content-Type", "application/json")
+  c.JSON(http.StatusOK, gin.H {
+    "message":"LikeJoke handler not implemented yet",
+  })
+}
+```
+
+
+
+此时，`main.go` 文件看起来如下：
+
+
+
+```
+package main
+
+import (
+  "net/http"
+
+  "github.com/gin-gonic/contrib/static"
+  "github.com/gin-gonic/gin"
+)
+
+func main() {
+  // Set the router as the default one shipped with Gin
+  router := gin.Default()
+
+  // Serve frontend static files
+  router.Use(static.Serve("/", static.LocalFile("./views", true)))
+
+  // Setup route group for the API
+  api := router.Group("/api")
+  {
+    api.GET("/", func(c *gin.Context) {
+      c.JSON(http.StatusOK, gin.H {
+        "message": "pong",
+      })
+    })
+  }
+  // Our API will consit of just two routes
+  // /jokes - which will retrieve a list of jokes a user can see
+  // /jokes/like/:jokeID - which will capture likes sent to a particular joke
+  api.GET("/jokes", JokeHandler)
+  api.POST("/jokes/like/:jokeID", LikeJoke)
+
+  // Start and run the server
+  router.Run(":3000")
+}
+
+// JokeHandler retrieves a list of available jokes
+func JokeHandler(c *gin.Context) {
+  c.Header("Content-Type", "application/json")
+  c.JSON(http.StatusOK, gin.H {
+    "message":"Jokes handler not implemented yet",
+  })
+}
+
+// LikeJoke increments the likes of a particular joke Item
+func LikeJoke(c *gin.Context) {
+  c.Header("Content-Type", "application/json")
+  c.JSON(http.StatusOK, gin.H {
+    "message":"LikeJoke handler not implemented yet",
+  })
+}
+```
+
+
+
+我们再次运行 `go run main.go`，然后访问我们的路由；`http://localhost:3000/api/jokes` 返回 `200 OK`，以及信息 `jokes handler not implemented yet`，POST 请求 `http://localhost:3000/api/jokes/like/1`，返回 `200 OK` ，以及信息 `Likejoke handler not implemented yet`。
 
 
 
