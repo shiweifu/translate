@@ -365,7 +365,29 @@ func LikeJoke(c *gin.Context) {
 
 
 
+我们的代码看起来很好，让我们接着测试我们的 API。我们可以使用 `curl` 和 `postman`，向 http://localhost:3000/jokes 发送 `GET` 请求，以获取笑话的列表，以及向 `http://localhost:30000/jokes/like/{jokeid}`，增加笑话的喜欢数。
 
+```
+$ curl http://localhost:3000/api/jokes
+
+$ curl -X POST http://localhost:3000/api/jokes/like/4
+```
+
+
+
+### 构建 UI（React）
+
+
+
+我们已经有了我们的API，因此让我们构建一个前端来展示来自我们API的数据。 为此，我们将使用React。 我们不会深入研究React，因为它不会超出本教程的范围。 如果您需要了解更多有关React的信息，请查看官方教程。 您可以使用自己喜欢的任何前端框架来实现UI。
+
+
+
+### 初始化
+
+
+
+我们将编辑index.html文件以添加运行React所需的外部库，然后需要在views / js目录中创建一个app.jsx文件，其中将包含我们的React代码。
 
 
 
