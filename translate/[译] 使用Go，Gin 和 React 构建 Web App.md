@@ -8,7 +8,7 @@
 
 
 
-`TL;DR：`在本文中，我将展示给你使用 Go 和 Gin 框架构建一个 Web 应用程序有多简单，此外这个程序还添加了身份验证。可以访问 GitHub [repo](https://github.com/codehakase/golang-gin)  来获取我们将要编写的这个项目的代码。
+TL;DR：在本文中，我将展示给你使用 Go 和 Gin 框架构建一个 Web 应用程序有多简单，此外这个程序还添加了身份验证。可以访问 GitHub repo  来获取我们将要编写的这个项目的代码。
 
 
 
@@ -388,6 +388,42 @@ $ curl -X POST http://localhost:3000/api/jokes/like/4
 
 
 我们将编辑index.html文件以添加运行React所需的外部库，然后需要在views / js目录中创建一个app.jsx文件，其中将包含我们的React代码。
+
+
+
+我们的 `index.html` 文件此时看起来是这样的：
+
+```
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Jokeish App</title>
+  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://cdn.auth0.com/js/auth0/9.0/auth0.min.js"></script>
+  <script type="application/javascript" src="https://unpkg.com/react@16.0.0/umd/react.production.min.js"></script>
+  <script type="application/javascript" src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.production.min.js"></script>
+  <script type="application/javascript" src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+  <script type="text/babel" src="js/app.jsx"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+
+</html>
+```
+
+
+
+### 构建我们的组件
+
+在 React 中，视图被拆分为组件。我们需要构建一些组件。一个 `App` 组件作为应用程序的入口，Home 组件用于用户的登录，`LoggedIn` 组件只对已登录用户可见，以及 `Joke` 组件用于显示笑话列表。我们将所有这些组件写入 `app.jsx` 文件中。
+
+
 
 
 
