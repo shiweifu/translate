@@ -425,7 +425,91 @@ $ curl -X POST http://localhost:3000/api/jokes/like/4
 
 
 
+### App 组件
 
+
+
+本组件作为我们的 React App 的入口。它决定了用户登录或者不登录状态下，哪个组件会被看到。我们首先由一个基础版本开始，然后增加更多功能。
+
+
+
+```
+class App extends React.Component {
+  render() {
+    if (this.loggedIn) {
+      return (<LoggedIn />);
+    } else {
+      return (<Home />);
+    }
+  }
+}
+```
+
+
+
+### Home 组件
+
+
+
+本组件在用户非登录状态下显示。以及一个按钮，用于打开锁屏屏幕（我们稍后增加此功能），他们可以在此注册或登录。
+
+
+
+```
+class Home extends React.Component {
+  render() {
+    return (
+      <div className="container">
+        <div className="col-xs-8 col-xs-offset-2 jumbotron text-center">
+          <h1>Jokeish</h1>
+          <p>A load of Dad jokes XD</p>
+          <p>Sign in to get access </p>
+          <a onClick={this.authenticate} className="btn btn-primary btn-lg btn-login btn-block">Sign In</a>
+        </div>
+      </div>
+    )
+  }
+}
+```
+
+
+
+### 登录后组件
+
+
+
+当用户登录后，本组件被显示。当组件被挂载时，存储在 `store` 的笑话数据将被显示。
+
+
+
+```
+class LoggedIn extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      jokes: []
+    }
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <div className="col-lg-12">
+          <br />
+          <span className="pull-right"><a onClick={this.logout}>Log out</a></span>
+          <h2>Jokeish</h2>
+          <p>Let's feed you with some funny Jokes!!!</p>
+          <div className="row">
+            {this.state.jokes.map(function(joke, i){
+              return (<Joke key={i} joke={joke} />);
+            })}
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+```
 
 
 
