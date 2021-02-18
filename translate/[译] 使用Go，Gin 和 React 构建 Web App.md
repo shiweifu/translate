@@ -513,3 +513,59 @@ class LoggedIn extends React.Component {
 
 
 
+### Joke 组件
+
+
+
+`Joke` 组件就是笑话列表，列表条目包含笑话的信息。
+
+
+
+```
+class Joke extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      liked: ""
+    }
+    this.like = this.like.bind(this);
+  }
+
+  like() {
+    // ... we'll add this block later
+  }
+
+  render() {
+    return (
+      <div className="col-xs-4">
+        <div className="panel panel-default">
+          <div className="panel-heading">#{this.props.joke.id} <span className="pull-right">{this.state.liked}</span></div>
+          <div className="panel-body">
+            {this.props.joke.joke}
+          </div>
+          <div className="panel-footer">
+            {this.props.joke.likes} Likes &nbsp;
+            <a onClick={this.like} className="btn btn-default">
+              <span className="glyphicon glyphicon-thumbs-up"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
+```
+
+
+
+我们刚刚已经编写过组件，现在，让我们告诉 React，我们的 App 在哪里渲染。我们在 `app.jsx` 文件中，添加代码块。
+
+
+
+```
+ReactDOM.render(<App />, document.getElementById('app'));
+```
+
+
+
+执行 `go run main.go`，重启 Go 服务器，访问 `http://localhost:3000`。你将看到 `Home` 组件已经被渲染。
