@@ -569,3 +569,34 @@ ReactDOM.render(<App />, document.getElementById('app'));
 
 
 执行 `go run main.go`，重启 Go 服务器，访问 `http://localhost:3000`。你将看到 `Home` 组件已经被渲染。
+
+
+
+![golang-gin-home-component](https://res.cloudinary.com/practicaldev/image/fetch/s--Gg5eyF08--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://user-images.githubusercontent.com/9336187/38368612-a452879a-38dd-11e8-8a63-5cc7530fc9bd.png)
+
+
+
+### 使用 Auth0 来保护我们的应用安全
+
+```
+免责声明：此处并非赞助
+```
+
+
+
+`Autho0` 在每次登录时，为你的用户颁发 `JSON Web` 令牌。这意味着你可以拥有一个可靠的身份验证基础结构，包含单点登录，用户管理，对社交服务提供登录支持（Facebook、Github、Twitter等等），企业服务（Active Directory，LDAP，SAML 等等）身份验证，以及您自己的用户数据库，只需要几行代码。
+
+
+
+
+
+我们可以在 `GIN` 应用中，配合 Auth0 进行全线验证。接下来会介绍这部分的内容。如果你还没有 Auth0 账号，现在可以注册一个。
+
+
+
+### 创建 API 客户端
+
+
+
+我们的 Token 使用Auth0生成，因此我们需要从 Auth0 后台，生成API和一个客户端。 如果还没注册 Auth0，请注册Auth0帐户。
+
