@@ -59,3 +59,78 @@ npm run serve
 
 
 
+### 开始使用 Alpine
+
+
+
+Alpine 当前没有命令行工具，但使用 CDN 进行引入超级方便：新建一个 html 文件，将下面的标签贴进去即可。
+
+
+
+```
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v1.9.3/dist/alpine.js" defer></script>
+```
+
+
+
+### 创建我们的模板
+
+
+
+我们打算创建一个 todo 应用，所以我们需要实现一些关键特性：
+
+
+
+1. Todo 列表
+2. 复选框，用于标记 Todo 任务已经完成
+3. 删除按钮，删除任意 Todo
+4. 表单，用于提交新的 Todo
+
+
+
+###  创建 Vue 版
+
+
+
+```
+<template>
+    <div id="app">
+       <form @submit.prevent="addNewTask()">
+           <input type="text" v-model="task" />
+           <button type="submit">Add new task</button>
+       </form>
+       <ul>
+           <li v-for="todo in todos" :key="todo.id" :class="{ 'is-complete': todo.isComplete === true }">
+               <span v-text="todo.task"></span>
+               <input type="checkbox" v-model="todo.isComplete" />
+               <button @click="removeTask(todo.id)">Delete</button>
+           </li>
+       </ul>
+    </div>
+</template>
+```
+
+
+
+### 创建 Alpine 版
+
+
+
+```
+<div id="app" x-data="todos()">
+    <form @submit.prevent="addNewTask()">
+        <input type="text" x-model="task" />
+        <button type="submit">Add new task</button>
+    </form>
+    <ul>
+        <template x-for="todo in todos" :key="todo.id">
+            <li :class="{ 'is-complete': todo.isComplete === true }">
+                <span x-text="todo.task"></span>
+                <input type="checkbox" x-model="todo.isComplete" />
+                <button @click="removeTask(todo.id)">Delete</button>
+            </li>
+        </template>
+    </ul>
+</div>
+```
+
