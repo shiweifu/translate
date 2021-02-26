@@ -143,3 +143,93 @@ Vue 版和 Alpine.js 版的实现代码十分相似，只有一些微小的区�
 - 最明显的变化是对于 `<template> ` 标签的使用，template 标签是 HTML 5 中引入的一个元素，编写在其中的代码不会被显示。在 Vue 中，我们的代码包围在 `<template>` 标签，而在 Alpine.js 中，我们不需要这么做，它可以使用纯 HTML 标签。最后，由于 Alpine.js 中没有虚拟 DOM，例如 for 循环和 if 语句，这种智能功能的实现，我们只能通过包裹在 template 中来实现。
 - 与 Vue 不同，在 Alpine 中，我们需要自己指定数据和元素的关系，我们可以看到使用 `x-data` 指令的 `#app` 父元素。在我们的例子中，我们绑定了 `todos()` 函数，在此函数中，保存我们所有的数据和方法。
 - 其他的区别就是 `v-*` 和 `x-*` 写法的区别了。
+
+
+
+我们的 Vue 数据：
+
+
+
+```
+export default {
+    data() {
+        return {
+            increment: 3,
+            task: '',
+            todos: [
+                {
+                   id: 1,
+                   task: 'Open VS code',
+                   isComplete: true
+                },
+                {
+                    id: 2,
+                    task: 'Write a todo app in vuejs',
+                    isComplete: false
+                }
+            ]
+        }
+    },
+    /**/
+}
+```
+
+
+
+我们的 Alpine 数据：
+
+
+
+```
+function todos() {
+    return {
+        //data
+        increment: 3,
+        task: '',
+        todos: [
+           {
+               id: 1,
+               task: 'Open VS code',
+               isComplete: true
+           },
+           {
+               id: 2,
+               task: 'Write a todo app in alpinejs',
+               isComplete: false
+           }
+       ],
+    /**/
+    }
+}
+```
+
+
+
+像我们的模板一样，Vue 和 Alpine 的数据定义，两者的区别很小。`/**/` 标记所在的位置，插入上面模板的代码。两个例子均使用函数返回的`object`作为数据，在 Vue  中，我们使用：
+
+
+
+```
+data() {/**/}
+```
+
+
+
+在 Alpine 中，我们使用 `todos()` 函数，配合 `x-data` 指令，定义在模板中：
+
+
+
+```
+todos() {/**/}
+```
+
+
+
+还有两个小地方不一样：
+
+
+
+- 在 Vue 中，我们写在 <script> 标签中的数据方法，需要导出，而在 Alpine 中，我们可以直接将包含数据的函数写在 `<script>` 中。
+
+  
+
