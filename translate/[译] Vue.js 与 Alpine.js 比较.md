@@ -230,6 +230,64 @@ todos() {/**/}
 
 
 - 在 Vue 中，我们写在 <script> 标签中的数据方法，需要导出，而在 Alpine 中，我们可以直接将包含数据的函数写在 `<script>` 中。
+- 在 Vue 中，我们的 `/**/`部分 （省略代码），在我们的 `data()` 方法之外，而在 Alpine.js 中，我们的`/**/`（省略代码）部分，则在我们的 `todos()` （组件对象）方法中。这是因为在 Vue 中，所有的方法都应放置在 `methods` 对象内。
 
-  
+
+
+### 我们 Vue 中的响应方法：
+
+
+
+```
+export default {
+    /**/
+    methods: {
+        addNewTask() {
+            //Return if empty
+            if (this.task.trim() === '') return;
+            //Add new todo and clear task
+            this.todos.push({
+               id: this.increment++,
+               task: this.task,
+               isComplete: false
+            });
+            this.task = '';
+        },
+        removeTask(todoToRemove) {
+            this.todos = this.todos.filter(todo => todo.id != todoToRemove);
+        }
+    }
+}
+```
+
+
+
+### 我们 Alpine 中的响应方法：
+
+
+
+```
+function todos() {
+    return {
+        /**/
+        addNewTask() {
+            //Return if empty
+            if (this.task.trim() === '') return;
+            //Add new todo and clear task
+            this.todos.push({
+                id: this.increment++,
+                task: this.task,
+                isComplete: false
+            });
+            this.task = '';
+        },
+        removeTask(todoToRemove) {
+            this.todos = this.todos.filter(todo => todo.id != todoToRemove);
+        }
+}
+```
+
+
+
+在这里，方法本身完全没有变化，只是他们在代码中的位置做了调整。在 Vue 中，响应方法位于 `methods` 对象中，而在 Alpine，则直接写在 `todos()` 方法中。
 
