@@ -85,6 +85,79 @@ input, err := reader.ReadString('\n')
 
 
 
+```
+func main() {
+    reader := bufio.NewReader(os.Stdin)
+    for {
+        // Read the keyboad input.
+        input, err := reader.ReadString('\n')
+        if err != nil {
+            fmt.Fprintln(os.Stderr, err)
+        }
+    }
+}
+```
+
+
+
+### 执行命令
+
+
+
+现在，我们打算执行输入的命令。增加一个名为 `execInput` 的新的函数，他接收输入的字符串作为参数。首先，我们移除输入结尾的换行符。接下来，通过  `exec.Command(input)` 来准备执行命令，设置参数，以及捕获输出的结果和错误。最后，通过 `cmd.Run()` 来执行。
+
+
+
+```
+func execInput(input string) error {
+    // Remove the newline character.
+    input = strings.TrimSuffix(input, "\n")
+
+    // Prepare the command to execute.
+    cmd := exec.Command(input)
+
+    // Set the correct output device.
+    cmd.Stderr = os.Stderr
+    cmd.Stdout = os.Stdout
+
+    // Execute the command and return the error.
+    return cmd.Run()
+}
+```
+
+
+
+### 第一版原型
+
+
+
+通过在循环顶部，添加一个美化作用的指示器（>），并在循环地步，添加新的 `execInput` 函数，可以完成主要功能。
+
+
+
+```
+func main() {
+    reader := bufio.NewReader(os.Stdin)
+    for {
+        fmt.Print("> ")
+        // Read the keyboad input.
+        input, err := reader.ReadString('\n')
+        if err != nil {
+            fmt.Fprintln(os.Stderr, err)
+        }
+
+        // Handle the execution of the input.
+        if err = execInput(input); err != nil {
+            fmt.Fprintln(os.Stderr, err)
+        }
+    }
+}
+```
+
+
+
+
+
 
 
 
