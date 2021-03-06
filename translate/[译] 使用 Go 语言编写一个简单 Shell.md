@@ -127,11 +127,11 @@ func execInput(input string) error {
 
 
 
-### 第一版原型
+### 原型
 
 
 
-通过在循环顶部，添加一个美化作用的指示器（>），并在循环地步，添加新的 `execInput` 函数，可以完成主要功能。
+接着，在循环语句上面，添加一个美化作用的指示器（>），在循环语句下面，添加新的 `execInput` 函数，此时，主要功能就完成了。
 
 
 
@@ -153,6 +153,59 @@ func main() {
     }
 }
 ```
+
+
+
+是时候执行一次测试了。使用 `go run main.go` 构建并运行咱们的 SHELL。你将看到输入标识符 `>`，此时可以接受输入。举个例子，我们可以执行 `ls` 命令。
+
+
+
+```
+> ls
+LICENSE
+main.go
+main_test.go
+```
+
+
+
+不错，可以运行！咱们的程序此时可以执行 `ls` 命令，并输出当前目录的内容。你可以像退出其他程序一样，使用 `ctrl+c`，退出它。
+
+
+
+### 参数
+
+
+
+让我们命令后面加个参数，如 `ls -l`。
+
+```
+> ls -l
+```
+
+执此时执行会报错：`exec: "ls -l": executable file not found in $PATH`。
+
+
+
+这是因为我们的 SHELL 尝试执行 `ls -l`，但是并没有找到叫这个名字的程序。我们的意思是执行 `ls`，带上 `-l` 的参数。当前，我们的程序还不支持接受命令参数。要修复这个问题，需要修改 `execLine` 函数，将要执行的命令以空格拆分。
+
+```
+func execInput(input string) error {
+    // Remove the newline character.
+    input = strings.TrimSuffix(input, "\n")
+
+    // Split the input to separate the command and the arguments.
+    args := strings.Split(input, " ")
+
+    // Pass the program and the arguments separately.
+    cmd := exec.Command(args[0], args[1:]...)
+    ...
+}
+```
+
+
+
+
 
 
 
