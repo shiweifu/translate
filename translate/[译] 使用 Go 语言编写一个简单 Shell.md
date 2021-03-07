@@ -205,9 +205,39 @@ func execInput(input string) error {
 
 
 
+程序的名字现在存储在 args[0] 中，程序执行的参数存储在数组其他索引中。执行 `ls -l` 现在可以得到预期的结果。
 
 
 
+```
+> ls -l
+total 24
+-rw-r--r--  1 simon  staff  1076 30 Jun 09:49 LICENSE
+-rw-r--r--  1 simon  staff  1058 30 Jun 10:10 main.go
+-rw-r--r--  1 simon  staff   897 30 Jun 09:49 main_test.go
+```
+
+
+
+### 更改目录（cd）
+
+
+
+现在，我们已经可以带着参数执行命令了。现有的这些功能，距离达到一个最小的可用性，只差了一点点。你也许在使用我们的 Shell 时候，已经注意到了：你无法通过  `cd` 改变当前命令执行的目录。
+
+
+
+```
+> cd /
+> ls
+LICENSE
+main.go
+main_test.go
+```
+
+
+
+不，这不是我们跟目录的内容。那为什么 `cd` 命令不起作用呢？要理解这点很容易：没有真正的 `cd` 程序，该功能是 `SHELL` 的内置命令。
 
 
 
