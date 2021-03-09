@@ -237,15 +237,72 @@ main_test.go
 
 
 
-不，这不是我们跟目录的内容。那为什么 `cd` 命令不起作用呢？要理解这点很容易：没有真正的 `cd` 程序，该功能是 `SHELL` 的内置命令。
+不，这不是我们根目录的内容。那为什么 `cd` 命令不起作用呢？要理解这点很容易：没有真正的 `cd` 程序，该功能是 `SHELL` 的内置命令。
 
 
 
-同样，我们必须修改execInput函数。 在Split函数之后，我们在第一个参数（要执行的命令）上添加了一条switch语句，该语句存储在args [0]中。 当命令为cd时，我们检查是否有后续参数，否则，我们将无法更改为未给定的目录（在大多数其他Shell中，您将随后更改为主目录）。 当args [1]中有一个后续参数（存储路径）时，我们使用os.Chdir（args [1]）更改目录。 在case块的末尾，我们返回execInput函数以停止对该内置命令的进一步处理。
+我们必须对 `execInput` 函数再次进行修改。在 `Split` 方法后面，我们添加 `switch` 结构语句，并将 args[0] 作为它的参数。当这个命令是 `cd`，我们检查它后面是否还有参数，如果没有指定参数，我们无法改变当前目录（在大多数 SHELL 中，不指定参数，将跳转到主目录）。当 `args[1]` 中有一个后续参数时（存储路径的参数），我们使用 `os.Chdir(args[1])` 更改目录。在 `case` 块的末尾，我们返回 `execInput` 函数以停止其他处理。
 
 
 
-因为它是如此简单，所以我们将在cd块的正下方添加一个内置的退出命令，该命令将停止我们的外壳程序（使用CTRL-C的替代方法）。
+因为如此简单，我们在 `cd` 块后面，再添加一个 `exit` 命令，exit 可以用来退出当前SHELL（另一个退出方法是 `CTRL+C`）。
+
+
+
+```
+// Split the input to separate the command and the arguments.
+args := strings.Split(input, " ")
+
+// Check for built-in commands.
+switch args[0] {
+case "cd":
+    // 'cd' to home dir with empty path not yet supported.
+    if len(args) < 2 {
+        return  errors.New("path required")
+    }
+    // Change the directory and return the error.
+    return os.Chdir(args[1])
+case "exit":
+    os.Exit(0)
+}
+...
+```
+
+
+
+可以看到，此时输出的内容，相较于之前的输出结果，更像是我们的根目录。
+
+
+
+```
+> cd /
+> ls
+Applications
+Library
+Network
+System
+...
+```
+
+
+
+至此，我们已经完成了这个简单的 SHEEL 的编写。
+
+
+
+### 考虑改善的地方
+
+
+
+此时，如果你觉得有些无聊，你可以尝试改进这个 SHELL。下面是一些可以改善的点：
+
+
+
+- 修改光标所在行的显示：
+  - 增加当前目录
+  - 增加机器名称
+  - 增加当前用户
+- 通过输入 up/down 键，来翻阅输入的历史
 
 
 
