@@ -14,5 +14,128 @@ Git 是一个版本控制系统，我们每天都用它管理我们的代码。�
 
 
 
+### Git 命令
+
+
+
+Git 内置的模块遵循  [UNIX 哲学](https://en.wikipedia.org/wiki/Unix_philosophy)。每个模块都是以模块化的方式构建。每个命令都是其自己的脚本文件，而 `git` 命令只是他们的代理。`Git` 附带了许多内置命令，但只要遵循约定，就可以编写自定义命令。
+
+
+
+```
+#!/usr/bin/env ruby
+
+# bin/rgit
+
+command, *args = ARGV
+
+if command.nil?
+  $stderr.puts "Usage: rgit <command> [<args>]"
+  exit 1
+end
+
+path_to_command = File.expand_path("../rgit-#{command}", __FILE__)
+if !File.exist? path_to_command
+  $stderr.puts "No such command"
+  exit 1
+end
+
+exec path_to_command, *args
+```
+
+
+
+当我们调用脚本时，分为三种情况：
+
+
+
+- 如果没有跟随子命令，会输出信息
+- 如果子命令没有找到，输出错误信息
+- 如果找到子命令，执行之
+
+
+
+我们附带的额外参数，都会传递给子命令。
+
+
+
+作为 UNIX 公民，当错误发生时，我们向标准错误信息流，输出错误信息，并返回非零的值。
+
+
+
+### 初始化资料库
+
+
+
+Git 在 `.git` 目录，存储项目的元信息。`git init` 命令初始化 `.git` 目录，以及一些相关的子目录：
+
+
+
+```
+.git
+├── HEAD
+├── config
+├── objects
+│  ├── info
+│  └── pack
+└── refs
+    ├── heads
+    └── tags
+```
+
+
+
+`HEAD` 是一个永远指向 `ref:refs/heads/master` 的文件。我们稍后会用到这个文件。`config` 包含关于 `repo` 的配置信息。为了简化，我们先忽略它。剩余项都是空目录。
+
+
+
+生成这个结构，主要是用到 `Dir.mkdir。`
+
+
+
+```
+#!/usr/bin/env ruby
+
+# bin/rgit-init
+
+RGIT_DIRECTORY=".rgit".freeze
+OBJECTS_DIRECTORY = "#{RGIT_DIRECTORY}/objects".freeze
+REFS_DIRECTORY = "#{RGIT_DIRECTORY}/refs".freeze
+
+if Dir.exists? RGIT_DIRECTORY
+  $stderr.puts "Existing RGit project"
+  exit 1
+end
+
+def build_objects_directory
+  Dir.mkdir OBJECTS_DIRECTORY
+  Dir.mkdir "#{OBJECTS_DIRECTORY}/info"
+  Dir.mkdir "#{OBJECTS_DIRECTORY}/pack"
+end
+
+def build_refs_directory
+  Dir.mkdir REFS_DIRECTORY
+  Dir.mkdir "#{REFS_DIRECTORY}/heads"
+  Dir.mkdir "#{REFS_DIRECTORY}/tags"
+end
+
+def initialize_head
+  File.open("#{RGIT_DIRECTORY}/HEAD", "w") do |file|
+    file.puts "ref: refs/heads/master"
+  end
+end
+
+Dir.mkdir RGIT_DIRECTORY
+build_objects_directory
+build_refs_directory
+initialize_head
+
+$stdout.puts "RGit initialized in #{RGIT_DIRECTORY}"
+```
+
+
+
+
+
 
 
