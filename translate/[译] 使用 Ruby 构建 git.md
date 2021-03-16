@@ -151,6 +151,51 @@ git 允许使用 `git add` 命令，将当前的文件状态，捕获为一个�
 
 
 
+- 根据文件内容，创建 SHA 文件
+- 压缩文件，创建二进制文件，并准备保存
+- 将二进制文件，保存到 `rgit/objects/<first-two-characters-of-sha>/<rest of sha>` 路径下
+- 添加 SHA 和原始文件的路径到索引中，我们稍后会读取它
+
+
+
+索引二进制文件的 [格式说明](https://github.com/git/git/blob/master/Documentation/technical/index-format.txt)：
+
+
+
+```
+DIRC <version_number> <number of entries>
+
+<ctime> <mtime> <dev> <ino> <mode> <uid> <gid> <SHA> <flags> <path>
+<ctime> <mtime> <dev> <ino> <mode> <uid> <gid> <SHA> <flags> <path>
+<ctime> <mtime> <dev> <ino> <mode> <uid> <gid> <SHA> <flags> <path>
+
+# more entries
+```
+
+
+
+许多元信息，通过其他命令进行计算。如果你尝试打开这个文件，你将看到一堆乱码。
+
+
+
+```
+cat .git/index
+```
+
+
+
+```
+bin/rgit-initTREE52 1?Ibin/rgitU?U?2????        ???
+C??B=????''9bin2 0
+?Cԣ̏k?i??`V:??3'9Z?6??赠xa?cǢbF
+```
+
+
+
+索引文件处于性能原因的考虑，所以保存为二进制文件，这就是为什么直接打开显示的是乱码。
+
+
+
 
 
 
