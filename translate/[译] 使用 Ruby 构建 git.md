@@ -319,7 +319,171 @@ b302dd6f8cd2b385b170e78c14503342c0ba6ae8 bin/rgit
 
 
 
-这个树状结构，可以作为被跟踪的项目文件系统的一个镜像。目录由树型对象表示，该文件由 "blob" 表示。然后将整个树状对象绑定到提交对象，以便我们以后可以饮用他们。
+这个树状结构，可以作为被跟踪的项目文件系统的一个镜像。目录由树型对象表示，该文件由 "blob" 表示。然后将整个树状对象绑定到提交对象，以便我们以后可以引用他们。
+
+
+
+提交命令做了三件事：
+
+
+
+1. 构建 `tree/blob` 结构
+2. 创建提交对象，指向结构
+3. 更新当前分支，指向这个提交
+
+
+
+因为创建对象是一个通用任务，我扩展它为 `RGit::Object`。
+
+
+
+```
+# lib/rgit/object
+
+require "fileutils"
+
+module RGit
+  RGIT_DIRECTORY = "#{Dir.pwd}/.rgit".freeze
+  OBJECTS_DIRECTORY = "#{RGIT_DIRECTORY}/objects".freeze
+
+  class Object
+    def initialize(sha)
+      @sha = sha
+    end
+
+    def write(&block)
+      object_directory = "#{OBJECTS_DIRECTORY}/#{sha[0..1]}"
+      FileUtils.mkdir_p object_directory
+      object_path = "#{object_directory}/#{sha[2..-1]}"
+      File.open(object_path, "w", &block)
+    end
+
+    private
+
+    attr_reader :sha
+  end
+end
+```
+
+
+
+此类处理所有与目录/路径有关的任务，并打开文件。 然后，它会屈服到给定的块，以实际写入对象的内容。
+
+
+
+重构完毕后，让我们再看一下 `commit` 命令：
+
+
+
+```
+#!/usr/bin/env ruby
+
+# bin/rgit-commit
+
+$LOAD_PATH << File.expand_path("../../lib", __FILE__)
+require "digest"
+require "time"
+require "rgit/object"
+
+RGIT_DIRECTORY = "#{Dir.pwd}/.rgit".freeze
+INDEX_PATH = "#{RGIT_DIRECTORY}/index"
+COMMIT_MESSAGE_TEMPLATE = <<-TXT
+# Title
+#
+# Body
+TXT
+
+def index_files
+  File.open(INDEX_PATH).each_line
+end
+
+def index_tree
+  index_files.each_with_object({}) do |line, obj|
+    sha, _, path = line.split
+    segments = path.split("/")
+    segments.reduce(obj) do |memo, s|
+      if s == segments.last
+        memo[segments.last] = sha
+        memo
+      else
+        memo[s] ||= {}
+        memo[s]
+      end
+    end
+  end
+end
+
+def build_tree(name, tree)
+  sha = Digest::SHA1.hexdigest(Time.now.iso8601 + name)
+  object = RGit::Object.new(sha)
+
+  object.write do |file|
+    tree.each do |key, value|
+      if value.is_a? Hash
+        dir_sha = build_tree(key, value)
+        file.puts "tree #{dir_sha} #{key}"
+      else
+        file.puts "blob #{value} #{key}"
+      end
+    end
+  end
+
+  sha
+end
+
+def build_commit(tree:)
+  commit_message_path = "#{RGIT_DIRECTORY}/COMMIT_EDITMSG"
+
+  `echo "#{COMMIT_MESSAGE_TEMPLATE}" > #{commit_message_path}`
+  `$VISUAL #{commit_message_path} >/dev/tty`
+
+  message = File.read commit_message_path
+  committer = "user"
+  sha = Digest::SHA1.hexdigest(Time.now.iso8601 + committer)
+  object = RGit::Object.new(sha)
+
+  object.write do |file|
+    file.puts "tree #{tree}"
+    file.puts "author #{committer}"
+    file.puts
+    file.puts message
+  end
+
+  sha
+end
+
+def update_ref(commit_sha:)
+  current_branch = File.read("#{RGIT_DIRECTORY}/HEAD").strip.split.last
+
+  File.open("#{RGIT_DIRECTORY}/#{current_branch}", "w") do |file|
+    file.print commit_sha
+  end
+end
+
+def clear_index
+  File.truncate INDEX_PATH, 0
+end
+
+if index_files.count == 0
+  $stderr.puts "Nothing to commit"
+  exit 1
+end
+
+root_sha = build_tree("root", index_tree)
+commit_sha = build_commit(tree: root_sha)
+update_ref(commit_sha: commit_sha)
+clear_index
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
