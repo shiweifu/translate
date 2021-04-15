@@ -98,3 +98,114 @@ func getUser(c echo.Context) error {
 
 
 
+### 查询参数 
+
+`/show?team=x-men&member=wolverine`
+
+
+
+```
+//e.GET("/show", show)
+func show(c echo.Context) error {
+	// Get team and member from the query string
+	team := c.QueryParam("team")
+	member := c.QueryParam("member")
+	return c.String(http.StatusOK, "team:" + team + ", member:" + member)
+}
+```
+
+
+
+此时访问 http://localhost:1323/show?team=x-men&member=wolverine，你将看到 ‘team:x-men, member:wolverine’ 在当前页面。
+
+###  
+
+### 发送 `application/x-www-form-urlencoded`
+
+```
+POST /save
+```
+
+| name  | value                                       |
+| :---- | :------------------------------------------ |
+| name  | Joe Smith                                   |
+| email | [joe@labstack.com](mailto:joe@labstack.com) |
+
+```go
+// e.POST("/save", save)
+func save(c echo.Context) error {
+	// Get name and email
+	name := c.FormValue("name")
+	email := c.FormValue("email")
+	return c.String(http.StatusOK, "name:" + name + ", email:" + email)
+}
+```
+
+执行下面的命令：
+
+```sh
+$ curl -F "name=Joe Smith" -F "email=joe@labstack.com" http://localhost:1323/save
+// => name:Joe Smith, email:joe@labstack.com
+```
+
+
+
+### 发送 `multipart/form-data` 类型的数据
+
+```
+POST /save
+```
+
+| name   | value     |
+| :----- | :-------- |
+| name   | Joe Smith |
+| avatar | avatar    |
+
+```go
+func save(c echo.Context) error {
+	// Get name
+	name := c.FormValue("name")
+	// Get avatar
+  	avatar, err := c.FormFile("avatar")
+  	if err != nil {
+ 		return err
+ 	}
+ 
+ 	// Source
+ 	src, err := avatar.Open()
+ 	if err != nil {
+ 		return err
+ 	}
+ 	defer src.Close()
+ 
+ 	// Destination
+ 	dst, err := os.Create(avatar.Filename)
+ 	if err != nil {
+ 		return err
+ 	}
+ 	defer dst.Close()
+ 
+ 	// Copy
+ 	if _, err = io.Copy(dst, src); err != nil {
+  		return err
+  	}
+
+	return c.HTML(http.StatusOK, "<b>Thank you! " + name + "</b>")
+}
+```
+
+执行下面命令：
+
+```
+$ curl -F "name=Joe Smith" -F "avatar=@/path/to/your/avatar.png" http://localhost:1323/save
+// => <b>Thank you! Joe Smith</b>
+```
+
+查看刚刚上传的图片：
+
+```
+cd <project directory>
+ls avatar.png
+// => avatar.png
+```
+
