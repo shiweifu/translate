@@ -209,3 +209,93 @@ ls avatar.png
 // => avatar.png
 ```
 
+
+
+### 处理请求
+
+
+
+- 绑定 `json`，`xml`，`form` 或者 `query` 的内容绑定到 Go 结构中
+- 生成 `json` 或者 `xml` 以及状态码进行返回
+
+
+
+```
+type User struct {
+	Name  string `json:"name" xml:"name" form:"name" query:"name"`
+	Email string `json:"email" xml:"email" form:"email" query:"email"`
+}
+
+e.POST("/users", func(c echo.Context) error {
+	u := new(User)
+	if err := c.Bind(u); err != nil {
+		return err
+	}
+	return c.JSON(http.StatusCreated, u)
+	// or
+	// return c.XML(http.StatusCreated, u)
+})
+```
+
+
+
+### 静态内容
+
+
+
+配置静态目录路径，将其中的内容当作静态返回 `/static/*`。
+
+
+
+```
+e.Static("/static", "static")
+```
+
+
+
+#### [Learn More](https://echo.labstack.com/guide/static-files)
+
+### [Template Rendering](https://echo.labstack.com/guide/templates)
+
+### 
+
+### 中间件
+
+
+
+```
+// Root level middleware
+e.Use(middleware.Logger())
+e.Use(middleware.Recover())
+
+// Group level middleware
+g := e.Group("/admin")
+g.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
+  if username == "joe" && password == "secret" {
+    return true, nil
+  }
+  return false, nil
+}))
+
+// Route level middleware
+track := func(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		println("request to /users")
+		return next(c)
+	}
+}
+e.GET("/users", func(c echo.Context) error {
+	return c.String(http.StatusOK, "/users")
+}, track)
+```
+
+
+
+#### [了解更多](https://echo.labstack.com/middleware)
+
+
+
+
+
+
+
