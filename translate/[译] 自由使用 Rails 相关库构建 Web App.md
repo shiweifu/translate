@@ -44,3 +44,13 @@ Ruby on Rails  是一个包含许多类库的 Web 框架，依赖这些类库，
 
 
 
+### 讨论网络
+
+
+
+现在我们已经梳理出要做的事情了。接下来，让我们以构建一个简单的 Web 应用程序，并使其工作作为开始。一个 Web 应用或者一个服务器如何在 Internet 上收发信息的呢？与我们人类相似，网络应用程序之间，使用特定的协议进行通信，这个协议叫做 [Transmission Control Protocol](https://en.wikipedia.org/wiki/Transmission_Control_Protocol) (TCP)。你也许已经听过 TCP 的名字，但 TCP 究竟在网络应用程序中，起到什么作用呢？
+
+
+
+要弄清楚 TCP 究竟做了什么，我们首先需要了解  [Internet Protocol](https://en.wikipedia.org/wiki/Internet_Protocol) (IP) 协议。稍后你会发现，抽象等级，决定了他们的工作方式。TCP 只是 IP 的抽象，IP 是一种较低级别的协议，用于传送数据包。
+
