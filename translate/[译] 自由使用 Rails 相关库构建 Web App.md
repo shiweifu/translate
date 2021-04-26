@@ -66,3 +66,38 @@ Ruby on Rails  是一个包含许多类库的 Web 框架，依赖这些类库，
 
 套接字，用于在服务端和客户端之间建立持久连接。Ruby 的核心库包括套接字 [sockets](https://ruby-doc.org/stdlib-2.7.0/libdoc/socket/rdoc/Socket.html) ，它的实现与你的操作系统有关（顺便说一下，这也是一种抽象）。
 
+
+
+#### 使用 Ruby 的 Socket 库
+
+
+
+```
+#Use Rubys Socket Library
+require 'socket'
+
+server = TCPServer.new(1337)
+```
+
+
+
+Socket 库允许你创建一个 TCP 服务端套接字。在我们的例子中，我们想要 Mirth 的服务端套接字接收访问的连接。那么，我们如何知道有外部的连接访问我们的服务端呢？TCP 创建了一个套接字，处理应用指定的端口。在本例中，我们的 Mirth 所使用的端口是 1337。
+
+
+
+#### 接收输入链接
+
+
+
+```
+#Accept Incoming Connections
+loop do
+  client = server.accept
+```
+
+
+
+现在，我们的服务端套接字已经创建，当客户端连接的时候，我们决定如何处理。在本例中，我们通过 `#accept` 方法来接收任何外部连接请求，然后使用 IO 对象来读取信息。
+
+
+
