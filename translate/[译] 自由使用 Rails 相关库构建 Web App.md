@@ -101,3 +101,36 @@ loop do
 
 
 
+### 关闭客户端 Socket
+
+
+
+```
+#Close the Client Socket 
+
+  puts "Closing client socket"
+  client.puts "Goodbye #{input}"
+  client.close
+```
+
+
+
+当我们处理完对客户端连接的响应，我们需要关闭连接。
+
+
+
+### 运行代码创建服务端 Socket 和 客户端 Socket
+
+
+
+在此可以看到完整的代码： [`mirth-1.rb` on Github](https://gist.github.com/ShopifyEng/380218296a07109ebdb359fcafa06d62#file-mirth-1-rb).
+
+
+
+1. 下载了代码后，要在你的机器上运行代码，执行 `ruby mirth-1.rb`。此时你创建了一个服务端套接字。现在你需要一个客户端来连接这个服务端。
+2. 打开终端，执行 `nc localhost 1337`。这样就通过 [netcat](https://en.wikipedia.org/wiki/Netcat) 连接上了我们本地的服务端，1337 是服务端监听的端口号。在建立连接后的任何输入，将会被输出。
+
+
+
+### 更加结构化的访问网络
+
