@@ -134,3 +134,13 @@ loop do
 
 ### 更加结构化的访问网络
 
+
+
+现在，我们已经可以创建 TCP 套接字了，是时候向更高级别的抽象前进了。当前我们的 TCP 服务端还不能与浏览器通信。因为浏览器是使用的是超文本传输协议（HTTP）。TCP 是应用层的协议，所以任何基于应用层的应用都可以使用 TCP。而 HTTP，只是用在 Web 领域。所以我们可以使用 Ruby，来实现 HTTP。
+
+
+
+![A directed network diagram showing the layers of abstraction between 3 network protocols (IP, TCP, HTTP). The bottom layer is the Network Layer that uses IP. That flows up to the Transport Layer that uses TCP. That then flows to the Application Layer which using HTTP.](https://cdn.shopify.com/s/files/1/0779/4361/files/How_to_Build_a_Web_App_with_and_without_Rails_Librariesimage18.png?format=webp&v=1616683871)
+
+世界上有许多不同类型的浏览器和服务器，而浏览器都支持 HTTP 协议，这就是为什么我们需要支持 HTTP 协议的原因。该协议是由 HTTP 工作组建立的。
+
