@@ -171,3 +171,23 @@ loop do
 
 从 Mirth Web 应用的角度，在连接建立之后，它需要响应请求。与前面的例子不同，我们此时需要发送一个真正的 HTTP 请求，而不是字符串。
 
+
+
+**HTTP请求的关键组件是请求行，其中包含供Web应用程序执行操作的重要信息。 这些是方法令牌，目标路径和HTTP协议版本号。 方法令牌是来自服务器的请求的类型，两个常见的请求是GET（获取数据）和POST（发布数据以在服务器中进行更改）。 如您所料，方法令牌根据请求内容将代码引导至不同的路径。 目标是请求来自的路径。 例如，服务器从用户请求信息到该网页www.mirth.com/baked-brownies/123的目标路径是baked-brownies / 12。 最后，版本号是Web浏览器使用的HTTP版本，最常见的是HTTP / 1.1。**
+
+
+
+### 获取请求的 Request-line 
+
+
+
+```
+#Get the Request-line of the Request
+  request_line = client.readline
+
+  puts "The HTTP request line looks like this:"
+  puts request_line
+```
+
+
+
