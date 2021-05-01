@@ -191,3 +191,25 @@ loop do
 
 
 
+**服务器接受客户端套接字后，我们将读取请求的请求行。 与我们之前使用的#gets方法不同，如果没有更多输入要获取，＃readline将返回错误。
+
+
+
+### 分割请求的 Rquest-line 
+
+
+
+```
+
+# Breaks down the HTTP request from the client
+  method_token, target, version_number = request_line.split 
+  response_body =  "✅ Received a #{method_token} request to #{target} with #{version_number}"
+
+  client.puts response_body
+  client.close
+end
+```
+
+
+
+我们将HTTP请求细分为method_token，target和version_number。 所有这些部分对于服务器如何响应请求都是必不可少的信息。 该代码仅打印从HTTP请求中获取的信息，并将其返回到HTTP请求的正文中以显示在Web浏览器页面上。
