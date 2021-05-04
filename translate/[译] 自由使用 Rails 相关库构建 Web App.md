@@ -256,3 +256,43 @@ end
 
 然后在 body中，你可以放置需要呈现给浏览器的 HTML 代码。
 
+
+
+![A directed network diagram showing the movement of HTTP messages between the user, the Client_Request, the Server Response, and Web app/Server.The user send's a Client Request message to the Web app/Server. The Web app/Server sends the client the Server Response.](https://cdn.shopify.com/s/files/1/0779/4361/files/How_to_Build_a_Web_App_with_and_without_Rails_Librariesimage13.png?format=webp&v=1616683871)
+
+
+
+### 更复杂的 Web 应用程序
+
+
+
+让我们为我们的 Web 应用程序增加一些复杂度，并对我们的请求作出更符合 HTTP 规范的响应。我们增加一些测试数据，用于显示（本例中为生日信息），再添加两个 HTTP 响应，来显示数据，并使用新的用户输入更新数据。
+
+
+
+### 添加一些测试数据
+
+
+
+我们首先创建一些默认数据。初始化服务器后，立即在 Hash 结构中找到所有生日数据。注意，数据不是永久性的，这意味着服务器重启之后，此 Hash 结构的所有对象都会消失。
+
+
+
+### 处理对不同端点的请求
+
+
+
+```
+#Create a Case Statement for all the Endpoints 
+case [method_token, target]
+when ["GET", "/show/birthdays"]
+  # Endpoint for GET /show/birthdays
+when ["POST", "/add/birthday"]
+# Endpoint for POST /add/birthday
+else 
+  response_status_code="200 OK"
+  response_message= "✅Received a #{method_token} request to #{target} with #{version_number}"
+  content_type ="text/plain"
+end
+```
+
