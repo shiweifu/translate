@@ -296,3 +296,38 @@ else
 end
 ```
 
+
+
+接下来，我们创建一个 case 语句，以区分不同请求方法和路径。这为我们的小型 Web 应用提供了清晰的框架。这三个端点是，GET /show/birthday，POST /add/birthday 和 其他请求。当请求匹配到目标端点时，对应代码块会被执行。
+
+
+
+### GET 端点
+
+
+
+```
+#Add the GET Endpoint
+when ["GET", "/show/birthdays"]
+    response_status_code = "200 OK"
+    content_type = "text/html"
+    response_message = ""
+
+    response_message << "<ul>\n"
+    birthdays.each do |birthday|
+      response_message << "<li> #{birthday[:name]}</b> was born on #{birthday[:date]}!</li>\n"
+    end
+
+    response_message << "</ul>\n"
+    response_message << <<~STR
+      <form action="/add/birthday" method="post" enctype="application/x-www-form-urlencoded">
+        <p><label>Name <input type="text" name="name"></label></p>
+        <p><label>Birthday <input type="date" name="date"></label></p>
+        <p><button>Submit birthday</button></p>
+      </form>
+    STR
+```
+
+
+
+因为每个端点都会进行不同的 HTTP 响应，我们为每个端点定义相应的变量，response_status_code，content_type 和 response_message。
