@@ -331,3 +331,49 @@ when ["GET", "/show/birthdays"]
 
 
 因为每个端点都会进行不同的 HTTP 响应，我们为每个端点定义相应的变量，response_status_code，content_type 和 response_message。
+
+
+
+### 增加 POST 方法
+
+
+
+我们通过 POST 方法来实现接受用户输入生日数据的功能。现在，这些数据还没有被持久化，但你可以先在服务器运行时间实现将他们放入列表。
+
+
+
+```
+#Add the POST Endpoint
+  when ["POST", "/add/birthday"]
+    response_status_code = "303 See Other"
+    content_type = "text/html"
+    response_message = ""
+
+    # Break apart header fields to get the 
+    # Content-Length which will help us get the body 
+    # of the message
+    all_headers = {}
+    while true
+      line = client.readline
+      break if line == "\r\n"
+      header_name, value = line.split(": ")
+      all_headers[header_name] = value
+    end
+    body = client.read(all_headers['Content-Length'].to_i)
+
+    # Use Ruby's built in decoder library
+    # to decode the body into a Hash object
+    require 'uri' 
+    new_birthday = URI.decode_www_form(body).to_h
+
+    birthdays << new_birthday.transform_keys(&:to_sym)
+```
+
+
+
+`POST` 端点和 `GET` 端点看起来有一些不一样。返回的状态码不再是 "200 OK"，此时，当请求执行成功，我们希望可以跳转到 `/show/birthdates` 页面，所以我们返回 "303 See Other" 状态码。
+
+
+
+
+
