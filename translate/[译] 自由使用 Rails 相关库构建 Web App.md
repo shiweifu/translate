@@ -375,5 +375,25 @@ when ["GET", "/show/birthdays"]
 
 
 
+接下来，介绍一个在请求中的重要的 HTTP 头字段，`Content-Length` 头字段。这个字段用于告诉浏览器，后面跟随的内容的体积，以字节为单位。当我们知道了有多少字节后，我们就使用建立的客户端 Socket 套接字，来读取对应体积的数据。最后，我们使用 Ruby 内置的解码库，[uri](https://www.rubydoc.info/stdlib/uri/URI) ，来解码请求后面跟随的数据，也就是生日数据。
 
+
+
+### 构建 HTTP 响应
+
+
+
+```
+  # Construct the HTTP Response
+  http_response = <<~MSG
+    #{version_number} #{response_status_code}
+    Content-Type: #{content_type}; charset=#{response_message.encoding.name}
+    Location: /show/birthdays
+    #{response_message}
+  MSG
+```
+
+
+
+到此，我们已经成功构建了 HTTP 响应的所需组件，接下来我们将他们组合在一起，成为一个完整的响应。响应是按照 HTTP 规范构造的：包含版本号和响应的状态码，后面跟随标头，空行和响应内容。在下一个练习中，我们接受并处理 Web 浏览器的 GET 和 POST请求。
 
