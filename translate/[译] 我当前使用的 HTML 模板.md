@@ -81,3 +81,16 @@
 <!DOCTYPE html>
 ```
 
+
+
+对于老派的你来说，你无需学习任何其他 doc 类型。因为这是唯一的 doc 类型。时至今日，也没有其他的 doctype。显式声明是为了[兼容性的原因](https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode)。
+
+
+
+```
+<html lang="en" class="no-js">
+```
+
+
+
+`lang` 属性，是 HTML 结构中最重要的属性，因为他用处广泛，可以对许多地方产生影响。你可以阅读有关它的更多信息：[On Use of the Lang Attribute](https://adrianroselli.com/2015/01/on-use-of-lang-attribute.html) 和 [The lang attribute: browsers telling lies, telling sweet little lies](https://www.matuzo.at/blog/lang-attribute/)。对于 `html` 结构而言， 它声明了当前页面所使用的字眼语言。它包含一个`语言标签`，格式定义在此：[Tags for Identifying Languages (BCP47)](https://www.ietf.org/rfc/bcp/bcp47.txt)，锯割例子， `en` 对应 英语， `de` 对应德语，以及 `ru` 对应俄语。
