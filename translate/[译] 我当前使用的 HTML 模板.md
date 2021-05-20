@@ -94,3 +94,33 @@
 
 
 `lang` 属性，是 HTML 结构中最重要的属性，因为他用处广泛，可以对许多地方产生影响。你可以阅读有关它的更多信息：[On Use of the Lang Attribute](https://adrianroselli.com/2015/01/on-use-of-lang-attribute.html) 和 [The lang attribute: browsers telling lies, telling sweet little lies](https://www.matuzo.at/blog/lang-attribute/)。对于 `html` 结构而言， 它声明了当前页面所使用的字眼语言。它包含一个`语言标签`，格式定义在此：[Tags for Identifying Languages (BCP47)](https://www.ietf.org/rfc/bcp/bcp47.txt)，锯割例子， `en` 对应 英语， `de` 对应德语，以及 `ru` 对应俄语。
+
+
+
+- [lang Language tag syntax MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/lang)
+
+在此方案中，当浏览器不支持 JavaScript 时，我在这个组件上增加 `no-js`。在支持和可以执行 `JavaScript` 的现代浏览器中，则将此类删除。
+
+
+
+```
+<meta charset="UTF-8">
+```
+
+
+
+这个属性声明了文档所使用的字符编码。如果没有它，则可能导致字符在某些浏览器中无法正确显示。
+
+
+
+以下是 Safari 显示我的名字方式，分别为带 `charset` tag 和不带。
+
+
+
+```
+<meta name="viewport" content="width=device-width, initial-scale=1">
+```
+
+
+
+视口标签允许我们改变视口的宽度，在响应式 Web 设计中，这是必须的。`width=device-width` 指令设置视口的宽度与浏览器的宽度相同。`initial-scale` 可以当浏览器第一次加载页面的时候，控制缩放。
