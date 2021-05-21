@@ -124,3 +124,48 @@
 
 
 视口标签允许我们改变视口的宽度，在响应式 Web 设计中，这是必须的。`width=device-width` 指令设置视口的宽度与浏览器的宽度相同。`initial-scale` 可以当浏览器第一次加载页面的时候，控制缩放。
+
+
+
+我不确定是否仍需要设置initial-scale = 1。 我相信我在某个地方读到，只有<iOS 9上的Safari才需要它，但是我找不到该文章了。
+
+
+
+视口元标记应尽可能早地出现在文档中，以确保正确呈现文档。
+
+
+
+自iOS 9.3起，我们不再需要执行rinkle-to-fit = no选项。
+
+- [Time to remove the shrink-to-fit=no band aid?](https://www.scottohara.me/blog/2018/12/11/shrink-to-fit.html)
+
+- [Using the viewport meta tag to control layout on mobile browsers](https://developer.mozilla.org/en-US/docs/Web/HTML/Viewport_meta_tag)
+
+
+
+### 标题，描述，以及社交媒体
+
+
+
+```
+<title>Unique page title - My Site</title>
+```
+
+
+
+页面的唯一标题。 它显示在很多地方，例如，在浏览器标签上，在搜索引擎结果中，将页面另存为书签时等。
+
+
+
+- [Provide informative, unique page titles](https://www.w3.org/WAI/tips/writing/#provide-informative-unique-page-titles)
+- [Accessible page titles in a Single Page App](https://hiddedevries.nl/en/blog/2018-07-19-accessible-page-titles-in-a-single-page-app)
+
+
+
+```
+<script type="module">
+  document.documentElement.classList.remove('no-js');
+  document.documentElement.classList.add('js');
+</script>
+```
+
