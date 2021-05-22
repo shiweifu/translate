@@ -169,3 +169,53 @@
 </script>
 ```
 
+
+
+我在 JS 模块支持。如果浏览器支持 JavaScript 模块，意味着浏览器支持现代 JavaScript 特性，如 模块，ES 6 语法，fetch 等等。大多数 JS 仅提供给这些浏览器，此外，当 JS 是被激活的，而组件的样式不同，这种情况下我使用 `js` 类。
+
+
+
+![caniuse showing that all modern browser support JS modules](https://www.matuzo.at/images/caniuse_jsmodules750.png)
+
+
+
+```
+<link rel="stylesheet" href="/assets/css/styles.css">
+```
+
+当前网站的样式表。
+
+
+
+```
+<link rel="stylesheet" href="/assets/css/print.css" media="print">
+```
+
+- [我常常忘记给打印设备的样式表](https://www.matuzo.at/blog/i-totally-forgot-about-print-style-sheets/)
+
+
+
+```
+<meta name="description" content="Page description">
+```
+
+
+
+针对页面内容的描述，用于诸如显示浏览器页面搜索结果的场景下。可以是任何长度，但搜索引擎会将其裁剪到 ~155-160 字符。
+
+
+
+```
+<meta property="og:title" content="Unique page title - My Site">
+```
+
+
+
+页面的唯一标题。用于社交平台的 URL 爬虫，如 Twitter、Facebook 等。
+
+
+
+```
+<meta property="og:description" content="Page description">
+```
+
