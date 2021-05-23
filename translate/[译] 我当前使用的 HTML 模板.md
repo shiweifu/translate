@@ -215,7 +215,43 @@
 
 
 
+```html
+<meta property="og:image" content="image.jpg">
 ```
-<meta property="og:description" content="Page description">
+
+
+
+当你将网页分享到社交网络、聊天工具或者其他网站时，这个图片会被显示。
+
+
+
+理想情况下，这个图片是一个正方形的图片，重要内容以二比一的形式放在正方形的中间。这样可以确保这张图片分享出去的图片，无论是被正方形展示还是矩形展示，看起来都不错。
+
+
+
+这是此图片在 Twitter 或者 WhatsApp 中的样子。
+
+
+
+![Large rectangle image in a Twitter card](https://www.matuzo.at/images/htmldoc_tw500.png)
+
+
+
+![Small square image on Whatsapp](https://www.matuzo.at/images/htmldoc_wa500.png)
+
+
+
+Twitter 的规则：此卡片图像支持二比一的长宽比，最小尺寸为 300x157，最大尺寸为 4096x4096。图片小于5MB。支持JPG，PNG，WEBP 和 GIF 格式。
+
+
+
+- [Twitter Developer Docs: Cards](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/summary-card-with-large-image)
+
+
+
+```html
+<meta property="og:image:alt" content="Image description">
 ```
+
+
 
