@@ -255,3 +255,30 @@ Twitter 的规则：此卡片图像支持二比一的长宽比，最小尺寸为
 
 
 
+图片说明。 如果图片纯粹是装饰性的并且没有提供任何有意义的信息，请不要使用此元标记。 如果我们不提供替代文字，则屏幕阅读器会忽略图像。图片说明。 如果图片纯粹是装饰性的并且没有提供任何有意义的信息，请不要使用此元标记。 如果我们不提供替代文字，则屏幕阅读器会忽略图像。
+
+
+
+```html
+<meta property="og:locale" content="en_GB">
+```
+
+
+
+可选的Open Graph属性，但建议使用。 它定义页面的自然语言。
+
+
+
+```html
+<meta property="og:type" content="website">
+```
+
+
+
+您要共享的内容类型，例如 网站，文章或video.movie。 有效的“打开图形”页面的必需属性。
+
+
+
+```html
+<meta property="og:url" content="https://www.mywebsite.com/page">
+```
