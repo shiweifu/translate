@@ -282,3 +282,49 @@ Twitter 的规则：此卡片图像支持二比一的长宽比，最小尺寸为
 ```html
 <meta property="og:url" content="https://www.mywebsite.com/page">
 ```
+
+
+
+页面的规范URL。 有效打开图形页面所需的属性。
+
+
+
+- 开放图协议
+
+
+
+```html
+<meta name="twitter:card" content="summary_large_image">
+```
+
+
+
+此元标记定义了在Twitter上共享时卡片的外观。 网站，摘要和summary_large_image有两个选项。
+
+
+
+![A large rectangle image on top, followed by the page title, description and URL below.](https://www.matuzo.at/images/htmldoc_summary-large500.png)
+
+
+
+![A small square image on the left, page title, description and URL on the right.](https://www.matuzo.at/images/htmldoc_summary500.png)
+
+
+
+您可以看到我正在使用正方形图像，以确保卡在两种变化中都好。 我涂上了卡粉红色的顶部和底部，以便您可以看到这些部件将在Sumbase_Large_Image中切断。
+
+
+
+图标和地址栏
+
+
+
+```html
+<meta name="theme-color" content="#FF00FF">
+```
+
+
+
+
+
+主题颜色为具有CSS颜色提供浏览器，以自定义页面的显示或周围的用户界面的显示。
