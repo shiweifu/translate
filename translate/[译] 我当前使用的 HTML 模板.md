@@ -328,3 +328,67 @@ Twitter 的规则：此卡片图像支持二比一的长宽比，最小尺寸为
 
 
 主题颜色为具有CSS颜色提供浏览器，以自定义页面的显示或周围的用户界面的显示。
+
+
+
+支持的浏览器：Android上的Chrome，Brave和Samsung Internet。
+
+
+
+![Pink UI in Brave browser](https://www.matuzo.at/images/htmldoc_theme-color800.jpg)
+
+
+
+```html
+<link rel="icon" href="/favicon.ico">
+```
+
+
+
+用于传统浏览器的32×32px Favicon。 它应该生活在您的网站根中。
+
+
+
+```html
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+```
+
+
+
+大多数现代浏览器支持SVG Favicons。 Favicon.svg的好处是它在缩放时看起来更好，因为它是一个向量而不是光栅图像，我们可以将HTML和CSS添加到SVG，这意味着我们可以支持黑暗模式。
+
+
+
+```html
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<style>
+  path {
+    fill: #153a51;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    path {
+      fill: #FFFFFF;
+    } 
+  }
+</style>
+<path d="M397.8 117.9v290h-76.4V273.5h-.8l-46.4 97.2h-36.8l-46-96.8h-.8v134h-76.4v-290h80.4l60.8 150.8h.8l61.2-150.8h80.4z"/>
+</svg>
+```
+
+
+
+在我的网站上的Favicon在光线模式下。
+
+
+
+![A blue M on light background in the browser tab in Chrome](https://www.matuzo.at/images/htmldoc_favicon_light800.png)
+
+
+
+在我的网站上的favicon在黑暗模式。
+
+
+
+![A white M on dark background in the browser tab in Chrome](https://www.matuzo.at/images/htmldoc_favicon_dark800.png)
+
