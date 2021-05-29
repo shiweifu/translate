@@ -50,3 +50,73 @@ A - B                       master
 A - B - C - D - E           master/bugfix
 ```
 
+
+
+下面是合并的输出：
+
+
+
+```
+➜  merge-examples git:(master) git merge --ff bugfix
+Updating 9db2ac7..3452cab
+Fast-forward
+```
+
+
+
+这被称为 [*fast forward*](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging)，快进。
+
+
+
+### 不快进的情况下
+
+
+
+默认行为下，Git 尽可能的使用快进的方式进行处理。但是我们也可以通过 git 配置或者传递 `--no-ff`（no fast-forward） 选项给 `git merge`，来改变着一行为。在默认情况下，如果 git 检测到该分支没有冲突，则创建一个 merge commit。
+
+
+
+```
+        C - D - E           bugfix
+      /
+A - B                       master
+```
+
+
+
+`git merge --no-ff` 执行后：
+
+
+
+```
+        C - D - E           bugfix
+      /           \
+A - B ------------ F        master
+```
+
+
+
+下面是 merge 的输出：
+
+```
+➜  merge-examples git:(master) git merge --no-ff bugfix
+Already up to date!
+Merge made by the 'recursive' strategy.
+```
+
+
+
+### 递归策略
+
+
+
+到此，我们讨论的都是将 `bugfix` 合并 master 分支，但未遇到冲突的场景。然而，这过于乐观。哪怕是在一个小型的多人开发团队，也有可能出现同一时间提交的导致冲突的情况。下面看个例子：
+
+
+
+```
+        C - D - E           bugfix
+      /
+A - B - F - G               master
+```
+
