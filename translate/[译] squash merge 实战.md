@@ -120,3 +120,63 @@ Merge made by the 'recursive' strategy.
 A - B - F - G               master
 ```
 
+
+
+`F` 和 `G` 提交，导致 `master` 分支 与 `bugfix` 分支无法合并。因此，`git` 不能简单的快进到 `E`，否则将会丢失这两个提交。
+
+
+
+在本例中，`git` 将（一般）采取递归合并的策略。其结果是合并提交，将两个历史记录合并到一起：
+
+
+
+```
+        C - D - E           bugfix
+      /           \
+A - B - F - G ----- H       master
+```
+
+
+
+下面是合并的输出：
+
+
+
+```
+➜  merge-examples git:(master) git merge --no-ff bugfix
+Already up to date!
+Merge made by the 'recursive' strategy.
+```
+
+
+
+### Sequash merge
+
+
+
+与之前的合并不同，Sequash 合并分支的提交，将被压缩成一个，并应用于目标分支。下面是一个例子：
+
+```
+        C - D - E           bugfix
+      /
+A - B - F - G               master
+```
+
+
+
+在 `git merge --squash && git commit` 执行之后：
+
+```
+        C - D - E           bugfix
+      /
+A - B - F - G - CDE         master
+```
+
+
+
+`CDE` 是 `C + D + E` 三个分支的的变化合并而成的一个分支。`Squashing` 保留更改，但是丢弃了 `Bugfix` 的提交记录。
+
+
+
+
+
