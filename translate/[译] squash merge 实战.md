@@ -1,4 +1,4 @@
-翻译自：[Two years of squash merge - DNSimple Blog](https://blog.dnsimple.com/2019/01/two-years-of-squash-merge/)
+翻译自：[Two years of squash merge - DNSimple Blog](https://blog.dnsimple.com/2019/01/two-years-of-squash-merge/            )
 
 
 
@@ -198,7 +198,15 @@ A - B - F - G - CDE         master
 
 
 
+1. 结合与单个逻辑更改相关的所有代码更改（它可能是一个特征，错误修复或更改更改的个人更改部分）
 
+2. 提供了一个解释性的提交消息，帮助人们了解更改的意图
+
+3. 如果您从历史上独立地选择这一提交，则自己是有道理的
+
+
+
+要求一个应该是您的默认编码习惯。 提交应表示原子改变，您应该避免组合彼此无关的多个更改。 虽然这似乎是显而易见的，但我已经看到提交更改编译脚本并在应用中引入一个新功能。 让我们使用另一个更实际的例子：您正在修复一个错误，因此我们希望更改要提交的软件以及回归测试，而不是与彼此无关的不同提交。
 
 
 
