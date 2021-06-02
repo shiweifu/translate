@@ -210,3 +210,31 @@ A - B - F - G - CDE         master
 
 
 
+第二点是一个著名的问题，有数百篇文章尝试定义一个好的提交信息应该是什么样的，并试图教程序员写一个良好的提交信息。 [官方 git 页](https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project)有一些关于提交信息的指导方针：
+
+
+
+```
+Short (50 chars or less) summary of changes
+
+More detailed explanatory text, if necessary.  Wrap it to
+about 72 characters or so.  In some contexts, the first
+line is treated as the subject of an email and the rest of
+the text as the body.  The blank line separating the
+summary from the body is critical (unless you omit the body
+entirely); tools like rebase can get confused if you run
+the two together.
+
+Further paragraphs come after blank lines.
+
+  - Bullet points are okay, too
+
+  - Typically a hyphen or asterisk is used for the bullet,
+    preceded by a single space, with blank lines in
+    between, but conventions vary here
+```
+
+
+
+上面的指导方针，被 Tim Pope 扩写为一篇文章，这篇文章应该是我能记得的最早的一篇探讨这个主题的文章。
+
