@@ -238,3 +238,67 @@ Further paragraphs come after blank lines.
 
 上面的指导方针，被 Tim Pope 扩写为一篇文章，这篇文章应该是我能记得的最早的一篇探讨这个主题的文章。
 
+
+
+至此，我们已经看到，编写一个良好的提交记录信息，需要遵守一些原则。我们同样也看到，您可以遵循一些原则，以及使用一些工具来强行确保我们遵循这些原则。
+
+
+
+![img](https://d33wubrfki0l68.cloudfront.net/7944ff013cfb31393050aa8acea62baf3cd4578c/4f47a/files/2018/squashmerge-commit-rules.png)
+
+
+
+但是，写一个好的提交记录还是很难，因为这不仅是客观标准的问题。您可以编写格式完美，但完全无用的提交信息。
+
+
+
+![img](https://d33wubrfki0l68.cloudfront.net/f4285c80e7293675690a8f1cba1025cdbc844259/a7e2d/files/2018/squashmerge-stupid-commit-message.png)
+
+
+
+甚至可以更加没用一些：
+
+
+
+![img](https://d33wubrfki0l68.cloudfront.net/0222c88381a22a3262143a2ec0fa7ebf1d9e9762/f2edd/files/2018/squashmerge-generic-commit-message.png)
+
+
+
+如果你创建过诸如：修复测试，修复CI，修复某个问题，增加Bar 之类的提交记录，请举起你的手。
+
+
+
+您可能会问，这种提交信息究竟哪里有问题呢？有三点。一个好的提交记录（好的提交信息），在数百条提交记录中，它有自己独特的意义（或者可以提供足够的描述信息，来说明这次提交为什么会发生）。
+
+
+
+让我们做一个实验。你能告诉我这次的代码变更是为了什么吗？
+
+
+
+![img](https://d33wubrfki0l68.cloudfront.net/36af50d324d2d372f98e5798289d626df764b1b7/71a05/files/2018/squashmerge-bad-commit-fix.png)
+
+
+
+事实上，这次修改，调整了单元测试的测试目标，使其通过。但想象一下，如果有人在三年后，被 第 286 行代码所绊倒，那么这三年就会使人困惑。提交记录和代码，都没有解释为什么测试目标会被打破，何时打破了他们，以及为什么第 286 行代码的变更是必须的。孤立来看，这次提交记录毫无意义。
+
+
+
+另一个常见的无用提交记录的例子，是下面历史记录中的第一条：
+
+
+
+![img](https://d33wubrfki0l68.cloudfront.net/4fabd4ee2ac1d4757097799dadb26fad587bcd61/7bdc8/files/2018/squashmerge-bad-commit-dependencies.png)
+
+
+
+想象一下，您整通过数百个提交记录中，来检查某种错误发生的时间以及原因。我认为你会同意第一次的提交在审查中，需要注意的程度要高于第三次。从提交信息的角度来看，它需要您（至少）打开提交详情以检查更改。
+
+
+
+
+
+
+
+
+
