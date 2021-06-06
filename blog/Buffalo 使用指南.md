@@ -10,5 +10,34 @@ Buffalo 是一个 Rails Like 的 Golang Web 框架，Rails 这种全功能框架
 
 
 
+Ruby 的语法虽然写着又快又爽，但是在阅读项目代码的时候，并不是那么友好。使用 Rails 的时候，偶尔想看一下某些部分的实现，无法直接跳转过去来查看，往往需要再开个开发环境，然后通过全局搜索关键字，来找到实现。能直接找到，还是好的，Ruby 语言的【魔法】也很多，也是代码阅读的干扰。
+
+
+
+Buffalo 的设计哲学继承自 Rails，所以他也是个【大而全】的框架。特性包括：
+
+
+
+- Session
+- 后台 Admin
+- ORM
+- Cookie
+- 资源打包
+- Webpack
+- Database Migration
+- Task
+- Auth
+- Mail
+- 国际化
+- 类似 ERB 的模板引擎
+
+
+
+因为是基于 Go 语言，语言带来的好处当然也是具备的。
+
+
+
+
+
 
 
