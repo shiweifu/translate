@@ -37,7 +37,74 @@ Buffalo 的设计哲学继承自 Rails，所以他也是个【大而全】的框
 
 
 
+### Context
 
+
+
+Context 是整个框架非常基础的结构封装，Buffalo 的 Context 是基于 Go 语言内置的 Context 的：
+
+
+
+Buffalo Context：
+
+
+
+```
+type Context interface {
+  context.Context
+  Response() http.ResponseWriter
+  Request() *http.Request
+  Session() *Session
+  Cookies() *Cookies
+  Params() ParamValues
+  Param(string) string
+  Set(string, interface{})
+  LogField(string, interface{})
+  LogFields(map[string]interface{})
+  Logger() Logger
+  Bind(interface{}) error
+  Render(int, render.Renderer) error
+  Error(int, error) error
+  Redirect(int, string, ...interface{}) error
+  Data() map[string]interface{}
+  Flash() *Flash
+  File(string) (binding.File, error)
+}
+```
+
+
+
+可以将 Context 看作一个制造图纸，框架的主体部分就是对这整个接口的实现。
+
+
+
+接下来我们按图索骥，先把这里面的方法梳理一下。
+
+
+
+Buffalo 默认实现的结构体名：
+
+
+
+```
+type DefaultContext struct {
+	context.Context
+	response    http.ResponseWriter
+	request     *http.Request
+	params      url.Values
+	logger      Logger
+	session     *Session
+	contentType string
+	data        *sync.Map
+	flash       *Flash
+}
+```
+
+
+
+
+
+#### Set(string, interface{})
 
 
 
