@@ -100,10 +100,6 @@ type DefaultContext struct {
 }
 ```
 
-
-
-
-
 #### Set(string, interface{})
 
 
