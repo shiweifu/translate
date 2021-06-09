@@ -104,3 +104,13 @@ type DefaultContext struct {
 
 
 
+这个方法用来将变量注入到模板中，然后进行渲染的。页面的辅助函数也是通过这个方法进行注入。
+
+
+
+Buffalo 没有使用 Golang 默认的模板，而是自己开发了一套与 Rails 内置的 ERB 类似的模板语言：[gobuffalo/plush: The powerful template system that Go needs (github.com)](https://github.com/gobuffalo/plush)。Github 页面上有基本的使用。
+
+
+
+
+
