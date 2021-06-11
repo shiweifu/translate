@@ -15,8 +15,51 @@ Go mod replace 使用
 
 
 ```
+package main
+
+import (
+	"fmt"
+
+	"github.com/ozgio/strutil"
+)
+
 func main() {
-	fmt.Println("asdf")
+	fmt.Println(strutil.Align("lorem ipsum", strutil.Right, 20))
 }
 ```
+
+
+
+### go mod 的初始化
+
+
+
+`go mod init project_name`
+
+
+
+go mod init 命令执行后，会自动生成 `go.mod` 文件，该文件中，列出了项目所依赖的第三方包，以及所使用的版本。
+
+
+
+然后执行 `go mod tidy`，该命令做两件事：
+
+
+
+1. 解析项目文件，并找到所使用的包
+2. 生成 go.sum 文件，其中保存了所使用包的版本
+
+
+
+然后执行 `go run main.go`，来执行项目。
+
+此时项目应该已经可以正常执行，并返回执行结果了。
+
+
+
+### replace
+
+
+
+此时，假设我们希望 strutil 库中，有一个过滤 JavaScript 的方法，检查了一下，strutil 目前没有实现，我们 fork 了一份源码，在其中对这个方法进行实现，并提交了 PR，但是这个 PR 还没有被合并。此时，replace 命令就派上用场了。
 
