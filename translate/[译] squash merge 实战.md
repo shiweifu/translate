@@ -1,4 +1,4 @@
-翻译自：[Two years of squash merge - DNSimple Blog](https://blog.dnsimple.com/2019/01/two-years-of-squash-merge/            )
+翻译自：[Two years of squash merge - DNSimple Blog](https://blog.dnsimple.com/2019/01/two-years-of-squash-merge/)
 
 
 
@@ -313,3 +313,36 @@ Further paragraphs come after blank lines.
 
 
 利用提交消息，是限制代码仓库中，出现孤立的变更集合的好方法。它极大的提高了存储分支上的代码质量，确保只有独立的、自包含的变更集才是 pr。
+
+
+
+下面是个例子，DNSimple app 此时的提交记录：
+
+
+
+![img](https://d33wubrfki0l68.cloudfront.net/dcf1b02f52ef063105192e69806990760420043f/02795/files/2018/squashmerge-history-good.png)
+
+
+
+在此例子中，你可能会担心，个人的提交是否会丢失，答案是不会。每个 squash  合并引用前面的 PR，并跟踪整个更改，此时的样子：
+
+
+
+![img](https://d33wubrfki0l68.cloudfront.net/35b6e9e8cacf733d0a6a3a6330b666658a96f97b/191be/files/2018/squashmerge-history-pr.png)
+
+
+
+然而，偶尔会发生非 squash 合并。当然会发生，我们都是人。这种情况发生时，你可以立即看到哪些发生了变化。
+
+
+
+![img](https://d33wubrfki0l68.cloudfront.net/12dc73a3fc6d63e0681c4e3f4394d7be3ef66535/7ae99/files/2018/squashmerge-history-confusing.png)
+
+
+
+### 问答时间
+
+
+
+使用 squash 合并，当然不是保持版本控制历史记录整洁和可读性的唯一方法。 每个开发人员都可以单独或作为团队采用许多最佳实践。 但是，我们发现此功能可在简单，自由和结果之间提供最佳平衡。
+
