@@ -108,7 +108,88 @@ type DefaultContext struct {
 
 
 
-Buffalo 没有使用 Golang 默认的模板，而是自己开发了一套与 Rails 内置的 ERB 类似的模板语言：[gobuffalo/plush: The powerful template system that Go needs (github.com)](https://github.com/gobuffalo/plush)。Github 页面上有基本的使用。
+### 周边设施
+
+
+
+#### 模板语言
+
+
+
+Buffalo 没有使用 Golang 默认的模板，而是自己开发了一套与 Rails 内置的 ERB 类似的模板语言，称为 Plush：[gobuffalo/plush: The powerful template system that Go needs (github.com)](https://github.com/gobuffalo/plush)。
+
+
+
+GitHub 中的示例：
+
+
+
+```
+<html>
+<%= if (names && len(names) > 0) { %>
+	<ul>
+		<%= for (n) in names { %>
+			<li><%= capitalize(n) %></li>
+		<% } %>
+	</ul>
+<% } else { %>
+	<h1>Sorry, no names. :(</h1>
+<% } %>
+
+<%= this is a comment %>
+</html>
+```
+
+
+
+和 erb 一样，都是使用 `<% %>` 来嵌入要执行的代码的，`<%= %>` 嵌入的是需要返回的代码。
+
+区别是：
+
+- 循环语句和逻辑判断语句，变成了 Go 的语法。
+- 代码块由 `do..end` 变成了 `{}`
+
+
+
+更多使用示例，可以查看 Plush 的 Github 主页。
+
+
+
+#### ORM
+
+
+
+Buffalo 内置的 ORM 是 POP，一套与 Rails 中 ActiveRecord 类似的 ORM 组件。同样也提供了一个命令行工具：Soda。
+
+POP 封装自 Golang 生态非常流行的数据库操作库 https://github.com/jmoiron/sqlx，在其之上，增加了ORM CRUD 操作，migration 等特性。
+
+
+
+POP 与 Active Record 相同的概念：
+
+
+
+- 表必须包含 `id` 列，在模型结构体中，对应 `ID` 字段
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
