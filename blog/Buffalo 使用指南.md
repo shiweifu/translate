@@ -165,33 +165,26 @@ POP 封装自 Golang 生态非常流行的数据库操作库 https://github.com/
 
 
 
-POP 与 Active Record 相同的概念：
+Pop 支持的数据库：
+
+- [PostgreSQL](https://www.postgresql.org/) (>= 9.3)
+- [CockroachDB](https://www.cockroachlabs.com/) (>= 2.1.0)
+- [MySQL](https://www.mysql.com/) (>= 5.7)
+- [SQLite3](https://sqlite.org/) (>= 3.x)
+
+
+
+POP 的一些概念，与 Active Record 很相似：
 
 
 
 - 表必须包含 `id` 列，在模型结构体中，对应 `ID` 字段
+- 如果包含 `created_at` 列，且结构体包含 `CreatedAt time.Time` 字段，则在对象创建时，会自动赋值当前时间戳
+
+- 如果包含 `updated_at` 列，且结构体包含 `UpdatedAt time.Time` 字段，则在对象更新时，会自动赋值当前时间戳
+- 默认数据库表名，是全小写的复数，如果有多个单词，使用下划线分割。与之对应驼峰命名的结构体。比如 `User{}` 与 `users`，`FooBar` 与 `foo_bars`。
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Buffalo 深度集成 Pop，你可以使用这些工具，很容易的构建符合标准的数据库。当然你也可以完全不用它，根据你的喜好，来选择数据库工具。
 
