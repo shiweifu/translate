@@ -188,3 +188,34 @@ POP 的一些概念，与 Active Record 很相似：
 
 Buffalo 深度集成 Pop，你可以使用这些工具，很容易的构建符合标准的数据库。当然你也可以完全不用它，根据你的喜好，来选择数据库工具。
 
+
+
+
+
+#### 前端
+
+
+
+当前的主流，是前后端分离，Web 后端提供 API 接口，然后前端打包剩下的一切。然而对于许多人手不够的团队和项目来说，全栈的 Web 框架仍然是首选。于是，与前端技术的集成情况，应该是评估一个 Web 框架的很重要的部分。
+
+
+
+Buffalo 在这方面做的不错，基本做到开箱即用。这也是他吸引我的地方。不然我为什么不用 Gin、Echo 那种轻量级框架，然后自己集成呢？
+
+
+
+默认情况下，通过命令生成的 Buffalo 项目，已经集成了：
+
+
+
+- [jQuery](https://jquery.com/)
+- [Bootstrap 4](http://getbootstrap.com/)
+- [jQuery UJS](https://github.com/rails/jquery-ujs)
+- SCSS
+- Webpack 及配置文件
+- [Font Awesome](http://fontawesome.io/)
+- 资源编译
+
+
+
+对于很多项目，基本马上就可以开干了。
