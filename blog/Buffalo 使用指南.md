@@ -218,4 +218,26 @@ Buffalo 在这方面做的不错，基本做到开箱即用。这也是他吸引
 
 
 
-对于很多项目，基本马上就可以开干了。
+对于很多项目，有了这些主流的工具，基本马上就可以开干了。
+
+
+
+因为集成了 Webpack，即使你们团队所使用的技术是这些技术栈之外的技术，只需要简单的配置，也可以无缝使用。
+
+
+
+假设我们前端框架想使用更轻量级的 `Bulma`，DOM 操作想使用 `Alpine.js`：
+
+
+
+1. 执行 `yarn add bulma` 以及 `yarn add alpinejs`，添加所需要的包
+2. 打开 `application.js` 文件，在其中引入 `alpine.js`：`require("alpinejs/dist/alpine.js");`。此时也可以看到，Buffalo 使用 `expose-loader` 引入了 jQuery。
+3. 打开 `application.scss` 文件，在其中引入 `bulma`，并删除 `bootstrap` 的引用：`@import "~bulma/bulma.sass";`。仍然保留对 `FontAwesome` 的引用。
+
+
+
+再次执行 buffalo dev，此时我们的环境已经准备好对刚刚引入的两个前端库的使用，丝般顺滑。
+
+
+
+接下来，按照我们所需要的方式，继续将样式写入到 `application.scss`，将 JS 写入`application.js` 文件即可。集成这些库比 Rails 的 Webpacker 更加简单。
