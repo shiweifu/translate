@@ -240,4 +240,4 @@ Buffalo 在这方面做的不错，基本做到开箱即用。这也是他吸引
 
 
 
-接下来，按照我们所需要的方式，继续将样式写入到 `application.scss`，将 JS 写入`application.js` 文件即可。集成这些库比 Rails 的 Webpacker 更加简单。
+接下来，按照我们所需要的方式，继续将样式写入到 `application.scss`，将 JS 写入`application.js` 文件即可。在 Buffalo 中，集成这些库比 Rails 的 Webpacker 更加简单。
