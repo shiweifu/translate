@@ -73,13 +73,28 @@ select json_extract(arr.value, '$.foo.bar') as bar
 
 
 
+我们也可以注册 JS 方法，他们可以被查询语句调用。下面通过 `getFlag` 方法，来说明一下，该方法获取某个国家的相关 `emoji`：
+
+```
+function getFlag(country_code) {
+  // just some unicode magic
+  return String.fromCodePoint(...Array.from(country_code||"")
+    .map(c => 127397 + c.codePointAt()));
+}
+
+await db.create_function("get_flag", getFlag)
+return await db.query(`
+  select long_name, get_flag("2-alpha_code") as flag from wdi_country
+    where region is not null and currency_unit = 'Euro';
+`)
+```
+
+此时，该网站完全部署在静态服务环境中（GitHub Pages）。
 
 
 
+那么，如何实现在静态服务的环境中使用数据库呢？首先，SQLite（C语言编写）由 WebAssembly进行编译。SQLite 不需要任何修改，即可被 [emscripten](https://emscripten.org/) 编译， 此外，[sql.js](https://github.com/sql-js/sql.js/) 是使用 wasm 的 JS 封装。
 
 
 
-
-
-
-
+sql.js 只允许你创建和读取内存数据库，所以，我又实现了一个虚拟文件系统，当 SQLite 尝试从文件系统中读取数据的时候，可以通过这个虚拟系统，经由 HTTP 来获取数据库的数据块：[sql.js-httpvfs](https://github.com/phiresky/sql.js-httpvfs)。对 SQLite 而言，它和在普通文件系统中读取数据，没什么两样，除了数据库文件名为 `/wdi.sqlite3`。当然，它不能写入数据库文件，但单单从数据库读取数据就很有用啦。
