@@ -98,3 +98,37 @@ return await db.query(`
 
 
 sql.js 只允许你创建和读取内存数据库，所以，我又实现了一个虚拟文件系统，当 SQLite 尝试从文件系统中读取数据的时候，可以通过这个虚拟系统，经由 HTTP 来获取数据库的数据块：[sql.js-httpvfs](https://github.com/phiresky/sql.js-httpvfs)。对 SQLite 而言，它和在普通文件系统中读取数据，没什么两样，除了数据库文件名为 `/wdi.sqlite3`。当然，它不能写入数据库文件，但单单从数据库读取数据就很有用啦。
+
+
+
+由 HTTP 加载数据库文件，开销巨大，我们需要以块为单位，获取数据，并在请求数量和所使用的带宽之间，找到平衡。幸运的是，SQLite 已经使用用户定义的页面大小，将其数据库组织为 “pages”。对于此数据库，我将设置页大小为 1 KiB。
+
+
+
+下面是一个查找索引的例子：
+
+```
+select indicator_code, long_definition from wdi_series where indicator_name
+    = 'Literacy rate, youth total (% of people ages 15-24)'
+```
+
+
+
+运行上面的查找例子，SQLite 在此查找中，找到了 7 个页。
+
+- 三页读取只是获取一些模式信息(这些信息已经被缓存了)
+- 两页读取是在wdi_series (indicator_name)上的索引中查找索引
+- 对wdi_series表数据进行两次页读取(第一次是根据主键查找行值，第二次是从溢出页获取文本数据)
+
+
+
+索引和表读取都是使用 B-Tree 进行查找。
+
+
+
+一个更复杂的问题是：根据2010年后的最新数据，哪些国家的青年识字率最低?
+
+
+
+
+
