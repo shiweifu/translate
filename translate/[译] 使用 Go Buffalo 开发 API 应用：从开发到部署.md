@@ -64,6 +64,49 @@ go get
 go mod tidy
 ```
 
+- 如果您收到错误的SQLite3将此导出到您的环境中应解决问题，则此似乎不是Go或Buffalo问题，而是关于LibsQlite3和GCC编译器的特定版本的问题。`export CGO_CFLAGS="-g -O2 -Wno-return-local-addr"`
+- 如果收到Packr的错误，请务必在操作/ app.go“github.com/gobuffalo/packr/v2中的导入语句中添加以下内容。
+
+
+
+### 设置数据库
+
+
+
+我们使用 Postgres 数据库，所以我们需要在 `database.yml` 文件中，设置有关数据库的内容。
+
+
+
+```
+development:
+  dialect: postgres
+  database: project1_development
+  user: test5
+  password: test5
+  host: 127.0.0.1
+  pool: 5
+
+test:
+  url: {{envOr "TEST_DATABASE_URL" "postgres://test5:test5@127.0.0.1:5432/project1_test?sslmode=disable"}}
+
+production:
+  url: {{envOr "DATABASE_URL" "postgres://test5:test5@127.0.0.1:5432/project1_production?sslmode=disable"}}
+```
+
+
+
+你的 postgres 设置也许不同，确保你的数据库用户名和密码所设置的内容，具有相关的权限。
+
+
+
+合并我们的 Todo Table
+
+
+
+第一步，让我们设置我们的 Todos。
+
+
+
 
 
 
