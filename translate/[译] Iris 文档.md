@@ -140,3 +140,124 @@ import "github.com/kataras/iris/v12/mvc"
 
 
 
+```
+m := mvc.New(booksAPI)
+m.Handle(new(BookController))
+```
+
+
+
+```
+type BookController struct {
+    /* dependencies */
+}
+
+// GET: http://localhost:8080/books
+func (c *BookController) Get() []Book {
+    return []Book{
+        {"Mastering Concurrency in Go"},
+        {"Go Design Patterns"},
+        {"Black Hat Go"},
+    }
+}
+
+// POST: http://localhost:8080/books
+func (c *BookController) Post(b Book) int {
+    println("Received Book: " + b.Title)
+
+    return iris.StatusCreated
+}
+```
+
+
+
+此时启动你的 Iris Web 服务：
+
+```
+$ go run main.go
+> Now listening on: http://localhost:8080
+> Application started. Press CTRL+C to shut down.
+```
+
+
+
+书籍列表：
+
+
+
+```
+$ curl --header 'Accept-Encoding:gzip' http://localhost:8080/books
+
+[
+  {
+    "title": "Mastering Concurrency in Go"
+  },
+  {
+    "title": "Go Design Patterns"
+  },
+  {
+    "title": "Black Hat Go"
+  }
+]
+```
+
+
+
+创建书籍：
+
+```
+$ curl -i -X POST \
+--header 'Content-Encoding:gzip' \
+--header 'Content-Type:application/json' \
+--data "{\"title\":\"Writing An Interpreter In Go\"}" \
+http://localhost:8080/books
+
+> HTTP/1.1 201 Created
+```
+
+
+
+此时的错误信息：
+
+
+
+```
+$ curl -X POST --data "{\"title\" \"not valid one\"}" \
+http://localhost:8080/books
+
+> HTTP/1.1 400 Bad Request
+
+{
+  "status": 400,
+  "title": "Book creation failure"
+  "detail": "invalid character '\"' after object key",
+}
+```
+
+
+
+### 性能测试
+
+
+
+Iris 使用一个自定义版的 [muxie](https://github.com/kataras/muxie)。
+
+[查看全部测试](https://github.com/kataras/server-benchmarks)
+
+📖 发起 200000 请求，带着动态的整数型参数，JSON 作为请求内容，然后再在响应中返回 JSON。
+
+
+
+```
+Name	Language	Reqs/sec	Latency	Throughput	Time To Complete
+Iris	Go	150430	826.05us	41.25MB	1.33s
+Chi	Go	146274	0.85ms	39.32MB	1.37s
+Gin	Go	141664	0.88ms	38.74MB	1.41s
+Echo	Go	138915	0.90ms	38.15MB	1.44s
+Kestrel	C#	136935	0.91ms	39.79MB	1.47s
+Martini	Go	128590	0.97ms	34.57MB	1.56s
+Buffalo	Go	58954	2.12ms	16.18MB	3.40s
+Koa	Javascript	50948	2.61ms	14.15MB	4.19s
+Express	Javascript	38451	3.24ms	13.77MB	5.21s
+```
+
