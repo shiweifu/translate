@@ -261,3 +261,99 @@ Koa	Javascript	50948	2.61ms	14.15MB	4.19s
 Express	Javascript	38451	3.24ms	13.77MB	5.21s
 ```
 
+
+
+### API 示例
+
+你可以找到一些准备好的示例：[Iris examples repository](https://github.com/iris-contrib/examples).
+
+
+
+#### 使用 GET，POST，PUT，PATCH，DELETE 和 OPTIONS
+
+
+
+```
+func main() {
+    // Creates an iris application with default middleware:
+    // Default with "debug" Logger Level.
+    // Localization enabled on "./locales" directory
+    // and HTML templates on "./views" or "./templates" directory.
+    // It runs with the AccessLog on "./access.log",
+    // Recovery (crash-free) and Request ID middleware already attached.
+    app := iris.Default()
+
+    app.Get("/someGet", getting)
+    app.Post("/somePost", posting)
+    app.Put("/somePut", putting)
+    app.Delete("/someDelete", deleting)
+    app.Patch("/somePatch", patching)
+    app.Header("/someHead", head)
+    app.Options("/someOptions", options)
+
+    app.Listen(":8080")
+}
+```
+
+
+
+#### 地址中带参数
+
+
+
+```
+func main() {
+    app := iris.Default()
+
+    // This handler will match /user/john but will not match /user/ or /user
+    app.Get("/user/{name}", func(ctx iris.Context) {
+        name := ctx.Params().Get("name")
+        ctx.Writef("Hello %s", name)
+    })
+
+    // However, this one will match /user/john/ and also /user/john/send
+    // If no other routers match /user/john, it will redirect to /user/john/
+    app.Get("/user/{name}/{action:path}", func(ctx iris.Context) {
+        name := ctx.Params().Get("name")
+        action := ctx.Params().Get("action")
+        message := name + " is " + action
+        ctx.WriteString(message)
+    })
+
+    // For each matched request Context will hold the route definition
+    app.Post("/user/{name:string}/{action:path}", func(ctx iris.Context) {
+        ctx.GetCurrentRoute().Tmpl().Src == "/user/{name:string}/{action:path}" // true
+    })
+
+    app.Listen(":8080")
+}
+```
+
+
+
+可以响应的参数类型：
+
+
+
+| Param Type      | Go Type | Validation                                                   | Retrieve Helper      |
+| --------------- | ------- | ------------------------------------------------------------ | -------------------- |
+| `:string`       | string  | anything (single path segment)                               | `Params().Get`       |
+| `:uuid`         | string  | uuidv4 or v1 (single path segment)                           | `Params().Get`       |
+| `:int`          | int     | -9223372036854775808 to 9223372036854775807 (x64) or -2147483648 to 2147483647 (x32), depends on the host arch | `Params().GetInt`    |
+| `:int8`         | int8    | -128 to 127                                                  | `Params().GetInt8`   |
+| `:int16`        | int16   | -32768 to 32767                                              | `Params().GetInt16`  |
+| `:int32`        | int32   | -2147483648 to 2147483647                                    | `Params().GetInt32`  |
+| `:int64`        | int64   | -9223372036854775808 to 9223372036854775807                  | `Params().GetInt64`  |
+| `:uint`         | uint    | 0 to 18446744073709551615 (x64) or 0 to 4294967295 (x32), depends on the host arch | `Params().GetUint`   |
+| `:uint8`        | uint8   | 0 to 255                                                     | `Params().GetUint8`  |
+| `:uint16`       | uint16  | 0 to 65535                                                   | `Params().GetUint16` |
+| `:uint32`       | uint32  | 0 to 4294967295                                              | `Params().GetUint32` |
+| `:uint64`       | uint64  | 0 to 18446744073709551615                                    | `Params().GetUint64` |
+| `:bool`         | bool    | "1" or "t" or "T" or "TRUE" or "true" or "True" or "0" or "f" or "F" or "FALSE" or "false" or "False" | `Params().GetBool`   |
+| `:alphabetical` | string  | lowercase or uppercase letters                               | `Params().Get`       |
+| `:file`         | string  | lowercase or uppercase letters, numbers, underscore (_), dash (-), point (.) and no spaces or other special characters that are not valid for filenames | `Params().Get`       |
+| `:path`         | string  | anything, can be separated by slashes (path segments) but should be the last part of the route path |                      |
+
+
+
+更多示例在此查看：[_examples/routing](https://github.com/kataras/iris/tree/master/_examples/routing).
