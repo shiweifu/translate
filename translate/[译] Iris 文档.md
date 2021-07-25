@@ -356,4 +356,173 @@ func main() {
 
 
 
-更多示例在此查看：[_examples/routing](https://github.com/kataras/iris/tree/master/_examples/routing).
+更多示例在此查看：[_examples/routing](https://github.com/kataras/iris/tree/master/_examples/routing)。
+
+
+
+#### 查询参数
+
+
+
+```
+func main() {
+    app := iris.Default()
+
+    // Query string parameters are parsed using the existing underlying request object.
+    // The request responds to a url matching:  /welcome?firstname=Jane&lastname=Doe
+    app.Get("/welcome", func(ctx iris.Context) {
+        firstname := ctx.URLParamDefault("firstname", "Guest")
+        lastname := ctx.URLParam("lastname") // shortcut for ctx.Request().URL.Query().Get("lastname")
+
+        ctx.Writef("Hello %s %s", firstname, lastname)
+    })
+    app.Listen(":8080")
+}
+```
+
+
+
+### [Multipart/Urlencoded Form](https://www.iris-go.com/docs/#/?id=multiparturlencoded-form)
+
+
+
+```
+func main() {
+    app := iris.Default()
+
+    app.Post("/form_post", func(ctx iris.Context) {
+        message := ctx.PostValue("message")
+        nick := ctx.PostValueDefault("nick", "anonymous")
+
+        ctx.JSON(iris.Map{
+            "status":  "posted",
+            "message": message,
+            "nick":    nick,
+        })
+    })
+    app.Listen(":8080")
+}
+```
+
+
+
+#### [Another example: query + post form](https://www.iris-go.com/docs/#/?id=another-example-query-post-form)
+
+
+
+```
+POST /post?id=1234&page=1 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+name=kataras&message=this_is_great
+```
+
+```
+func main() {
+    app := iris.Default()
+
+    app.Post("/post", func(ctx iris.Context) {
+        id, err := ctx.URLParamInt("id", 0)
+        if err != nil {
+            ctx.StopWithError(iris.StatusBadRequest, err)
+            return
+        }
+
+        page := ctx.URLParamIntDefault("page", 0)
+        name := ctx.PostValue("name")
+        message := ctx.PostValue("message")
+
+        ctx.Writef("id: %d; page: %d; name: %s; message: %s", id, page, name, message)
+    })
+    app.Listen(":8080")
+}
+```
+
+```
+id: 1234; page: 1; name: kataras; message: this_is_great
+```
+
+
+
+#### [Query and post form parameters](https://www.iris-go.com/docs/#/?id=query-and-post-form-parameters)
+
+
+
+```
+POST /post?id=a&id=b&id=c&name=john&name=doe&name=kataras
+Content-Type: application/x-www-form-urlencoded
+```
+
+```
+func main() {
+    app := iris.Default()
+
+    app.Post("/post", func(ctx iris.Context) {
+
+        ids := ctx.URLParamSlice("id")
+        names, err := ctx.PostValues("name")
+        if err != nil {
+            ctx.StopWithError(iris.StatusBadRequest, err)
+            return
+        }
+
+        ctx.Writef("ids: %v; names: %v", ids, names)
+    })
+    app.Listen(":8080")
+}
+```
+
+```
+ids: [a b c], names: [john doe kataras]
+```
+
+
+
+#### 上传文件
+
+
+
+##### 单个文件
+
+```
+const maxSize = 8 * iris.MB
+
+func main() {
+    app := iris.Default()
+
+    app.Post("/upload", func(ctx iris.Context) {
+        // Set a lower memory limit for multipart forms (default is 32 MiB)
+        ctx.SetMaxRequestBodySize(maxSize)
+        // OR
+        // app.Use(iris.LimitRequestBodySize(maxSize))
+        // OR
+        // OR iris.WithPostMaxMemory(maxSize)
+
+        // single file
+        file, fileHeader, err:= ctx.FormFile("file")
+        if err != nil {
+            ctx.StopWithError(iris.StatusBadRequest, err)
+            return
+        }
+
+        // Upload the file to specific destination.
+        dest := filepath.Join("./uploads", fileHeader.Filename)
+        ctx.SaveFormFile(file, dest)
+
+        ctx.Writef("File: %s uploaded!", fileHeader.Filename)
+    })
+
+    app.Listen(":8080")
+}
+```
+
+
+
+如何执行 `curl`：
+
+```
+curl -X POST http://localhost:8080/upload \
+  -F "file=@/Users/kataras/test.zip" \
+  -H "Content-Type: multipart/form-data"
+```
+
