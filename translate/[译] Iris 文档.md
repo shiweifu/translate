@@ -526,3 +526,145 @@ curl -X POST http://localhost:8080/upload \
   -H "Content-Type: multipart/form-data"
 ```
 
+
+
+### Multiple File
+
+
+
+更多细节请查看示例：[example code](https://github.com/kataras/iris/tree/master/_examples/file-server/upload-files)。
+
+
+
+```
+func main() {
+    app := iris.Default()
+    app.Post("/upload", func(ctx iris.Context) {
+        files, n, err := ctx.UploadFormFiles("./uploads")
+        if err != nil {
+            ctx.StopWithStatus(iris.StatusInternalServerError)
+            return
+        }
+
+        ctx.Writef("%d files of %d total size uploaded!", len(files), n))
+    })
+
+    app.Listen(":8080", iris.WithPostMaxMemory(8 * iris.MB))
+}
+```
+
+
+
+使用 `curl` 调用：
+
+
+
+```
+curl -X POST http://localhost:8080/upload \
+  -F "upload[]=@/Users/kataras/test1.zip" \
+  -F "upload[]=@/Users/kataras/test2.zip" \
+  -H "Content-Type: multipart/form-data"
+```
+
+
+
+### 路由组
+
+
+
+```
+func main() {
+    app := iris.Default()
+
+    // Simple group: v1
+    v1 := app.Party("/v1")
+    {
+        v1.Post("/login", loginEndpoint)
+        v1.Post("/submit", submitEndpoint)
+        v1.Post("/read", readEndpoint)
+    }
+
+    // Simple group: v2
+    v2 := app.Party("/v2")
+    {
+        v2.Post("/login", loginEndpoint)
+        v2.Post("/submit", submitEndpoint)
+        v2.Post("/read", readEndpoint)
+    }
+
+    app.Listen(":8080")
+}
+```
+
+
+
+### 空白的 Iris  App
+
+
+
+将
+
+```
+app := iris.New()
+```
+
+替换为
+
+```
+// Default with "debug" Logger Level.
+// Localization enabled on "./locales" directory
+// and HTML templates on "./views" or "./templates" directory.
+// It runs with the AccessLog on "./access.log",
+// Recovery and Request ID middleware already attached.
+app := iris.Default()
+```
+
+
+
+### 使用中间件
+
+
+
+```
+package main
+
+import (
+    "github.com/kataras/iris/v12"
+
+    "github.com/kataras/iris/v12/middleware/recover"
+)
+
+func main() {
+    // Creates an iris application without any middleware by default
+    app := iris.New()
+
+    // Global middleware using `UseRouter`.
+    //
+    // Recovery middleware recovers from any panics and writes a 500 if there was one.
+    app.UseRouter(recover.New())
+
+    // Per route middleware, you can add as many as you desire.
+    app.Get("/benchmark", MyBenchLogger(), benchEndpoint)
+
+    // Authorization group
+    // authorized := app.Party("/", AuthRequired())
+    // exactly the same as:
+    authorized := app.Party("/")
+    // per group middleware! in this case we use the custom created
+    // AuthRequired() middleware just in the "authorized" group.
+    authorized.Use(AuthRequired())
+    {
+        authorized.Post("/login", loginEndpoint)
+        authorized.Post("/submit", submitEndpoint)
+        authorized.Post("/read", readEndpoint)
+
+        // nested group
+        testing := authorized.Party("testing")
+        testing.Get("/analytics", analyticsEndpoint)
+    }
+
+    // Listen and serve on 0.0.0.0:8080
+    app.Listen(":8080")
+}
+```
+
