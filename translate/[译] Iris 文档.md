@@ -668,3 +668,107 @@ func main() {
 }
 ```
 
+
+
+应用文件日志
+
+
+
+```
+func main() {
+    app := iris.Default()
+    // Logging to a file.
+    // Colors are automatically disabled when writing to a file.
+    f, _ := os.Create("iris.log")
+    app.Logger().SetOutput(f)
+
+    // Use the following code if you need to write the logs
+    // to file and console at the same time.
+    // app.Logger().AddOutput(os.Stdout)
+
+    app.Get("/ping", func(ctx iris.Context) {
+        ctx.WriteString("pong")
+    })
+
+   app.Listen(":8080")
+}
+```
+
+
+
+#### 控制日志输出颜色
+
+
+
+默认情况下，终端日志输出的颜色，依赖检测到的 TTY。
+
+
+
+通常会想要自定义标题，文本颜色和样式。
+
+
+
+导入 `golang` 和 `pio`：
+
+
+
+```
+import (
+    "github.com/kataras/golog"
+    "github.com/kataras/pio"
+    // [...]
+)
+```
+
+
+
+获取一个用于自定义的日志等级。`DebugLevel`：
+
+
+
+```
+level := golog.Levels[golog.DebugLevel]
+```
+
+
+
+你可以完全控制它的文本，标题和样式：
+
+
+
+```
+// The Name of the Level
+// that named (lowercased) will be used
+// to convert a string level on `SetLevel`
+// to the correct Level type.
+Name string
+// AlternativeNames are the names that can be referred to this specific log level.
+// i.e Name = "warn"
+// AlternativeNames = []string{"warning"}, it's an optional field,
+// therefore we keep Name as a simple string and created this new field.
+AlternativeNames []string
+// Tha Title is the prefix of the log level.
+// See `ColorCode` and `Style` too.
+// Both `ColorCode` and `Style` should be respected across writers.
+Title string
+// ColorCode a color for the `Title`.
+ColorCode int
+// Style one or more rich options for the `Title`.
+Style []pio.RichOption
+```
+
+
+
+示例代码：
+
+
+
+```
+level := golog.Levels[golog.DebugLevel]
+level.Name = "debug" // default
+level.Title = "[DBUG]" // default
+level.ColorCode = pio.Yellow // default
+```
+
+
+
