@@ -772,3 +772,123 @@ level.ColorCode = pio.Yellow // default
 
 
 
+#### 改变输出格式
+
+```
+app.Logger().SetFormat("json", "    ")
+```
+
+
+
+#### 注册自定义的格式
+
+```
+app.Logger().RegisterFormatter(new(myFormatter))
+```
+
+
+
+[golog.Formatter interface](https://github.com/kataras/golog/blob/master/formatter.go) 接口看起来如下：
+
+```
+// Formatter is responsible to print a log to the logger's writer.
+type Formatter interface {
+    // The name of the formatter.
+    String() string
+    // Set any options and return a clone,
+    // generic. See `Logger.SetFormat`.
+    Options(opts ...interface{}) Formatter
+    // Writes the "log" to "dest" logger.
+    Format(dest io.Writer, log *Log) bool
+}
+```
+
+
+
+改变每一级的输出样式：
+
+```
+app.Logger().SetLevelOutput("error", os.Stderr)
+app.Logger().SetLevelFormat("json")
+```
+
+
+
+#### 请求记录
+
+
+
+在上面，我们已经看到了使用日志记录一些应用相关的信息和错误。日志的功能不止如此，接下来，我们将看到使用日志记录 HTTP 请求和响应。
+
+
+
+```
+package main
+
+import (
+    "os"
+
+    "github.com/kataras/iris/v12"
+    "github.com/kataras/iris/v12/middleware/accesslog"
+)
+
+// Read the example and its comments carefully.
+func makeAccessLog() *accesslog.AccessLog {
+    // Initialize a new access log middleware.
+    ac := accesslog.File("./access.log")
+    // Remove this line to disable logging to console:
+    ac.AddOutput(os.Stdout)
+
+    // The default configuration:
+    ac.Delim = '|'
+    ac.TimeFormat = "2006-01-02 15:04:05"
+    ac.Async = false
+    ac.IP = true
+    ac.BytesReceivedBody = true
+    ac.BytesSentBody = true
+    ac.BytesReceived = false
+    ac.BytesSent = false
+    ac.BodyMinify = true
+    ac.RequestBody = true
+    ac.ResponseBody = false
+    ac.KeepMultiLineError = true
+    ac.PanicLog = accesslog.LogHandler
+
+    // Default line format if formatter is missing:
+    // Time|Latency|Code|Method|Path|IP|Path Params Query Fields|Bytes Received|Bytes Sent|Request|Response|
+    //
+    // Set Custom Formatter:
+    ac.SetFormatter(&accesslog.JSON{
+        Indent:    "  ",
+        HumanTime: true,
+    })
+    // ac.SetFormatter(&accesslog.CSV{})
+    // ac.SetFormatter(&accesslog.Template{Text: "{{.Code}}"})
+
+    return ac
+}
+
+func main() {
+    ac := makeAccessLog()
+    defer ac.Close() // Close the underline file.
+
+    app := iris.New()
+    // Register the middleware (UseRouter to catch http errors too).
+    app.UseRouter(ac.Handler)
+
+    app.Get("/", indexHandler)
+
+    app.Listen(":8080")
+}
+
+func indexHandler(ctx iris.Context) {
+    ctx.WriteString("OK")
+}
+```
+
+
+
+详细示例请查看 [_examples/logging/request-logger](https://github.com/kataras/iris/tree/master/_examples/logging/request-logger)。
+
+
+
