@@ -892,3 +892,35 @@ func indexHandler(ctx iris.Context) {
 
 
 
+### 模型绑定及验证
+
+
+
+可以使用 model binding，来将请求内容绑定为具体的结构类型。当前支持绑定 `JSON`，`JSONProtobuf`，`Protobuf`，`MsgPack`，`XML`，`YAML` 以及标准的 form 键值形式（for=bar&boo=baz）。
+
+
+
+```
+ReadJSON(outPtr interface{}) error
+ReadJSONProtobuf(ptr proto.Message, opts ...ProtoUnmarshalOptions) error
+ReadProtobuf(ptr proto.Message) error
+ReadMsgPack(ptr interface{}) error
+ReadXML(outPtr interface{}) error
+ReadYAML(outPtr interface{}) error
+ReadForm(formObject interface{}) error
+ReadQuery(ptr interface{}) error
+```
+
+
+
+当使用 `ReadBody` 系列方法，Iris 尝试根据请求的 `Content-Type` 头，来推导请求的类型。如果你明确知道你要绑定的内容，你可以使用 `ReadXXX` 系列方法，来明确返回需要的类型。比如 `ReadJSON` 或者 `ReadProtobuf` 等等。
+
+
+
+```
+ReadBody(ptr interface{}) error
+```
+
+
+
+Iris 没有内置数据验证 。然而，它却允许你可以附带一个验证器，该验证器将自动调用 `ReadJSON`，`ReadXML` 等方法。本例中，我们将学习如何使用 `[go-playground/validator/v10](https://www.iris-go.com/docs/(https://github.com/go-playground/validator)) `，来对请求数据进行验证。
