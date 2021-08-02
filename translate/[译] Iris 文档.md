@@ -924,3 +924,171 @@ ReadBody(ptr interface{}) error
 
 
 Iris 没有内置数据验证 。然而，它却允许你可以附带一个验证器，该验证器将自动调用 `ReadJSON`，`ReadXML` 等方法。本例中，我们将学习如何使用 `[go-playground/validator/v10](https://www.iris-go.com/docs/(https://github.com/go-playground/validator)) `，来对请求数据进行验证。
+
+
+
+需要注意的是，所有你想要绑定的字段，你都需要设置该字段的的 tag。举个例子，当你绑定的是 JSON 结构，设置 `json:fieldname`。
+
+
+
+你可以指定某个字段是必须的。当字段的 tag 被标记为 `binding:"required"`时，如果这个字段为空，那么将会报错。
+
+
+
+```
+package main
+
+import (
+    "fmt"
+
+    "github.com/kataras/iris/v12"
+    "github.com/go-playground/validator/v10"
+)
+
+func main() {
+    app := iris.New()
+    app.Validator = validator.New()
+
+    userRouter := app.Party("/user")
+    {
+        userRouter.Get("/validation-errors", resolveErrorsDocumentation)
+        userRouter.Post("/", postUser)
+    }
+    app.Listen(":8080")
+}
+
+// User contains user information.
+type User struct {
+    FirstName      string     `json:"fname" validate:"required"`
+    LastName       string     `json:"lname" validate:"required"`
+    Age            uint8      `json:"age" validate:"gte=0,lte=130"`
+    Email          string     `json:"email" validate:"required,email"`
+    FavouriteColor string     `json:"favColor" validate:"hexcolor|rgb|rgba"`
+    Addresses      []*Address `json:"addresses" validate:"required,dive,required"`
+}
+
+// Address houses a users address information.
+type Address struct {
+    Street string `json:"street" validate:"required"`
+    City   string `json:"city" validate:"required"`
+    Planet string `json:"planet" validate:"required"`
+    Phone  string `json:"phone" validate:"required"`
+}
+
+type validationError struct {
+    ActualTag string `json:"tag"`
+    Namespace string `json:"namespace"`
+    Kind      string `json:"kind"`
+    Type      string `json:"type"`
+    Value     string `json:"value"`
+    Param     string `json:"param"`
+}
+
+func wrapValidationErrors(errs validator.ValidationErrors) []validationError {
+    validationErrors := make([]validationError, 0, len(errs))
+    for _, validationErr := range errs {
+        validationErrors = append(validationErrors, validationError{
+            ActualTag: validationErr.ActualTag(),
+            Namespace: validationErr.Namespace(),
+            Kind:      validationErr.Kind().String(),
+            Type:      validationErr.Type().String(),
+            Value:     fmt.Sprintf("%v", validationErr.Value()),
+            Param:     validationErr.Param(),
+        })
+    }
+
+    return validationErrors
+}
+
+func postUser(ctx iris.Context) {
+    var user User
+    err := ctx.ReadJSON(&user)
+    if err != nil {
+        // Handle the error, below you will find the right way to do that...
+
+        if errs, ok := err.(validator.ValidationErrors); ok {
+            // Wrap the errors with JSON format, the underline library returns the errors as interface.
+            validationErrors := wrapValidationErrors(errs)
+
+            // Fire an application/json+problem response and stop the handlers chain.
+            ctx.StopWithProblem(iris.StatusBadRequest, iris.NewProblem().
+                Title("Validation error").
+                Detail("One or more fields failed to be validated").
+                Type("/user/validation-errors").
+                Key("errors", validationErrors))
+
+            return
+        }
+
+        // It's probably an internal JSON error, let's dont give more info here.
+        ctx.StopWithStatus(iris.StatusInternalServerError)
+        return
+    }
+
+    ctx.JSON(iris.Map{"message": "OK"})
+}
+
+func resolveErrorsDocumentation(ctx iris.Context) {
+    ctx.WriteString("A page that should document to web developers or users of the API on how to resolve the validation errors")
+}
+```
+
+
+
+请求示例
+
+
+
+```
+{
+    "fname": "",
+    "lname": "",
+    "age": 45,
+    "email": "mail@example.com",
+    "favColor": "#000",
+    "addresses": [{
+        "street": "Eavesdown Docks",
+        "planet": "Persphone",
+        "phone": "none",
+        "city": "Unknown"
+    }]
+}
+```
+
+
+
+返回数据示例
+
+
+
+```
+{
+    "title": "Validation error",
+    "detail": "One or more fields failed to be validated",
+    "type": "http://localhost:8080/user/validation-errors",
+    "status": 400,
+    "fields": [
+    {
+        "tag": "required",
+        "namespace": "User.FirstName",
+        "kind": "string",
+        "type": "string",
+        "value": "",
+        "param": ""
+    },
+    {
+        "tag": "required",
+        "namespace": "User.LastName",
+        "kind": "string",
+        "type": "string",
+        "value": "",
+        "param": ""
+    }
+    ]
+}
+```
+
+
+
+
+
