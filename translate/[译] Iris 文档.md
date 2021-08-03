@@ -1090,5 +1090,100 @@ func resolveErrorsDocumentation(ctx iris.Context) {
 
 
 
+了解更多有关模型验证的内容： https://github.com/go-playground/validator/blob/master/_examples
+
+
+
+### 绑定查询字符串
+
+
+
+`ReadQuery` 方法只是绑定查询字符串，并不会绑定 post 数据，使用 `ReadForm` 替代 `ReadQuery` 来绑定 post data。
+
+
+
+```
+package main
+
+import "github.com/kataras/iris/v12"
+
+type Person struct {
+    Name    string `url:"name,required"`
+    Address string `url:"address"`
+}
+
+func main() {
+    app := iris.Default()
+    app.Any("/", index)
+    app.Listen(":8080")
+}
+
+func index(ctx iris.Context) {
+    var person Person
+    if err := ctx.ReadQuery(&person); err!=nil {
+        ctx.StopWithError(iris.StatusBadRequest, err)
+        return
+    }
+
+    ctx.Application().Logger().Infof("Person: %#+v", person)
+    ctx.WriteString("Success")
+}
+```
+
+
+
+### 绑定任意类型：Bind Any
+
+
+
+根据 `content-type` 的类型，来绑定请求传输的内容，如`JSON`，`XML`，`YAML`，`MessagePak`，`Protobuf`，`Form` 以及 `URL Query`。
+
+
+
+```
+package main
+
+import (
+    "time"
+
+    "github.com/kataras/iris/v12"
+)
+
+type Person struct {
+        Name       string    `form:"name" json:"name" url:"name" msgpack:"name"` 
+        Address    string    `form:"address" json:"address" url:"address" msgpack:"address"`
+        Birthday   time.Time `form:"birthday" time_format:"2006-01-02" time_utc:"1" json:"birthday" url:"birthday" msgpack:"birthday"`
+        CreateTime time.Time `form:"createTime" time_format:"unixNano" json:"create_time" url:"create_time" msgpack:"createTime"`
+        UnixTime   time.Time `form:"unixTime" time_format:"unix" json:"unix_time" url:"unix_time" msgpack:"unixTime"`
+}
+
+func main() {
+    app := iris.Default()
+    app.Any("/", index)
+    app.Listen(":8080")
+}
+
+func index(ctx iris.Context) {
+    var person Person
+    if err := ctx.ReadBody(&person); err!=nil {
+        ctx.StopWithError(iris.StatusBadRequest, err)
+        return
+    }
+
+    ctx.Application().Logger().Infof("Person: %#+v", person)
+    ctx.WriteString("Success")
+}
+```
+
+
+
+测试一波：
+
+
+
+```
+$ curl -X GET "localhost:8085/testing?name=kataras&address=xyz&birthday=1992-03-15&createTime=1562400033000000123&unixTime=1562400033"
+```
+
 
 
