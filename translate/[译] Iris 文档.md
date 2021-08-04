@@ -1187,3 +1187,168 @@ $ curl -X GET "localhost:8085/testing?name=kataras&address=xyz&birthday=1992-03-
 
 
 
+#### 绑定 URL 路径参数
+
+
+
+```
+package main
+
+import "github.com/kataras/iris/v12"
+
+type myParams struct {
+    Name string   `param:"name"`
+    Age  int      `param:"age"`
+    Tail []string `param:"tail"`
+}
+// All parameters are required, as we already know,
+// the router will fire 404 if name or int or tail are missing.
+
+func main() {
+    app := iris.Default()
+    app.Get("/{name}/{age:int}/{tail:path}", func(ctx iris.Context) {
+        var p myParams
+        if err := ctx.ReadParams(&p); err != nil {
+            ctx.StopWithError(iris.StatusInternalServerError, err)
+            return
+        }
+
+        ctx.Writef("myParams: %#v", p)
+    })
+    app.Listen(":8088")
+}
+```
+
+
+
+请求
+
+
+
+```
+$ curl -v http://localhost:8080/kataras/27/iris/web/framework
+```
+
+
+
+#### 绑定头
+
+
+
+````
+package main
+
+import "github.com/kataras/iris/v12"
+
+
+type myHeaders struct {
+    RequestID      string `header:"X-Request-Id,required"`
+    Authentication string `header:"Authentication,required"`
+}
+
+func main() {
+    app := iris.Default()
+    r.GET("/", func(ctx iris.Context) {
+        var hs myHeaders
+        if err := ctx.ReadHeaders(&hs); err != nil {
+            ctx.StopWithError(iris.StatusInternalServerError, err)
+            return
+        }
+
+        ctx.JSON(hs)
+    })
+
+    app.Listen(":8080")
+}
+````
+
+
+
+
+
+请求
+
+```
+curl -H "x-request-id:373713f0-6b4b-42ea-ab9f-e2e04bc38e73" -H "authentication: Bearer my-token" \
+http://localhost:8080
+```
+
+
+
+响应
+
+```
+{
+  "RequestID": "373713f0-6b4b-42ea-ab9f-e2e04bc38e73",
+  "Authentication": "Bearer my-token"
+}
+```
+
+
+
+#### 绑定 HTML 复选框
+
+
+
+```
+package main
+
+import "github.com/kataras/iris/v12"
+
+func main() {
+    app := iris.New()
+    app.RegisterView(iris.HTML("./templates", ".html"))
+
+    app.Get("/", showForm)
+    app.Post("/", handleForm)
+
+    app.Listen(":8080")
+}
+
+func showForm(ctx iris.Context) {
+    ctx.View("form.html")
+}
+
+type formExample struct {
+    Colors []string `form:"colors[]"` // or just "colors".
+}
+
+func handleForm(ctx iris.Context) {
+    var form formExample
+    err := ctx.ReadForm(&form)
+    if err != nil {
+        ctx.StopWithError(iris.StatusBadRequest, err)
+        return
+    }
+
+    ctx.JSON(iris.Map{"Colors": form.Colors})
+}
+```
+
+
+
+**templates/form.html**
+
+
+
+```
+<form action="/" method="POST">
+    <p>Check one or more colors</p>
+
+    <label for="red">Red</label>
+    <!-- name can be "colors" too -->
+    <input type="checkbox" name="colors[]" value="red" id="red">
+    <label for="green">Green</label>
+    <input type="checkbox" name="colors[]" value="green" id="green">
+    <label for="blue">Blue</label>
+    <input type="checkbox" name="colors[]" value="blue" id="blue">
+    <input type="submit">
+</form>
+```
+
+
+
+
+
+
+
