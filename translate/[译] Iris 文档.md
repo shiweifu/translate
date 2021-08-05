@@ -1348,6 +1348,123 @@ func handleForm(ctx iris.Context) {
 
 
 
+#### 响应
+
+
+
+```
+{
+  "Colors": [
+    "red",
+    "green",
+    "blue"
+  ]
+}
+```
+
+
+
+#### JSON, JSONP, XML, Markdown, YAML 以及 MsgPack 的渲染
+
+
+
+在此查看完整示例 [https://github.com/kataras/iris/tree/master/_examples/response-writer/write-rest](https://github.com/kataras/iris/tree/master/_examples/response-writer/write-rest)。
+
+
+
+```
+func main() {
+    app := iris.New()
+
+    // iris.Map is an alias of map[string]interface{}
+    app.Get("/json", func(ctx iris.Context) {
+        ctx.JSON(iris.Map{"message": "hello", "status": iris.StatusOK})
+    })
+
+    // Use Secure field to prevent json hijacking.
+    // It prepends `"while(1),"` to the body when the data is array.
+    app.Get("/json_secure", func(ctx iris.Context) {
+        response := []string{"val1", "val2", "val3"}
+        options := iris.JSON{Indent: "", Secure: true}
+        ctx.JSON(response, options)
+
+        // Will output: while(1);["val1","val2","val3"]
+    })
+
+    // Use ASCII field to generate ASCII-only JSON
+    // with escaped non-ASCII characters.
+    app.Get("/json_ascii", func(ctx iris.Context) {
+        response := iris.Map{"lang": "GO-虹膜", "tag": "<br>"}
+        options := iris.JSON{Indent: "    ", ASCII: true}
+        ctx.JSON(response, options)
+
+        /* Will output:
+           {
+               "lang": "GO-\u8679\u819c",
+               "tag": "\u003cbr\u003e"
+           }
+        */
+    })
+
+    // Normally, JSON replaces special HTML characters with their unicode entities.
+    // If you want to encode such characters literally,
+    // you SHOULD set the UnescapeHTML field to true.
+    app.Get("/json_raw", func(ctx iris.Context) {
+        options := iris.JSON{UnescapeHTML: true}
+        ctx.JSON(iris.Map{
+            "html": "<b>Hello, world!</b>",
+        }, options)
+
+        // Will output: {"html":"<b>Hello, world!</b>"}
+    })
+
+    app.Get("/json_struct", func(ctx iris.Context) {
+        // You also can use a struct.
+        var msg struct {
+            Name    string `json:"user"`
+            Message string
+            Number  int
+        }
+        msg.Name = "Mariah"
+        msg.Message = "hello"
+        msg.Number = 42
+        // Note that msg.Name becomes "user" in the JSON.
+        // Will output: {"user": "Mariah", "Message": "hello", "Number": 42}
+        ctx.JSON(msg)
+    })
+
+    app.Get("/jsonp", func(ctx iris.Context) {
+        ctx.JSONP(iris.Map{"hello": "jsonp"}, iris.JSONP{Callback: "callbackName"})
+    })
+
+    app.Get("/xml", func(ctx iris.Context) {
+        ctx.XML(iris.Map{"message": "hello", "status": iris.StatusOK})
+    })
+
+    app.Get("/markdown", func(ctx iris.Context) {
+        ctx.Markdown([]byte("# Hello Dynamic Markdown -- iris"))
+    })
+
+    app.Get("/yaml", func(ctx iris.Context) {
+        ctx.YAML(iris.Map{"message": "hello", "status": iris.StatusOK})
+    })
+
+    app.Get("/msgpack", func(ctx iris.Context) {
+        u := User{
+            Firstname: "John",
+            Lastname:  "Doe",
+            City:      "Neither FBI knows!!!",
+            Age:       25,
+        }
+
+        ctx.MsgPack(u)
+    })
+
+    // Render using jsoniter instead of the encoding/json:
+    app.Listen(":8080", iris.WithOptimizations)
+}
+```
+
 
 
 
