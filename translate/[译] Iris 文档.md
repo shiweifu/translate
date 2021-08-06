@@ -1467,5 +1467,147 @@ func main() {
 
 
 
+#### Protobuf
 
+
+
+Iris 支持本地 protobuf 通过 `Protobuf`，以及 protobuf 和 JSON 之间的转换。
+
+
+
+```
+package main
+
+import (
+    "app/protos"
+
+    "github.com/kataras/iris/v12"
+)
+
+func main() {
+    app := iris.New()
+
+    app.Get("/", send)
+    app.Get("/json", sendAsJSON)
+    app.Post("/read", read)
+    app.Post("/read_json", readFromJSON)
+
+    app.Listen(":8080")
+}
+
+func send(ctx iris.Context) {
+    response := &protos.HelloReply{Message: "Hello, World!"}
+    ctx.Protobuf(response)
+}
+
+func sendAsJSON(ctx iris.Context) {
+    response := &protos.HelloReply{Message: "Hello, World!"}
+    options := iris.JSON{
+        Proto: iris.ProtoMarshalOptions{
+            AllowPartial: true,
+            Multiline:    true,
+            Indent:       "    ",
+        },
+    }
+
+    ctx.JSON(response, options)
+}
+
+func read(ctx iris.Context) {
+    var request protos.HelloRequest
+
+    err := ctx.ReadProtobuf(&request)
+    if err != nil {
+        ctx.StopWithError(iris.StatusBadRequest, err)
+        return
+    }
+
+    ctx.Writef("HelloRequest.Name = %s", request.Name)
+}
+
+func readFromJSON(ctx iris.Context) {
+    var request protos.HelloRequest
+
+    err := ctx.ReadJSONProtobuf(&request)
+    if err != nil {
+        ctx.StopWithError(iris.StatusBadRequest, err)
+        return
+    }
+
+    ctx.Writef("HelloRequest.Name = %s", request.Name)
+}
+
+```
+
+
+
+### 静态文件服务
+
+
+
+```
+func main() {
+    app := iris.New()
+    app.Favicon("./resources/favicon.ico")
+    app.HandleDir("/assets", iris.Dir("./assets"))
+
+    app.Listen(":8080")
+}
+```
+
+
+
+`HandleDir` 方法接收第三个，可选的参数，`DirOptions`：
+
+
+
+```
+type DirOptions struct {
+    // Defaults to "/index.html", if request path is ending with **/*/$IndexName
+    // then it redirects to **/*(/) which another handler is handling it,
+    // that another handler, called index handler, is auto-registered by the framework
+    // if end developer does not managed to handle it by hand.
+    IndexName string
+    // PushTargets filenames (map's value) to
+    // be served without additional client's requests (HTTP/2 Push)
+    // when a specific request path (map's key WITHOUT prefix)
+    // is requested and it's not a directory (it's an `IndexFile`).
+    //
+    // Example:
+    //     "/": {
+    //         "favicon.ico",
+    //         "js/main.js",
+    //         "css/main.css",
+    //     }
+    PushTargets map[string][]string
+    // PushTargetsRegexp like `PushTargets` but accepts regexp which
+    // is compared against all files under a directory (recursively).
+    // The `IndexName` should be set.
+    //
+    // Example:
+    // "/": regexp.MustCompile("((.*).js|(.*).css|(.*).ico)$")
+    // See `iris.MatchCommonAssets` too.
+    PushTargetsRegexp map[string]*regexp.Regexp
+
+    // Cache to enable in-memory cache and pre-compress files.
+    Cache DirCacheOptions
+    // When files should served under compression.
+    Compress bool
+
+    // List the files inside the current requested directory if `IndexName` not found.
+    ShowList bool
+    // If `ShowList` is true then this function will be used instead
+    // of the default one to show the list of files of a current requested directory(dir).
+    // See `DirListRich` package-level function too.
+    DirList DirListFunc
+
+    // Files downloaded and saved locally.
+    Attachments Attachments
+
+    // Optional validator that loops through each requested resource.
+    AssetValidator func(ctx *context.Context, name string) bool
+}
+```
+
+了解更多有关文件服务的内容：[file-server](https://github.com/kataras/iris/tree/master/_examples/file-server).
 
