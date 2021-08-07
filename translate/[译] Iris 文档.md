@@ -1611,3 +1611,92 @@ type DirOptions struct {
 
 了解更多有关文件服务的内容：[file-server](https://github.com/kataras/iris/tree/master/_examples/file-server).
 
+
+
+#### 上下文提供数据
+
+
+
+```go
+SendFile(filename string, destinationName string) error
+SendFileWithRate(src, destName string, limit float64, burst int) error
+```
+
+
+
+##### 使用
+
+
+
+强制传输文件给客户端：
+
+```go
+func handler(ctx iris.Context) {
+    src := "./files/first.zip"
+    ctx.SendFile(src, "client.zip")
+}
+```
+
+
+
+限制传输速度 ~50Kb/s 到 100KB之间:
+
+```
+func handler(ctx iris.Context) {
+    src := "./files/big.zip"
+    // optionally, keep it empty to resolve the filename based on the "src".
+    dest := "" 
+
+    limit := 50.0 * iris.KB
+    burst := 100 * iris.KB
+    ctx.SendFileWithRate(src, dest, limit, burst)
+}
+```
+
+
+
+```
+ServeContent(content io.ReadSeeker, filename string, modtime time.Time)
+ServeContentWithRate(content io.ReadSeeker, filename string, modtime time.Time, limit float64, burst int)
+
+ServeFile(filename string) error
+ServeFileWithRate(filename string, limit float64, burst int) error
+```
+
+
+
+##### 使用
+
+```
+func handler(ctx iris.Context) {
+    ctx.ServeFile("./public/main.js")
+}
+```
+
+
+
+#### 模板渲染
+
+
+
+Iris 内置对 8 种模板的支持，开箱即用，此外，开发者也可以自己扩展 Golang 模板引擎，`Context.ResponseWriter()` 是一个 `io.Writer`。
+
+
+
+所有模板引擎，具有相同的接口，如解析嵌入式资源，布局，和指定特殊的布局，设定模板方法，片段渲染等。
+
+
+
+| #    | Name       | Parser                                                  |
+| ---- | ---------- | :------------------------------------------------------ |
+| 1    | HTML       | [html/template](https://pkg.go.dev/html/template)       |
+| 2    | Blocks     | [kataras/blocks](https://github.com/kataras/blocks)     |
+| 3    | Django     | [flosch/pongo2](https://github.com/flosch/pongo2)       |
+| 4    | Pug        | [Joker/jade](https://github.com/Joker/jade)             |
+| 5    | Handlebars | [aymerick/raymond](https://github.com/aymerick/raymond) |
+| 6    | Amber      | [eknkc/amber](https://github.com/eknkc/amber)           |
+| 7    | Jet        | [CloudyKit/jet](https://github.com/CloudyKit/jet)       |
+| 8    | Ace        | [yosssi/ace](https://github.com/yosssi/ace)             |
+
+
+
