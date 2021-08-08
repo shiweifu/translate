@@ -1700,3 +1700,76 @@ Iris 内置对 8 种模板的支持，开箱即用，此外，开发者也可以
 
 
 
+[示例列表](https://github.com/kataras/iris/tree/master/_examples/view)。
+
+[测试列表](https://dev.to/kataras/what-s-the-fastest-template-parser-in-go-4bal)。
+
+
+
+视图引擎可以被注册为每一个部分。注册视图引擎，使用 `Application/Party.RegisterView(ViewEngine)` 方法，如下面所示。
+
+
+
+使用 `html/template` 包，加载全部 `./views` 文件夹中，以 `.html` 扩展名结尾的模板：
+
+
+
+```
+// [app := iris.New...]
+tmpl := iris.HTML("./views", ".html")
+app.RegisterView(tmpl)
+```
+
+
+
+在 main 中 `route` 的处理函数中，使用 `Content.view` 方法，**渲染或者执行**：
+
+
+
+```
+ctx.View("hi.html")
+```
+
+
+
+通过中间件，`bind` 视图中的Go 键值对，或者 `main` 函数，在 `Content.View` 之前，使用 `Context.ViewData` 方法。
+
+
+
+`Bind` `{{.message}}` 为 `"Hello world!"`。
+
+
+
+```
+ctx.ViewData("message", "Hello world!")
+```
+
+
+
+Root 绑定：
+
+```
+ctx.View("user-page.html", User{})
+
+// root binding as {{.Name}}
+```
+
+
+
+使用 `AddFunc` 向模板引擎注册函数，并传递给视图引擎。
+
+
+
+```
+//       func name, input arguments, render value
+tmpl.AddFunc("greet", func(s string) string {
+    return "Greetings " + s + "!"
+})
+```
+
+
+
+
+
+
+
