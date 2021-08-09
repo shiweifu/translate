@@ -1769,6 +1769,95 @@ tmpl.AddFunc("greet", func(s string) string {
 
 
 
+调用引擎的 `Reload` 方法，重新加载模板引擎。
+
+
+
+```
+tmpl.Reload(true)
+```
+
+
+
+要将资源嵌入到可执行文件中，可以借助第三方工具 [go-bindata](https://github.com/go-bindata/go-bindata)，然后传递 `AssetFile()` 进去，作为引擎的视图文件搜索目录。
+
+
+
+```
+ tmpl := iris.HTML(AssetFile(), ".html")
+```
+
+
+
+模板代码：
+
+
+
+```
+// file: main.go
+package main
+
+import "github.com/kataras/iris/v12"
+
+func main() {
+    app := iris.New()
+
+    // Parse all templates from the "./views" folder
+    // where extension is ".html" and parse them
+    // using the standard `html/template` package.
+    tmpl := iris.HTML("./views", ".html")
+    // Set custom delimeters.
+    tmpl.Delims("{{", "}}")
+    // Enable re-build on local template files changes.
+    tmpl.Reload(true)
+
+    // Default template funcs are:
+    //
+    // - {{ urlpath "myNamedRoute" "pathParameter_ifNeeded" }}
+    // - {{ render "header.html" }}
+    // and partial relative path to current page:
+    // - {{ render_r "header.html" }} 
+    // - {{ yield }}
+    // - {{ current }}
+    // Register a custom template func:
+    tmpl.AddFunc("greet", func(s string) string {
+        return "Greetings " + s + "!"
+    })
+
+    // Register the view engine to the views,
+    // this will load the templates.
+    app.RegisterView(tmpl)
+
+    // Method:    GET
+    // Resource:  http://localhost:8080
+    app.Get("/", func(ctx iris.Context) {
+        // Bind: {{.message}} with "Hello world!"
+        ctx.ViewData("message", "Hello world!")
+        // Render template file: ./views/hi.html
+        ctx.View("hi.html")
+    })
+
+    app.Listen(":8080")
+}
+```
+
+
+
+```
+<!-- file: ./views/hi.html -->
+<html>
+<head>
+    <title>Hi Page</title>
+</head>
+<body>
+    <h1>{{.message}}</h1>
+    <strong>{{greet "to you"}}</strong>
+</body>
+</html>
+```
+
+
+
 
 
 
