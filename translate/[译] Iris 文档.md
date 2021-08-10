@@ -1858,6 +1858,109 @@ func main() {
 
 
 
+打开浏览器，访问 [http://localhost:8080](http://localhost:8080/)，此时会返回如下内容：
+
+
+
+```
+<html>
+<head>
+    <title>Hi Page</title>
+</head>
+<body>
+    <h1>Hello world!</h1>
+    <strong>Greetings to you!</strong>
+</body>
+</html>
+```
+
+
+
+#### 多模板
+
+
+
+Iris 并没有限制每个应用注册的模板数量限制。除此之外，你还可以为每个 Party 或者中间层，注册一个视图模板。
+
+
+
+```
+// Register a view engine per group of routes.
+adminGroup := app.Party("/admin")
+adminGroup.RegisterView(iris.Blocks("./views/admin", ".html"))
+```
+
+
+
+#### 中间层
+
+
+
+```
+func middleware(views iris.ViewEngine) iris.Handler {
+    return func(ctx iris.Context) {
+        ctx.ViewEngine(views)
+        ctx.Next()
+    }
+}
+```
+
+
+
+#### 使用
+
+
+
+```
+// Register a view engine on-fly for the current chain of handlers.
+views := iris.Blocks("./views/on-fly", ".html")
+views.Load()
+
+app.Get("/", setViews(views), onFly)
+```
+
+
+
+#### 重定向
+
+
+
+发出 HTTP 重定向很容易。内部跳转和外部跳转都被支持。跳转时，我们可以指定路径，子域名，域名和其他。
+
+
+
+#### From 处理
+
+```
+app.Get("/", func(ctx iris.Context) {
+    ctx.Redirect("https://golang.org/dl", iris.StatusMovedPermanently)
+})
+```
+
+
+
+#### 当收到 POST 时跳转
+
+
+
+```
+app.Post("/", func(ctx iris.Context) {
+    ctx.Redirect("/login", iris.StatusFound)
+})
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
