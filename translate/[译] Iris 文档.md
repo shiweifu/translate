@@ -1951,7 +1951,81 @@ app.Post("/", func(ctx iris.Context) {
 
 
 
+由 `Application.ServeHTTPC` 或者 `Exec()` 发出的重定向，如下所示：
 
+
+
+```
+app.Get("/test", func(ctx iris.Context) {
+    r := ctx.Request()
+    r.URL.Path = "/test2"
+
+    ctx.Application().ServeHTTPC(ctx)
+    // OR
+    // ctx.Exec("GET", "/test2")
+})
+
+app.Get("/test2", func(ctx iris.Context) {
+    ctx.JSON(iris.Map{"hello": "world"})
+})
+```
+
+
+
+#### Globally
+
+
+
+使用我们喜欢的语法。
+
+```
+import "github.com/kataras/iris/v12/middleware/rewrite"
+```
+
+```
+func main() {
+    app := iris.New()
+    // [...routes]
+    redirects := rewrite.Load("redirects.yml")
+    app.WrapRouter(redirects)
+    app.Listen(":80")
+}
+```
+
+
+
+`"redirects.yml"` 文件看起来如下：
+
+
+
+```
+RedirectMatch:
+  # Redirects /seo/* to /*
+  - 301 /seo/(.*) /$1
+
+  # Redirects /docs/v12* to /docs
+  - 301 /docs/v12(.*) /docs
+
+  # Redirects /old(.*) to /
+  - 301 /old(.*) /
+
+  # Redirects http or https://test.* to http or https://newtest.*
+  - 301 ^(http|https)://test.(.*) $1://newtest.$2
+
+  # Handles /*.json or .xml as *?format=json or xml,
+  # without redirect. See /users route.
+  # When Code is 0 then it does not redirect the request,
+  # instead it changes the request URL
+  # and leaves a route handle the request.
+  - 0 /(.*).(json|xml) /$1?format=$2
+
+# Redirects root domain to www.
+# Creation of a www subdomain inside the Application is unnecessary,
+# all requests are handled by the root Application itself.
+PrimarySubdomain: www
+```
+
+完整代码参考： [rewrite 中间件示例](https://github.com/kataras/iris/tree/master/_examples/routing/rewrite)。
 
 
 
