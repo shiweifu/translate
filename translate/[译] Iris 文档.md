@@ -2029,6 +2029,176 @@ PrimarySubdomain: www
 
 
 
+#### 自定义中间件
+
+
+
+```
+func Logger() iris.Handler {
+    return func(ctx iris.Context) {
+        t := time.Now()
+
+        // Set a shared variable between handlers
+        ctx.Values().Set("framework", "iris")
+
+        // before request
+
+        ctx.Next()
+
+        // after request
+        latency := time.Since(t)
+        log.Print(latency)
+
+        // access the status we are sending
+        status := ctx.GetStatusCode()
+        log.Println(status)
+    }
+}
+
+func main() {
+    app := iris.New()
+    app.Use(Logger())
+
+    app.Get("/test", func(ctx iris.Context) {
+        // retrieve a value set by the middleware.
+        framework := ctx.Values().GetString("framework")
+
+        // it would print: "iris"
+        log.Println(framework)
+    })
+
+    app.Listen(":8080")
+}
+```
+
+
+
+#### 使用 [Basic Authentication](https://www.iris-go.com/docs/#/?id=using-basic-authentication)
+
+
+
+HTTP Basic Authentication  是实现对 Web 资源访问控制最简单的方式，它不依赖 Cookies，Session，或者登录页。 HTTP Basic Authentication 只是用到 HTTP 头。
+
+
+
+Iris 已经引入了 Basic Authentication 中间件，所以你不需要单独安装它。
+
+
+
+1. 引入中间件
+
+
+
+```
+import "github.com/kataras/iris/v12/middleware/basicauth"
+```
+
+
+
+2. 通过 Options 结构，配置中间件
+
+
+
+```
+opts := basicauth.Options{
+    Allow: basicauth.AllowUsers(map[string]string{
+        "username": "password",
+    }),
+    Realm:        "Authorization Required",
+    ErrorHandler: basicauth.DefaultErrorHandler,
+    // [...more options]
+}
+```
+
+
+
+3. 初始化中间件
+
+
+
+```
+auth := basicauth.New(opts)
+```
+
+
+
+3.1 上面的步骤相等于 `Default` 方法：
+
+
+
+```
+auth := basicauth.Default(map[string]string{
+    "username": "password",
+})
+```
+
+
+
+3.2 使用自定义分割用户：
+
+
+
+```
+// The struct value MUST contain a Username and Passwords fields
+// or GetUsername() string and GetPassword() string methods.
+type User struct {
+    Username string
+    Password string
+}
+
+// [...]
+auth := basicauth.Default([]User{...})
+```
+
+
+
+3.3 从文件中，加载加密后的密码和用户名，使用 [golang.org/x/crypto/bcrypt](https://golang.org/x/crypto/bcrypt) 包：
+
+
+
+```
+auth := basicauth.Load("users.yml", basicauth.BCRYPT)
+```
+
+
+
+3.3.1 相同的功能也可以使用 `Options` 来实现：
+
+
+
+```
+opts := basicauth.Options{
+    Allow: basicauth.AllowUsersFile("users.yml", basicauth.BCRYPT),
+    Realm: basicauth.DefaultRealm,
+    // [...more options]
+}
+
+auth := basicauth.New(opts)
+```
+
+
+
+此时 `users.yml` 文件看起来如下：
+
+
+
+```
+- username: kataras
+  password: $2a$10$Irg8k8HWkDlvL0YDBKLCYee6j6zzIFTplJcvZYKA.B8/clHPZn2Ey
+  # encrypted of kataras_pass
+  role: admin
+- username: makis
+  password: $2a$10$3GXzp3J5GhHThGisbpvpZuftbmzPivDMo94XPnkTnDe7254x7sJ3O
+  # encrypted of makis_pass
+  role: member
+```
+
+
+
+
+
+
+
 
 
 
