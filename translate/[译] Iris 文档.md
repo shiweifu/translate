@@ -2195,15 +2195,159 @@ auth := basicauth.New(opts)
 
 
 
+#### 注册中间件
 
 
 
+```
+// Register to all matched routes
+// under a Party and its children.
+app.Use(auth)
+
+// OR/and register to all http error routes.
+app.UseError(auth)
+
+// OR register under a path prefix of a specific Party,
+// including all http errors of this path prefix.
+app.UseRouter(auth)
+
+// OR register to a specific Route before its main handler.
+app.Post("/protected", auth, routeHandler)
+```
 
 
 
+#### 5. 读取 username 以及 password：
 
 
 
+```
+func routeHandler(ctx iris.Context) {
+    username, password, _ := ctx.Request().BasicAuth()
+    // [...]
+}
+```
+
+
+
+#### 5.1 读取 User 值（当你在 Options.AllowUsers 中，注册一个自定义用户结构体时用到）
+
+
+
+```
+func routeHandler(ctx iris.Context) {
+    user := ctx.User().(*iris.SimpleUser)
+    // user.Username
+    // user.Password
+}
+```
+
+了解更多有关身份验证的示例：[_examples/auth](https://github.com/kataras/iris/tree/master/_examples/auth)。
+
+
+
+#### 在中间件中，使用 Goroutines
+
+
+
+当在处理器或者中间件中，开始一个新的 goroutines 时，你不能使用可变的上下文，你必须使用只读的对象。
+
+
+
+```
+func main() {
+    app := iris.Default()
+
+    app.Get("/long_async", func(ctx iris.Context) {
+        // create a clone to be used inside the goroutine
+        ctxCopy := ctx.Clone()
+        go func() {
+            // simulate a long task with time.Sleep(). 5 seconds
+            time.Sleep(5 * time.Second)
+
+            // note that you are using the copied context "ctxCopy", IMPORTANT
+            log.Printf("Done! in path: %s", ctxCopy.Path())
+        }()
+    })
+
+    app.Get("/long_sync", func(ctx iris.Context) {
+        // simulate a long task with time.Sleep(). 5 seconds
+        time.Sleep(5 * time.Second)
+
+        // since we are NOT using a goroutine, we do not have to copy the context
+        log.Printf("Done! in path: %s", ctx.Path())
+    })
+
+    app.Listen(":8080")
+}
+```
+
+
+
+#### 自定义 HTTP 配置
+
+
+
+ [_examples/http-server](https://github.com/kataras/iris/tree/master/_examples/http-server) 目录中，有超过 12 种关于服务端的配置。
+
+
+
+直接使用 `http.ListenAndServe()`，来开启一个服务端：
+
+
+
+```
+func main() {
+    app := iris.New()
+    // [...routes]
+    if err := app.Build(); err!=nil{
+        panic(err)
+    }
+    http.ListenAndServe(":8080", app)
+}
+```
+
+
+
+值得注意的是，你需要手动调用 `Build` 方法，来构建应用和路由系统。
+
+
+
+另一个例子：
+
+
+
+```
+func main() {
+    app := iris.New()
+    // [...routes]
+    app.Build()
+
+    srv := &http.Server{
+        Addr:           ":8080",
+        Handler:        app,
+        ReadTimeout:    10 * time.Second,
+        WriteTimeout:   10 * time.Second,
+        MaxHeaderBytes: 1 << 20,
+    }
+    srv.ListenAndServe()
+}
+```
+
+
+
+因此，你需要额外的 Iris 实例，来操作 `http.Server`。你可以通过 `Application.Run` 来使用任意的 `tcp listener` 来监听，http server 或者一个自定义的方法。
+
+```
+app.Run(iris.Listener(l net.Listener)) // listen using a custom net.Listener
+app.Run(iris.Server(srv *http.Server)) // listen using a custom http.Server
+app.Run(iris.Addr(addr string)) // the app.Listen is a shortcut of this method.
+app.Run(iris.TLS(addr string, certFileOrContents, keyFileOrContents string)) // listen TLS.
+app.Run(iris.AutoTLS(addr, domain, email string)) // listen using letsencrypt (see below).
+
+// and any custom function that returns an error:
+app.Run(iris.Raw(f func() error))
+```
 
 
 
