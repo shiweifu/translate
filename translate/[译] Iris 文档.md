@@ -2351,5 +2351,96 @@ app.Run(iris.Raw(f func() error))
 
 
 
+#### Socket Sharding
+
+
+
+这个选项允许在多个 CPU 服务的情况下，改善服务器的性能。更多相关信息请查看   https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/。这个设置通过 `iris.WithSocketSharding` 来打开。
+
+
+
+示例代码：
+
+
+
+```
+package main
+
+import (
+    "time"
+
+    "github.com/kataras/iris/v12"
+)
+
+func main() {
+    startup := time.Now()
+
+    app := iris.New()
+    app.Get("/", func(ctx iris.Context) {
+        s := startup.Format(ctx.Application().ConfigurationReadOnly().GetTimeFormat())
+        ctx.Writef("This server started at: %s\n", s)
+    })
+
+    app.Listen(":8080", iris.WithSocketSharding)
+    // or app.Run(..., iris.WithSocketSharding)
+}
+```
+
+
+
+#### 支持 Let's Encrypt
+
+
+
+关于 Let's Encrypt 的示例代码：
+
+
+
+````
+package main
+
+import (
+    "log"
+
+    "github.com/iris-gonic/autotls"
+    "github.com/kataras/iris/v12"
+)
+
+func main() {
+    app := iris.Default()
+
+    // Ping handler
+    app.Get("/ping", func(ctx iris.Context) {
+        ctx.WriteString("pong")
+    })
+
+    app.Run(iris.AutoTLS(":443", "example.com example2.com", "mail@example.com"))
+}
+````
+
+
+
+自定义 TLS 的示例代码：
+
+
+
+```
+app.Run(
+    iris.TLS(":443", "", "", func(su *iris.Supervisor) {
+        su.Server.TLSConfig = &tls.Config{
+            /* your custom fields */
+        },
+    }),
+)
+```
+
+
+
+> 所有的 `iris.Runner` 方法，如：`Addr`，`TLS`，`AutoTLS`，`Server`，`Listener` 以及其他方法，都接受 `func(*iris.Supervisor)` 的可变参数的输入参数，以在构建状态下，配置 http 服务器实例。
+
+
+
+
+
 
 
