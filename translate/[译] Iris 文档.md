@@ -2440,6 +2440,101 @@ app.Run(
 
 
 
+#### 使用 Iris 运行多个服务
+
+
+
+```
+package main
+
+import (
+    "log"
+    "net/http"
+    "time"
+
+    "github.com/kataras/iris/v12"
+    "github.com/kataras/iris/v12/middleware/recover"
+
+    "golang.org/x/sync/errgroup"
+)
+
+var g errgroup.Group
+
+func startApp1() error {
+    app := iris.New().SetName("app1")
+    app.Use(recover.New())
+    app.Get("/", func(ctx iris.Context) {
+        app.Get("/", func(ctx iris.Context) {
+            ctx.JSON(iris.Map{
+                "code":  iris.StatusOK,
+                "message": "Welcome server 1",
+            })
+        })
+    })
+
+    app.Build()
+   return app.Listen(":8080")
+}
+
+func startApp2() error {
+    app := iris.New().SetName("app2")
+    app.Use(recover.New())
+    app.Get("/", func(ctx iris.Context) {
+        ctx.JSON(iris.Map{
+            "code":  iris.StatusOK,
+            "message": "Welcome server 2",
+        })
+    })
+
+    return app.Listen(":8081")
+}
+
+func main() {
+    g.Go(startApp1)
+    g.Go(startApp2)
+
+    if err := g.Wait(); err != nil {
+        log.Fatal(err)
+    }
+}
+```
+
+
+
+通个 `apps` 包，管理多个 Iris 实例。了解更多请查看 [这里](https://github.com/kataras/iris/blob/master/apps/README.md)。
+
+
+
+#### 标准流程结束或重启服务
+
+
+
+有多种方式可以结束或重启服务。你可以使用第三方库来构建它，或者使用 `app.Shutdown(context.Context)` 方式。查看例子：https://github.com/kataras/iris/tree/master/_examples/http-server/graceful-shutdown。
+
+
+
+使用 CTRL/CMD 注册事件，使用 `iris.RegisterOnInterrupt`：
+
+
+
+```
+idleConnsClosed := make(chan struct{})
+iris.RegisterOnInterrupt(func() {
+    timeout := 10 * time.Second
+    ctx, cancel := stdContext.WithTimeout(stdContext.Background(), timeout)
+    defer cancel()
+    // close all hosts.
+    app.Shutdown(ctx)
+    close(idleConnsClosed)
+})
+
+// [...]
+app.Listen(":8080", iris.WithoutInterruptHandler, iris.WithoutServerError(iris.ErrServerClosed))
+<-idleConnsClosed
+```
+
+
+
 
 
 
