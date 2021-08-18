@@ -2535,6 +2535,112 @@ app.Listen(":8080", iris.WithoutInterruptHandler, iris.WithoutServerError(iris.E
 
 
 
+#### 单二进制文件，打包进模板
+
+
+
+你可以构建包含模板的单文件可执行的服务端，需要使用第三方工具： [go-bindata][https://github.com/go-bindata/go-bindata] 的 `AssetFile` 功能。
+
+
+
+```
+$ go get -u github.com/go-bindata/go-bindata/...
+$ go-bindata -fs -prefix "templates" ./templates/...
+$ go run .
+```
+
+
+
+示例代码：
+
+
+
+```
+func main() {
+    app := iris.New()
+
+    tmpl := iris.HTML(AssetFile(), ".html")
+    tmpl.Layout("layouts/layout.html")
+    tmpl.AddFunc("greet", func(s string) string {
+        return "Greetings " + s + "!"
+    })
+    app.RegisterView(tmpl)
+
+    // [...]
+}
+```
+
+
+
+完整的实例代码： [_examples/view](https://github.com/kataras/iris/tree/master/_examples/view)。
+
+
+
+#### 尝试绑定 body 在不同的结构体
+
+
+
+绑定请求的标准方法通过 `ctx.Request().Body`，该方法不能被多次调用，除非将 `iris.WithoutBodyConsumptionOnUnmarshal` 配置器传递给 `app.Run/Listen`。
+
+
+
+```
+package main
+
+import "github.com/kataras/iris/v12"
+
+func main() {
+    app := iris.New()
+
+    app.Post("/", logAllBody, logJSON, logFormValues, func(ctx iris.Context) {
+        // body, err := ioutil.ReadAll(ctx.Request().Body) once or
+        body, err := ctx.GetBody() // as many times as you need.
+        if err != nil {
+            ctx.StopWithError(iris.StatusInternalServerError, err)
+            return
+        }
+
+        if len(body) == 0 {
+            ctx.WriteString(`The body was empty.`)
+        } else {
+            ctx.WriteString("OK body is still:\n")
+            ctx.Write(body)
+        }
+    })
+
+    app.Listen(":8080", iris.WithoutBodyConsumptionOnUnmarshal)
+}
+
+func logAllBody(ctx iris.Context) {
+    body, err := ctx.GetBody()
+    if err == nil && len(body) > 0 {
+        ctx.Application().Logger().Infof("logAllBody: %s", string(body))
+    }
+
+    ctx.Next()
+}
+
+func logJSON(ctx iris.Context) {
+    var p interface{}
+    if err := ctx.ReadJSON(&p); err == nil {
+        ctx.Application().Logger().Infof("logJSON: %#+v", p)
+    }
+
+    ctx.Next()
+}
+
+func logFormValues(ctx iris.Context) {
+    values := ctx.FormValues()
+    if values != nil {
+        ctx.Application().Logger().Infof("logFormValues: %v", values)
+    }
+
+    ctx.Next()
+}
+```
+
+
+
 
 
 
