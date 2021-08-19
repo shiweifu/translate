@@ -2539,7 +2539,7 @@ app.Listen(":8080", iris.WithoutInterruptHandler, iris.WithoutServerError(iris.E
 
 
 
-你可以构建包含模板的单文件可执行的服务端，需要使用第三方工具： [go-bindata][https://github.com/go-bindata/go-bindata] 的 `AssetFile` 功能。
+你可以构建包含	模板的单文件可执行的服务端，需要使用第三方工具： [go-bindata][https://github.com/go-bindata/go-bindata] 的 `AssetFile` 功能。
 
 
 
@@ -2641,7 +2641,94 @@ func logFormValues(ctx iris.Context) {
 
 
 
+#### HTTP2 Server push
 
 
 
+完整的实例可以在此找到：[_examples/response-writer/http2push](https://github.com/kataras/iris/tree/master/_examples/response-writer/http2push)。
+
+
+
+服务端推送，可以使服务端主动 “推送”，在此之前，客户端如果想实现类似场景，只能通过轮询，向服务端不断发起查询，来实现。使用时，我们可以发送用户页面上，他们所需要的内容。
+
+
+
+```
+package main
+
+import (
+    "net/http"
+
+    "github.com/kataras/iris/v12"
+)
+
+func main() {
+    app := iris.New()
+    app.Get("/", pushHandler)
+    app.Get("/main.js", simpleAssetHandler)
+
+    app.Run(iris.TLS("127.0.0.1:443", "mycert.crt", "mykey.key"))
+    // $ openssl req -new -newkey rsa:4096 -x509 -sha256 \
+    // -days 365 -nodes -out mycert.crt -keyout mykey.key
+}
+
+func pushHandler(ctx iris.Context) {
+    // The target must either be an absolute path (like "/path") or an absolute
+    // URL that contains a valid host and the same scheme as the parent request.
+    // If the target is a path, it will inherit the scheme and host of the
+    // parent request.
+    target := "/main.js"
+
+    if pusher, ok := ctx.ResponseWriter().Naive().(http.Pusher); ok {
+        err := pusher.Push(target, nil)
+        if err != nil {
+            if err == iris.ErrPushNotSupported {
+                ctx.StopWithText(iris.StatusHTTPVersionNotSupported, "HTTP/2 push not supported.")
+            } else {
+                ctx.StopWithError(iris.StatusInternalServerError, err)
+            }
+            return
+        }
+    }
+
+    ctx.HTML(`<html><body><script src="%s"></script></body></html>`, target)
+}
+
+func simpleAssetHandler(ctx iris.Context) {
+    ctx.ServeFile("./public/main.js")
+}
+```
+
+
+
+#### 设置和返回 cookie
+
+
+
+安全 cookie，加密和解密 cookie，sessions（和可伸缩 sessions），flash messages 和其他例子，能在此找到：[_examples/cookies](https://github.com/kataras/iris/tree/master/_examples/cookies)  和   [_examples/sessions](https://github.com/kataras/iris/tree/master/_examples/sessions)。
+
+
+
+```
+import "github.com/kataras/iris/v12"
+
+func main() {
+    app := iris.Default()
+
+    app.Get("/cookie", func(ctx iris.Context) {
+        value := ctx.GetCookie("my_cookie")
+
+        if value == "" {
+            value = "NotSet"
+            ctx.SetCookieKV("my_cookie", value)
+            // Alternatively: ctx.SetCookie(&http.Cookie{...})
+            ctx.SetCookie("", "test", 3600, "/", "localhost", false, true)
+        }
+
+        ctx.Writef("Cookie value: %s \n", cookie)
+    })
+
+    app.Listen(":8080")
+}
+```
 
