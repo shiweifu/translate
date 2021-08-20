@@ -2732,3 +2732,65 @@ func main() {
 }
 ```
 
+
+
+如果你想自定义 Cookie 的路径：
+
+```
+ctx.SetCookieKV(name, value, iris.CookiePath("/custom/path/cookie/will/be/stored"))
+```
+
+
+
+如果你想让 Cookie 只对当前路径可见：
+
+```
+ctx.SetCookieKV(name, value, iris.CookieCleanPath /* or iris.CookiePath("") */)
+```
+
+
+
+更多选项：
+
+
+
+- `iris.CookieAllowReclaim`
+- `iris.CookieAllowSubdomains`
+- `iris.CookieSecure`
+- `iris.CookieHTTPOnly`
+- `iris.CookieSameSite`
+- `iris.CookiePath`
+- `iris.CookieCleanPath`
+- `iris.CookieExpires`
+- `iris.CookieEncoding`
+
+
+
+你可以在中间层，对 Cookie 信息进行操作，添加 Cookie 信息：
+
+
+
+```
+func setCookieOptions(ctx iris.Context) {
+    ctx.AddCookieOptions(iris.CookieHTTPOnly(true), iris.CookieExpires(1*time.Hour))
+    ctx.Next()
+}
+```
+
+
+
+#### JSON Web Tokens
+
+-----
+
+
+
+JSON Web Token（JWT）是一个开源标准（RFC 7519），它定义了一种紧凑且自包含的方式，可用于各端之间，通过 JSON 对象，安全的传输信息。这些信息是经过数字签名的，可以被验证和被信任。JWT 可以使用加密算法（HMAC 算法），或者使用 RSA或者 ECDSA 公钥/私钥对。
+
+
+
+#### 何时该使用 JSON Web Token？
+
+
+
+下面是一些使用 JSON Web Token 的场景：
