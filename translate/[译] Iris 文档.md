@@ -2912,9 +2912,120 @@ func logout(ctx iris.Context) {
 
 
 
+#### 测试
 
 
 
+Iris 为 httpexpect 提供了非常好的支持，这是一个用于 Web 应用程序的测试框架。`iris/httptest` 子包为 `Iris + httpexpect` 提供了帮助程序。
+
+
+
+如果你更喜欢 Go 标准的 `net/http/httptest` 包，你仍然可以使用它。Iris 与每个 `http web` 框架都兼容，任何用于测试的外部工具，最后都是基于 HTTP。
+
+
+
+#### Basic Authentication 测试
+
+
+
+在我们第一个例子，我们将使用 `iris/httptest` 子包，来测试 Basic Authentication。
+
+
+
+1. `main.go` 源码如下：
+
+
+
+```
+package main
+
+import (
+    "github.com/kataras/iris/v12"
+    "github.com/kataras/iris/v12/middleware/basicauth"
+)
+
+func newApp() *iris.Application {
+    app := iris.New()
+
+    opts := basicauth.Options{
+        Allow: basicauth.AllowUsers(map[string]string{"myusername": "mypassword"}),
+    }
+
+    authentication := basicauth.New(opts) // or just: basicauth.Default(map...)
+
+    app.Get("/", func(ctx iris.Context) { ctx.Redirect("/admin") })
+
+    // to party
+
+    needAuth := app.Party("/admin", authentication)
+    {
+        //http://localhost:8080/admin
+        needAuth.Get("/", h)
+        // http://localhost:8080/admin/profile
+        needAuth.Get("/profile", h)
+
+        // http://localhost:8080/admin/settings
+        needAuth.Get("/settings", h)
+    }
+
+    return app
+}
+
+func h(ctx iris.Context) {
+    // username, password, _ := ctx.Request().BasicAuth()
+    // third parameter it will be always true because the middleware
+    // makes sure for that, otherwise this handler will not be executed.
+    // OR:
+
+    user := ctx.User().(*iris.SimpleUser)
+    ctx.Writef("%s %s:%s", ctx.Path(), user.Username, user.Password)
+    // ctx.Writef("%s %s:%s", ctx.Path(), username, password)
+}
+
+func main() {
+    app := newApp()
+    app.Listen(":8080")
+}
+```
+
+
+
+2. 现在创建 `main_test.go` 文件，然后粘贴下面的内容：
+
+
+
+```
+package main
+
+import (
+    "testing"
+
+    "github.com/kataras/iris/v12/httptest"
+)
+
+func TestNewApp(t *testing.T) {
+    app := newApp()
+    e := httptest.New(t, app)
+
+    // redirects to /admin without basic auth
+    e.GET("/").Expect().Status(httptest.StatusUnauthorized)
+    // without basic auth
+    e.GET("/admin").Expect().Status(httptest.StatusUnauthorized)
+
+    // with valid basic auth
+    e.GET("/admin").WithBasicAuth("myusername", "mypassword").Expect().
+        Status(httptest.StatusOK).Body().Equal("/admin myusername:mypassword")
+    e.GET("/admin/profile").WithBasicAuth("myusername", "mypassword").Expect().
+        Status(httptest.StatusOK).Body().Equal("/admin/profile myusername:mypassword")
+    e.GET("/admin/settings").WithBasicAuth("myusername", "mypassword").Expect().
+        Status(httptest.StatusOK).Body().Equal("/admin/settings myusername:mypassword")
+
+    // with invalid basic auth
+    e.GET("/admin/settings").WithBasicAuth("invalidusername", "invalidpassword").
+        Expect().Status(httptest.StatusUnauthorized)
+
+}
+```
 
 
 
