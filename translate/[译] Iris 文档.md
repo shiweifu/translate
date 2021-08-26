@@ -3029,5 +3029,91 @@ func TestNewApp(t *testing.T) {
 
 
 
+3. 打开终端，执行：
+
+```
+$ go test -v
+```
+
+
+
+#### 测试 Cookies
+
+
+
+```
+package main
+
+import (
+    "fmt"
+    "testing"
+
+    "github.com/kataras/iris/v12/httptest"
+)
+
+func TestCookiesBasic(t *testing.T) {
+    app := newApp()
+    e := httptest.New(t, app, httptest.URL("http://example.com"))
+
+    cookieName, cookieValue := "my_cookie_name", "my_cookie_value"
+
+    // Test Set A Cookie.
+    t1 := e.GET(fmt.Sprintf("/cookies/%s/%s", cookieName, cookieValue)).
+        Expect().Status(httptest.StatusOK)
+    // Validate cookie's existence, it should be available now.
+    t1.Cookie(cookieName).Value().Equal(cookieValue)
+    t1.Body().Contains(cookieValue)
+
+    path := fmt.Sprintf("/cookies/%s", cookieName)
+
+    // Test Retrieve A Cookie.
+    t2 := e.GET(path).Expect().Status(httptest.StatusOK)
+    t2.Body().Equal(cookieValue)
+
+    // Test Remove A Cookie.
+    t3 := e.DELETE(path).Expect().Status(httptest.StatusOK)
+    t3.Body().Contains(cookieName)
+
+    t4 := e.GET(path).Expect().Status(httptest.StatusOK)
+    t4.Cookies().Empty()
+    t4.Body().Empty()
+}
+```
+
+
+
+```
+$ go test -v -run=TestCookiesBasic$
+```
+
+
+
+Iris Web 框架本身，使用这个包来测试自身。在 [_examples repository 目录](https://github.com/kataras/iris/tree/master/_examples) ，你可以找到一些有用的测试。更多信息，请查看 [httpexpect's documentation](https://github.com/gavv/httpexpect)。
+
+
+
+#### 本地化
+
+
+
+#### 介绍
+
+
+
+本地化特性提供了方便的方式，来实现多语言字符串，允许你简单的实现多语言支持。多语言字符串保存在 `.locales` 目录下。这个目录中，保存着应用所用到的不同语言资源文件。
+
+
+
+```
+│   main.go
+└───locales
+    ├───el-GR
+    │       home.yml
+    ├───en-US
+    │       home.yml
+    └───zh-CN
+            home.yml
+```
+
 
 
