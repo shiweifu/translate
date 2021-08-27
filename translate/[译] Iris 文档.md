@@ -3117,3 +3117,67 @@ Iris Web 框架本身，使用这个包来测试自身。在 [_examples reposito
 
 
 
+默认的语言为你的应用首先注册的语言。
+
+```
+app := iris.New()
+
+// First parameter: Glob filpath patern,
+// Second variadic parameter: Optional language tags,
+// the first one is the default/fallback one.
+app.I18n.Load("./locales/*/*", "en-US", "el-GR", "zh-CN")
+```
+
+
+
+如果你加载所有的语言文件，那么需要手动设置：
+
+
+
+```
+app.I18n.Load("./locales/*/*")
+// Then set the default language using:
+app.I18n.SetDefault("en-US")
+```
+
+
+
+#### 加载内置的语言文件
+
+
+
+你也许想将多语言文件，使用 go-bindata 工具，内嵌到你的应用可执行文件中。
+
+
+
+1. 安装 go-bindata 工具。
+
+```
+$ go get -u github.com/go-bindata/go-bindata/...
+```
+
+2. 内嵌语言文件到你的应用中
+
+```
+$ go-bindata -o locales.go ./locales/...
+```
+
+3. 使用 `LoadAssets` 方法，初始化并加载语言文件
+
+`AssetNames` 和 `Asset` 方法，由 `go-bindata` 生成
+
+```
+ap.I18n.LoadAssets(AssetNames, Asset, "en-US", "el-GR", "zh-CN")
+```
+
+
+
+#### 定义翻译
+
+
+
+语言文件使用 YAML、JSON、TOML 或者 INI 文件写成。
+
+
+
+每个文件包含键值。键值可以包含子键值（称为 "sections"）。
