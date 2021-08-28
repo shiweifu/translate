@@ -3178,6 +3178,84 @@ ap.I18n.LoadAssets(AssetNames, Asset, "en-US", "el-GR", "zh-CN")
 
 语言文件使用 YAML、JSON、TOML 或者 INI 文件写成。
 
-
-
 每个文件包含键值。键值可以包含子键值（称为 "sections"）。
+
+每个键值应该是字符串或者 kv 结构，及其复数键值字符串或映射形式。
+
+Iris i18n 模块提供了对 `pluralization` 开箱即用的支持，见下文。
+
+
+
+#### Fmt Style
+
+```
+hi: "Hi %s!"
+```
+
+```go
+ctx.Tr("Hi", "John")
+// Outputs: Hi John!
+```
+
+
+
+#### 模板
+
+```yaml
+hi: "Hi {{.Name}}!"Copy to clipboardErrorCopied
+```
+
+```
+ctx.Tr("Hi", iris.Map{"Name": "John"})
+// Outputs: Hi John!
+```
+
+
+
+#### Pluralization
+
+
+
+Iris i18n 支持复数变量。要定义每种语言的本地化变量，你必须定义新的 `Vars` 键。
+
+
+
+ke接受的键变量，例如：
+
+
+
+- `one`
+- `"=x"` where x is a number
+- `"<x"`
+- `other`
+- `format`
+
+
+
+#### 例子
+
+```
+Vars:
+  - Minutes:
+      one: "minute"
+      other: "minutes"
+  - Houses:
+      one: "house"
+      other: "houses"
+```
+
+
+
+接下来，每个信息都可以使用这个变量，如下所示：
+
+```
+# Using variables in raw string
+YouLate: "You are %[1]d ${Minutes} late."
+# [x] is the argument position,
+# variables always have priority other fmt-style arguments,
+# that's why we see [1] for houses and [2] for the string argument.
+HouseCount: "%[2]s has %[1]d ${Houses}."
+```
+
+
+
