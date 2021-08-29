@@ -3259,3 +3259,92 @@ HouseCount: "%[2]s has %[1]d ${Houses}."
 
 
 
+```
+ctx.Tr("YouLate", 1)
+// Outputs: You are 1 minute late.
+ctx.Tr("YouLate", 10)
+// Outputs: You are 10 minutes late.
+
+ctx.Tr("HouseCount", 2, "John")
+// Outputs: John has 2 houses.
+```
+
+
+
+你可以根据给定的复数计数器，选择将显示的消息。
+
+
+
+除了变量，每条消息也可以有复数的形式。
+
+可接受的 keys：
+
+- `zero`
+- `one`
+- `two`
+- `"=x"`
+- `"<x"`
+- `">x"`
+- `other`
+
+
+
+让我们创建简单的复数消息，她可以使用我们上面创建的 `Minutes` 变量。
+
+
+
+```
+FreeDay:
+  "=3": "You have three days and %[2]d ${Minutes} off." # "FreeDay" 3, 15
+  one:  "You have a day off." # "FreeDay", 1
+  other: "You have %[1]d free days." # "FreeDay", 5
+```
+
+```
+ctx.Tr("FreeDay", 3, 15)
+// Outputs: You have three days and 15 minutes off.
+ctx.Tr("FreeDay", 1)
+// Outputs: You have a day off.
+ctx.Tr("FreeDay", 5)
+// Outputs: You have 5 free days.
+```
+
+让我们继续一个更高级的例子，使用模板文本 + 函数 + 复数 + 变量。
+
+```yaml
+Vars:
+  - Houses:
+      one: "house"
+      other: "houses"
+  - Gender:
+      "=1": "She"
+      "=2": "He"
+
+VarTemplatePlural:
+  one: "${Gender} is awesome!"
+  other: "other (${Gender}) has %[3]d ${Houses}."
+  "=5": "{{call .InlineJoin .Names}} are awesome."
+```
+
+```go
+const (
+    female = iota + 1
+    male
+)
+
+ctx.Tr("VarTemplatePlural", iris.Map{
+    "PluralCount": 5,
+    "Names":       []string{"John", "Peter"},
+    "InlineJoin": func(arr []string) string {
+        return strings.Join(arr, ", ")
+    },
+})
+// Outputs: John, Peter are awesome
+
+ctx.Tr("VarTemplatePlural", 1, female)
+// Outputs: She is awesome!
+
+ctx.Tr("VarTemplatePlural", 2, female, 5)
+// Outputs: other (She) has 5 houses.
+```
+
