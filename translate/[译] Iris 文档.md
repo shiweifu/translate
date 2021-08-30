@@ -3348,3 +3348,53 @@ ctx.Tr("VarTemplatePlural", 2, female, 5)
 // Outputs: other (She) has 5 houses.
 ```
 
+
+
+#### Sitemap
+
+
+
+如果 app.I18n.PathRedirect 为 true，则站点地图翻译会通过路径前缀自动设置为每个路由，如果 app.I18n.Subdomain 为 true，则通过子域或 URL 查询参数（如果 app.I18n.URLParameter 不为空）自动设置到每个路由。
+
+
+
+了解更多：https://support.google.com/webmasters/answer/189077?hl=en
+
+
+
+```bash
+GET http://localhost:8080/sitemap.xml
+```
+
+
+
+```markup
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>http://localhost:8080/</loc>
+        <xhtml:link rel="alternate" hreflang="en-US" href="http://localhost:8080/"></xhtml:link>
+        <xhtml:link rel="alternate" hreflang="el-GR" href="http://localhost:8080/el-GR/"></xhtml:link>
+        <xhtml:link rel="alternate" hreflang="zh-CN" href="http://localhost:8080/zh-CN/"></xhtml:link>
+    </url>
+    <url>
+        <loc>http://localhost:8080/some-path</loc>
+        <xhtml:link rel="alternate" hreflang="en-US" href="http://localhost:8080/some-path"></xhtml:link>
+        <xhtml:link rel="alternate" hreflang="el-GR" href="http://localhost:8080/el-GR/some-path"></xhtml:link>
+        <xhtml:link rel="alternate" hreflang="zh-CN" href="http://localhost:8080/zh-CN/some-path"></xhtml:link>
+    </url>
+    <url>
+        <loc>http://localhost:8080/other</loc>
+        <xhtml:link rel="alternate" hreflang="en-US" href="http://localhost:8080/other"></xhtml:link>
+        <xhtml:link rel="alternate" hreflang="el-GR" href="http://localhost:8080/el-GR/other"></xhtml:link>
+        <xhtml:link rel="alternate" hreflang="zh-CN" href="http://localhost:8080/zh-CN/other"></xhtml:link>
+    </url>
+    <url>
+        <loc>http://localhost:8080/templates</loc>
+        <xhtml:link rel="alternate" hreflang="en-US" href="http://localhost:8080/templates"></xhtml:link>
+        <xhtml:link rel="alternate" hreflang="el-GR" href="http://localhost:8080/el-GR/templates"></xhtml:link>
+        <xhtml:link rel="alternate" hreflang="zh-CN" href="http://localhost:8080/zh-CN/templates"></xhtml:link>
+    </url>
+</urlset>
+```
+
