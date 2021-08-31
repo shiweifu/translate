@@ -3398,3 +3398,6 @@ GET http://localhost:8080/sitemap.xml
 </urlset>
 ```
 
+
+
+以上为 Iris 的简单介绍。本文档覆盖大部分刚刚接触 Iris 需要知道的内容。如果想变成 Iris 的专家，并成为认证开发者，了解更多有关 MVC，i18n，依赖注入，gRPC，lambda 方法，websockets，最佳实践以及其他内容的最好方式，是 [申请一本 Iris E-Book](https://www.iris-go.com/#ebookDonateForm)，以及成为 Iris 的开发者。
