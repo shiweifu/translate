@@ -34,5 +34,31 @@ Hanami 的作者 Luga Guidi，希望可以去 Rails 化。他的主要愿景是�
 
 
 
+听起来很吸引人，对吧？对我来说，确实如此，特别是因为我们钟爱的 Rails 常常被批评变得过于复杂，以及破坏了一些最佳实践（例如混合了域和数据层）。
 
+
+
+内存使用率也可能是 Hanami 的一个潜在好处。Hanami 可能消耗更少的内存，并且速度更快（甚至五倍）(https://rpanachi.com/2016/03/28/from-rails-to-hanami-part1-container-architecture-model-views-assets)。
+
+
+
+### 我喜欢什么
+
+
+
+#### 初始化
+
+
+
+初始化 Hanami 应用非常简单。 [开始](https://guides.hanamirb.org/introduction/getting-started/) 页面解释了该如何做：
+
+
+
+- 设置项目
+- 创建第一个路由，并链接与之匹配的控制器行为，视图和模板
+- 准备基本的测试
+
+
+
+良好的第一印象对我非常重要，因为可以直观的看到事物的变化，使我有兴趣继续了解更复杂的概念，来构建我的 app。
 
