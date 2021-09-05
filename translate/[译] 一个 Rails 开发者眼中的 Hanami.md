@@ -86,4 +86,6 @@ Hanami 尽力阻止开发者在使用 Hanami 中，犯在使用 Rails 中常犯�
 
 - 相较于在模型中，直接使用数据库查询方法，Hanami 提供了存储类。刚开始使用的时候，似乎有点多此一举，但以后你会感受到她的好处。
 - 不使用不方便进行测试的生命周期回调（after_create，after_build 等等），Hanami 鼓励您使用被称为交互器的服务对象。
+- Hanami 中的 模型，默认只提供相应表的只读访问。相较于 active record 模型，默认就创建大量的模型方法（如 username，username_changed，username_did_change? 等），这是个十分轻量级的实现。
+- Hanami 的创造者们，得出结论，验证器不应该成为模型的一部分，因为数据的验证高度依赖用例。因此，他们没有在模型上提供验证机制，而是创建了 `Hanami::Validation` mixin（基于一个超棒的 Gem，`dry-validation`）。Hanami 中的控制器响应事件开箱即用，然而你也可以根据你的需要，创建你自己的验证器对象。如果你想了解更多为什么验证器是一种反模式，我建议你看看 Piotr Solnica 的这个 [视频](https://www.youtube.com/watch?v=nOUPIa7tWpA)。
 
