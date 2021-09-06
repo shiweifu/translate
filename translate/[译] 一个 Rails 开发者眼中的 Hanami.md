@@ -89,3 +89,30 @@ Hanami 尽力阻止开发者在使用 Hanami 中，犯在使用 Rails 中常犯�
 - Hanami 中的 模型，默认只提供相应表的只读访问。相较于 active record 模型，默认就创建大量的模型方法（如 username，username_changed，username_did_change? 等），这是个十分轻量级的实现。
 - Hanami 的创造者们，得出结论，验证器不应该成为模型的一部分，因为数据的验证高度依赖用例。因此，他们没有在模型上提供验证机制，而是创建了 `Hanami::Validation` mixin（基于一个超棒的 Gem，`dry-validation`）。Hanami 中的控制器响应事件开箱即用，然而你也可以根据你的需要，创建你自己的验证器对象。如果你想了解更多为什么验证器是一种反模式，我建议你看看 Piotr Solnica 的这个 [视频](https://www.youtube.com/watch?v=nOUPIa7tWpA)。
 
+
+
+#### 数据访问和控制
+
+
+
+我前面提到过，在 Hanami 中，数据的查询和控制，通过相应的存储类。Hanmi 开发者决定引入 `Sequel`，另一个顶级 gem，来完成数据库的通信，你可以感谢这个给力的玩意儿的作者，Jeremy Evans。
+
+
+
+我喜欢 Hanami 存储思路的一个原因是，当我定义一个访问器，Hanami 的存储不会为我创建额外的公共结构。Hanami 只在这些方法被访问的时候，才会创建他们。
+
+
+
+下面是一些我还没有用到的，我认为属于 Hanami 的额外优点：
+
+
+
+- 你可以 [一次操作许多条记录](https://guides.hanamirb.org/repositories/overview/#custom-commands) ，而无需编写 SQL 查询。
+- 它支持[数据库约束](https://guides.hanamirb.org/migrations/create-table/#constraints)。
+
+
+
+#### 没有全局视图帮助方法
+
+
+
