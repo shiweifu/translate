@@ -68,3 +68,47 @@ print(to_visit)
 
 
 
+
+
+```
+visited = set() 
+to_visit = set() 
+max_visits = 3 
+ 
+def crawl(url): 
+	print('Crawl: ', url) 
+	response = requests.get(url) 
+	soup = BeautifulSoup(response.content, 'html.parser') 
+	visited.add(url) 
+	for a in soup.select('a.page-numbers'): 
+		link = a.get('href') 
+		to_visit.add(link) 
+		if link not in visited and len(visited) < max_visits: 
+			crawl(link) 
+ 
+crawl('https://scrapeme.live/shop/page/1/') 
+ 
+print(visited) # {'.../3/', '.../1/', '.../2/'} 
+print(to_visit) # { ... new ones added, such as pages 5 and 6 ... } 
+```
+
+
+
+它是一个递归函数，有两个退出条件：没有更多的链接可以访问，或者我们达到了最大访问量。 无论哪种情况，它都会退出并打印访问过的链接和待处理的链接。
+
+
+
+需要注意的是，同一个链接可以添加多次，但只会被抓取一次。 在一个大项目中，想法是设置一个计时器并且仅在几天后请求每个 URL。
+
+
+
+### 关注点分离
+
+
+
+我们说过这不是关于提取或解析内容，而是我们需要在它变得纠缠之前分离关注点。 为此，我们将创建三个辅助函数：获取 HTML、提取链接和提取内容。 正如他们的名字所暗示的那样，他们每个人都将执行网络抓取的主要任务之一。
+
+
+
+
+
