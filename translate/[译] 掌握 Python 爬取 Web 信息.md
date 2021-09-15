@@ -110,5 +110,60 @@ print(to_visit) # { ... new ones added, such as pages 5 and 6 ... }
 
 
 
+第一点，我们从 URL 获取 HTML，使用相同的库，但是做了一层封装，使用 `try` 来确保调用的安全。
 
+
+
+```
+def get_html(url): 
+	try: 
+		return requests.get(url).content 
+	except Exception as e: 
+		print(e) 
+		return '' 
+```
+
+
+
+第二点，展开链接，和之前的工作一样。
+
+
+
+```
+def extract_links(soup): 
+	return [a.get('href') for a in soup.select('a.page-numbers') 
+		if a.get('href') not in visited] 
+```
+
+
+
+最后，在我们想要展开的内容处，放上占位符。我们完成这部分简化之后，将会返回页面的基本信息，而不再需要进入详情页面。要展示我们展开的部分内容，我们可以打印这些标题（Pokémon name）。
+
+
+
+```
+def extract_content(soup): 
+	for product in soup.select('.product'): 
+		print(product.find('h2').text) 
+ # Bulbasaur, Ivysaur, ... 
+```
+
+
+
+将这些内容组装在一起。
+
+
+
+```
+def crawl(url): 
+	if not url or url in visited: 
+		return 
+	print('Crawl: ', url) 
+	visited.add(url) 
+	html = get_html(url) 
+	soup = BeautifulSoup(html, 'html.parser') 
+	extract_content(soup) 
+	links = extract_links(soup) 
+	to_visit.update(links) 
+```
 
