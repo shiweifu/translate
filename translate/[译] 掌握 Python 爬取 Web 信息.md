@@ -226,6 +226,40 @@ while (len(to_visit) > 0 and len(visited) < max_visits):
 
 
 
+这怎么发生的？ 当线程 2 编写新链接时，它将它们添加到只有三个元素的集合中。
+
+
+
+这是一个非常简化的版本； 检查链接以获取更多信息。
+
+
+
+我们可以做些什么来避免这些冲突？ 同步或锁定。 来自文档：“队列使用锁来临时阻止竞争线程。” 这意味着线程一会在集合上获取一个锁，读写没有任何问题，然后自动释放锁。 同时，线程 2 必须等到锁可用。 只有这样才能读和写。
+
+
+
+```
+import queue 
+ 
+q = queue.Queue() 
+q.put('https://scrapeme.live/shop/page/1/') 
+ 
+def crawl(url): 
+	... 
+	links = extract_links(soup) 
+	for link in links: 
+		if link not in visited: 
+			q.put(link)
+```
+
+
+
+目前，它不起作用。 不要担心。 现有代码中的更改最少：我们用队列替换了 to_visit。 但是队列需要处理程序或工作程序来处理它们的内容。 有了上面的内容，我们创建了一个队列并添加了一个项目（原始项目）。 我们还修改了爬网功能，将链接放入队列中，而不是更新之前的集合。
+
+
+
+
+
 
 
 
