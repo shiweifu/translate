@@ -258,7 +258,41 @@ def crawl(url):
 
 
 
+我们将使用线程模块创建一个工作线程来处理该队列。
 
+
+
+```
+from threading import Thread 
+ 
+def queue_worker(i, q): 
+	while True: 
+		url = q.get() # Get an item from the queue, blocks until one is available 
+		print('to process:', url) 
+		q.task_done() # Notifies the queue that the item has been processed 
+ 
+q = queue.Queue() 
+Thread(target=queue_worker, args=(0, q), daemon=True).start() 
+ 
+q.put('https://scrapeme.live/shop/page/1/') 
+q.join() # Blocks until all items in the queue are processed and marked as done 
+print('Done') 
+ 
+# to process: https://scrapeme.live/shop/page/1/ 
+# Done
+```
+
+
+
+我们定义了一个新函数来处理排队的项目。 为此，我们进入一个无限循环，当所有处理完成时该循环将停止。
+
+
+
+然后获取一个项目，该项目将阻塞，直到有项目可用。 我们处理该项目； 目前，只需打印它以显示它是如何工作的。 稍后它会调用 crawl。
+
+
+
+最后，我们通过调用 task_done 通知队列该项目已被处理。
 
 
 
