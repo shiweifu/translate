@@ -18,3 +18,41 @@
 
 
 
+1. 我有了额外的可以自由支配的时间，来学习新东西
+2. 我的 Rails 应用，最近趋向于使用大量小规模的的服务对象和 PORO 构建
+3. Hanami 的应用架构，像是从 Rails 发展而来
+
+
+
+接下来，本文将为你展示一些我所了解的 Hanami，以及我喜欢的部分。
+
+
+
+#### 项目
+
+
+
+密西西比周，每日提供表格，其中包含每日新增的 COVID 病例，以及死亡人数。
+
+
+
+![MSDH table](https://res.cloudinary.com/practicaldev/image/fetch/s--al45FuLW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/s2jy9y2g2nthtfpxlu4n.png)
+
+
+
+这张表格图中，只展示了每日增加的人数以及死亡的人数，你无法在其中感受到各个地区的数据的增长。
+
+
+
+我决定爬取这个表格，并且减去昨日的数据，以获得每日最新的数字。
+
+
+
+![Screenshot of my project](https://res.cloudinary.com/practicaldev/image/fetch/s--keo1WzLq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/whapy4597ijxpvuaxrwj.png)
+
+
+
+
+
+
+
