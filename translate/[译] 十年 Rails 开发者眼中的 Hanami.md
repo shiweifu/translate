@@ -52,6 +52,89 @@
 
 
 
+我也会保存这些数据，在历史视图中展示。
+
+
+
+### Harrison
+
+
+
+![img](https://res.cloudinary.com/practicaldev/image/fetch/s--cPMlDk5b--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/t751mqsagso4cj3x3yhr.png)
+
+
+
+我存储地区名字，在 `countries` 表，我还有一个表，叫做 `country_updates`，这个表的字段如下：
+
+
+
+- `cases`
+- `deaths`
+- `ltc_detahs`
+- `ltc_cases`
+- `country_id`
+- `previous_update_id`，这是一个自引用的外键
+
+
+
+#### 实现
+
+
+
+##### Repositories 和 Entities
+
+
+
+Hanami 将 Rails 中的模型，拆分为 `repository` 类，和 `entity` 类。`repository` 类用于数据库的查询操作，而 `entity` 类，用于展示你的数据。`entity` 类自动与你的表结构进行映射。 
+
+
+
+我添加了 `CountryUpdate` entity，在自动映射的字段上方，增加了一些需要计算的方法。
+
+
+
+```
+class CountyUpdate < Hanami::Entity
+  def new_cases
+    return unless previous_update
+
+    cases - previous_update.cases
+  end
+
+  def new_deaths
+    return unless previous_update
+
+    deaths - previous_update.deaths
+  end
+
+  def new_ltc_cases
+    return unless previous_update
+
+    ltc_cases - previous_update.ltc_cases
+  end
+
+  def new_ltc_deaths
+    return unless previous_update
+
+    ltc_deaths - previous_update.ltc_deaths
+  end
+
+  def new_cases_percent_change
+    return unless previous_update
+
+    (new_cases.to_f / previous_update.cases.abs * 100).round(1)
+  end
+end
+```
+
+
+
+这种方法的一个优点是，你的查询是独立的，而且易于测试。
+
+
+
+
+
 
 
 
