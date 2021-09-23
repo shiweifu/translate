@@ -129,13 +129,98 @@ end
 
 
 
-这种方法的一个优点是，你的查询是独立的，而且易于测试。
+这种写法的一个优点是，你的查询是独立的，而且易于测试。
 
 
 
+```
+RSpec.describe CountyUpdateRepository, type: :repository do
+  let(:repo) { CountyUpdateRepository.new }
+
+  describe '#find_latest_by_county_id' do
+    it 'finds the latest update for a county' do
+      build_stubbed(:county, :with_updates)
+
+      latest_date = repo.find_latest_by_county_id(1).date.to_date
+      expect(latest_date).to eq Date.today
+    end
+  end
+end
+```
 
 
 
+#### 控制器层
+
+
+
+在 Hanami 中，每个路由对应一个 Action 类。这与 Rails 形成对比，在 Rails 中，每个路由，对应 Controller 类中的一个方法。
+
+
+
+在我的应用中，我写了一条路由，对应列出密西西比的城镇。
+
+
+
+```
+get '/counties', to: 'counties#index'
+```
+
+
+
+当访问`/countries`时，对应的类被调用。
+
+
+
+```
+module Web
+  module Controllers
+    module Counties
+      class Index
+        include Web::Action
+
+        expose :counties
+
+        def call(params)
+          @counties = CountyWithLatestUpdateRepository.new.all
+        end
+      end
+    end
+  end
+end
+```
+
+
+
+同样的，对于 `show` 路由，也有一个相应的 `Show` 操作。
+
+
+
+```
+module Web
+  module Controllers
+    module Counties
+      class Show
+        include Web::Action
+
+        expose :county
+
+        def call(params)
+          @county = CountyRepository.new.find_by_name_with_updates(params[:name])
+        end
+      end
+    end
+  end
+end
+```
+
+
+
+我真的真的喜欢这一个特性。
+
+
+
+Rails 的控制器代码，经常变的杂乱无章，并且包含仅与某些操作相关的无关代码。举个例子，为什么代码中，操作 `index` 的类和操作 `create` 的类中，包含相同的参数？
 
 
 
