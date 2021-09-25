@@ -250,7 +250,61 @@ bundle exec hanami generate app api
 
 
 
- 
+然后，我只是简单增加一个控制器，用于渲染 JSON。
+
+
+
+```
+module Api
+  module Controllers
+    module Counties
+      class Show
+        include Api::Action
+
+        def call(params)
+          county = CountyRepository.new.find_by_name_with_updates(params[:name])
+          self.body = JSON.dump(county.to_h)
+          self.format = :json
+        end
+      end
+    end
+  end
+end
+```
+
+
+
+一分钟之内，我就完成了一个功能性的 API。
+
+
+
+与 Rails 不同，这个 API 是纯粹的额外代码。我不必接触任何现有代码，来处理不同的内容类型。我也不必编写 `respond_to` 块。如果我愿意，我可以对我的 JSON 和 HTML 响应使用两个不同的查询，而无需分支逻辑。
+
+
+
+#### Takeaways
+
+
+
+我从 Hanami 中的最大的收获是，代码质量相较于使用 Rails 开发项目时，有所提高。
+
+
+
+我已经使用了 Rails 超过十年，有时我仍然在努力弄清楚我应该把代码放在哪里。”这个代码属于模型吗？“我应该在什么时候将模型代码移动到服务对象？”我在Rails项目中遇到过这种情况。
+
+
+
+我在 Hanami 中还没有遇到过这样的问题。它几乎让人感觉框架加强了代码质量。这让编写糟糕的代码变得更加困难。
+
+
+
+这里并没有太多的魔法。这个框架是用来指导你的，而不是让你惊讶。
+
+
+
+我对这个项目的结果印象深刻。在某些情况下会有一点学习曲线，但我能够克服这个障碍。“Hanami 2.0”正在开发中，我很期待它能带来什么。
+
+
 
 
 
