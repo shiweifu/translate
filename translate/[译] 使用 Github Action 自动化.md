@@ -50,4 +50,90 @@
 
 
 
-下面是一个标准的 django 工作流，它检查数据库是否缺少迁移，然后再运行测试。
+下面是一个标准的 django 工d作流，它检查数据库是否缺少迁移，然后再运行测试。
+
+
+
+请注意，我们如何并行的通过是如何通过定义一个矩阵，使三个指定 Python 版本！通过这种方式，我们确保通过一行代码，支持一系列版本。
+
+
+
+```
+on:
+    - pull_request
+
+jobs:
+    django-tests:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                python-version: ['3.7.8', '3.8.5', '3.9.0']
+        steps:
+            - name: Check out the repository
+            ses: actions/checkout@v2
+
+            - name: Set up Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: ${{ matrix.python-version }}
+
+            - name: Install pip dependencies
+              run: |
+                  python -m pip install -r requirements-dev.txt
+                  python -m pip install -r requirements.txt
+
+            - name: Check if a migration is missing
+              run: python manage.py makemigrations --check --dry-run
+
+            - name: Run unit tests
+              run: python manage.py test
+```
+
+
+
+#### 端对端测试
+
+
+
+让您的软件每个构建块，都包含单元测试是件好事，，但是您的用户，需要将这一切组合在一起才能工作 --- 这就是端对端测试的意义所在。
+
+
+
+我们使用 `Cypress` 在我们的应用程序上，运行这些，虽然这并不完美，但对我们来说也是一个福音。以下是 Cypress CI 工作流程的主要内容：
+
+
+
+```
+on:
+    - pull_request
+
+jobs:
+    e2e-tests:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Check out the repository
+            uses: actions/checkout@v2
+
+          - name: Setup Node.js
+            uses: actions/setup-node@v2
+            with:
+                node-version: 14
+
+          - name: Install dependencies
+            run: yarn
+
+          - name: Build and start application
+            run: echo "This is where you boot your application for testing"
+
+          - name: Run end-to-end Cypress tests
+            uses: cypress-io/github-action@v2
+
+          - name: Archive test screenshots
+            if: failure()
+            uses: actions/upload-artifact@v2
+            with:
+                name: screenshots
+                path: cypress/screenshots
+```
+
