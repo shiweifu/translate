@@ -137,3 +137,22 @@ jobs:
                 path: cypress/screenshots
 ```
 
+
+
+我跳过了特定于应用程序的设置步骤和服务，但这里有一些有趣的事情：
+
+
+
+1. Cypress 的现成套件运行器操作 - cypress-io/github-action 使工作流程变得如此简单。 它巧妙地处理了包括测试并行化和与 Cypress Dashboard 集成在内的任务——比 shell 脚本要好得多。
+2. GitHub Actions 有一个名为“artifacts”的功能。 它是 GitHub 提供的存储，用于临时存储作业运行产生的文件并允许下载这些文件。 在这种情况下，actions/upload-artifact 上传失败测试的截图供我们查看。
+
+
+
+#### 分析和格式化
+
+
+
+功能测试验证事情是否按预期工作。 拥有有效的代码固然很好，但拥有编写好的代码更重要，否则随着时间的推移，开发会变得越来越难。
+
+
+
