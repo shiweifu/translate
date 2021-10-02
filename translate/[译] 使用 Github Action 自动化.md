@@ -156,3 +156,53 @@ jobs:
 
 
 
+为了确保我们不会在每个新功能中添加过于凌乱的功能，我们使用：
+
+
+
+- 分析代码，保证我们的代码符合最佳实践，并且没有漏掉一些东西
+- 格式化代码，保证代码的一致性，以及可读性
+
+
+
+而测试，对每一个 PR 进行测试，确保都通过测试，保持 master 中的代码都是高质量的。
+
+
+
+```
+on:
+    - pull_request
+
+jobs:
+    code-quality:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out the repository 
+              uses: actions/checkout@v2
+
+            - name: Set up Node
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 14
+
+            - name: Install package.json dependencies with Yarn
+              run: yarn
+
+            - name: Check formatting with prettier
+              run: yarn prettier .
+
+            - name: Lint with ESLint
+              run: yarn eslint .
+```
+
+
+有一件事，我们还未覆盖到，是在每个 PR 上运行作业在实践中给我们带来了什么。 这是两件事：
+
+
+
+1. 此类作业将成为 PR 检查，并显示在 PR 页面上，以及它们的状态。
+
+![Bump labels](https://d33wubrfki0l68.cloudfront.net/0912d66a282a0257ae6893585c8f999284cfc2c8/46349/static/pr-160fe812143b3ba462ffd79c206fc3c4.png)
+
+2. 可以要求选择 PR 检查，在这种情况下，阻止合并，直到所有必需的检查变为绿色。
+
