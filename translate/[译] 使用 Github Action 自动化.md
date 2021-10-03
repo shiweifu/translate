@@ -206,3 +206,38 @@ jobs:
 
 2. 可以要求选择 PR 检查，在这种情况下，阻止合并，直到所有必需的检查变为绿色。
 
+
+
+#### 检查过时的 PR
+
+
+
+如果你的团队一直在增长，仓库会有有大量的 PR。特别是通过 issue 提交的合并请求，一些 PR 会被搁置一段时间 - 可能是因为其他工作导致阻塞、等待 Review、取消优先级，或者只是一个概念验证。无论如何，一个 PR 无人管理的时间越多，后面就会制造更多的混乱。
+
+
+
+我们来构建一个最小化的例子，来演示这种情况：
+
+
+
+```
+name: 'Handle stale PRs'
+on:
+    schedule:
+        - cron: '30 7 * * 1-5'
+
+jobs:
+    stale:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/stale@v4
+              with:
+                  only: pulls
+                  stale-pr-message: "This PR hasn't seen activity in a week! Should it be merged, closed, or worked on further? If you want to keep it open, post a comment or remove the `stale` label – otherwise this will be closed in another week."
+                  close-pr-message: 'This PR was closed due to 2 weeks of inactivity. Feel free to reopen it if still relevant.'
+                  days-before-pr-stale: 7
+                  days-before-pr-close: 7
+                  stale-issue-label: stale
+                  stale-pr-label: stale
+```
+
