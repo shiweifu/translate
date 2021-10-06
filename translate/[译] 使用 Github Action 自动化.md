@@ -257,3 +257,99 @@ jobs:
 
 这只是针对 Git 标签进行固定。 因为现成的操作只是 GitHub 存储库，它们的指定方式与所有其他上下文中的存储库相同——您可以指定修订版（提交哈希、分支名称、Git 标签……）——否则使用默认分支的最新修订版 .
 
+
+
+标签特别好，因为它们是在使用 GitHub 的 UI 发布版本时创建的。
+
+
+
+#### 持续部署
+
+
+
+我们对 PostHog Cloud 使用持续部署，我们对结果非常满意 – 我们基于 Amazon ECS 的堆栈在每次推送到 master 时自动部署（在大多数情况下：PR 被合并），这让我们的开发人员生活如此充实 更轻松。
+
+
+
+从部署中删除了人为因素。 您只需确保在合并后的 20 分钟内，您的代码每次都会生效。
+
+
+
+```
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    build-and-deploy-production:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: us-east-1
+
+            - name: Log into Amazon ECR
+              id: login-ecr
+              uses: aws-actions/amazon-ecr-login@v1
+
+            - name: Fetch posthog-cloud
+              run: |
+                  curl -L https://github.com/posthog/posthog-cloud/tarball/master | tar --strip-components=1 -xz --
+                  mkdir deploy/
+
+            - name: Check out main repository
+              uses: actions/checkout@v2
+              with:
+                  path: 'deploy/'
+
+            - name: Build, tag, and push image to Amazon ECR
+              id: build-image
+              env:
+                  ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+                  ECR_REPOSITORY: posthog-production
+                  IMAGE_TAG: ${{ github.sha }}
+              run: |
+                  docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f prod.web.Dockerfile .
+                  docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+                  echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+            - name: Fill in the new app image ID in the Amazon ECS task definition
+              id: task-def-app
+              uses: aws-actions/amazon-ecs-render-task-definition@v1
+              with:
+                  task-definition: deploy/task-definition.migration.json
+                  container-name: production
+                  image: ${{ steps.build-image.outputs.image }}
+
+            - name: Fill in the new migration image ID in the Amazon ECS task definition
+              id: task-def-migration
+              uses: aws-actions/amazon-ecs-render-task-definition@v1
+              with:
+                  task-definition: deploy/task-definition.migration.json
+                  container-name: production-migration
+                  image: ${{ steps.build-image.outputs.image }}
+
+            - name: Perform migrations
+              run: |
+                  aws ecs register-task-definition --cli-input-json file://$TASK_DEFINITION
+                  aws ecs run-task --cluster production-cluster --count 1 --launch-type FARGATE --task-definition production-migration
+              env:
+                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  AWS_DEFAULT_REGION: 'us-east-1'
+                  TASK_DEFINITION: ${{ steps.task-def-migrate.outputs.task-definition }}
+
+            - name: Deploy Amazon ECS web task definition
+              uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+              with:
+                  task-definition: ${{ steps.task-def-web.outputs.task-definition }}
+                  service: production
+                  cluster: production-cluster
+```
+
+
+
