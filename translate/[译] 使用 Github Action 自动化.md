@@ -353,3 +353,61 @@ jobs:
 
 
 
+每个容器化的应用程序都以它的方式构建，所以这个工作流程不会没有你自己的调整，但它应该给你正确的想法。
+
+
+
+#### 构建验证
+
+
+
+Docker 现在是构建可部署的软件映像的标准方法。 我们也使用它，很高兴。 但是我们已经破坏了几次构建 - 在某处犯了错误，图像可能无法构建。 因此，我们已经在每个 PR 上提前测试映像构建 - 在 master 损坏之前。
+
+
+
+我们还使用 hadolint 对 Docker 文件进行了 lint，这为我们提供了非常有用的技巧，以最大限度地提高基于 Docker 的构建过程的可靠性。
+
+
+
+```
+name: Docker
+
+on:
+    - pull_request
+
+jobs:
+    test-image-build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@v2
+
+            - name: Lint Dockerfiles with Hadolint
+              run: |
+                  # Install latest Hadolint binary from GitHub (not available via apt)
+                  HADOLINT_LATEST_TAG=$( \
+                    curl --silent "https://api.github.com/repos/hadolint/hadolint/releases/latest" | jq -r .tag_name \
+                  )
+                  sudo curl -sLo /usr/bin/hadolint \
+                    "https://github.com/hadolint/hadolint/releases/download/$HADOLINT_LATEST_TAG/hadolint-Linux-x86_64"
+                  sudo chmod +x /usr/bin/hadolint
+                  hadolint **Dockerfile
+
+            - name: Set up QEMU
+              uses: docker/setup-qemu-action@v1
+
+            - name: Set up Docker Buildx
+              uses: docker/setup-buildx-action@v1
+
+            - name: Build image
+              id: docker_build
+              uses: docker/build-push-action@v2
+              with:
+                  push: false
+
+            - name: Echo image digest
+              run: echo ${{ steps.docker_build.outputs.digest }}
+```
+
+
+
