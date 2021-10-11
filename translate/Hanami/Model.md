@@ -63,3 +63,35 @@ Hanami::Model.migration do
 end
 ```
 
+
+
+#### 准备数据库
+
+
+
+现在我们需要准备一个等下会用到的数据库：
+
+
+
+```
+$ bundle exec hanami db prepare
+```
+
+
+
+准备实用我们的 repository：
+
+
+
+```
+% bundle exec hanami console
+irb(main):001:0> book = BookRepository.new.create(title: "Hanami")
+=> #<Book:0x007f95ccefb320 @attributes={:id=>1, :title=>"Hanami", :created_at=>2016-11-13 15:49:14 UTC, :updated_at=>2016-11-13 15:49:14 UTC}>
+```
+
+
+
+
+
+学习更多有关 [repositories](https://guides.hanamirb.org/repositories/overview)， [entities](https://guides.hanamirb.org/entities/overview)，[migrations](https://guides.hanamirb.org/migrations/overview)，和 [database CLI commands](https://guides.hanamirb.org/command-line/database)。
+
