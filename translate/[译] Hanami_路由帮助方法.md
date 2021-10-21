@@ -64,7 +64,28 @@ resources :books
 
 
 
+#### 绝对 URL
 
+
+
+```
+module Web
+  module Controllers
+    module Books
+      class Create
+        include Web::Action
+
+        def call(params)
+          # ...
+          redirect_to routes.book_url(id: book.id)
+        end
+      end
+    end
+  end
+end
+```
+
+在上面的案例中，我们传递了一个 Hash，作为参数的集合，这个 Hash 中的内容，被用于生成 URL。
 
 
 
