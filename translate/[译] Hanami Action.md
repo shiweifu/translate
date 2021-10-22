@@ -55,3 +55,20 @@ end
 
 
 第二个令牌是一个常规名称:Controllers。所有的控制器都嵌套在它下面。当应用程序启动时，这个模块为我们在运行时生成。
+
+
+
+> 对于名为Web的给定应用程序，可以在Web:: controllers下使用控制器。
+
+
+
+最后一位是Dashboard，它是我们的控制器。
+
+
+
+整个动作的名称是Web::Controllers::Dashboard::Index。
+
+
+
+你应该避免给你的动作模块与你的应用程序相同的名称，例如，避免在一个名为Web的应用程序中给控制器命名为Web。如果你有一个像Web::Controllers::Web这样的控制器名，那么你的应用程序中的一些代码就会因为没有找到常量而崩溃，例如在包含Web::Layout的视图中。这是因为Ruby从当前模块开始常量查找，所以Web::Controllers::Web或Web::Controllers::Web::MyAction模块中的代码引用的Web::Layout这样的常量将被转换为Web::Controllers::Web:: Web::布局，无法找到并导致该结果。
+
