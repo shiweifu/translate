@@ -70,5 +70,23 @@ end
 
 
 
-你应该避免给你的动作模块与你的应用程序相同的名称，例如，避免在一个名为Web的应用程序中给控制器命名为Web。如果你有一个像Web::Controllers::Web这样的控制器名，那么你的应用程序中的一些代码就会因为没有找到常量而崩溃，例如在包含Web::Layout的视图中。这是因为Ruby从当前模块开始常量查找，所以Web::Controllers::Web或Web::Controllers::Web::MyAction模块中的代码引用的Web::Layout这样的常量将被转换为Web::Controllers::Web:: Web::布局，无法找到并导致该结果。
+> 你应该避免给你的动作模块与你的应用程序相同的名称，例如，避免在一个名为Web的应用程序中给控制器命名为Web。如果你有一个像Web::Controllers::Web这样的控制器名，那么你的应用程序中的一些代码就会因为没有找到常量而崩溃，例如在包含Web::Layout的视图中。这是因为Ruby从当前模块开始常量查找，所以Web::Controllers::Web或Web::Controllers::Web::MyAction模块中的代码引用的Web::Layout这样的常量将被转换为Web::Controllers::Web:: Web::布局，无法找到并导致该结果。
+
+
+
+> 如果你必须说出一个控制器具有相同名称的应用程序,您需要显式地设置名称空间查找的东西应该包括从下立即应用,不是由这些名字前面加上与控制器::,如改变你的观点包括:网站::布局而不是包括Web::布局,以及在控制器中使用include::Web::操作。
+
+
+
+#### Action Module
+
+
+
+Hanami 的哲学强调复合而不是继承，并避免了框架超类反模式。由于这个原因，所有组件都以模块的形式提供，以包含，而不是以基类的形式继承。
+
+
+
+就像我们之前说的，Hanami可以在同一个Ruby进程中运行多个应用程序。每一个都有自己的构型。为了将操作与名为Web的应用程序和名为Admin的应用程序分开，我们分别包含了Web::Action和Admin::Action。
+
+
 
