@@ -63,6 +63,30 @@ Htmx 提供一组属性，来实现直接通过 HTML 元素，来发送 AJAX 请
 
 
 
+上面的代码示例告诉浏览器当用户单击该按钮时，它将Get请求（HX-Get）发送到提供的URL，在这种情况下是 http://localhost/todos。
+
+
+
+![Htmx get-request](https://blog.logrocket.com/wp-content/uploads/2021/05/htmx-get-request.gif)
+
+默认情况下，从任何htmx请求返回的响应将被加载到发送请求的当前元素中。在AJAX请求的目标元素一节中，我们将探讨如何在另一个HTML元素中加载响应。
+
+
+
+针对AJAX请求的元素一节，我们将探索如何在另一个HTML元素中加载响应。
+
+
+
+#### 触发请求
+
+
+
+应该注意，htmx中的AJAX请求是由元素的自然事件触发的。例如，输入、选择和textarea是由onchange事件触发的，表单是由onsubmit事件触发的，其他所有事情都是由onclick事件触发的。
+
+
+
+
+
 
 
 
