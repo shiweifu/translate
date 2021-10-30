@@ -85,9 +85,46 @@ Htmx 提供一组属性，来实现直接通过 HTML 元素，来发送 AJAX 请
 
 
 
+当你想要修改触发请求的事件时，htmx提供了一个特殊的hx-trigger属性
 
 
 
+```
+<div hx-get="http://localhost/todos" hx-trigger="mouseenter">
+    Mouse over me!
+</div>
+```
 
 
+
+在上面的示例中，当且仅当用户的鼠标悬停在div上时，GET请求将被发送到提供的URL。
+
+
+
+#### 触发修饰符
+
+
+
+上一节提到的hx-trigger属性接受一个额外的修饰符来更改触发器的行为。可用的触发器修饰符包括
+
+
+
+- `once`：保证请求只发生一次
+- `changed`：如果HTML元素的值发生变化，则发出请求
+- `delay:<time interval>`：延迟:<时间间隔>在发出请求之前等待给定的时间(例如，Delay -1)。如果事件再次触发，则复位倒计时
+- throttle:<time interval>：在发送请求之前等待给定的时间(例如，throttle:1s)。但与延迟不同的是，如果在达到时间限制之前发生新事件，则该事件将在队列中，以便在前一个事件结束时触发
+- `from:<css selector>`：在不同元素上，监听事件
+
+
+
+#### 代码示例
+
+
+
+```
+<input
+    type="text"
+    hx-get="http://localhost/search"
+    hx-trigger="keyup changed delay:500ms" />
+```
 
