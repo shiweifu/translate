@@ -161,3 +161,32 @@ Htmx 提供一组属性，来实现直接通过 HTML 元素，来发送 AJAX 请
 
 
 
+我们可以修改我们的 todo 应用，来适应这种情况：
+
+
+
+```
+<button hx-get="http://localhost/todos" hx-target="#result">
+    Load Todos
+</button>
+<div id="result"></div>
+```
+
+
+
+与前面的例子不同，这个新代码示例，向 `http://localhost/todos` 发送请求，然后将返回的内容加载到 `id=result` 的 `div` 中。
+
+
+
+#### 使用返回的 HTML，替换页面上的 DOM
+
+
+
+与 `hx-target` 类似，`hx-swap` 属性，定义了如何处理 AJAX 返回的内容。其所支持的值包括：
+
+
+
+- `innerHTML` - 默认选项，加载 AJAX 返回的内容，到触发请求的元素内部的 HTML。
+- `outerHTML` - 该选项将会使用返回内容，替换整个触发请求的元素。
+- `afterbegin` - 将请求返回的内容，作为触发请求元素的第一个子元素。
+- `beforebegin`- 将请求返回的内容，作为触发请求元素的父元素。
