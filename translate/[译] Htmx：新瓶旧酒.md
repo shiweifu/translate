@@ -189,4 +189,33 @@ Htmx 提供一组属性，来实现直接通过 HTML 元素，来发送 AJAX 请
 - `innerHTML` - 默认选项，加载 AJAX 返回的内容，到触发请求的元素内部的 HTML。
 - `outerHTML` - 该选项将会使用返回内容，替换整个触发请求的元素。
 - `afterbegin` - 将请求返回的内容，作为触发请求元素的第一个子元素。
-- `beforebegin`- 将请求返回的内容，作为触发请求元素的父元素。
+- `beforebegin` - 将请求返回的内容，作为触发请求元素的父元素。
+- `beforeend` - 将请求返回的内容，添加到触发请求的元素最后一个子元素前面。
+- `afterend` - 与前面的属性不同，这个选项将请求返回的内容添加到触发元素的后面
+- `none` - 这个选项什么也不做
+
+
+
+#### 请求指示器
+
+
+
+当发送 AJAX 请求时，让用户知道网络请求正在被调用，并展示一个指示器，是一个改善体验的实践。默认情况下，浏览器不会显示，你可以通过添加 `htmx-indicator` 类，来交给 `htmx` 处理。
+
+
+
+下面是相关代码：
+
+```
+<div hx-get="http://path/to/api">
+     <button>Click Me!</button>
+     <img
+        class="htmx-indicator"
+        src="path/to/spinner.gif"
+      />
+</div>
+```
+
+
+
+默认情况下，`htmx-indicator` 这个指示器的透明度为 0，因此，它不可见，但存在于 DOM 中。
