@@ -219,3 +219,41 @@ Htmx 提供一组属性，来实现直接通过 HTML 元素，来发送 AJAX 请
 
 
 默认情况下，`htmx-indicator` 这个指示器的透明度为 0，因此，它不可见，但存在于 DOM 中。
+
+
+
+而且，当您发出AJAX请求时，htmx会自动向发送请求的元素添加一个新的htmx-request类。这个新的html -request类将导致带有html -indicator类的子元素的不透明度转换为1，从而显示该指示符。
+
+
+
+![htmx-indicator Example](https://blog.logrocket.com/wp-content/uploads/2021/05/htmx-indicator-example.gif)
+
+### 请求数据
+
+
+
+如果你的 AJAX 请求，通过 form 或者输入组件触发，默认情况下，htmx 将会在请求中，自动引入所在触发组件的全部值。
+
+
+
+但是如果你想要包含其他元素的值，你可以使用hx-include属性和CSS选择器来选择你想要包含在请求中的所有元素的值。
+
+
+
+### 代码示例
+
+
+
+```
+<div>
+    <button hx-post="http://path/to/api/register" hx-include="[name=username]">
+        Register!
+    </button>
+    Enter Username: <input name="username" type="text"/>
+</div>
+```
+
+
+
+就像在上面的代码示例中一样，当您向/寄存器端点发出请求时，您的AJAX请求将自动包含其正文中的电子邮件字段。
+
