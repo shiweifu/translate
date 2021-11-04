@@ -257,3 +257,59 @@ Htmx 提供一组属性，来实现直接通过 HTML 元素，来发送 AJAX 请
 
 就像在上面的代码示例中一样，当您向/寄存器端点发出请求时，您的AJAX请求将自动包含其正文中的电子邮件字段。
 
+
+
+### 过滤输出参数
+
+
+
+Htmx 同样提供另一个 `htmx-params` 属性，您可以使用该属性过滤发送AJAX请求时提交的唯一参数。
+
+```
+<div hx-get="http://path/to/api/example" hx-params="*">
+    Send Request
+</div>
+```
+
+
+
+上面的代码示例，将该页面中的所有输入组件都引入并作为你的请求参数。
+
+
+
+该属性的取值包括：
+
+
+
+- `*` - 引入当前页面中所有的输入组件，并作为 AJAX 的参数发送
+- `none` - 不引入页面中任何内容作为请求参数
+- `not <param-list>` - 引入所有非逗号分隔的参数列表
+- `<param-list>` - 只引入逗号分隔的内容作为参数
+
+
+
+### 上传文件
+
+
+
+使用HTMX，您可以通过将HX编码属性添加到发送请求的实际元素的父元素，轻松地将诸如图像，视频，PDFS等的文件（如图像，视频，PDF）等文件发送到处理，以便进行处理：
+
+```
+<form hx-encoding="multipart/form-data">
+    Select File:
+    <input type="file" name="myFile" />
+    <button
+      hx-post="http://path/to/api/register"
+      hx-include="[name='myFile']"
+    >
+      Upload File!
+    </button>
+</form>
+```
+
+
+
+
+
+
+
