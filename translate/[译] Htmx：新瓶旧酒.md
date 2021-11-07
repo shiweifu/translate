@@ -362,3 +362,62 @@ htmx class-tool是一个扩展，您可以轻松地使用它来切换、添加�
 
 
 还要注意，您可以通过用逗号(，)分隔每个操作来创建一个操作队列，或者通过用&号分隔多个操作来同时运行。
+
+
+
+```
+<!-- class tool queue -->
+
+<div classes="add sample-class:1s, remove another-class:2s, toggle 3rd-class:1s"></div>
+
+<!-- simultaneous actions -->
+
+<div classes="add sample-class:1s & remove another-class:2s & toggle 3rd-class:1s"></div>
+```
+
+
+
+下面是一个例子，用于说明切换显示状态：
+
+
+
+```
+    <style>
+      .demo.faded {
+        opacity: 0.3;
+      }
+      .demo {
+        opacity: 1;
+        transition: opacity ease-in 900ms;
+      }
+    </style>
+    <div class="demo" classes="toggle faded:1s">I'm Fading! ⚡</div>
+
+```
+
+
+
+https://blog.logrocket.com/wp-content/uploads/2021/05/htmx-sample-class.gif
+
+
+
+### 总结
+
+
+
+在本文中，我们探讨了htmx的安装过程、如何发送AJAX请求、表单验证，以及如何在不编写任何JavaScript代码的情况下触发CSS动画。
+
+
+
+Htmx提供了对WebSocket和服务器发送事件的实验性支持，这在本文中没有涉及，因为它们仍在开发中。你可以从htmx文档中了解更多关于WebSocket和SSE支持的信息。
+
+
+
+
+
+[在 GitHub 中，了解更多信息](https://github.com/bigskysoftware/htmx)。
+
+
+
+
+
