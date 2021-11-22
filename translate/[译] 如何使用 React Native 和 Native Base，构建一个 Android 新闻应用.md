@@ -92,3 +92,71 @@ const styles = StyleSheet.create({
 
 
 
+这是我们的 App.js 文件，它包含一些默认的样式。
+
+
+
+![img](https://www.freecodecamp.org/news/content/images/2021/08/Screenshot-2021-08-21-175022.png)
+
+
+
+现在，我们的应用运行起来了。
+
+
+
+### 如何使用 React 导航创建不同的屏幕
+
+现在，我们来创建不同的应用。为了实现这个目标，我们要使用 React Navigation。我们首先来安装它。
+
+
+
+访问 https://reactnavigation.org/，点击阅读文档。此时将打开文档页。
+
+
+
+使用下面的命令来安装它：
+
+```
+npm install @react-navigation/native
+
+expo install react-native-screens react-native-safe-area-context
+```
+
+
+
+现在，在我们的环境中，React Navigation 已经安装好了。
+
+
+
+接下来，我们使用 `bottomTabNavigator`。从页面的左侧菜单，选择 API 手册，然后点击 Navigators，然后点击 Bottom Tabs。
+
+
+
+![img](https://www.freecodecamp.org/news/content/images/2021/08/Screenshot-2021-08-21-175641.png)
+
+
+
+使用下面的命令安装 Bottom Tabs：
+
+```
+npm install @react-navigation/bottom-tabs
+```
+
+
+
+现在，在我们的 `App.js` 文件，我们需要引入 Bottom Tabs，然后使用它。
+
+
+
+使用下面的命令引入：
+
+```
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+```
+
+
+
+
+
+
+
