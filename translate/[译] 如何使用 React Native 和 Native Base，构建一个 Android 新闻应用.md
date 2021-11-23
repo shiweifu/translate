@@ -156,7 +156,76 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 
 
+现在，让我们引入 Tab Screen。
+
+```
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+const Tab = createBottomTabNavigator();
+
+function MyTabs() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+    </Tab.Navigator>
+  );
+}
+```
 
 
 
+这是如何创建 Bottom Tabs。
+
+
+
+在我们的例子中，我们需要做一些事情：
+
+
+
+```
+<Tab.Navigator>
+  <Tab.Screen name="All" component={All} />
+  <Tab.Screen name="Business" component={Business} />
+  <Tab.Screen name="Health" component={HealthScreen} />
+  <Tab.Screen name="Sports" component={SportsScreen} />
+  <Tab.Screen name="Tech" component={TechScreen} />
+</Tab.Navigator>
+```
+
+
+
+接着我们需要创建一些页面：全部新闻页，商业新闻页，运动新闻页，健康新闻页，以及科技新闻页。当然也需要为每个页面创建一个共同的组件。
+
+
+
+我们需要封装 `TabNavigtor` 在 `NavigationContainer` 向下面这样：
+
+
+
+```
+<NavigationContainer>
+  <Tab.Navigator>
+    <Tab.Screen name="All" component={All} />
+    <Tab.Screen name="Business" component={Business} />
+    <Tab.Screen name="Health" component={HealthScreen} />
+    <Tab.Screen name="Sports" component={SportsScreen} />
+    <Tab.Screen name="Tech" component={TechScreen} />
+  </Tab.Navigator>
+</NavigationContainer>
+```
+
+
+
+我们同样需要引入那些组件，我们可以在文件顶部操作。
+
+
+
+```
+import All from './screens/All';
+import Business from './screens/Business';
+import HealthScreen from './screens/Health';
+import SportsScreen from './screens/Sports';
+import TechScreen from './screens/Tech';
+```
 
