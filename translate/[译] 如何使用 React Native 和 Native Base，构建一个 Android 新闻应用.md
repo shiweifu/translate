@@ -229,3 +229,139 @@ import SportsScreen from './screens/Sports';
 import TechScreen from './screens/Tech';
 ```
 
+
+
+现在，如果我们将所有我们编写的代码放在一起，它们是这样的：
+
+
+
+```
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import All from './screens/All';
+import Business from './screens/Business';
+import HealthScreen from './screens/Health';
+import SportsScreen from './screens/Sports';
+import TechScreen from './screens/Tech';
+const Tab = createBottomTabNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="All" component={All} />
+        <Tab.Screen name="Business" component={Business} />
+        <Tab.Screen name="Health" component={HealthScreen} />
+        <Tab.Screen name="Sports" component={SportsScreen} />
+        <Tab.Screen name="Tech" component={TechScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+} 
+```
+
+
+
+
+
+这些代码对应如下界面：
+
+
+
+![img](https://www.freecodecamp.org/news/content/images/2021/08/Screenshot-2021-08-21-181356.png)
+
+
+
+我们一共有五个页面，分别是：All，Business，Health，Sports，Tech。
+
+
+
+现在，我们做一些调整。我们需要为底部菜单来换一下图标。
+
+
+
+首先，我们需要加载图标库。我们使用 `react-native-elements`。
+
+
+
+使用下面的命令来安装：
+
+
+
+```
+npm install react-native-elements
+```
+
+
+
+这个库提供了一些流行的图标来供我们使用。
+
+
+
+现在，我们来添加图标到底部菜单栏。
+
+
+
+```
+<Tab.Screen name="All" component={All}
+          options={{
+            tabBarIcon: (props) => (
+              <Icon type='feather' name='home' color={props.color} />
+            ),
+          }} />
+```
+
+
+
+这里我们添加了名为 `home` 的图标，到 `home` 页面，并指定使用 `feather` 库中的图标。
+
+
+
+![img](https://www.freecodecamp.org/news/content/images/2021/08/Screenshot-2021-08-21-194136.png)
+
+
+
+上述图片即为此时的输出。与之类似，让我们来为其他 tab，增加图标。
+
+
+
+```
+<Tab.Navigator>
+        <Tab.Screen name="All" component={All}
+          options={{
+            tabBarIcon: (props) => (
+              <Icon type='feather' name='home' color={props.color} />
+            ),
+          }} />
+
+        <Tab.Screen name="Business" component={Business}
+          options={{
+            tabBarIcon: (props) => (
+              <Icon type='feather' name='dollar-sign' color={props.color} />
+            ),
+          }} />
+
+        <Tab.Screen name="Health" component={HealthScreen}
+          options={{
+            tabBarIcon: (props) => (
+              <Icon type='feather' name='heart' color={props.color} />
+            ),
+          }} />
+
+        <Tab.Screen name="Sports" component={SportsScreen}
+          options={{
+            tabBarIcon: (props) => (
+              <Icon type='ionicon' name="tennisball-outline" color={props.color} />
+            ),
+          }} />
+
+        <Tab.Screen name="Tech" component={TechScreen}
+          options={{
+            tabBarIcon: (props) => (
+              <Icon type='ionicon' name="hardware-chip-outline" color={props.color} />
+            ),
+          }} />
+      </Tab.Navigator>
+```
+
