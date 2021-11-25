@@ -365,3 +365,84 @@ npm install react-native-elements
       </Tab.Navigator>
 ```
 
+
+
+![img](https://www.freecodecamp.org/news/content/images/2021/08/Screenshot-2021-08-21-194525.png)
+
+
+
+现在，每个页面都已经添加完毕，它们的图标也已经正确。
+
+
+
+### 如何调用新闻 API
+
+
+
+现在，我们来调用 `http://newsapi.org`。
+
+
+
+![img](https://www.freecodecamp.org/news/content/images/2021/08/Screenshot-2021-08-21-194845.png)
+
+
+
+访问网站并注册。它将会分配给你一个 API。
+
+
+
+我们需要一个配置文件，存储全部的新闻内容，我们来创建它。
+
+
+
+```
+export const API_KEY = ``;
+export const endpoint = `https://newsapi.org/v2/top-headlines`;
+export const country = 'in'
+```
+
+
+
+我们需要 API_KEY，访问端点，以及区域代码。
+
+
+
+现在，我们需要创建我们的服务，来调用 GET API 请求。
+
+
+
+从 `services.js` 发起调用。
+
+
+
+这里，引入 API_KEY，端点，以及城市在文件顶部。
+
+
+
+```
+import { API_KEY, endpoint, country } from '../config/config';
+```
+
+
+
+然后，我们来编写服务的内容。
+
+
+
+```
+export async function services(category = 'general') {
+    let articles = await fetch(`${endpoint}?country=${country}&category=${category}`, {
+        headers: {
+            'X-API-KEY': API_KEY
+        }
+    });
+
+    let result = await articles.json();
+    articles = null;
+
+    return result.articles;
+}
+```
+
+
+
