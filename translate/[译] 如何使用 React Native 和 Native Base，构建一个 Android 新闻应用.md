@@ -446,3 +446,46 @@ export async function services(category = 'general') {
 
 
 
+因此，我们通过使用端点获取新闻数据，并附加国家和类别。在该函数中，我们将类别作为一般类别传递，因为这是默认类别。我们还在头文件中传递API密钥。
+
+
+
+然后，我们将响应或传入数据转换为JSON格式，并将其存储在结果变量中。
+
+
+
+以下是全部代码内容，可以参考：
+
+
+
+```
+import { API_KEY, endpoint, country } from '../config/config';
+
+export async function services(category = 'general') {
+    let articles = await fetch(`${endpoint}?country=${country}&category=${category}`, {
+        headers: {
+            'X-API-KEY': API_KEY
+        }
+    });
+
+    let result = await articles.json();
+    articles = null;
+
+    return result.articles;
+}
+```
+
+
+
+现在，我们需要在 All.js 文件中，引入这个服务文件。
+
+
+
+```
+import { services } from '../services/services';
+```
+
+
+
+我们需要使用useState和useEffect钩子。useEffect钩子会在All.js文件中调用这个服务，useState会创建一个状态来存储来自API的响应。
+
