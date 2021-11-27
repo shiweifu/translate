@@ -489,3 +489,64 @@ import { services } from '../services/services';
 
 我们需要使用useState和useEffect钩子。useEffect钩子会在All.js文件中调用这个服务，useState会创建一个状态来存储来自API的响应。
 
+
+
+```
+import React, { useEffect, useState } from 'react'
+import { View } from 'react-native';
+import { services } from '../services/services';
+export default function All() {
+    const [newsData, setNewsData] = useState([])
+    useEffect(() => {
+        services('general')
+            .then(data => {
+                setNewsData(data)
+            })
+            .catch(error => {
+                alert(error)
+            })
+    }, [])
+    return (
+        <View>
+
+        </View>
+    )
+}
+```
+
+
+
+在这个文件中，我们调用useEffect钩子中的服务。然后我们将响应存储在newsData状态中，这是一个数组。我们还为类别传递一个参数，这是一般的。
+
+
+
+这个屏幕将获取所有的新闻，所以我们使用一般类别。每隔一个屏幕它就会改变。它将是“健康”屏幕上的“健康”，“运动”屏幕上的“运动”，等等。
+
+
+
+现在，我们需要在接口中显示这些数据。为此，我们还需要另一个名为Native Base的包。所以，让我们安装它。
+
+
+
+键入下面的命令来安装Native Base
+
+
+
+```
+yarn add native-base styled-components styled-system
+expo install react-native-svg react-native-safe-area-context
+```
+
+
+
+在All.js中，让我们从Native Base中导入一些东西
+
+
+
+```
+import React, { useEffect, useState } from 'react'
+import { View, Text } from 'react-native';
+import { NativeBaseProvider, FlatList, ScrollView, Divider, Image, Spinner } from 'native-base';
+import { services } from '../services/services';
+```
+
