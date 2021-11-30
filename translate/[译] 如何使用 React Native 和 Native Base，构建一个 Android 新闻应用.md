@@ -776,3 +776,95 @@ const styles = StyleSheet.create({
 
 至此，我们的 All.js 页面已全部完成。
 
+
+
+![img](https://www.freecodecamp.org/news/content/images/2021/08/Screenshot-2021-08-21-210200.png)
+
+
+
+向下滚动业务屏幕，您将看到与业务相关的新闻。
+
+
+
+你可以对所有其他屏幕做同样的事情。
+
+
+
+```
+useEffect(() => {
+        services('business')
+            .then(data => {
+                setNewsData(data)
+            })
+            .catch(error => {
+                alert(error)
+            })
+}, [])
+```
+
+
+
+```
+useEffect(() => {
+        services('health')
+            .then(data => {
+                setNewsData(data)
+            })
+            .catch(error => {
+                alert(error)
+            })
+    }, [])
+```
+
+
+
+```
+useEffect(() => {
+        services('sports')
+            .then(data => {
+                setNewsData(data)
+            })
+            .catch(error => {
+                alert(error)
+            })
+    }, [])
+```
+
+
+
+```
+useEffect(() => {
+        services('technology')
+            .then(data => {
+                setNewsData(data)
+            })
+            .catch(error => {
+                alert(error)
+            })
+    }, [])
+```
+
+
+
+### 结尾
+
+
+
+现在祝贺您！此时我们的新闻应用已经全部完成。
+
+
+
+所以继续完善它吧，构建并尝试一下它。还有很多事情可以做。
+
+
+
+你可以在我的YouTube频道上 [用React Native和Native Base构建新闻应用](https://youtube.com/playlist?list=PLWgH1O_994O8KP1srByN1OmoiRpLF6lNO) 的播放列表上查看关于本教程的视频版。
+
+
+
+您也可以随时下载代码：https://github.com/nishant-666/reacor-native-news
+
+
+
+最后，感谢您的学习，希望学习快乐。
+
