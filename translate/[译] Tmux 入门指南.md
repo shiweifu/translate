@@ -27,3 +27,46 @@ tmux 是一个终端复用工具，就像终端的桌面管理器。它使得我
 
 
 你可以在所有平台上，使用包管理器安装 tmux，但让我们来介绍一下最著名的平台。在 Debian 或者 Ubuntu 上，您可以执行以下操作来安装：
+
+
+
+```
+apt install tmux
+```
+
+
+
+在 macOS 平台，你可以使用 homebrew 来安装：
+
+```bash
+brew install tmux
+```
+
+检查是否安装成功，使用下面语句：
+
+```bash
+man tmux
+```
+
+如果你看到以下输出：
+
+![tmux Manual](https://pragmaticpineapple.com/static/ae6a05c1f9c95c209fb3832546f20767/fcda8/tmux-manual.png)tmux Manual
+
+
+
+标识你已经安装成功。
+
+
+
+### 开始使用 tmux
+
+我们通过在终端中，使用 tmux 命令来启动 tmux，以查看它的全部内容。启动之后，您可以看到终端中的内容都保持不变，只是底部多了一条绿线。我们将 tmux 服务端作为客户端连接上去。tmux 在背景中的特定 PID 上运行一个服务端，当我们键入 tmux 时，我们会自动运行服务器，并连接。
+
+
+
+因此，我们从一个名为0的会话连接到tmux服务器，正如您在屏幕的[0]部分中所看到的那样。因此tmux充当了某种标准终端会话的中转。让我们来看看当您进入一个tmux会话时会得到什么
+
+## 
+
+
+
