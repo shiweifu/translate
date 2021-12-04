@@ -70,3 +70,21 @@ man tmux
 
 
 
+![start of a tmux session](https://pragmaticpineapple.com/static/e4c73d188da821d90805be205502967a/fcda8/tmux-start.png)
+
+
+
+在左下角，您可以看到[0]，它表示会话。紧挨着它的是0:zsh，显示哪个窗口正在打开，以及哪个程序正在那里运行。我们刚刚开始这个会话，所以我们只打开了一个窗口，并且zsh正在那里运行。
+
+
+
+你可以继续使用终端，就像往常一样，但那样会很无聊，对吧?让我们学习一两件在tmux初学者可以做的事情。我想让我们经历在tmux中创建和移动窗格的过程。
+
+
+
+### Pane Management
+
+
+
+如果您在那里使用过iTerm2并使用了窗格分割，那么您会非常喜欢这个特性。在tmux中基本相同，唯一的区别是用于创建新窗格的快捷方式。在iTerm2中，可以执行cmd + d和cmd + shift + d来垂直和水平拆分窗格。
+
