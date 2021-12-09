@@ -195,5 +195,20 @@ $ tmux ls
 
 
 
+第一个标记为0的会话表示我们有四个窗口打开，并且我们连接到它。但是标记为1(1)的第二个会话没有附加。使用C-b d，我们与标记为1的会话分离，并使用tmux ls列出所有可用的会话。多么整洁啊，现在我们可以把工作组织得更好了。
+
+
+
+如果你不喜欢会话的默认命名，比如0和1，你可以使用tmux new -s heythere来给会话命名。现在创建的会话将获得heythere名称。我们可以通过分离(C-b - d)并再次运行tmux ls来看到这一点。
+
+
+
+```bash
+$ tmux ls
+0: 4 windows (created Thu Aug 12 20:08:22 2021) (attached)
+1: 1 windows (created Thu Aug 12 20:15:03 2021)
+heythere: 1 windows (created Thu Aug 12 20:21:09 2021)
+```
+
 
 
