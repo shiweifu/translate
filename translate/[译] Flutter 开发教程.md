@@ -54,6 +54,36 @@ https://youtu.be/l-YO9CmaSUM
 
 
 
+Flutter 的设置相对简单，具体如何设置，取决于您所使用的系统；您可以通过 Flutter 官方教程了解如何配置。
+
+
+
+https://flutter.dev/docs/get-started/install
+
+
+
+但是如果您遇到一些问题，请查看以下链接：
+
+https://github.com/flutter/floutt/wiki/workarounds-for-common-issuest#flutter-installation
+
+
+
+我们要求在DART之前设置的原因是因为安装扑振时，您也可以安装DART，而且可以单独安装DART，这将是一个不必要的步骤。Flutter将决定将使用哪个DART版本，因此安装不同的DART版本也将是暧昧的。
+
+
+
+一旦下载和解压缩扑动，您应该在控制台运行浮动命令时看到这样的内容：
+
+
+
+![flutter development](https://res.cloudinary.com/practicaldev/image/fetch/s--Z0NRoy7O--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/800/1%2AaIAn1ORPEBwUY1krrd8iDA.png)
+
+
+
+
+
+如果您是新的移动开发，通常需要下载Xcode和Android Studio（和Toolchain）。一旦设置了扑动，脚手架一个新项目只是一个命令。
+
 
 
 
