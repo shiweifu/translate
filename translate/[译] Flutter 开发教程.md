@@ -86,7 +86,50 @@ https://github.com/flutter/floutt/wiki/workarounds-for-common-issuest#flutter-in
 
 
 
+#### Dart 基础
 
 
 
+Flutter 使用 Dart 语言来开发 App。要想了解选择使用 Dart 构建 Flutter 背后的动机，请查看上面的日志链接，和下面的章节： `Flutter 如何诞生`
 
+
+
+https://blog.solutelabs.com/flutter-for-your-next-product-idea-everything-you-need-to-know-f5179a925524
+
+
+
+Flutter 和 Chrome 使用同一个渲染引擎 - SKIA。与使用原生 API 不同，SKIA 控制屏幕上的每一个像素，这使得它有很大的自由度，以及性能。
+
+
+
+阅读一下 [官方文档](https://flutter.dev/docs/resources/faq#why-did-flutter-choose-to-use-dart)，下面是我筛选出的对使用 Dart 这块阐述的比较好的文章：
+
+
+
+[为什么 Flutter 使用 Dart](https://hackernoon.com/why-flutter-uses-dart-dd635a054ebf)
+
+
+
+另外，你也可以在你的 medium 账号上，关注 Dart 的信息。
+
+
+
+此时，你大概已经弄清楚为什么 Google 选择 Dart，接下来，我们来实干一波。
+
+
+
+#### 学习Dart
+
+查看 Dart 语言的官方文档，[手册](https://dart.dev/guides/language/language-tour)，以及 [语言示例](https://dart.dev/samples)。
+
+
+
+您有了大概的了解之后，请访问 http://jpryan.me/dartbyexample/，并执行所有示例。
+
+
+
+#### 练习，练习，练习！
+
+
+
+在 [DartPad](https://dartpad.dartlang.org/) 上编辑您的代码，对于初学者而言，这是很好的提升能力的机会。我相信你会忙到没时间跑步。
