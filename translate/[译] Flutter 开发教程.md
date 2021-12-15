@@ -133,3 +133,76 @@ Flutter 和 Chrome 使用同一个渲染引擎 - SKIA。与使用原生 API 不�
 
 
 在 [DartPad](https://dartpad.dartlang.org/) 上编辑您的代码，对于初学者而言，这是很好的提升能力的机会。我相信你会忙到没时间跑步。
+
+
+
+![My First Hello, World! in Dart](https://res.cloudinary.com/practicaldev/image/fetch/s--mdZmTXeW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/800/1%2Aj5k-sQWAqf0LHl_SUR3_Gg.png)
+
+
+
+之后，您完成了Dartbyexample，始终转向行业，并完成他们的飞镖轨道。这是时尚的，所以如果它完全满了，你也可以做实践轨道。
+
+
+
+[Dart | Exercism](https://exercism.io/tracks/dart)
+
+
+
+#### Flutter 基本
+
+
+
+现在，你已经熟悉 Dart 啦，是时候学习 Flutter 了。
+
+
+
+先来看一个预览：
+
+
+
+[Technical overview](https://flutter.dev/docs/resources/technical-overview)
+
+
+
+使用脚手架创建一个 flutter app：
+
+
+
+```
+flutter create app_name
+```
+
+
+
+会有如下输出：
+
+
+
+![android studio](https://res.cloudinary.com/practicaldev/image/fetch/s--nV911Awg--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/800/1%2A3KBHP-3nKyS3XP8bTma2Yw.png)
+
+
+
+使用 Android Studio 打开这个项目，如果没有成功运行，则需要先下载模拟器。
+
+
+
+![Flutter demo](https://res.cloudinary.com/practicaldev/image/fetch/s--qCyMYCjg--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/800/1%2AdA0ntm5vz0xGyDYsp2-f7g.png)
+
+
+
+接下来，需要了解项目的目录结构，以及不同文件的用处。
+
+
+
+[Flutter Project Structure](https://dev.to/jay_tillu/flutter-project-structure-1lhe)
+
+
+
+现在，你已经完成初始化 flutter，可以开始做一些开发人员的事情了：使用第三方代码。具体是指设置包文件，pubspec，使用 yaml 编写。
+
+
+
+[The pubspec file](https://dart.dev/tools/pub/pubspec)
+
+
+
