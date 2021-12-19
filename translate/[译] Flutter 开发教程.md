@@ -232,7 +232,46 @@ flutter create app_name
 
 
 
+StatefulWidgets可以持有小部件的当前状态。代替窗口小部件构建方法，有状态窗口小部件具有一个状态构建方法，每次调用我们明确调用setState时调用。
+
+
+
+同样，在此处查看文档（它有视频内部）：
+
+
+
+[StatefulWidget class](https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html)
+
+
+
+Flutter 1.9 在GDD中国发布了一系列新的功能和社区乘以的标志（并且你现在不能忽视中国）
+
+
+
+#### Flutter 中的布局
+
+
+
+如前文所述，在 Flutter 中，一切都是 widget，包括布局组件。
+
+
+
+查看此处的文档：
+
+
+
+[Layouts in Flutter](https://flutter.dev/docs/development/ui/layout)
+
+
+
+诸如行，列和网格之类的小部件是布局小部件（我们在屏幕上没有看到），帮助其他可见小部件排列，约束和对齐。
 
 
 
 
+
+
+
+
+
+  
