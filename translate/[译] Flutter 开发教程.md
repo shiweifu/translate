@@ -238,8 +238,6 @@ StatefulWidgets可以持有小部件的当前状态。代替窗口小部件构�
 
 同样，在此处查看文档（它有视频内部）：
 
-
-
 [StatefulWidget class](https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html)
 
 
@@ -268,7 +266,31 @@ Flutter 1.9 在GDD中国发布了一系列新的功能和社区乘以的标志�
 
 
 
+> ⏰ 是时候写一些 Flutter 代码了：[*编写你的第一个 Flutter App : Part-1*](https://codelabs.developers.google.com/codelabs/first-flutter-app-pt1/#0)
 
+
+
+#### 以及更多的组件！
+
+
+
+Flutter 包含了一揽子基础组件，如 Text，Column，Row，Stack 和 Container。基础组件可以帮助您根据您的需要，构建自定义组件。
+
+
+
+如果你的 App 遵循 [material design 标准](https://material.io/design/guidelines-overview/)，Flutter 包含许多默认内容。Flutter 提供数个组件，支持 Material 设计，包括一些组件： [MaterialApp](https://api.flutter.dev/flutter/material/MaterialApp-class.html), [AppBar](https://api.flutter.dev/flutter/material/AppBar-class.html), [Scaffold](https://api.flutter.dev/flutter/material/Scaffold-class.html) 及其他。
+
+
+
+![Material Navigation Drawer (https://material.io/components/navigation-drawer/#)](https://res.cloudinary.com/practicaldev/image/fetch/s--3tEXyTQ7--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/800/0%2ANibO5ZD4c_QJMAHR.png)
+
+
+
+Flutter 也包含了 iOS 风格的组件包： [Cupertino component](https://flutter.dev/docs/development/ui/widgets/cupertino) 。该组件包覆盖了包括  [CupertinoApp](https://api.flutter.dev/flutter/cupertino/CupertinoApp-class.html)，[CupertinoNavigationBar](https://api.flutter.dev/flutter/cupertino/CupertinoNavigationBar-class.html) 之类的组件。
+
+
+
+![Cupertino NavigationBar (https://developer.apple.com/design/human-interface-guidelines/ios/bars/navigation-bars/)](https://res.cloudinary.com/practicaldev/image/fetch/s--8DrYiFpv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/800/0%2A3GR_8PDpRyl4Tvmv.png)
 
 
 
