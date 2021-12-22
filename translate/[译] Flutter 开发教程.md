@@ -294,6 +294,25 @@ Flutter 也包含了 iOS 风格的组件包： [Cupertino component](https://flu
 
 
 
+#### 响应式组件
 
 
-  
+
+到目前为止，我们已经看到了在屏幕上显示信息或安排其他小部件的小部件。对于真实的应用程序，使应用程序交互式并以各种形式获取用户的输入，同样重要的是，以手势，水龙头等。
+
+
+
+为了实现这一目标，Flutter 拥有一些状态组件，例如 Checkbox，Radio，Slider，Inkwell，表单和输入框等。这些小部件足够可维持其状态（例如，我们在 TextField 中输入的文本，判断 Checkbox 是否被选中等。）
+
+
+
+请查看以下示例以向您的应用添加收藏夹/非收藏夹功能。
+
+
+
+[向你的 Flutter app 增加响应](https://flutter.dev/docs/development/ui/interactive)。
+
+
+
+练习时间到了：[*Write your First Flutter App : Part-2*](https://codelabs.developers.google.com/codelabs/first-flutter-app-pt2/#0)
+
