@@ -316,3 +316,62 @@ Flutter 也包含了 iOS 风格的组件包： [Cupertino component](https://flu
 
 练习时间到了：[*Write your First Flutter App : Part-2*](https://codelabs.developers.google.com/codelabs/first-flutter-app-pt2/#0)
 
+
+
+> 正如您到达这里的那样，您应该清楚的是小部件？和小部件的类型
+
+
+
+现在你一定是奇怪的是 Flutter 的所有小部件？
+
+
+
+所以这里是一个小部件目录，检查所有 Flutter 的小部件放松和乐趣😍
+
+
+
+[Widget catalog](https://flutter.dev/docs/development/ui/widgets)
+
+
+
+#### Flutter Cookbook
+
+
+
+在这里，我们走了，是时候学习真实应用程序的Flutter了。我的意思是具有多个屏幕，图像，网络依赖和全部的应用程序。
+
+
+
+我们开始吧。
+
+
+
+#### 设计一个 App
+
+
+
+检查下面的app图。
+
+
+
+![-----------------](https://res.cloudinary.com/practicaldev/image/fetch/s--5a56KpL---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://cdn-images-1.medium.com/max/800/1%2AFVbUPfA8Q03E7_old_Yajw.gif)
+
+
+
+这个简单的寻找应用程序具有这些功能👇
+
+
+
+1. 导航
+   https://flutter.dev/docs/cookbook/design/drawer
+2. SnackBar
+   https://flutter.dev/docs/cookbook/design/snackbars
+3. 自定义字体
+   https://flutter.dev/docs/cookbook/design/package-fonts
+4. 基于文本的横向
+   https://flutter.dev/docs/cookbook/design/orientation
+5. 多个 Tabs
+   https://flutter.dev/docs/cookbook/design/tabs
+
+
+
