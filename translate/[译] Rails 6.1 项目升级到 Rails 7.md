@@ -69,3 +69,50 @@ gem "sprockets-rails"
 bundle install
 ```
 
+
+
+#### 4. 运行 rails task
+
+
+
+```
+bin/rails app:update
+```
+
+
+
+这将提示你一个文件一个文件地集成新的rails 7默认值。
+
+
+
+例子：
+
+```
+Overwrite .../config/boot.rb? (enter "h" for help) [Ynaqdhm]
+```
+
+
+
+注意:按h查看菜单选项。
+
+
+
+检查每个文件，检查rails 7的默认设置和当前配置之间的差异。
+
+
+
+当选择merge (m)时，你可以在编辑器中打开文件进行比较。如果你遇到以下错误:Please specify merge tool to 'THOR merge ' env在指定编辑器的情况下，再次运行app:update命令。
+
+
+
+例子：
+
+
+
+```
+THOR_MERGE=code bin/rails app:update
+```
+
+
+
+安装完成后运行rails db:migrate迁移新添加的活动存储迁移文件。如果您设置了其他环境，非默认环境，如登台。Rb也要确保更新那个文件。
