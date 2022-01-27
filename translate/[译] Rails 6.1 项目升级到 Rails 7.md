@@ -116,3 +116,39 @@ THOR_MERGE=code bin/rails app:update
 
 
 安装完成后运行rails db:migrate迁移新添加的活动存储迁移文件。如果您设置了其他环境，非默认环境，如登台。Rb也要确保更新那个文件。
+
+
+
+❗️如果您已经设置了其他环境，则非默认环境，如staging.rb，请务必更新该文件。
+
+
+
+#### 验证默认框架设置
+
+
+
+完成执行 `bin/rails app:update` 后：从步骤4更新，Rails在Config / InitialIzers中创建一个new_framework_defaults_7.0.rb文件。此文件通过在多个部署中逐一翻转新的默认设置，帮助您更轻松地进行大升级。
+
+
+
+application.rb文件的设置load_defaults指定哪个Rails版本的默认设置加载。这意味着您可以在运行Rails 7时暂时使用Rails 6.1中的默认配置设置。
+
+
+
+```
+# Initialize configuration defaults for originally generated Rails version.
+config.load_defaults 6.1
+```
+
+
+
+然后，逐渐打开每个设置，并验证您的应用程序仍然按照预期工作。一旦你打开了所有的设置，你就可以删除新的框架默认7.0。Rb，并在应用程序中翻转加载默认版本。rb至7.0。
+
+
+
+
+
+
+
+
+
