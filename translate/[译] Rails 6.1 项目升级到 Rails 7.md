@@ -146,7 +146,18 @@ config.load_defaults 6.1
 
 
 
+```
+# Initialize configuration defaults for originally generated Rails version.
+config.load_defaults 7.0
+```
 
+
+
+#### 验证已经废弃的方法
+
+
+
+您的应用程序可能会使用其他被贬低的特性。通读Rails 6.1到Rails 7小节，以识别和修复不再支持的任何方法调用或设置。
 
 
 
