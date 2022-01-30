@@ -19,3 +19,43 @@ Rails 7就在眼前。我们还没有确定的发布日期，但预计将在圣�
 
 
 用Babel编译ES6和用Webpack打包需要大量的设置。虽然Rails用Webpacker的gem很好地支持了它，但这带来了很多包袱，很难理解和修改，尤其是在保持可升级性的情况下。
+
+
+
+现在，使用 `rails new` 命令，默认创建的 app，通过 [`importmaps-rails` gem](https://github.com/rails/importmap-rails/) 来代替 `package.json` 文件，实现包引入以及 通过 `npm` 或者 `yarn` 来安装前端依赖库。现在，你可以使用 `./bin/importmap` 终端命令，来 pin、unpin 以及 update 来维护依赖。
+
+举个例子，来安装 `date-fns`：
+
+
+
+```
+$ ./bin/importmap pin date-fns
+```
+
+
+
+这会在 `config/importmap.rb` 文件，添加一行：
+
+```
+pin "date-fns", to: "https://ga.jspm.io/npm:date-fns@2.27.0/esm/index.js"
+```
+
+
+
+在你的JavaScript代码中，你可以像以前一样继续使用所有的东西：
+
+
+
+```js
+import { formatDistance, subDays } from 'date-fns'
+2
+3formatDistance(subDays(new Date(), 3), new Date(), { addSuffix: true })
+4//=> "3 days ago"
+```
+
+
+
+在这个设置中需要记住的一点是，您编写的内容和浏览器获取的内容之间没有转换。大多数情况下，这是可以的，因为所有重要的浏览器现在都支持ES6开箱即用。
+
+
+
