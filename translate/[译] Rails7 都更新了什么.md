@@ -59,3 +59,47 @@ import { formatDistance, subDays } from 'date-fns'
 
 
 
+但这也意味着你不能使用TypeScript或JSX，因为它们需要在使用之前翻译成JS。
+
+
+
+因此，如果要使用JSX的React，您仍然必须返回其他设置（使用WebPack / Rollup / ESBuild）。
+
+
+
+Rails 7可以为您做到这一点。你所需要的只是一个命令与你选择的策略：
+
+```
+$ ./bin/rails javascript:install:[esbuild|rollup|webpack]
+```
+
+
+
+#### Turbolinks 和 UJS 被替换为 Turbo 和 Stimulus
+
+
+
+用Rails 7生成的应用程序默认会得到Turbo和Stimulus(从Hotwire)，而不是Turbolinks和UJS。Hotwire是一种通过网络发送HTML来快速更新DOM的新方法。
+
+
+
+#### 数据库层加密
+
+
+
+Rails 7允许使用ActiveRecord::Base上的encrypts方法将某些数据库字段标记为加密的。这意味着在初始设置之后，您可以编写如下代码：
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
