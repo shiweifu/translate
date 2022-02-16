@@ -62,4 +62,49 @@ RuboCop 可以保证这些类似的代码问题，不会出现在合并或者 PR
 
 
 
-通常情况下，最佳实践意味着我们在编写代码时，我们所遵循的，无论喜欢或者不喜欢，关于代码或者模式的规则，对于每个人都不一样。如果我们把精力聚焦在讨论每个功能中，关于代码的实践，那么我们什么时候能发布这些功能呢？
+通常情况下，最佳实践意味着我们在编写代码时，我们所遵循的，s无论喜欢或者不喜欢，关于代码或者模式的规则，对于每个人都不一样。如果我们把精力聚焦在讨论每个功能中，关于代码的实践，那么我们什么时候能发布这些功能呢？
+
+
+
+而使用 Rubocop，我们可以与团队成员讨论应该遵循哪些规则，或者禁用哪些规则，从而让团队中的每个人都满意（好吧，你永远不可能让每个人都满意）。
+
+
+
+#### 在 Rails，设置 RuboCop 
+
+
+
+在本文中，我们安装 `rubocop` gem，来指定对 Ruby 代码的规则约束，通过 `rubocop-rails`，来指定 Rails 代码的约束。
+
+
+
+#### 添加 Gem 到 Gemfile
+
+
+
+添加以下依赖，到 `:development，:test`：
+
+
+
+```
+group :development, :test do
+  # enforce rails best practice with rubocop
+  gem 'rubocop', '~> 1.18.0', require: false
+  gem 'rubocop-performance', '~> 1.11.0', require: false
+  gem 'rubocop-rails', '~> 2.11.0', require: false
+end
+```
+
+
+
+> 注意：在我们的项目中安装这些 gem 时，指定当前最新版本的 gem。
+
+
+
+我们添加了下列 gem，到 Gemfile 中：
+
+
+
+- rubocop ：Ruby 代码规则
+- rubocop-performance：关于性能方面的规则
+- rubocop-rails：专用于 Rails 的规则
