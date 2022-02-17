@@ -108,3 +108,648 @@ end
 - rubocop ：Ruby 代码规则
 - rubocop-performance：关于性能方面的规则
 - rubocop-rails：专用于 Rails 的规则
+
+
+
+#### 在项目中安装 Gem
+
+
+
+1. 全局安装 `rubocop`
+
+`gem install rubocop`
+
+
+
+这将帮助我们运行 `rubocop` gem 包，所提供的命令，如自动格式化代码、在项目中运行 rubocop 等。
+
+
+
+2. 通过 `bundle install` 安装项目所需要的 gem 包
+
+
+
+#### 增加配置文件
+
+
+
+要控制规则（激活、禁用），我们需要为每个扩展创建配置文件。如果没有配置文件，RuboCop 将激活默认扩展配置。我喜欢创建相应的配置文件，因为它为我们的项目提供灵活性。
+
+
+
+让我们来为 RuboCop 相关的扩展来创建配置：
+
+
+
+```
+  $ cd /path/to/our/project
+  $ touch .rubocop.yml
+  $ touch .rubocop-performance.yml
+  $ touch .rubocop-rails.yml
+```
+
+
+
+#### 向配置文件添加规则
+
+
+
+>  我也有一个专门介绍 RuboCop 配置文件写的日志，如果你想要更多的选项，你可以在 [RuboCop Configuration Files for Rails](https://prabinpoudel.com.np/articles/rubocop-configuration-files-for-rails/) 找到它。
+
+
+
+让我们更新配置文件，添加 Ruby  相关的规则，并安装扩展。
+
+
+
+#### Ruby
+
+
+
+```
+# .rubocop.yml
+
+# The behavior of RuboCop can be controlled via the .rubocop.yml
+# configuration file. It makes it possible to enable/disable
+# certain cops (checks) and to alter their behavior if they accept
+# any parameters. The file can be placed either in your home
+# directory or in some project directory.
+#
+# RuboCop will start looking for the configuration file in the directory
+# where the inspected file is and continue its way up to the root directory.
+#
+
+inherit_from:
+  - '.rubocop-performance.yml'
+  - '.rubocop-rails.yml'
+
+require:
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+  TargetRubyVersion: 2.7
+  TargetRailsVersion: 6.0
+  Exclude:
+    - '**/db/migrate/*'
+    - 'db/schema.rb'
+    - '**/Gemfile.lock'
+    - '**/Rakefile'
+    - '**/rails'
+    - '**/vendor/**/*'
+    - '**/spec_helper.rb'
+    - 'node_modules/**/*'
+    - 'bin/*'
+
+###########################################################
+###################### RuboCop ############################
+###########################################################
+
+# You can find all configuration options for rubocop here: https://docs.rubocop.org/rubocop/cops_bundler.html
+
+###########################################################
+####################### Gemspec ###########################
+###########################################################
+
+Gemspec/DateAssignment: # (new in 1.10)
+  Enabled: true
+
+###########################################################
+######################## Layout ###########################
+###########################################################
+
+Layout/ClassStructure:
+  ExpectedOrder:
+    - module_inclusion
+    - constants
+    - association
+    - public_attribute_macros
+    - public_delegate
+    - macros
+    - initializer
+    - public_class_methods
+    - public_methods
+    - protected_attribute_macros
+    - protected_methods
+    - private_attribute_macros
+    - private_delegate
+    - private_methods
+
+Layout/EmptyLineAfterMultilineCondition:
+  Enabled: true
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/FirstArrayElementLineBreak:
+  Enabled: true
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+
+Layout/LineEndStringConcatenationIndentation: # (new in 1.18)
+  Enabled: true
+
+Layout/LineLength:
+  Max: 150
+  Exclude:
+    - '**/spec/**/*'
+
+Layout/MultilineArrayBraceLayout:
+  EnforcedStyle: new_line
+
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+Layout/MultilineHashBraceLayout:
+  EnforcedStyle: new_line
+
+Layout/MultilineHashKeyLineBreaks:
+  Enabled: true
+
+Layout/MultilineMethodCallBraceLayout:
+  EnforcedStyle: new_line
+
+Layout/MultilineMethodDefinitionBraceLayout:
+  EnforcedStyle: new_line
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Layout/SpaceBeforeBrackets: # (new in 1.7)
+  Enabled: true
+
+Layout/SpaceInLambdaLiteral:
+  EnforcedStyle: require_space
+
+
+###########################################################
+######################## Lint #############################
+###########################################################
+
+Lint/AmbiguousAssignment: # (new in 1.7)
+  Enabled: true
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - '**/spec/**/*'
+
+Lint/AssignmentInCondition:
+  AllowSafeAssignment: false
+
+Lint/BinaryOperatorWithIdenticalOperands:
+  Enabled: true
+
+Lint/DeprecatedConstants: # (new in 1.8)
+  Enabled: true
+
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+Lint/DuplicateBranch: # (new in 1.3)
+  Enabled: true
+
+Lint/DuplicateElsifCondition:
+  Enabled: true
+
+Lint/DuplicateRegexpCharacterClassElement: # (new in 1.1)
+  Enabled: true
+
+Lint/DuplicateRequire:
+  Enabled: true
+
+Lint/DuplicateRescueException:
+  Enabled: true
+
+Lint/EmptyBlock: # (new in 1.1)
+  Enabled: true
+
+Lint/EmptyClass: # (new in 1.3)
+  Enabled: true
+
+Lint/EmptyConditionalBody:
+  Enabled: true
+
+Lint/EmptyFile:
+  Enabled: true
+
+Lint/EmptyInPattern: # (new in 1.16)
+  Enabled: true
+
+Lint/FloatComparison:
+  Enabled: true
+
+Lint/LambdaWithoutLiteralBlock: # (new in 1.8)
+  Enabled: true
+
+Lint/MissingSuper:
+  Enabled: true
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+
+Lint/NoReturnInBeginEndBlocks: # (new in 1.2)
+  Enabled: true
+
+Lint/NumberConversion:
+  Enabled: true
+
+Lint/NumberedParameterAssignment: # (new in 1.9)
+  Enabled: true
+
+Lint/OrAssignmentToConstant: # (new in 1.9)
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/RedundantDirGlobSort: # (new in 1.8)
+  Enabled: true
+
+Lint/SelfAssignment:
+  Enabled: true
+
+Lint/SymbolConversion: # (new in 1.9)
+  Enabled: true
+
+Lint/ToEnumArguments: # (new in 1.1)
+  Enabled: true
+
+Lint/TrailingCommaInAttributeDeclaration:
+  Enabled: true
+
+Lint/TripleQuotes: # (new in 1.9)
+  Enabled: true
+
+Lint/UnexpectedBlockArity: # (new in 1.5)
+  Enabled: true
+
+Lint/UnmodifiedReduceAccumulator: # (new in 1.1)
+  Enabled: true
+
+Lint/UnusedBlockArgument:
+  IgnoreEmptyBlocks: false
+
+Lint/UnusedMethodArgument:
+  IgnoreEmptyMethods: false
+
+Lint/UselessMethodDefinition:
+  Enabled: true
+
+###########################################################
+######################## Metric ###########################
+###########################################################
+
+Metrics/AbcSize:
+ Max: 45
+
+Metrics/BlockLength:
+  CountComments: false
+  Max: 50
+  Exclude:
+    - '**/spec/**/*'
+    - '**/*.rake'
+    - '**/factories/**/*'
+    - '**/config/routes.rb'
+
+Metrics/ClassLength:
+  CountAsOne: ['array', 'hash']
+  Max: 150
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/MethodLength:
+  CountAsOne: ['array', 'hash']
+  Max: 30
+
+Metrics/ModuleLength:
+  CountAsOne: ['array', 'hash']
+  Max: 250
+  Exclude:
+    - '**/spec/**/*'
+
+Metrics/PerceivedComplexity:
+  Max: 10
+
+###########################################################
+######################## Naming ###########################
+###########################################################
+
+Naming/InclusiveLanguage: # (new in 1.18)
+  Enabled: true
+
+###########################################################
+######################## Style ############################
+###########################################################
+
+Style/AccessorGrouping:
+  Enabled: true
+
+Style/ArgumentsForwarding: # (new in 1.1)
+  Enabled: true
+
+Style/ArrayCoercion:
+  Enabled: true
+
+Style/AutoResourceCleanup:
+  Enabled: true
+
+Style/BisectedAttrAccessor:
+  Enabled: true
+
+Style/CaseLikeIf:
+  Enabled: true
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/CollectionCompact: # (new in 1.2)
+  Enabled: true
+
+Style/CollectionMethods:
+  Enabled: true
+
+Style/CombinableLoops:
+  Enabled: true
+
+Style/CommandLiteral:
+  EnforcedStyle: percent_x
+
+Style/ConstantVisibility:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false
+
+Style/DocumentDynamicEvalDefinition: # (new in 1.1)
+  Enabled: true
+
+Style/EndlessMethod: # (new in 1.8)
+  Enabled: true
+
+Style/ExplicitBlockArgument:
+  Enabled: true
+
+Style/GlobalStdStream:
+  Enabled: true
+
+Style/HashConversion: # (new in 1.10)
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashExcept: # (new in 1.7)
+  Enabled: true
+
+Style/HashLikeCase:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/IfWithBooleanLiteralBranches: # (new in 1.9)
+  Enabled: true
+
+Style/ImplicitRuntimeError:
+  Enabled: true
+
+Style/InlineComment:
+  Enabled: true
+
+Style/InPatternThen: # (new in 1.16)
+  Enabled: true
+
+Style/IpAddresses:
+  Enabled: true
+
+Style/KeywordParametersOrder:
+  Enabled: true
+
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
+
+Style/MissingElse:
+  Enabled: true
+
+Style/MultilineInPatternThen: # (new in 1.16)
+  Enabled: true
+
+Style/MultilineMethodSignature:
+  Enabled: true
+
+Style/NegatedIfElseCondition: # (new in 1.2)
+  Enabled: true
+
+Style/NilLambda: # (new in 1.3)
+  Enabled: true
+
+Style/OptionalBooleanParameter:
+  Enabled: true
+
+Style/QuotedSymbols: # (new in 1.16)
+  Enabled: true
+
+Style/RedundantArgument: # (new in 1.4)
+  Enabled: true
+
+Style/RedundantAssignment:
+  Enabled: true
+
+Style/RedundantBegin:
+  Enabled: true
+
+Style/RedundantFetchBlock:
+  Enabled: true
+
+Style/RedundantFileExtensionInRequire:
+  Enabled: true
+
+Style/RedundantSelfAssignment:
+  Enabled: true
+
+Style/SingleArgumentDig:
+  Enabled: true
+
+Style/StringChars: # (new in 1.12)
+  Enabled: true
+
+Style/StringConcatenation:
+  Enabled: true
+
+Style/SwapValues: # (new in 1.1)
+  Enabled: true
+```
+
+
+
+#### Rails
+
+
+
+```
+# .rubocop-rails.yml
+
+###########################################################
+#################### RuboCop Rails ########################
+###########################################################
+
+# You can find all configuration options for rubocop-rails here: https://docs.rubocop.org/rubocop-rails/cops_rails.html
+
+Rails/ActiveRecordCallbacksOrder:
+  Enabled: true
+
+Rails/AddColumnIndex: # (new in 2.11)
+  Enabled: true
+
+Rails/AfterCommitOverride:
+  Enabled: true
+
+Rails/AttributeDefaultBlockValue: # (new in 2.9)
+  Enabled: true
+
+Rails/DefaultScope:
+  Enabled: true
+
+Rails/EagerEvaluationLogMessage: # (new in 2.11)
+  Enabled: true
+
+Rails/ExpandedDateRange: # (new in 2.11)
+  Enabled: true
+
+Rails/FindById:
+  Enabled: true
+
+Rails/I18nLocaleAssignment: # (new in 2.11)
+  Enabled: true
+
+Rails/Inquiry:
+  Enabled: true
+
+Rails/MailerName:
+  Enabled: true
+
+Rails/MatchRoute:
+  Enabled: true
+
+Rails/NegateInclude:
+  Enabled: true
+
+Rails/OrderById:
+  Enabled: true
+
+Rails/Pluck:
+  Enabled: true
+
+Rails/PluckId:
+  Enabled: true
+
+Rails/PluckInWhere:
+  Enabled: true
+
+Rails/RenderInline:
+  Enabled: true
+
+Rails/RenderPlainText:
+  Enabled: true
+
+Rails/SaveBang:
+  Enabled: true
+  AllowImplicitReturn: false
+
+Rails/ShortI18n:
+  Enabled: true
+
+Rails/SquishedSQLHeredocs: # (new in 2.8)
+  Enabled: true
+
+Rails/TimeZoneAssignment: # (new in 2.10)
+  Enabled: true
+
+Rails/UnusedIgnoredColumns: # (new in 2.11)
+  Enabled: true
+
+Rails/WhereEquals: # (new in 2.9)
+  Enabled: true
+
+Rails/WhereExists:
+  Enabled: true
+
+Rails/WhereNot:
+  Enabled: true
+```
+
+
+
+#### 性能优化
+
+
+
+```
+.rubocop-performance.yml
+
+###########################################################
+#################### RuboCop Performance ##################
+###########################################################
+
+# You can find all configuration options for rubocop-performance here: https://docs.rubocop.org/rubocop-performance/
+
+Performance/AncestorsInclude: # (new in 1.7)
+  Enabled: true
+
+Performance/BigDecimalWithNumericArgument: # (new in 1.7)
+  Enabled: true
+
+Performance/BlockGivenWithExplicitBlock: # (new in 1.9)
+  Enabled: true
+
+Performance/CollectionLiteralInLoop: # (new in 1.8)
+  Enabled: true
+
+Performance/ConstantRegexp: # (new in 1.9)
+  Enabled: true
+
+Performance/MapCompact: # (new in 1.11)
+  Enabled: true
+
+Performance/MethodObjectAsBlock: # (new in 1.9)
+  Enabled: true
+
+Performance/RedundantEqualityComparisonBlock: # (new in 1.10)
+  Enabled: true
+
+Performance/RedundantSortBlock: # (new in 1.7)
+  Enabled: true
+
+Performance/RedundantSplitRegexpArgument: # (new in 1.10)
+  Enabled: true
+
+Performance/RedundantStringChars: # (new in 1.7)
+  Enabled: true
+
+Performance/ReverseFirst: # (new in 1.7)
+  Enabled: true
+
+Performance/SortReverse: # (new in 1.7)
+  Enabled: true
+
+Performance/Squeeze: # (new in 1.7)
+  Enabled: true
+
+Performance/StringInclude: # (new in 1.7)
+  Enabled: true
+
+Performance/Sum: # (new in 1.8)
+  Enabled: true
+```
+
