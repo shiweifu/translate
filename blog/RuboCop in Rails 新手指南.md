@@ -753,3 +753,28 @@ Performance/Sum: # (new in 1.8)
   Enabled: true
 ```
 
+#### 运行 RuboCop
+
+我们有各种选项，运行 RuboCop
+
+- 整个项目
+- 某个文件夹中的文件
+- 单独的文件
+
+在命令行中运行RuboCop命令后，我们将看到在项目内部的代码中发现的问题，然后我们可以手动修复这些问题，或者在大多数情况下也可以选择自动更正这些问题。
+
+#### 整个项目
+
+```
+$ cd /path/to/your/project
+$ rubocop
+```
+
+#### 文件夹中的文件
+
+```
+$ rubocop app
+```
+
+
+
