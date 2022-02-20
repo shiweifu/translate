@@ -803,3 +803,60 @@ $ rubocop -A
 # or
 $ rubocop --auto-correct-all
 ```
+
+#### 其他 RuboCop 扩展
+
+RuboCop 还提供了一些用于其他扩展的规则实现：
+
+rubocop-rspec：用于 Rspec，一个 Rails 生态中十分流行的测试框架。
+rubocop-rake：用于 rake 的规则
+rubocop-minitest：另外一个 Rails 生态中，流行的测试框架，用于测试代码。
+
+#### 风格手册
+
+RuboCop基于风格指南，帮助维护每个扩展的最佳实践。如果你好奇，你可以从下面的链接查看和阅读指南：
+
+
+
+- [Ruby](https://rubystyle.guide/)
+- [Rails](https://rails.rubystyle.guide/)
+- [RSpec](https://rspec.rubystyle.guide/)
+- [Minitest](https://minitest.rubystyle.guide/)
+
+
+
+#### 结论
+
+
+
+RuboCop 在维护项目代码最佳实践方面非常有用，它是我们在 Truemark 下所有项目设置中包含的必要 gem 之一。
+
+
+
+在使用静态代码分析器时需要记住的一点是，我们可以灵活地启用和禁用规则，因此我们应该与团队讨论应该包含什么，为什么要包含以及禁用什么。
+
+
+
+这是我希望自己在作为 Rails 开发人员开始我们的项目时拥有的指南，我希望它对你有用。
+
+
+
+Happy Coding！
+
+
+
+### 
+
+### 图片来源
+
+- 封面来自：[Scott Webb](https://unsplash.com/@scottwebb?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText) on [Unsplash](https://unsplash.com/s/photos/security?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText)
+
+
+
+### 参考文档
+
+- [RuboCop 官方文档](https://docs.rubocop.org/rubocop/1.18/installation.html)
+- [RuboCop 用于 Rails 的配置文档](https://prabinpoudel.com.np/articles/rubocop-configuration-files-for-rails/)
+
+
+
