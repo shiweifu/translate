@@ -18,6 +18,38 @@
 
 
 
+本文将介绍如何构建你自己的视图组件库，并将其与Storybook一起部署，团队的所有成员能够单独尝试、调整和检查它们。
+
+
+
+#### ViewComponents 和 Storyboard 入门
+
+
+
+去年秋天，我偶然发现了 Joel Hawksley在 RailsConf上 发表的一个名为“ [Encapsulating Views](https://railsconf.org/2020/2020/video/joel-hawksley-encapsulating-views)”的演讲，介绍了视图组件gem GitHub如何实现 Rails 中的类似 react 的组件。
+
+
+
+视图组件使得在你的Ruby on Rails应用程序中构建可重用、可测试和封装的组件变得很容易。我强烈建议在继续解释文档的好处和用例之前，先看一看文档的前几段。
+
+
+
+在Orbit，我们正在慢慢地构建一个视图组件列表，我们可以在应用程序的按钮、选择、下拉菜单中重用这些组件。然而，随着列表的增长，整个团队(工程、设计和产品)越来越难知道哪些组件已经可用，哪些组件可以重用。我们需要一种方法来组织这个图书馆。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
