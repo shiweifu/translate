@@ -51,6 +51,66 @@ Storybook 只用于使用 JavaScript 框架创建的单页面 Web 应用：React
 
 
 
+本文将从新一个全新的 Rails 项目入手，安装所有必须的 gems，创建我们的第一个 ViewComponent，然后在 Storyboard 中显示它，并将它部署到我们的应用程序中。该项目的源码已经放在了 GitHub 上：https://github.com/phacks/rails-view-components-storybook。
+
+
+
+如果你想跳到文章中某个特定的部分（因为您可能已经很熟悉我们将要讨论的一些概念），这是本文其余部分的大纲：
+
+- 初始化一个 Rails 项目
+- 创建我们第一个 View Component
+- 设置可以预览的组件
+- 通过 `ViewComponent::Storybook` gem，设置 Storybook
+- 写一个 Story，给我们的 ButtonComponent
+- 将我们的 Storybook，部署到我们的 app 中
+- 结论
+
+
+
+#### 初始化一个 Rails 项目
+
+
+
+让我们创建一个新的 Rails 项目，一步一步跟着 [Rails 新手指南](https://guides.rubyonrails.org/getting_started.html) 的 3.1 节来做，然后运行
+
+
+
+```
+rails new rails-view-components-storybook
+cd rails-view-components-storybook
+rails webpacker:install
+
+# in one terminal window
+bin/webpack-dev-server
+
+# in another terminal window
+rails server
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
