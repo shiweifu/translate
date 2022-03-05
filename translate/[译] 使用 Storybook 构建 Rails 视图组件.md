@@ -89,21 +89,64 @@ rails server
 
 
 
+此时项目启动起来了，并运行在 [http://localhost:3000](http://localhost:3000/)。
 
 
 
+我们将在Rails应用程序中添加一个静态页面，它将作为一个厨房水槽来查看并与我们即将到来的视图组件交互。为此，我们可以创建或更新以下文件：
 
 
 
+```
+app/controllers/pages_controller.rb
+```
 
 
 
+```
+class PagesController < ApplicationController
+  def show
+    render template: "pages/#{params[:page]}"
+  end
+end
+```
 
 
 
+```
+config/routes.rb
+```
 
 
 
+```
+Rails.application.routes.draw do
+  get "/pages/:page" => "pages#show"
+end
+```
+
+
+
+```
+app/views/pages/kitchen-sink.html.erb
+```
+
+
+
+```
+<article class="prose m-24">
+  <h1>ViewComponents kitchen sink</h1>
+  <p>This page will demo our ViewComponents</p>
+</article>
+```
+
+
+
+我们现在应该看到新页面：http://localhost:3000/pages/kitchen-sink。
+
+
+
+为了给我们即将到来的组件添加样式，我们将添加TailwindCSS(一个实用程序优先的CSS框架)。请注意，这不是Storybook或ViewComponents的要求，我们在这里安装它只是为了简洁和方便我们的组件样式。继续阅读本文，您不需要具备任何关于Tailwind的先验知识。
 
 
 
