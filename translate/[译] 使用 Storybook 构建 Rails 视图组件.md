@@ -146,9 +146,51 @@ app/views/pages/kitchen-sink.html.erb
 
 
 
-为了给我们即将到来的组件添加样式，我们将添加TailwindCSS(一个实用程序优先的CSS框架)。请注意，这不是Storybook或ViewComponents的要求，我们在这里安装它只是为了简洁和方便我们的组件样式。继续阅读本文，您不需要具备任何关于Tailwind的先验知识。
+为了给我们即将到来的组件添加样式，我们将添加TailwindCSS(一个实用程序优先的CSS框架)。请注意，这不是Storybook或ViewComponents的要求，我们在这里安装它只是为了简洁和方便我们的组件样式。继续阅读本文，您不需要具备任何关于 Tailwind 的先验知识。
 
 
+
+替换 `app/views/layouts/application.html.erb` 中的内容：
+
+
+
+```
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RailsViewComponentsStorybook</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/base.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/components.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@tailwindcss/typography@0.2.x/dist/typography.min.css"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^2/dist/utilities.min.css" />
+  </head>
+
+  <body>
+    <%= yield %>
+  </body>
+</html>
+```
+
+
+
+注意:虽然使用unpkg是安装 TailwindCSS 最简单的方法，但不建议在生产应用程序中这样做，因为这会导致性能问题。如果您想要为生产应用程序安装 TailwindCSS，我建议您按照它们的说明进行安装： [their instructions](https://tailwindcss.com/docs/installation#installing-tailwind-css-as-a-post-css-plugin)。
+
+
+
+#### 创建我们第一个 View Component
+
+
+
+在web应用程序中，按钮是最常用的UI组件之一，通常是创建组件库时首先想到的组件之一。让我们构建一个Button ViewComponent。
 
 
 
