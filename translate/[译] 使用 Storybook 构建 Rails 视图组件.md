@@ -194,6 +194,60 @@ app/views/pages/kitchen-sink.html.erb
 
 
 
+在 Gemfile 中，添加：
+
+```
+ gem "view_component", require: "view_component/engine"
+```
+
+
+
+然后运行 `bundle install`，然后重启 Rails 服务，来加载 ViewComponent gem。
+
+
+
+我们希望我们的按钮有不同的风格，取决于我们如何计划使用它：`primary`，`outline` 和 `danger`。让我们创建一个名为 Button 的新ViewComponent，它带有一个 type 属性：
+
+
+
+```
+# in another terminal window
+bin/rails generate component Button type --preview
+```
+
+
+
+这个命令生成四个文件：
+
+- `app/components/button_component.rb`：ViewComponent 本体；
+- `app/components/button_component.html.erb`：ViewComponent 模板；
+- `test/components/button_component_test.rb`：ViewComponent 测试；
+- `test/components/previews/button_component_preview.rb`：ViewComponent 预览；
+
+
+
+我们不打算在这篇文章中讨论ViewComponents测试;如果你很好奇，相关 [文档](https://viewcomponent.org/guide/testing.html) 页面是一个很好的入门资源。
+
+
+
+让我们定义我们的组件模板，以便它输出一个样式化的 `<button>` 来呈现传递到ViewComponent中的 `<content>`：
+
+
+
+```
+app/components/button_component.html.erb
+```
+
+
+
+```
+<button class="<%= classes %>">
+  <%= content %>
+</button>
+```
+
+
+
 
 
 
