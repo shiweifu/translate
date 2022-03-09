@@ -352,6 +352,54 @@ app/views/pages/kitchen-sink.html.erb
 
 
 
+![The Kitchen Sink page now displays three button: one is styled with the primary color, another is outline, and the third is red](https://res.cloudinary.com/practicaldev/image/fetch/s--31Ir3QXK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.sanity.io/images/cad8jutx/production/5f8f06192f54225b74adcac489ab22cf47eb4e8c-1374x1334.png%3Fw%3D992%26h%3D963)
+
+#### 设置组件预览
+
+
+
+ViewComponents 提供了一个方便的特性：组件预览。它们允许我们获得一个URL，在这个URL中，我们可以单独查看 ViewComponent 组件，并与之交互。
+
+
+
+我们可以预览 `ButtonComponent` 组件，通过下面的 URL：
+
+http://localhost:3000/rails/view_components/button_component/default
+
+
+
+默认预览，不带任何参数实例化 ButtonComponent，这解释了为什么我们看到 :primary 按钮类型而没有内容。我们可以更新预览文件，让它可以预览不同的变体：
+
+
+
+```
+test/components/previews/button_component_preview.rb
+```
+
+
+
+```
+class ButtonComponentPreview < ViewComponent::Preview
+  def default(type: :primary)
+    type = type.to_sym if type
+
+    render(ButtonComponent.new(type: type)) { 'Button' }
+  end
+end
+```
+
+
+
+我们可以通过 `type` 和 `content` 查询参数，来控制组件的展示。比如：
+
+http://localhost:3000/rails/view_components/button_component/default?type=danger 将生成一个红色的按钮，而 http://localhost:3000/rails/view_components/button_component/default?type=outline  将生成一个线框按钮。
+
+
+
+
+
+
+
 
 
 
