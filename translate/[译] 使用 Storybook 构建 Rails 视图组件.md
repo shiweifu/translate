@@ -396,6 +396,76 @@ http://localhost:3000/rails/view_components/button_component/default?type=danger
 
 
 
+让我们为每个按钮，不同状态下，添加单独的反应。这使得当组件在受支持状态下增长时，很容易推理，因为它减少了关于哪些道具打算一起使用的模糊性：
+
+
+
+```
+test/components/previews/button_component_preview.rb
+```
+
+
+
+```
+class ButtonComponentPreview < ViewComponent::Preview
+  def default(type: :primary)
+    type = type.to_sym if type
+
+    render(ButtonComponent.new(type: type)) { 'Button' }
+  end
+
+  def primary
+    render(ButtonComponent.new(type: :primary)) { 'Submit' }
+  end
+
+  def outline
+    render(ButtonComponent.new(type: :outline)) { 'Cancel' }
+  end
+
+  def danger
+    render(ButtonComponent.new(type: :danger)) { 'Delete' }
+  end
+end
+```
+
+
+
+我们可以通过以下链接来预览上面不同状态的按钮：
+
+- http://localhost:3000/rails/view_components/button_component/primary
+- http://localhost:3000/rails/view_components/button_component/outline
+- http://localhost:3000/rails/view_components/button_component/danger
+
+
+
+我们将在下一节，通过 Storybook 来控制 ViewComponent。是时候将 Storybook 添加到我们的项目中了。
+
+
+
+#### 通过 `ViewComponent::Storybook` Gem，来设置 Storybook
+
+
+
+[view_component_storybook](https://github.com/jonspalmer/view_component_storybook) gem，用于链接 Ruby on Rails 和 Storybook。使用它，我们可以通过 Ruby DSL 来编写 Stories（Storybook 的主要概念：考虑 UI 组件的特定状态） ，然后将 Storybook  翻译过来。它还负责将 ViewComponents 预览和Storybook 的API粘在一起。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
