@@ -450,6 +450,119 @@ end
 
 
 
+重要提示：下面的说明不同于视图组件storybook的官方文档。这个版本允许更容易地将Storybook部署到一个公共URL，这将在将我们的Storybook部署到我们的应用程序中进行讨论。如果你不打算部署你的Storybook，你可能想按照官方文档来代替。
+
+
+
+首先，在控制台中，我们可以安装以下Storybook包。这是使Storybook界面启动和运行所必需的：
+
+
+
+```
+yarn add @storybook/server @storybook/addon-controls --dev
+```
+
+
+
+然后，让我们将`view_component_storybook` gem 添加到 Gemfile 中，并在应用程序中声明它：
+
+
+
+`Gemfile`
+
+
+
+```
+gem "view_component_storybook"
+```
+
+
+
+`config/application.rb`
+
+
+
+```
+require_relative "boot"
+
+require "rails/all"
+
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups)
+
+module RailsViewComponentsStorybook
+  class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 6.1
+
+    # Configuration for the application, engines, and railties goes here.
+    #
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    #
+    # config.time_zone = "Central Time (US & Canada)"
+    # config.eager_load_paths << Rails.root.join("extras")
+
+    require "view_component/storybook/engine"
+
+    # Enable ViewComponents previews
+    config.view_component.show_previews = true
+  end
+end
+```
+
+
+
+然后，我们可以在位于项目根目录的一个新的 Storybook 文件夹中创建Storybook配置文件：
+
+
+
+```
+.storybook/main.js
+```
+
+```
+module.exports = {
+  stories: ["../test/components/**/*.stories.json"],
+  addons: ["@storybook/addon-controls"],
+};
+```
+
+```
+.storybook/preview.js
+```
+
+```
+export const parameters = {
+  server: {
+    url: `${location.protocol}${location.hostname}${
+      location.port !== "" ? ":3000" : ""
+    }/rails/view_components`,
+  },
+};
+```
+
+
+
+我们将通过在 package 中添加快捷方式来结束设置。json来构建 Storybook 文件：
+
+`package.json`
+
+```
+ {
+  "name": "rails-view-components-storybook",
+  // ...
+  "scripts": {
+    "storybook:build": "build-storybook -o public/_storybook"
+  }
+}
+```
+
+
+
+
+
 
 
 
