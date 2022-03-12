@@ -561,6 +561,34 @@ export const parameters = {
 
 
 
+然后，我们可以重新启动Rails服务器来记录新的gem。
+
+
+
+这要配置许多东西，幸运的是，我们只需要一次设置所有的东西。我们现在应该都准备好了。让我们通过运行来检查Storybook是否正确设置：`yarn storybook:build`，然后访问 `http://localhost:3000/_storybook/index.html`。
+
+
+
+![The Storybook instance is running, but says: “Oh no! Your Storybook is empty.”](https://res.cloudinary.com/practicaldev/image/fetch/s--4bLPsGWJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.sanity.io/images/cad8jutx/production/ebda4d4651cdc12ddd19e330f7fa540a8977b7a9-2762x952.png%3Frect%3D0%2C1%2C2762%2C949%26w%3D992%26h%3D341)
+
+
+
+当我们启动并运行 Storybook 时，你可能会注意到我们的 ButtonComponent 不见了。这很正常:我们需要先为它写一个 `Story`。
+
+
+
+#### 为我们的 Button Component 写一个 Story
+
+
+
+在Storybook中，一个故事代表一个UI组件的状态。一个组件可以有一个或多个故事，这通常取决于其复杂性:可以想象Select组件有几个选项，或者很多，或者根本没有选项。在我们的例子中，我们将为Button组件(:primary，:outline和:danger)的每个状态创建一个故事，以及另一个默认的故事，它将允许我们以交互方式控制类型。
+
+
+
+
+
+
+
 
 
 
