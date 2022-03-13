@@ -585,6 +585,46 @@ export const parameters = {
 
 
 
+Story 还可以定义一个或多个控件：这些控件将定义组件的交互部分。在我们的默认故事中，我们可以为按钮类型定义一个控件。该控件将是一个选择，因为我们希望Storybook访问者能够在三个可用选项之间选择类型。在视图组件storybook gem中有更多的控件可用，完整的列表在 [这里](https://github.com/jonspalmer/view_component_storybook/blob/main/lib/view_component/storybook/dsl/controls_dsl.rb)。
+
+
+
+让我们为我们的组件，创建一个 Story，使用 Story DSL `view_component_storybook`：
+
+
+
+`test/components/stories/button_component_stories.rb`
+
+
+
+```
+class ButtonComponentStories < ViewComponent::Storybook::Stories
+  story(:default) do
+    controls do
+      select(:type, %w[primary outline danger], 'primary')
+    end
+  end
+
+  story(:primary) {}
+  story(:outline) {}
+  story(:danger) {}
+end
+```
+
+
+
+我们现在可以要求 `view_component_storybook` 将 Ruby Story 转换为 JSON 版，然后 storybook 会自动获取这个故事：
+
+
+
+```
+rake view_component_storybook:write_stories_json
+```
+
+
+
+
+
 
 
 
