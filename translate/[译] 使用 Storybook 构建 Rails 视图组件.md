@@ -623,7 +623,31 @@ rake view_component_storybook:write_stories_json
 
 
 
+这生成一个新的 `button_component.stories.json` 文件，还有与 Storybook 的 API 兼容的 story。
 
+
+
+让我们重新构建我们的 Storybook 实例，以查看该 Story 的运行情况。
+
+
+
+现在，http://localhost:3000/_storybook/index.html 将显示不同状态下，我们的按钮，关联控件，交互式的更改默认的 Story 类型。
+
+
+
+![A GIF navigating the Button stories in Storybook. It clicks through the stories for the primary, outlined, and danger buttons, and then a “default” one which changes the type when the appropriate control gets selected](https://res.cloudinary.com/practicaldev/image/fetch/s--FGByCqjf--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://cdn.sanity.io/images/cad8jutx/production/78130106c956fe4c508b6ad77f0c1370a7ef7066-1200x654.gif%3Frect%3D0%2C0%2C1200%2C653%26w%3D992%26h%3D540)
+
+
+
+恭喜，我们已经在Rails组件库中创建了第一个组件
+
+
+
+#### 在我们的应用程序旁，部署 Storybook
+
+
+
+当整个团队的工程师、设计人员和产品人员都能看到哪些组件可用，知道哪些变体和定制选项可用，并通过直接使用它们来了解如何使用它们时，组件库的工作效果最好。一个公开可访问的URL是实现这一点的好方法，因为当讨论一个即将到来的特性时，可以包含一个到特定组件变体的链接。
 
 
 
