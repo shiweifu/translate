@@ -651,6 +651,24 @@ rake view_component_storybook:write_stories_json
 
 
 
+Storybook的核心是一个React应用，这意味着它的部署就是托管一个静态网站。我们的目标是为我们的Storybook设置一个简单的设置，并在我们的眼皮底下找到了一个:Rails本身非常能够托管静态网页。
+
+
+
+正如你可能已经注意到的，你必须运行`yarn storybook:build`让我们的 story 出现在 `storybook` 中。随后，我们在`package.json`中定义了这个命令：
+
+
+
+```
+"storybook:build": "build-storybook -o public/_storybook"
+```
+
+
+
+上面的命令，是将所有 Storybook 的相关文件，编译到我们的 Rails 应用目录下， `public/_storybook` 目录中。因为文件在 `puoblic` 目录下，所以可以在 Rails 中自由访问，Storybook 的返回内容，可以在 `<YOUR_APP_ROOT_URL>/_storybook/index.html` 中，被访问。这就是我们可以通过本地地址：http://localhost:3000/_storybook/index.html 查看 Storybook 实例的原因。
+
+
+
 
 
 
