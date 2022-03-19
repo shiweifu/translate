@@ -665,7 +665,37 @@ Storybook的核心是一个React应用，这意味着它的部署就是托管一
 
 
 
-上面的命令，是将所有 Storybook 的相关文件，编译到我们的 Rails 应用目录下， `public/_storybook` 目录中。因为文件在 `puoblic` 目录下，所以可以在 Rails 中自由访问，Storybook 的返回内容，可以在 `<YOUR_APP_ROOT_URL>/_storybook/index.html` 中，被访问。这就是我们可以通过本地地址：http://localhost:3000/_storybook/index.html 查看 Storybook 实例的原因。
+上面的命令，是将所有 Storybook 的相关文件，编译到我们的 Rails 应用目录下， `public/_storybook` 目录中。因为文件在 `puoblic` 目录下，所以可以在 Rails 中自由访问，Storybook 的返回内容，可以在 `<YOUR_APP_ROOT_URL>/_storybook/index.html` 中，被访问。这就是我们可以通过本地地址：http://localhost:3000/_storybook/index.html 查看 Storybook 实例。
+
+
+
+该解决方案的主要优点是，现在部署Storybook是完全透明的，并集成到Rails部署管道中。当添加一个新组件，更新一个故事，或者安装一个Storybook插件时，我们只需要运行yarn Storybook:构建并提交这些更新的结果文件，以便与Rails应用程序的其余部分一起部署。
+
+
+
+为了说明这一点，让我们以我们在本文中使用的Rails应用程序为例。你可以访问 Rails app：https://rails-view-components-storyboo.herokuapp.com/pages/kitchen-sink，访问 Storybook 在 https://rails-view-components-storyboo.herokuapp.com/_storybook/index.html。这很酷，不是吗？
+
+
+
+#### 结论
+
+
+
+在本文中，我们看到了如何利用视图组件和视图组件storybook gems在Rails应用程序中构建storybook组件库。
+
+
+
+这里所描述的设置确实很简单，但我们在Orbit的团队正在愉快地使用和优化它，它帮助我们更快地迭代UI组件。我们还依赖于Storybook插件进行自动可访问性审计、组件文档、内联Figma设计等。如果你对我们的设置感兴趣，或者想讨论这篇文章，请在Twitter上联系我，我很乐意与你聊天!如果你喜欢的话
+
+
+
+Rails、ViewComponents和Storybook的交集是一个令人兴奋的、迅速发展和快速发展的领域。如果你好奇,你可以了解更多关于GitHub如何使用的引物设计系统ViewComponents这个Ruby混合集(播客),深深入理解它们的实现方式在RailsConf 2020会议讨论(视频),或得到灵感来自Gov.UK所使用的组件(文档)。
+
+
+
+
+
+
 
 
 
