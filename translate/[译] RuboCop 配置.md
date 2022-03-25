@@ -328,3 +328,151 @@ Style/StringConcatenation:
 
 
 
+### 第二步，创建 `.rubocop-rails.yml`
+
+
+
+上面的配置文件，是针对 Ruby 语言的最佳实践，现在，我们针对 Rails 添加一些特殊的配置。
+
+
+
+创建`.rubocop-rails.yml`(如果还没有创建的话)，并在其中添加以下内容：
+
+
+
+```
+###########################################################
+#################### Rubocop Rails ########################
+###########################################################
+
+# You can find all configuration options for rubocop-rails here: https://docs.rubocop.org/rubocop-rails/cops_rails.html
+
+Rails/ActiveRecordCallbacksOrder:
+  Enabled: true
+
+Rails/AfterCommitOverride:
+  Enabled: true
+
+Rails/DefaultScope:
+  Enabled: true
+
+Rails/FindById:
+  Enabled: true
+
+Rails/Inquiry:
+  Enabled: true
+
+Rails/MailerName:
+  Enabled: true
+
+Rails/MatchRoute:
+  Enabled: true
+
+Rails/NegateInclude:
+  Enabled: true
+
+Rails/OrderById:
+  Enabled: true
+
+Rails/Pluck:
+  Enabled: true
+
+Rails/PluckId:
+  Enabled: true
+
+Rails/PluckInWhere:
+  Enabled: true
+
+Rails/RenderInline:
+  Enabled: true
+
+Rails/RenderPlainText:
+  Enabled: true
+
+Rails/SaveBang:
+  Enabled: true
+  AllowImplicitReturn: false
+
+Rails/ShortI18n:
+  Enabled: true
+
+Rails/WhereExists:
+  Enabled: true
+
+Rails/WhereNot:
+  Enabled: true
+```
+
+
+
+#### 额外：针对 RSpec 的配置
+
+
+
+提示：确保你已经安装  [rubocop-rspec](https://github.com/rubocop/rubocop-rspec)  这个 gem。
+
+
+
+在项目的根目录，创建 `.rubocop-rspec.yml` 文件，添加以下内容：
+
+
+
+```
+###########################################################
+#################### Rubocop Rspec ########################
+###########################################################
+
+# You can find all configuration options for rubocop-rspec here: https://docs.rubocop.org/rubocop-rspec/cops.html
+
+RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/BeforeAfterAll:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/ExpectInHook:
+  Enabled: false
+
+RSpec/FilePath:
+  Enabled: false
+
+RSpec/InstanceVariable:
+  Enabled: false
+
+RSpec/LetSetup:
+  Enabled: false
+
+RSpec/MessageChain:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 7
+
+RSpec/SubjectStub:
+  Enabled: false
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/VoidExpect:
+  Enabled: false
+```
+
