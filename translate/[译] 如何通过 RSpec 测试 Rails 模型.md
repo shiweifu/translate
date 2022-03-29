@@ -95,3 +95,94 @@ $ bin/rails generate model Auction \
       create      spec/models/auction_spec.rb
 ```
 
+
+
+之后，让我们运行迁移和准备数据库：
+
+
+
+```
+$ rake db:migrate db:test:prepare
+
+== 20160406205337 CreateAuctions: migrating ===================================
+-- create_table(:auctions)
+   -> 0.0021s
+== 20160406205337 CreateAuctions: migrated (0.0023s) ==========================
+```
+
+
+
+目前，我们忽略了 `bids` 和 `sellers`，聚焦在 `title`，`description`，`start_date` 和 `end_date` 上。
+
+
+
+既然已经打好了基础，就开始工作吧。我们要处理的第一件事是验证。
+
+
+
+### 指定验证
+
+
+
+由于我们目前还不确定应该在模型中进行哪些验证，让我们创建一些未决的示例来开始工作。
+
+
+
+编辑名为 `spec/models/auction_spec.rb` 的文件：
+
+
+
+```
+# spec/models/auction_spec.rb
+
+require 'rails_helper'
+
+RSpec.describe Auction, :type => :model do
+  it "is valid with valid attributes"
+  it "is not valid without a title"
+  it "is not valid without a description"
+  it "is not valid without a start_date"
+  it "is not valid without a end_date"
+end
+```
+
+
+
+这里我们给出了基本的验证。第一个规范的目的是明确需要什么来创建`Auction`类的有效对象。如果我们运行这个规范，我们将看到五个未决的规范：
+
+```
+$ rspec spec/models/auction_spec.rb
+
+*****
+
+Pending: (Failures listed here are expected and do not affect your suite's status)
+
+  1) Auction is valid with valid attributes
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:6
+
+  2) Auction is not valid without a title
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:7
+
+  3) Auction is not valid without a description
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:8
+
+  4) Auction is not valid without a start_date
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:9
+
+  5) Auction is not valid without a end_date
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:10
+
+
+Finished in 0.00216 seconds (files took 1.18 seconds to load)
+5 examples, 0 failures, 5 pending
+```
+
+
+
+
+
