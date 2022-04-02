@@ -184,5 +184,64 @@ Finished in 0.00216 seconds (files took 1.18 seconds to load)
 
 
 
+所有的用例已经准备好，让我们实现第一个。
+
+
+
+```
+# spec/models/auction_spec.rb
+
+require 'rails_helper'
+
+RSpec.describe Auction, :type => :model do
+  it "is valid with valid attributes" do
+    expect(Auction.new).to be_valid
+  end
+
+  it "is not valid without a title"
+  it "is not valid without a description"
+  it "is not valid without a start_date"
+  it "is not valid without a end_date"
+end
+```
+
+
+
+我们没有给模型添加任何约束，我们的模型对象将在没有指定任何属性的情况下验证有效。我们来执行用例，看看效果。
+
+
+
+```
+$ rspec spec/models/auction_spec.rb
+
+.****
+
+Pending: (Failures listed here are expected and do not affect your suite's status)
+
+  1) Auction is not valid without a title
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:8
+
+  2) Auction is not valid without a description
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:9
+
+  3) Auction is not valid without a start_date
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:10
+
+  4) Auction is not valid without a end_date
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:11
+
+
+Finished in 0.01073 seconds (files took 1.17 seconds to load)
+5 examples, 0 failures, 4 pending
+```
+
+
+
+
+
 
 
