@@ -241,6 +241,68 @@ Finished in 0.01073 seconds (files took 1.17 seconds to load)
 
 
 
+接下来，让我们实现第二个例子。在这个例子中，我们将创建一个没有标题的 `Auction` 对象。
+
+
+
+```
+# spec/models/aution_spec.rb
+
+. . .
+
+it "is not valid without a title" do
+  auction = Auction.new(title: nil)
+  expect(auction).to_not be_valid
+end
+
+. . .
+```
+
+
+
+如果我们现在运行这个用例，它将失败。
+
+
+
+```
+$ rspec spec/models/auction_spec.rb
+
+.F***
+
+Pending: (Failures listed here are expected and do not affect your suite's status)
+
+  1) Auction is not valid without a description
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:13
+
+  2) Auction is not valid without a start_date
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:14
+
+  3) Auction is not valid without a end_date
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:15
+
+
+Failures:
+
+  1) Auction is not valid without a title
+     Failure/Error: expect(auction).to_not be_valid
+       expected #<Auction id: nil, start_date: nil, end_date: nil, title: nil, description: nil, created_at: nil, updated_at: nil> not to be valid
+     # ./spec/models/auction_spec.rb:10:in `block (2 levels) in <top (required)>'
+
+Finished in 0.03033 seconds (files took 1.39 seconds to load)
+5 examples, 1 failure, 3 pending
+
+Failed examples:
+
+rspec ./spec/models/auction_spec.rb:8 # Auction is not valid without a title
+```
+
+
+
+
+
 
 
 
