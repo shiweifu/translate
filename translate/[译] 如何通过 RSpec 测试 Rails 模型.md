@@ -301,6 +301,64 @@ rspec ./spec/models/auction_spec.rb:8 # Auction is not valid without a title
 
 
 
+如你所见，这个例子因为我们的验证，需要添加到模型中，所以失败了。由于我们已经完成了红色的步骤（由红到绿的循环），让我们现在完成测试。要实现这个目标，我们需要将标题属性的验证，添加到 `app/models/auction.rb`：
+
+
+
+```
+# app/models/auction.rb 
+
+class Auction < ActiveRecord::Base
+  validates_presence_of :title
+  validates_presence_of :description
+  validates_presence_of :start_date
+  validates_presence_of :end_date
+end
+```
+
+
+
+验证就绪后，我们可以再次执行测试：
+
+
+
+```
+$ rspec spec/models/auction_spec.rb
+
+F.***
+
+Pending: (Failures listed here are expected and do not affect your suite's status)
+
+  1) Auction is not valid without a description
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:13
+
+  2) Auction is not valid without a start_date
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:14
+
+  3) Auction is not valid without a end_date
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:15
+
+
+Failures:
+
+  1) Auction is valid with valid attributes
+     Failure/Error: expect(Auction.new).to be_valid
+       expected #<Auction id: nil, start_date: nil, end_date: nil, title: nil, description: nil, created_at: nil, updated_at: nil> to be valid, but got errors: Title can't be blank
+     # ./spec/models/auction_spec.rb:5:in `block (2 levels) in <top (required)>'
+
+Finished in 0.02039 seconds (files took 1.18 seconds to load)
+5 examples, 1 failure, 3 pending
+
+Failed examples:
+
+rspec ./spec/models/auction_spec.rb:4 # Auction is valid with valid attributes
+```
+
+
+
 
 
 
