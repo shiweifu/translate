@@ -359,6 +359,68 @@ rspec ./spec/models/auction_spec.rb:4 # Auction is valid with valid attributes
 
 
 
+此时我们的例子已经可以正常通过测试，但第一个示例失败了。这是由于新引入的验证。让我们修复我们第一个 spec：
+
+
+
+```
+# spec/models/auction_spec.rb
+
+. . .
+
+  subject { described_class.new }
+
+  it "is valid with valid attributes" do
+    subject.title = "Anything"
+    subject.description = "Anything"
+    subject.start_date = DateTime.now
+    subject.end_date = DateTime.now + 1.week
+    expect(subject).to be_valid
+  end
+
+. . .
+```
+
+
+
+要让第一个例子通过，我们需要指定 `Auction` 对象的标题，这是我们测试用例的主题。现在，再次执行 `spec`：
+
+
+
+```
+$ rspec spec/models/auction_spec.rb
+
+.***
+
+Pending: (Failures listed here are expected and do not affect your suite's status)
+
+  1) Auction is not valid without a description
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:18
+
+  2) Auction is not valid without a start_date
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:19
+
+  3) Auction is not valid without a end_date
+     # Not yet implemented
+     # ./spec/models/auction_spec.rb:20
+
+
+Finished in 0.01422 seconds (files took 1.17 seconds to load)
+5 examples, 0 failures, 3 pending
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 
