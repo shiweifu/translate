@@ -413,6 +413,72 @@ Finished in 0.01422 seconds (files took 1.17 seconds to load)
 
 
 
+由于Specs已经通过，我们已经到达了红-绿重构流的绿色步骤。现在是重构示例的时候了。这个重构步骤非常简单。我们将在规范中添加一个主题，它将是规范文件中测试的主要对象。之后，我们将在示例中适当地设置对象属性。这就是我们的重构规范的样子：
+
+
+
+```
+# spec/models/auction_spec.rb
+
+. . .
+
+  subject {
+    described_class.new(title: "Anything",
+                        description: "Lorem ipsum",
+                        start_date: DateTime.now,
+                        end_date: DateTime.now + 1.week,
+                        user_id: 1)
+  }
+
+. . .
+```
+
+
+
+如果我们现在运行Specs，他们会通过的。让我们先编写规范，然后再编写实现，从而添加其余的验证。为了节省空间，我们将立即编写所有规格，然后让它们通过。
+
+
+
+```
+# spec/models/auction_spec.rb
+
+require 'rails_helper'
+
+RSpec.describe Auction, :type => :model do
+  subject {
+    described_class.new(title: "Anything",
+                        description: "Lorem ipsum",
+                        start_date: DateTime.now,
+                        end_date: DateTime.now + 1.week,
+                        user_id: 1)
+  }
+
+  it "is valid with valid attributes" do
+    expect(subject).to be_valid
+  end
+
+  it "is not valid without a title" do
+    subject.title = nil
+    expect(subject).to_not be_valid
+  end
+
+  it "is not valid without a description" do
+    subject.description = nil
+    expect(subject).to_not be_valid
+  end
+
+  it "is not valid without a start_date" do
+    subject.start_date = nil
+    expect(subject).to_not be_valid
+  end
+
+  it "is not valid without a end_date" do
+    subject.end_date = nil
+    expect(subject).to_not be_valid
+  end
+end
+```
+
 
 
 
