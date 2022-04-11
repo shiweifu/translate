@@ -481,6 +481,72 @@ end
 
 
 
+我们的用例已经完成，现在运行他们：
+
+
+
+```
+$ rspec spec/models/auction_spec.rb
+
+....
+
+Finished in 0.01586 seconds (files took 1.19 seconds to load)
+5 examples, 0 failures
+```
+
+
+
+虽然 Specs 是工作的，正如你可以注意到，我们有相当多的重复。让我们看看如何重构这些例子，使它们更简洁。
+
+
+
+#### 重构，使之变红
+
+
+
+RSpec测试框架提供了一些非常有用的实用程序。我们已经见过一种方法，主题方法。我们应该把主体看作测试主体，这意味着它将是我们的例子所期望的对象。
+
+
+
+```
+# spec/models/auction_spec.rb
+
+require 'rails_helper'
+
+RSpec.describe Auction, :type => :model do
+  subject {
+    described_class.new(title: "Anything",
+                        description: "Lorem ipsum",
+                        start_date: DateTime.now,
+                        end_date: DateTime.now + 1.week)
+  }
+
+  it "is valid with valid attributes" do
+    expect(subject).to be_valid
+  end
+
+  it "is not valid without a title" do
+    subject.title = nil
+    expect(subject).to_not be_valid
+  end
+
+  it "is not valid without a description" do
+    subject.description = nil
+    expect(subject).to_not be_valid
+  end
+
+  it "is not valid without a start_date" do
+    subject.start_date = nil
+    expect(subject).to_not be_valid
+  end
+
+  it "is not valid without a end_date" do
+    subject.end_date = nil
+    expect(subject).to_not be_valid
+  end
+end
+```
+
 
 
 
