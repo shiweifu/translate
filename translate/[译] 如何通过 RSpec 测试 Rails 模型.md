@@ -572,6 +572,119 @@ Finished in 0.01468 seconds (files took 1.34 seconds to load)
 
 
 
+```
+$ bin/rails generate model User password:string email:string
+$ rake db:migrate db:test:prepare
+```
+
+
+
+这是我们的模型：
+
+
+
+```
+# app/models/user.rb
+
+class User < ApplicationRecord
+  validates_presence_of :password, :email
+end
+```
+
+
+
+接下来，让我们看一下针对 `User` 模型的 spec，`spec/models/user_spec.rb`：
+
+
+
+```
+# spec/models/user_spec.rb
+
+require 'rails_helper'
+
+RSpec.describe User, :type => :model do
+  subject { 
+         described_class.new(password: "some_password", 
+                             email: "john@doe.com"
+         )  
+  }
+
+  describe "Validations" do
+    it "is valid with valid attributes" do
+      expect(subject).to be_valid
+    end
+
+    it "is not valid without a password" do
+      subject.password = nil
+      expect(subject).to_not be_valid
+    end
+
+    it "is not valid without an email" do
+      subject.email = nil
+      expect(subject).to_not be_valid
+    end
+  end
+end
+```
+
+
+
+为了使测试简单，我们使用 [shoulda matchers](https://github.com/thoughtbot/shoulda-matchers) gem。添加这个 Gem 之后，我们可以简单的进行相关测试：
+
+
+
+```
+# spec/models/auction_spec.rb
+
+. . .
+
+describe "Associations" do
+  it { should belong_to(:user).without_validating_presence }
+end
+
+. . .
+```
+
+
+
+编辑 Gemfile 文件，将 shoulda gem 添加到 `development` 组和 `test` 组中：
+
+
+
+```
+group :development, :test do
+
+  . . .
+
+  gem 'shoulda-matchers'
+end
+```
+
+
+
+在 `spec/rails_helper.rb` 文件添加初始化内容：
+
+```
+# spec/rails_helper.rb
+
+. . .
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
+```
+
+
+
+
+
+
+
+
+
 
 
 
