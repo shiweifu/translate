@@ -679,6 +679,65 @@ end
 
 
 
+然后调用 bundle，来安装：
+
+
+
+```
+$ bundle install --path vendor/bundle
+```
+
+
+
+此时如果我们运行 space，将会失败。让我们修改一下 `Auction` 模型，来使之通过：
+
+
+
+```
+# app/models/auction.rb
+
+class Auction < ActiveRecord::Base
+  belongs_to :user, optional: true
+  validates_presence_of :title, :description, :start_date, :end_date
+end
+```
+
+
+
+为数据库生成迁移。我们需要添加 `user_id` 列，在 `auction` 表中：
+
+
+
+```
+$ rails generate migration AddUserToAuctions user_id:integer 
+$ rake db:migrate db:test:prepare
+```
+
+
+
+如果我们执行测试，将会通过：
+
+
+
+```
+$ .....
+
+Finished in 0.02151 seconds (files took 1.25 seconds to load)
+6 examples, 0 failures
+```
+
+
+
+有了用户联系，我们可以考虑竞标。一次拍卖可以有多个出价。虽然拍卖是一个非常有趣和难以解决的问题，为了本教程的目的，我们将添加另一个模型，将被称为Bid。
+
+
+
+#### 添加业务逻辑
+
+
+
+
+
 
 
 
