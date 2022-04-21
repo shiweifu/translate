@@ -736,6 +736,86 @@ Finished in 0.02151 seconds (files took 1.25 seconds to load)
 
 
 
+如果你想到现实生活中的 auctions，你会立即想到拍卖师的[auctioneer chants](https://www.youtube.com/watch?v=u8V9Rl9IneA)。这些口号的组成部分是投标人的出价。一个Auction可以有多个出价，当这些出价被转换成代码时，就会转换成一个新的关联。此外，一个Bid只能有一个投标人，这将是一个协会本身。
+
+
+
+让我们介绍 `Bid` 模型：
+
+
+
+```
+$ rails g model Bid \
+                bidder_id:integer \
+                auction_id:integer \
+                amount:integer
+$ rake db:migrate db:test:prepare
+```
+
+
+
+这个模型只有一个验证器，它将验证 `bidder` 是否存在：
+
+
+
+```
+# spec/models/bid_spec.rb 
+
+require 'rails_helper'
+
+RSpec.describe Bid, :type => :model do
+  describe "Associations" do
+    it { should belong_to(:bidder) }
+    it { should belong_to(:auction) }
+  end
+
+  describe "Validations" do
+    it { should validate_presence_of(:bidder) }
+  end
+end
+```
+
+
+
+如果我们运行测试，此时将失败：
+
+
+
+```
+$ rspec spec/models/bid_spec.rb
+
+FFF
+
+Failures:
+
+  1) Bid Associations is expected to belong to bidder required: true
+     Failure/Error: it { should belong_to(:bidder) }
+       Expected Bid to have a belongs_to association called bidder (no association called bidder)
+     # ./spec/models/bid_spec.rb:7:in `block (3 levels) in <top (required)>'
+
+  2) Bid Associations is expected to belong to auction required: true
+     Failure/Error: it { should belong_to(:auction) }
+       Expected Bid to have a belongs_to association called auction (no association called auction)
+     # ./spec/models/bid_spec.rb:8:in `block (3 levels) in <top (required)>'
+
+  3) Bid Validations is expected to validate that :bidder cannot be empty/falsy
+     Failure/Error: it { should validate_presence_of(:bidder) }
+     
+     Shoulda::Matchers::ActiveModel::AllowValueMatcher::AttributeDoesNotExistError:
+       The matcher attempted to set :bidder on the Bid to nil, but that
+       attribute does not exist.
+     # ./spec/models/bid_spec.rb:12:in `block (3 levels) in <top (required)>'
+
+Finished in 0.01407 seconds (files took 1.22 seconds to load)
+3 examples, 3 failures
+
+Failed examples:
+
+rspec ./spec/models/bid_spec.rb:7 # Bid Associations is expected to belong to bidder required: true
+rspec ./spec/models/bid_spec.rb:8 # Bid Associations is expected to belong to auction required: true
+rspec ./spec/models/bid_spec.rb:12 # Bid Validations is expected to validate that :bidder cannot be empty/falsy
+```
+
 
 
 
