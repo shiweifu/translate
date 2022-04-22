@@ -818,7 +818,45 @@ rspec ./spec/models/bid_spec.rb:12 # Bid Validations is expected to validate tha
 
 
 
+要使这个测试通过，我们只需要添加相关联的模型，以及验证：
 
+
+
+```
+# app/models/bid.rb
+
+class Bid < ApplicationRecord
+  belongs_to :bidder, class_name: "User"
+  belongs_to :auction, class_name: "Auction"
+
+  validates_presence_of :bidder
+end
+```
+
+
+
+这将使我们的测试通过。现在，为了添加必要的业务逻辑，我们首先需要考虑投标过程。围绕投标的核心业务逻辑要求，每个投标必须大于前一个投标。这意味着每个拍卖将有多个出价。让我们为该关联添加一个测试并将其引入到模型中。
+
+
+
+我们将再次使用shoulda匹配器进行测试
+
+
+
+```
+# spec/models/auction_spec.rb
+
+. . .
+
+describe "Associations" do
+  it { should belong_to(:user).without_validating_presence }
+  it { should have_many(:bids) }
+end
+```
+
+
+
+如果现在运行这个测试，将会失败。我们需要引入关联。
 
 
 
