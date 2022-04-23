@@ -860,9 +860,46 @@ end
 
 
 
+```
+# app/models/auction.rb
+
+class Auction < ActiveRecord::Base
+  belongs_to :user, optional: true
+  has_many :bids
+  validates_presence_of :title, :description, :start_date, :end_date
+end
+```
 
 
 
+我们的规格将继续失败，因为我们需要有一个用户为我们的测试对象。我们还需要将用户id添加到Auction。使用迁移可以很容易地添加外键，因此我们将在这里跳过这一部分。为了让规格恢复绿色状态，我们需要更新目标。这意味着我们需要创建一个User对象和一个卖家，并将其分配给主题Auction。
+
+
+
+```
+# spec/models/auction_spec.rb
+
+require 'rails_helper'
+
+RSpec.describe Auction, :type => :model do
+
+  let(:seller) {
+    User.new(:email => "jane@doe.com", :password => "pw1234")
+  }
+  subject {
+    described_class.new(title: "Anything",
+                        description: "Lorem ipsum",
+                        start_date: DateTime.now,
+                        end_date: DateTime.now + 1.week,
+                        user_id: 1)
+  }
+
+. . .
+```
+
+
+
+要添加业务逻辑，我们需要验证。在添加一个新的Bid到Auction后，我们需要检查出价是否大于之前的出价。由于Auction和Bid对象之间存在交集，因此我们将创建一个额外的类，该类将包含Auction所需的所有投标逻辑。我们将其命名为BiddingEngine。首先，让我们为它添加规范：
 
 
 
