@@ -18,5 +18,129 @@ JSON Web Token（JWT） 是一种紧凑的，URL 安全的手段，用于双方�
 
 
 
-Authorization：权限验证是最常见的 JWT 使用场景。当用户登陆后，每个请求都带有 JWT，允许用户访问被 Token 保护的路由，服务和资源。单点登录通过 JWT，是当今使用非常普遍的一个特性，因为它的开销小，而且可以很容易的跨域使用。
+`Authorization`：权限验证是最常见的 JWT 使用场景。当用户登陆后，每个请求都带有 JWT，允许用户访问被 Token 保护的路由，服务和资源。单点登录通过 JWT，是当今使用非常普遍的一个特性，因为它的开销小，而且可以很容易的跨域使用。
+
+
+
+`信息交换`：JSON Web tokens 是一种良好的在组件之间传输信息的方式。因为 JWT 可以包含签名 - 举个例子：使用公钥/私钥对 - 你可以确保发送什么就能收到什么。此外，签名是使用标头和 Payload 进行计算，你还可以验证内容尚未篡改。
+
+
+
+更多信息，请访问：https://jwt.io/introduction
+
+
+
+---
+
+
+
+### 在 Iris 中，使用 JWT
+
+
+
+Iris JWT 中间件，被设计为安全，性能，以及简化，它保护你的 Token 免受其他库可能发现的漏洞的侵害，它在 https://github.com/kataras/jwt 包中。
+
+
+
+> 在此可以找到例子：https://github.com/kataras/iris/blob/master/_examples/auth/jwt
+
+
+
+示例代码：
+
+
+
+```
+package main
+
+import (
+    "time"
+
+    "github.com/kataras/iris/v12"
+    "github.com/kataras/iris/v12/middleware/jwt"
+)
+
+var (
+    secret = []byte("signature_hmac_secret_shared_key")
+)
+
+type fooClaims struct {
+    Foo string `json:"foo"`
+}
+
+func main() {
+    app := iris.New()
+
+    signer := jwt.NewSigner(jwt.HS256, secret, 10*time.Minute)
+    // Enable payload encryption with:
+    // signer.WithEncryption(encKey, nil)
+    app.Get("/", generateToken(signer))
+
+    verifier := jwt.NewVerifier(jwt.HS256, secret)
+    // Enable server-side token block feature (even before its expiration time):
+    verifier.WithDefaultBlocklist()
+    // Enable payload decryption with:
+    // verifier.WithDecryption(encKey, nil)
+    verifyMiddleware := verifier.Verify(func() interface{} {
+        return new(fooClaims)
+    })
+
+    protectedAPI := app.Party("/protected")
+    // Register the verify middleware to allow access only to authorized clients.
+    protectedAPI.Use(verifyMiddleware)
+    // ^ or UseRouter(verifyMiddleware) to disallow unauthorized http error handlers too.
+
+    protectedAPI.Get("/", protected)
+    // Invalidate the token through server-side, even if it's not expired yet.
+    protectedAPI.Get("/logout", logout)
+
+    app.Listen(":8080")
+}
+
+func generateToken(signer *jwt.Signer) iris.Handler {
+    return func(ctx iris.Context) {
+        claims := fooClaims{Foo: "bar"}
+
+        token, err := signer.Sign(claims)
+        if err != nil {
+            ctx.StopWithStatus(iris.StatusInternalServerError)
+            return
+        }
+
+        ctx.Write(token)
+    }
+}
+
+func protected(ctx iris.Context) {
+    // Get the verified and decoded claims.
+    claims := jwt.Get(ctx).(*fooClaims)
+
+    // Optionally, get token information if you want to work with them.
+    // Just an example on how you can retrieve
+    // all the standard claims (set by signer's max age, "exp").
+    standardClaims := jwt.GetVerifiedToken(ctx).StandardClaims
+    expiresAtString := standardClaims.ExpiresAt().
+        Format(ctx.Application().ConfigurationReadOnly().GetTimeFormat())
+    timeLeft := standardClaims.Timeleft()
+
+    ctx.Writef("foo=%s\nexpires at: %s\ntime left: %s\n", claims.Foo, expiresAtString, timeLeft)
+}
+
+func logout(ctx iris.Context) {
+    err := ctx.Logout()
+    if err != nil {
+        ctx.WriteString(err.Error())
+    } else {
+        ctx.Writef("token invalidated, a new token is required to access the protected API")
+    }
+}
+```
+
+
+
+
+
+
+
+
 
