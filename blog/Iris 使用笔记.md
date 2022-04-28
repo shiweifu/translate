@@ -191,6 +191,61 @@ func setupTemplate(app *iris.Application) {
 
 
 
+Django 模板需要在模板文件中指定 Layout，这和其他模板，在控制器中控制不一样：
+
+
+
+```
+{% extends "./admin/layouts/application.html" %}
+
+<div>
+  {% block content %}
+
+  <h1>Index Body</h1>
+  <h3>Message: {{Message}}</h3>
+
+  {% endblock %}
+</div>
+```
+
+#### 注入变量到页面
+
+```
+ctx.ViewData("message", "hello world")
+```
+
+
+
+#### 循环语句
+
+```
+    {% for admin in adminlist %} {{ user_details(admin, true) }} {% endfor %}
+```
+
+#### 判断语句
+
+
+
+```
+    {% if is_admin %}
+    <p>This user is an admin!</p>
+    {% endif %}
+```
+
+
+
+#### 过滤器
+
+Pongo2 模板的过滤器类似于管道，使用的符号也是 `|`，将值传递给处理函数，处理完毕后返回。Pongo2 内置了一些过滤器，在模板中内置过滤器进行操作，比在控制器中转换完再传递更加方便：
+
+
+
+- date/time：日期处理。[详细文档地址](http://golang.org/pkg/time/#Time.Format)
+- stringformat：文字处理。`{{ 3.14|stringformat:"pi is %.2f" }}` 等同于 `fmt.Sprintf("pi is %.2f", 3.14)`
+- escape/force_escape：特殊符号过滤
+
+
+
 
 
 
