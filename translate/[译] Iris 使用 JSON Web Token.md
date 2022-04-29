@@ -138,7 +138,58 @@ func logout(ctx iris.Context) {
 
 
 
+```
+http://localhost:8080
+http://localhost:8080/protected?token=$token (or Authorization: Bearer $token)
+http://localhost:8080/protected/logout?token=$token
+http://localhost:8080/protected?token=$token (401)
+```
 
+
+
+#### 步骤
+
+
+
+中间件包含两个结构，`Signer` 和 `Verifier`。`Signer` 用于生成 Token，`Verifier` 用于验证输入请求的 Token 是否有效。
+
+
+
+1. 在代码中，导入相关包：`import "github.com/kataras/iris/v12/middleware/jwt"`
+2. 在处理程序外部，初始化 Signer。有多种算法可供选择。让我们继续使用 `HMAC（HS256）`共享密钥，稍后我们将在验证器上使用：
+
+```
+signer := jwt.NewSigner(jwt.HS256, []byte("secret"), 15*time.Minute)
+```
+
+
+
+NewSigner 的参数：
+
+
+
+1. 算法签名
+2. 所使用的签名私钥
+3. 过期时间
+
+
+
+3. 声明自定义 `结构体`（可选，你也可以使用 `map`）：
+
+
+
+```
+// UserClaims a custom claims structure.
+// * Fields should be exported in order
+// to be able to decoded later on.
+type UserClaims struct {
+    Username string `json:"username"`
+}
+```
+
+
+
+4. 根据签名，生成 token，发送给客户端：
 
 
 
