@@ -193,5 +193,82 @@ type UserClaims struct {
 
 
 
+```
+app.Post("/signin", func(ctx iris.Context) {
+    claims := UserClaims{
+        Username: "kataras",
+    }
+
+    token, err := signer.Sign(claims)
+    if err != nil {
+        ctx.StopWithStatus(iris.StatusInternalServerError)
+        return
+    }
+
+    ctx.Write(token)
+})
+```
+
+
+
+- 要验证Token，初始化一个 `Verifier` 验证器，在处理函数外面：
+
+```
+verifier := jwt.NewVerifier(jwt.HS256, []byte("secret"))
+```
+
+- 创建中间件，在处理函数外面，指定一个用于生成 Token 的类型：
+
+```
+verifyMiddleware := verifier.Verify(func() interface{} {
+    return new(UserClaims) // must return a pointer to the claims struct type.
+})
+```
+
+- 注册中间件到 Party：
+
+```
+protected := app.Party("/protected")
+protected.Use(verifyMiddleware)
+```
+
+- 或者注册中间件，给单个的路由：
+
+```
+app.Get("/todos", verifyMiddleware, getTodos)
+```
+
+- 或者在处理函数中，调用中间件（不推荐）
+
+```
+handler := func(ctx iris.Context) {
+    ok := ctx.Proceed(verifyMiddleware)
+    if !ok {
+        ctx.StopWithStatus(iris.StatusUnauthorized)
+        return
+    }
+
+    claims := jwt.Get(ctx).(*UserClaims)
+}
+
+app.Get("/protected", handler)
+```
+
+- 要在处理路由中，获取解密后的对象，使用 `jwt.Get` 方法：
+
+```
+protected.Get("/todos", func(ctx iris.Context) {
+    claims := jwt.Get(ctx).(*UserClaims)
+    ctx.WriteString(claims.Username)
+})
+```
+
+- 当你的解密对象类型，实现了 [Context.User](https://github.com/kataras/iris/blob/7b6a8f1e26469ab3ae53cfe468d6e5202c75c2a8/context/context_user.go#L35) 接口的方法，可以直接得到用户：
+
+```
+user := ctx.User()
+username, _ := user.GetUsername()
+```
+
 
 
