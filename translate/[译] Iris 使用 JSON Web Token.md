@@ -270,5 +270,52 @@ user := ctx.User()
 username, _ := user.GetUsername()
 ```
 
+- 获取被验证的 Token 的信息：
+
+```
+verifiedToken := jwt.GetVerifiedToken(ctx)
+verifiedToken.Token // the original request token.
+```
+
+
+
+`VerifiedToken` 看起来是这样的：
+
+```
+type VerifiedToken struct {
+    Token          []byte // The original token.
+    Header         []byte // The header (decoded) part.
+    Payload        []byte // The payload (decoded) part.
+    Signature      []byte // The signature (decoded) part.
+    StandardClaims Claims // Any standard claims extracted from the payload.
+}
+```
+
+
+
+#### Token 提取
+
+
+
+默认情况下，一个新的 `Verifier` 可以从 `?token=$token` URL 参数或者请求 `Header` 的 `Authorization: Bearer $token` 中，提取到 Token。要改变这个行为，你可以修改验证器的 `Extractors []TokenExtractor` 字段。
+
+
+
+`TokenExtractor` 类型看起来如下：
+
+```
+type TokenExtractor func(iris.Context) string
+```
+
+
+
+该中间件提供了三个 token 提取器帮助方法：
+
+
+
+1. `FromHeader` - 从 `Authorization: Bearer {token}` 头提取 Token。
+2. `FromQuery` - 提取 `URL 查询参数` 中的 Token 字段内容。
+3.  FromJSON(jsonKey string) - 提取 token，从请求内容中，名为 `jsonKey` 的字段进行提取 token，例如，FromJSON("access_token") 将提取 token，从请求的内容：{"access_token": "$TOKEN", ...}.
+
 
 
