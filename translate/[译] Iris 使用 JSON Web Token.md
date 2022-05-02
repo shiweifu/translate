@@ -315,7 +315,45 @@ type TokenExtractor func(iris.Context) string
 
 1. `FromHeader` - 从 `Authorization: Bearer {token}` 头提取 Token。
 2. `FromQuery` - 提取 `URL 查询参数` 中的 Token 字段内容。
-3.  FromJSON(jsonKey string) - 提取 token，从请求内容中，名为 `jsonKey` 的字段进行提取 token，例如，FromJSON("access_token") 将提取 token，从请求的内容：{"access_token": "$TOKEN", ...}.
+3.  FromJSON(jsonKey string) - 提取 token，从请求内容中，名为 `jsonKey` 的字段进行提取 token，例如，FromJSON("access_token") 将提取 token，从请求的内容：{"access_token": "$TOKEN", ...}。
+
+
+
+`Verifier.Extractors` 字段（`NewVerifier` 返回的函数）默认行为：`[]TokenExtractor{FromHeader, FromQuery}`，它尝试从 `Authorization: Bearer` 头，读取 token，如果没有找到，它尝试去查找 `URL` 中的 `token`  查询参数。你可以自定义查找 Token 的行为，举例如下：
+
+
+
+```
+verifier := jwt.NewVerifier(jwt.HS256, []byte("secret"))
+verifier.Extractors = append(verifier.Extractors, func(ctx iris.Context) string {
+    // Return the raw token string from the request.
+    //
+    // For the sake of the example, we will try to
+    // retrieve the token, if all previous extractors failed,
+    // through a "X-Token" custom header:
+    return ctx.GetHeader("X-Token")
+})
+```
+
+
+
+当你想从 Authorization Header 中，展开 token 时：
+
+
+
+```
+verifier.Extractors = []jwt.TokenExtractor{jwt.FromHeader}
+```
+
+
+
+
+
+#### Token 结构体加密
+
+
+
+[JWE](https://tools.ietf.org/html/rfc7516#section-3)（加密后的 JWT）超出了这个中间件的范围，提供了令牌有效负载来保护数据。如图应用需要传输一个持有私有数据的令牌，它需要在 Sign 上加密数据，在 Verify 上解密数据。`Signer.WithEncryption` 和 `Verifier.WithDecryption` 方法可以加密任何类型的数据。
 
 
 
