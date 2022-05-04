@@ -357,3 +357,39 @@ verifier.Extractors = []jwt.TokenExtractor{jwt.FromHeader}
 
 
 
+中间件使用最流行和通用的方式，加密数据；`GCM` 模式 + AES cipher。我们使用最多研究推荐的 `encrypt-then-sign`  方式（它可以成功抵御边界攻击）。
+
+
+
+```
+signer := jwt.NewSigner(jwt.HS256, []byte("secret"), 15*time.Minute)
+// The key argument should be the AES key,
+// either 16, 24, or 32 bytes to select
+// AES-128, AES-192, or AES-256.
+//
+// The second argument is the additional data, can be nil.
+signer.WithEncryption([]byte("itsa16bytesecret"), nil)
+```
+
+
+
+在验证器中，我们解密加密的内容：
+
+
+
+```
+verifier := jwt.NewVerifier(jwt.HS256, []byte("secret"))
+verifier.WithDecryption([]byte("itsa16bytesecret"), nil)
+// [...]
+```
+
+
+
+#### 组织令牌
+
+
+
+当用户登出后，客户端 app 将删除本地的 token。此后，客户端无法再发起带有登录状态的请求。但如果 token 仍然有效，其他人依旧可以使用它。因此，使其在服务端无效，是非常有必要的。当服务端收到登出请求后，从请求中取出令牌，然后将该令牌保存至 `blocklist`。每个请求验证时，调用 `Verifier.Verify` 将检查 `Blocklist`，来检查 token 是否失效。为了保持检查的范围变小，过期的令牌将会自动从 Blocklist 中删除。
+
+
+
