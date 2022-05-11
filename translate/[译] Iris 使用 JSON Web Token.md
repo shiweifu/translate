@@ -507,3 +507,32 @@ func logout(ctx iris.Context) {
 
 
 
+默认情况下，通过 “jti”（Claims{ID}）检索唯一标识，如果它是空的，那么原始 Token 将用作映射。要改变这种行为，只需要简单的修改 `blocklist.GetKey` 字段即可。
+
+
+
+#### JSON Web 算法
+
+
+
+根据 JWA 算法规范（JSON Web 算法），有几种类型的签名算法可用。该规范要求所有符合规范的实现，都支持单一算法：
+
+
+
+- HMAC 使用 SHA-256，在 JWA 规范中，被称为 `HS256`。
+
+该规范也推荐了一些算法：
+
+
+
+- RSASSA PKCS1 v1.5 使用 SHA-256，在 JWA 规范中，被称为 `RS256`
+- ECDSA 使用 p-256 和 SHA-256，在 JWA 规范中，被称为 `ES256`
+
+
+
+该实现支持以上所有的算法，额外还支持 `RSA-PSS` 和 新的 `Ed25519`，导航到 [alg.go](https://github.com/kataras/iris-book/tree/1f920bd9bec0010ff85d3d1652e53ebf3e8bea05/security/alg.go) 源码文件，查看更多信息。简而言之：
+
+
+
+
+
