@@ -550,3 +550,121 @@ func logout(ctx iris.Context) {
 
 
 对称算法和非对称算法之间的基本区别是，对称算法使用一个共享密钥对令牌进行签名和验证，而非对称算法使用私钥进行签名，使用公钥进行验证。一般来说，非对称数据更安全，因为它使用不同的密钥进行签名和验证，但比对称数据慢。
+
+
+
+#### 使用你自己的算法
+
+
+
+如果你需要使用你自己的 JSON Web 算法，只需要实现  [Alg](https://github.com/kataras/iris-book/tree/1f920bd9bec0010ff85d3d1652e53ebf3e8bea05/security/alg.go#L19-L28) 接口。传递 `jwt.Sign` 和 `jwt.Verify` 函数，然后就可以了。
+
+
+
+#### 生成密钥
+
+
+
+密钥使用 [OpenSSL](https://www.openssl.org) 进行生成，还有一个选择是使用 Go 的标准库。
+
+
+
+```
+import (
+    "crypto/rand"
+    "crypto/rsa"
+    "crypto/elliptic"
+    "crypto/ed25519"
+)
+```
+
+
+
+```
+// Generate HMAC
+sharedKey := make([]byte, 32)
+_, _ = rand.Read(sharedKey)
+
+// Generate RSA
+bitSize := 2048
+privateKey, _ := rsa.GenerateKey(rand.Reader, bitSize)
+publicKey := &privateKey.PublicKey
+
+// Generace ECDSA
+c := elliptic.P256()
+privateKey, _ := ecdsa.GenerateKey(c, rand.Reader)
+publicKey := &privateKey.PublicKey
+
+// Generate EdDSA
+publicKey, privateKey, _ := ed25519.GenerateKey(rand.Reader)
+```
+
+
+
+#### 载入和解析密钥
+
+
+
+这个包包含加载和解析 PEM 格式密钥的全部依赖。
+
+
+
+全部帮助方法：
+
+
+
+```
+// HMAC
+MustLoadHMAC(filenameOrRaw string) []byte
+```
+
+
+
+```
+// RSA
+MustLoadRSA(privFile, pubFile string) (*rsa.PrivateKey, *rsa.PublicKey)
+LoadPrivateKeyRSA(filename string) (*rsa.PrivateKey, error)
+LoadPublicKeyRSA(filename string) (*rsa.PublicKey, error) 
+ParsePrivateKeyRSA(key []byte) (*rsa.PrivateKey, error)
+ParsePublicKeyRSA(key []byte) (*rsa.PublicKey, error)
+```
+
+
+
+```
+// ECDSA
+MustLoadECDSA(privFile, pubFile string) (*ecdsa.PrivateKey, *ecdsa.PublicKey)
+LoadPrivateKeyECDSA(filename string) (*ecdsa.PrivateKey, error)
+LoadPublicKeyECDSA(filename string) (*ecdsa.PublicKey, error) 
+ParsePrivateKeyECDSA(key []byte) (*ecdsa.PrivateKey, error)
+ParsePublicKeyECDSA(key []byte) (*ecdsa.PublicKey, error)
+```
+
+
+
+```
+// EdDSA
+MustLoadEdDSA(privFile, pubFile string) (ed25519.PrivateKey, ed25519.PublicKey)
+LoadPrivateKeyEdDSA(filename string) (ed25519.PrivateKey, error)
+LoadPublicKeyEdDSA(filename string) (ed25519.PublicKey, error)
+ParsePrivateKeyEdDSA(key []byte) (ed25519.PrivateKey, error)
+ParsePublicKeyEdDSA(key []byte) (ed25519.PublicKey, error)
+```
+
+
+
+示例代码：
+
+```
+import "github.com/kataras/iris/v12/middleware/jwt"
+```
+
+```
+privateKey, publicKey := jwt.MustLoadEdDSA("./private_key.pem", "./public_key.pem")
+
+signer := jwt.NewSigner(jwt.EdDSA, privateKey, 15*time.Minute)
+verifier := jwt.NewVerifier(jwt.EdDSA, publicKey)
+```
+
+
+
