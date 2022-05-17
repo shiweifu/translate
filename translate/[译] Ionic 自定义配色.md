@@ -75,3 +75,67 @@
 }
 ```
 
+
+
+如果你想创建不同风格的的颜色，如 Instrgram 配色，直接声明变量即可。下面是一些变量的定义：
+
+
+
+```
+:root {
+    --ion-color-instagram: #fd4c76;
+    --ion-color-instagram-rgb: 253, 76, 118;
+    --ion-color-instagram-contrast: #ffffff;
+    --ion-color-instagram-contrast-rgb: 255, 255, 255;
+    --ion-color-instagram-shade: #fa3462;
+    --ion-color-instagram-tint: #d61845;
+}
+
+.ion-color-instagram {
+  --ion-color-base: var(--ion-color-instagram) !important;
+  --ion-color-base-rgb: var(--ion-color-instagram-rgb) !important;
+  --ion-color-contrast: var(--ion-color-instagram-contrast) !important;
+  --ion-color-contrast-rgb: var(--ion-color-instagram-contrast-rgb) !important;
+  --ion-color-shade: var(--ion-color-instagram-shade) !important;
+  --ion-color-tint: var(--ion-color-instagram-tint) !important;
+}
+```
+
+
+
+现在，我们可以在我们的 App 中，使用刚刚定义的 Ionic 颜色变量了。举个例子：
+
+
+
+```
+<ion-icon name="logo-twitter" color="secondary"></ion-icon>
+<ion-item color="primary"></ion-item>
+```
+
+
+
+下面是使用我们我们在上面刚刚定义的颜色。
+
+
+
+```
+<ion-icon name="logo-instagram" color="instagram"></ion-icon>
+```
+
+
+
+---
+
+
+
+请分享这篇文章，并给我一些反馈，这是我继续写下去的动力。
+
+
+
+更多内容，请查看我的网站：[tutorials visit my website](https://www.readymadecode.com/tutorials/).
+
+
+
+感谢~
+
+Happy Coding :)
