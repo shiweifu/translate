@@ -69,3 +69,46 @@ Ionic 框架提供了一组 CSS 工具类，用于帮助你调整文本，元素
 </ion-grid>
 ```
 
+
+
+| Class               | Style Rule            | 描述                                                         |
+| ------------------- | --------------------- | ------------------------------------------------------------ |
+| `.ion-text-left`    | `text-align: left`    | 盒模型中的内容居左对齐                                       |
+| `.ion-text-right`   | `text-align: right`   | 盒模型中的内容居右对齐                                       |
+| `.ion-text-start`   | `text-align: start`   | 如果文本的方向是左起向右，则与左对齐功能一致。如果文本方向是右向左，则与右对齐一致。 |
+| `.ion-text-end`     | `text-align: end`     | 与上面的类功能一致，只是方向反了。                           |
+| `.ion-text-center`  | `text-align: center`  | 盒模型中的内容，居中对齐                                     |
+| `.ion-text-justify` | `text-align: justify` | 盒模型中的文本内容，左右对齐，最后一行除外                   |
+| `.ion-text-wrap`    | `white-space: normal` | 空白序列被折叠。内容中的换行符被当作空格处理，必要时换行以填充盒。 |
+| `.ion-text-nowrap`  | `white-space: nowrap` | 与正常情况一样，折叠空白，但禁止文本换行                     |
+
+#### Text 变形
+
+
+
+```
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <div class="ion-text-uppercase">
+        <h3>text-uppercase</h3>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
+      </div>
+    </ion-col>
+    <ion-col>
+      <div class="ion-text-lowercase">
+        <h3>text-lowercase</h3>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
+      </div>
+    </ion-col>
+    <ion-col>
+      <div class="ion-text-capitalize">
+        <h3>text-capitalize</h3>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+te'r
