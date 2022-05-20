@@ -111,4 +111,35 @@ Ionic 框架提供了一组 CSS 工具类，用于帮助你调整文本，元素
 </ion-grid>
 ```
 
-te'r
+
+
+| Class                  | Style Rule                   | 描述                             |
+| ---------------------- | ---------------------------- | -------------------------------- |
+| `.ion-text-uppercase`  | `text-transform: uppercase`  | 强制将所有字符转换为大写         |
+| `.ion-text-lowercase`  | `text-transform: lowercase`  | 强制将所有字符转换为小写         |
+| `.ion-text-capitalize` | `text-transform: capitalize` | 强制将每个单词的首字母转换为大写 |
+
+
+
+#### 响应式文本工具类
+
+
+
+上面列出的所有文本类，都支持通过添加额外的类，来适配不同尺寸的屏幕。相较于 `text-`，使用 `text-{breakpoint}-`，可以让类在指定的屏幕尺寸中生效，{breakpoint} 的列表值，可以  [Ionic-尺寸断点](https://ionicframework.com/docs/layout/css-utilities#ionic-breakpoints)。
+
+
+
+下方的表格中，展示了一些默认行为，`{modifier}` 可以为以下取值：left`, `right`, `start`, `end`, `center`, `justify`, `wrap`, `nowrap`, `uppercase`, `lowercase`, or `capitalize，如上方定义的一样。
+
+
+
+| Class                     | Description                            |
+| ------------------------- | -------------------------------------- |
+| `.ion-text-{modifier}`    | 作用于所有尺寸的屏幕                   |
+| `.ion-text-sm-{modifier}` | 作用于最小尺寸为 `min-width: 576px`。  |
+| `.ion-text-md-{modifier}` | 作用于最小尺寸为 `min-width: 768px`。  |
+| `.ion-text-lg-{modifier}` | 作用于最小尺寸为 `min-width: 992px`。  |
+| `.ion-text-xl-{modifier}` | 作用于最小尺寸为 `min-width: 1200px`。 |
+
+
+
