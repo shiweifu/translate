@@ -143,3 +143,45 @@ Ionic 框架提供了一组 CSS 工具类，用于帮助你调整文本，元素
 
 
 
+### 元素占位符
+
+
+
+#### 浮动元素
+
+
+
+通过浮动 CSS 属性，指定元素在容器的左侧或者在右侧，文本和行内元素将环绕它。通过这种方式，元素从网页标准的布局中被取出来，但仍然属于标准布局的一部分，这与绝对定位相反。
+
+
+
+```
+<ion-grid>
+  <ion-row>
+    <ion-col class="ion-float-left">
+      <div>
+        <h3>float-left</h3>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
+      </div>
+    </ion-col>
+    <ion-col class="ion-float-right">
+      <div>
+        <h3>float-right</h3>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+| Class              | Style Rule                     | 描述                                                         |
+| ------------------ | ------------------------------ | ------------------------------------------------------------ |
+| `.ion-float-left`  | `float: left`                  | 元素将浮动在父容器的左侧                                     |
+| `.ion-float-right` | `float: right`                 | 元素浮动在父容器的右侧                                       |
+| `.ion-float-start` | `float: left` / `float: right` | 如果方向是由左到右，则表现与 `float-left` 一致。 如果方向是右到左，则显示为 `float-right`。 |
+| `.ion-float-end`   | `float: left` / `float: right` | 如果方向是由左到右，则表现与 `float-right 一致。 如果方向是右到左，则显示为` `float-left`。 |
+
+
+
