@@ -185,3 +185,53 @@ Ionic 框架提供了一组 CSS 工具类，用于帮助你调整文本，元素
 
 
 
+### 元素显示
+
+
+
+显示相关的 CSS 属性，决定元素是否被显示。如果元素是被隐藏的，即时元素被包在 DOM 中，它也不会被显示。
+
+
+
+```
+<ion-grid>
+  <ion-row>
+    <ion-col class="ion-hide">
+      <div>
+        <h3>hidden</h3>
+        You can't see me.
+      </div>
+    </ion-col>
+    <ion-col>
+      <div>
+        <h3>not-hidden</h3>
+        You can see me!
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+| Class       | Style Rule      | 描述         |
+| ----------- | --------------- | ------------ |
+| `.ion-hide` | `display: none` | 元素将被隐藏 |
+
+
+
+### 响应式显示属性
+
+
+
+有一组额外的类，基于屏幕的尺寸来响应式的控制元素是否显示。不同于 `.ion-hide` 的对全尺寸屏幕生效，`ion-hide-{breakpoint}-{dir}` 只对某些尺寸的屏幕生效。`{breakpoint` 的内容对应  [Ionic 断点列表](https://ionicframework.com/docs/layout/css-utilities#ionic-breakpoints)，`{dir}` 决定元素是否在 `大于` 或者 `小于`  某个屏幕尺寸下生效。
+
+
+
+| Class                | Description                                                  |
+| -------------------- | ------------------------------------------------------------ |
+| `.ion-hide-sm-{dir}` | 当 `min-width: 576px` (`大于`) 或者 `max-width: 576px` (`小于`) 时，样式生效 |
+| `.ion-hide-md-{dir}` | 当 `min-width: 768px` (`大于`) 或者 `max-width: 768px` (`小于`)时，样式生效 |
+| `.ion-hide-lg-{dir}` | 当  `min-width: 992px` (`大于`) or `max-width: 992px` (`小于`)时，样式生效 |
+| `.ion-hide-xl-{dir}` | 当 `min-width: 1200px` (`大于`) or `max-width: 1200px` (`小于`) 时，样式生效 |
+
