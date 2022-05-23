@@ -235,3 +235,67 @@ Ionic 框架提供了一组 CSS 工具类，用于帮助你调整文本，元素
 | `.ion-hide-lg-{dir}` | 当  `min-width: 992px` (`大于`) or `max-width: 992px` (`小于`)时，样式生效 |
 | `.ion-hide-xl-{dir}` | 当 `min-width: 1200px` (`大于`) or `max-width: 1200px` (`小于`) 时，样式生效 |
 
+
+
+### 内容空间
+
+#### 元素内边距
+
+
+
+内边距类用于设置元素的内边距。内边距区域，是指元素内容和边框之间的区域。
+
+
+
+默认情况下，`padding` 的值被设置为 `16px`，可以通过 `--ion-padding` 变量来进行设置。详情请看 [CSS Variables](https://ionicframework.com/docs/theming/css-variables) 了解更多信息，以及如何改变这些变量的值。
+
+
+
+```
+<ion-grid>
+  <ion-row>
+    <ion-col class="ion-padding">
+      <div>padding</div>
+    </ion-col>
+    <ion-col class="ion-padding-top">
+      <div>padding-top</div>
+    </ion-col>
+    <ion-col class="ion-padding-start">
+      <div>padding-start</div>
+    </ion-col>
+    <ion-col class="ion-padding-end">
+      <div>padding-end</div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="ion-padding-bottom">
+      <div>padding-bottom</div>
+    </ion-col>
+    <ion-col class="ion-padding-vertical">
+      <div>padding-vertical</div>
+    </ion-col>
+    <ion-col class="ion-padding-horizontal">
+      <div>padding-horizontal</div>
+    </ion-col>
+    <ion-col class="ion-no-padding">
+      <div>no-padding</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+| Class                     | Style Rule             | 描述               |
+| ------------------------- | ---------------------- | ------------------ |
+| `.ion-padding`            | `padding: 16px         | 对所有边都生效     |
+| `.ion-padding-top`        | `padding-top: 16px`    | 对顶部生效         |
+| `.ion-padding-start`      | `padding-start: 16px`  | 对开始的方向生效   |
+| `.ion-padding-end`        | `padding-end: 16px`    | 对末尾的方向生效   |
+| `.ion-padding-bottom`     | `padding-bottom: 16px` | 对底部生效         |
+| `.ion-padding-vertical`   | `padding: 16px 0`      | 对顶部或者底部生效 |
+| `.ion-padding-horizontal` | `padding: 0 16px`      | 对左右生效         |
+| `.ion-no-padding`         | `padding: 0`           | 不要边距           |
+
+
+
