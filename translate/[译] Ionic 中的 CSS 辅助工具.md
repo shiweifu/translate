@@ -295,7 +295,65 @@ Ionic 框架提供了一组 CSS 工具类，用于帮助你调整文本，元素
 | `.ion-padding-bottom`     | `padding-bottom: 16px` | 对底部生效         |
 | `.ion-padding-vertical`   | `padding: 16px 0`      | 对顶部或者底部生效 |
 | `.ion-padding-horizontal` | `padding: 0 16px`      | 对左右生效         |
-| `.ion-no-padding`         | `padding: 0`           | 不要边距           |
+| `.ion-no-padding`         | `padding: 0`           | 不要内边距         |
 
 
+
+### 元素外边距
+
+
+
+外边距区域是只边框之外的区域，用于分隔元素与它的邻居元素。
+
+
+
+默认情况下，`margin` 的值为 `16px`，通过 `--ion-margin` 变量来设置。查看 [CSS 变量](https://ionicframework.com/docs/theming/css-variables) 章节，了解更多信息。
+
+
+
+```
+<ion-grid>
+  <ion-row>
+    <ion-col class="ion-margin">
+      <div>margin</div>
+    </ion-col>
+    <ion-col class="ion-margin-top">
+      <div>margin-top</div>
+    </ion-col>
+    <ion-col class="ion-margin-start">
+      <div>margin-start</div>
+    </ion-col>
+    <ion-col class="ion-margin-end">
+      <div>margin-end</div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="ion-margin-bottom">
+      <div>margin-bottom</div>
+    </ion-col>
+    <ion-col class="ion-margin-vertical">
+      <div>margin-vertical</div>
+    </ion-col>
+    <ion-col class="ion-margin-horizontal">
+      <div>margin-horizontal</div>
+    </ion-col>
+    <ion-col class="ion-no-margin">
+      <div>no-margin</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+| Class                    | Style Rule            | 描述                                 |
+| ------------------------ | --------------------- | ------------------------------------ |
+| `.ion-margin`            | `margin: 16px`        | 应用于元素所有的边。                 |
+| `.ion-margin-top`        | `margin-top: 16px`    | 作用于元素的顶边。                   |
+| `.ion-margin-start`      | `margin-start: 16px`  | 增加外边距于元素的左边。             |
+| `.ion-margin-end`        | `margin-end: 16px`    | 增加外边距于元素的右边。             |
+| `.ion-margin-bottom`     | `margin-bottom: 16px` | 增加外边距于元素的底边。             |
+| `.ion-margin-vertical`   | `margin: 16px 0`      | 增加外边距于元素的元素的顶边和底边。 |
+| `.ion-margin-horizontal` | `margin: 0 16px`      | 增加外边距于元素的左边和右边。       |
+| `.ion-no-margin`         | `margin: 0`           | 元素所有边都没有外边距。             |
 
