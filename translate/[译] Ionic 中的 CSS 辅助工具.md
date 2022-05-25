@@ -357,3 +357,148 @@ Ionic 框架提供了一组 CSS 工具类，用于帮助你调整文本，元素
 | `.ion-margin-horizontal` | `margin: 0 16px`      | 增加外边距于元素的左边和右边。       |
 | `.ion-no-margin`         | `margin: 0`           | 元素所有边都没有外边距。             |
 
+
+
+## Flex 属性
+
+
+
+#### Flex 容器属性
+
+
+
+```
+<ion-grid>
+  <ion-row class="ion-justify-content-start">
+    <ion-col size="3">
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col size="3">
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="3">
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col size="3">
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-end">
+    <ion-col size="3">
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col size="3">
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-around">
+    <ion-col size="3">
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col size="3">
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-between">
+    <ion-col size="3">
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col size="3">
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-evenly">
+    <ion-col size="3">
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col size="3">
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<ion-grid>
+  <ion-row class="ion-align-items-start">
+    <ion-col>
+      <div>1 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>2 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>3 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>4 of 4 # # #</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-align-items-end">
+    <ion-col>
+      <div>1 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>2 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>3 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>4 of 4 # # #</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-align-items-center">
+    <ion-col>
+      <div>1 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>2 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>3 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>4 of 4 # # #</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-align-items-baseline">
+    <ion-col>
+      <div>1 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>2 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>3 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>4 of 4 # # #</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-align-items-stretch">
+    <ion-col>
+      <div>1 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>2 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>3 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>4 of 4 # # #</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
