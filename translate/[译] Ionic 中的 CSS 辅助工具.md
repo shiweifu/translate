@@ -502,3 +502,22 @@ Ionic 框架提供了一组 CSS 工具类，用于帮助你调整文本，元素
 </ion-grid>
 ```
 
+
+
+| Class                          | Style Rule                       | 描述                                             |
+| ------------------------------ | -------------------------------- | ------------------------------------------------ |
+| `.ion-justify-content-start`   | `justify-content: flex-start`    | 元素以主轴的起始位置对齐                         |
+| `.ion-justify-content-end`     | `justify-content: flex-end`      | 元素以主轴的末尾位置对齐                         |
+| `.ion-justify-content-center`  | `justify-content: center`        | 元素在主轴的中心位置对齐                         |
+| `.ion-justify-content-around`  | `justify-content: space-around`  | 条目均匀分布在主轴上，左右的空间相等             |
+| `.ion-justify-content-between` | `justify-content: space-between` | 元素均匀的分布在主轴上                           |
+| `.ion-justify-content-evenly`  | `justify-content: space-evenly`  | 元素均匀分布在主轴上，任意两个元素之间的距离相等 |
+| `.ion-align-items-start`       | `align-items: flex-start`        | 元素在纵轴起始位置对齐                           |
+| `.ion-align-items-end`         | `align-items: flex-end`          | 元素在纵轴末尾位置对齐                           |
+| `.ion-align-items-center`      | `align-items: center`            | 元素在纵轴上居中                                 |
+| `.ion-align-items-baseline`    | `align-items: baseline`          | 元素在纵轴的基线上对齐                           |
+| `.ion-align-items-stretch`     | `align-items: stretch`           | 拉伸元素以填满父组件                             |
+| `.ion-nowrap`                  | `flex-wrap: nowrap`              | 元素溢出后，不换行                               |
+| `.ion-wrap`                    | `flex-wrap: wrap`                | 元素溢出后，换行                                 |
+| `.ion-wrap-reverse`            | `flex-wrap: wrap-reverse`        | 元素溢出后，从下到上换行                         |
+
