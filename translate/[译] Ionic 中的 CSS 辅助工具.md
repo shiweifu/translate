@@ -521,3 +521,61 @@ Ionic 框架提供了一组 CSS 工具类，用于帮助你调整文本，元素
 | `.ion-wrap`                    | `flex-wrap: wrap`                | 元素溢出后，换行                                 |
 | `.ion-wrap-reverse`            | `flex-wrap: wrap-reverse`        | 元素溢出后，从下到上换行                         |
 
+
+
+### Flex Item 属性
+
+
+
+```
+<ion-grid>
+  <ion-row>
+    <ion-col class="ion-align-self-start">
+      <div>1 of 4</div>
+    </ion-col>
+    <ion-col class="ion-align-self-center">
+      <div>2 of 4</div>
+    </ion-col>
+    <ion-col class="ion-align-self-end">
+      <div>3 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>4 of 4 # # #</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+| Class                      | Style Rule               | 描述                                     |
+| -------------------------- | ------------------------ | ---------------------------------------- |
+| `.ion-align-self-start`    | `align-self: flex-start` | 元素在纵轴上起始的位置                   |
+| `.ion-align-self-end`      | `align-self: flex-end`   | 元素在纵轴上结束的位置                   |
+| `.ion-align-self-center`   | `align-self: center`     | 元素在纵轴上居中的位置                   |
+| `.ion-align-self-baseline` | `align-self: baseline`   | 元素与其他元素的基线对齐                 |
+| `.ion-align-self-stretch`  | `align-self: stretch`    | 元素拉伸，填满父元素                     |
+| `.ion-align-self-auto`     | `align-self: auto`       | 元素根据父元素的`align-items` 值进行对齐 |
+
+
+
+### 边框显示
+
+
+
+边框相关的 CSS 属性，用于决定元素的边框是否显示。这个属性可以被应用于 `ion-header` 或者 `ion-footer` 组件之上。
+
+
+
+```
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Header - No Border</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Footer - No Border</ion-title>
+  </ion-toolbar>
+</ion-footer>
+```
+
