@@ -53,3 +53,49 @@ ion-select .select-placeholder {
 }
 ```
 
+
+
+那么，如何解决这个问题呢？[使用 CSS Shadow](https://ionicframework.com/docs/theming/css-shadow-parts#shadow-parts-explained)！
+
+
+
+### Shaodw Parts 介绍
+
+
+
+Shaodw parts 允许开发者，将样式应用在 shadow 树外部，应用到内部中。要实现这个目标，[part（部分） 必须暴露](https://ionicframework.com/docs/theming/css-shadow-parts#exposing-a-part)，并使用 [::part](https://ionicframework.com/docs/theming/css-shadow-parts#how-part-works)。
+
+
+
+### 部分暴露
+
+
+
+当创建一个 Shadow Dom 组件时，通过在元素上，指定一个 part 属性，可以将一个 part 添加到一个 Shadow 树的元素中。它被添加到 Ionic 框架的组件中，无需终端用户操作。
+
+
+
+继续使用 `ion-select` 组件作为例子，标记更新后，如下所示：
+
+
+
+```
+<ion-select>
+  #shadow-root
+  <div part="placeholder" class="select-text select-placeholder"></div>
+  <div part="icon" class="select-icon"></div>
+</ion-select>
+```
+
+
+
+上面展示了两个部分：`placeholder` 和 `icon`。查看 [选择组件文档](https://ionicframework.com/docs/api/select#css-shadow-parts)，查看全部的 parts。
+
+
+
+
+
+
+
+
+
