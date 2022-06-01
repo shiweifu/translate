@@ -93,7 +93,63 @@ Shaodw parts 允许开发者，将样式应用在 shadow 树外部，应用到�
 
 
 
+暴露了 parts 之后，现在可以直接实用 `::part` 对元素样式进行设置。
 
+
+
+### Parts 如何工作
+
+
+
+`::part()` 伪元素，允许开发者通过 part 属性，选择影子树之中的元素。
+
+
+
+当我们了解 `ion-select` 暴露了 `placeholder` 部分，用于在没有选择值时，对文本设置样式，我们可以按照以下方式，进行设置：
+
+
+
+```
+ion-select::part(placeholder) {
+  color: blue;
+  opacity: 1;
+}
+```
+
+
+
+使用 `::part`，允许当元素发生改变时，任意 CSS 属性，被接受。
+
+
+
+此外，part 也支持使用伪类，在不显示暴露他们的情况下，进行样式化：
+
+
+
+```
+ion-select::part(placeholder)::first-letter {
+  font-size: 22px;
+  font-weight: 500;
+}
+```
+
+
+
+`parts` 可以和大多数伪类一起工作：
+
+
+
+```
+ion-item::part(native):hover {
+  color: green;
+}
+```
+
+
+
+> 注意
+>
+> 带有[厂牌前缀的伪元素](https://ionicframework.com/docs/theming/css-shadow-parts#vendor-prefixed-pseudo-elements) ，和[结构化伪类](https://ionicframework.com/docs/theming/css-shadow-parts#structural-pseudo-classes)，有一些已知限制。
 
 
 
