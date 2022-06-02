@@ -153,5 +153,19 @@ ion-item::part(native):hover {
 
 
 
+### Ionic 框架 Parts
 
+
+
+Ionic 框架的组件，的所有暴露的 Parts，都可以在其 API 页面的 CSS Shadow parts 部分下找到。要查看所有组件及其API页面，请参阅[组件文档](https://ionicframework.com/docs/components)。
+
+
+
+组件为了拥有 Parts，必须满足以下条件：
+
+
+
+- 这是一个 [影子 DOM](https://ionicframework.com/docs/reference/glossary#shadow)。如果他是一个 [存在局部范围](https://ionicframework.com/docs/reference/glossary#scoped)，或者 DOM 组件，子元素可以被直接访问。如果该组件是一个局部范围或者影子组件，它将被列出在 [组件文档页](https://ionicframework.com/docs/components)。
+
+- 它包含子元素。例如 `ion-card-header` 组件是一个影子组件，但它的所有样式，应用在它的 host CSS 属性上。因为它没有子组件，也就不需要使用 parts。
 
