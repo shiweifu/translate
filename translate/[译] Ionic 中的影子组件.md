@@ -169,3 +169,20 @@ Ionic 框架的组件，的所有暴露的 Parts，都可以在其 API 页面的
 
 - 它包含子元素。例如 `ion-card-header` 组件是一个影子组件，但它的所有样式，应用在它的 host CSS 属性上。因为它没有子组件，也就不需要使用 parts。
 
+- 子元素不是结构化的。在某些组件（包括 ion-title）中，子元素是用于定位内部元素的结构元素。我们不建议定义结构元素，因为这可能会产生意想不到的结果。
+
+
+
+> 我们欢迎提交更多的 parts 请求，如果需要一个新的 parts，请发起一个新的 [GitHub issue](https://github.com/ionic-team/ionic-framework/issues/new?assignees=&labels=&template=feature_request.md&title=feat%3A+) 。
+
+
+
+### 已知限制
+
+
+
+#### 浏览器支持
+
+
+
+所有主流浏览器的最新版本都支持 CSS Parts。但是，一些较老的版本不支持 Parts。不管怎样，在应用程序中实现 Parts 之前，验证浏览器支持满足要求。如果需要浏览器支持旧版本，我们建议继续使用 CSS 变量来适配样式。
