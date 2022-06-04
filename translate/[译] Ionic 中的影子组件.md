@@ -186,3 +186,62 @@ Ionic 框架的组件，的所有暴露的 Parts，都可以在其 API 页面的
 
 
 所有主流浏览器的最新版本都支持 CSS Parts。但是，一些较老的版本不支持 Parts。不管怎样，在应用程序中实现 Parts 之前，验证浏览器支持满足要求。如果需要浏览器支持旧版本，我们建议继续使用 CSS 变量来适配样式。
+
+
+
+#### 浏览器厂商伪元素
+
+
+
+目前不支持带有厂商前缀的伪元素。一个例子是 `::-webkit-scrollbar` 伪元素。
+
+
+
+```
+/* Does NOT work */
+my-component::part(scroll)::-webkit-scrollbar {
+  background: green;
+}
+```
+
+
+
+更多信息请查看  [GitHub](https://github.com/w3c/csswg-drafts/issues/4530)。
+
+
+
+#### 结构化伪类
+
+
+
+大多数伪类都支持 `Parts`，然而，结构化伪类则不支持。下面是一个不能工作的结构化伪类的示例。
+
+
+
+```
+/* Does NOT work */
+my-component::part(container):first-child {
+  background: green;
+}
+
+/* Does NOT work */
+my-component::part(container):last-child {
+  background: green;
+}
+```
+
+
+
+#### 链式 Parts
+
+
+
+伪元素 ::part() 不能与附加的 ::part() 匹配。
+
+
+
+例如，`my-component::part(button)::part(label)` 不匹配任何元素。这是因为这样做将暴露更多的结构信息。
+
+
+
+如果`<my-component>`的内部按钮使用像`part="label => button-label"`这样的东西来将按钮的内部部件转发到面板自己的部件元素映射中，那么像`my-component::part(button-label)`这样的选择器将只选择一个按钮的标签，忽略任何其他标签。
