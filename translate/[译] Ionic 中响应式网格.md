@@ -40,4 +40,73 @@
 - 列没有设置值，默认将使用相同的宽度。举个例子，四个实例，都采用 `size-sm`，将被分为四等份。
 - 列宽度按百分比设置，始终是流动的，大小与父元素有关。
 - 每个列都有自己独立的内边距，因此，也可以向列添加 `ion-no-padding`，来删除内边距。详情请查看  [CSS Utilities](https://ionicframework.com/docs/layout/css-utilities)，来了解有关样式设置内容中的网格部分。
+- 有五个网格层，每个响应断点对应一个：所有断点（超小），小，中等，大和超大。
+- 网格层基于最小宽度，这意味着它们适用于所有的层，以及比它们尺寸大的设备（例如：size-sm="4"，适用于小型、中型、大型和超大型设备）。
+- 网格可以使用 CSS 变量轻松的定制，更多信息请查看 [定制网格](https://ionicframework.com/docs/layout/grid#customizing-the-grid)。
+
+
+
+#### 实时案例
+
+
+
+你可以查看 Angular 版本的 [案例](https://stackblitz.com/edit/ionic-ng-basic-grid)，或者 React 版本的 [案例](https://stackblitz.com/edit/ionic-react-basic-grid)。
+
+
+
+### 网格大小
+
+
+
+默认情况下，网格占据 100% 宽度。要基于屏幕尺寸来设置宽度，请添加 `fixed` 属性。指定网格每个断点的宽度，通过 `ion-grid-width-{breakpoint}` 定义 CSS 变量来设置。更多信息，请查看 [自定义网格](https://ionicframework.com/docs/layout/grid#customizing-the-grid)。
+
+
+
+| 名字 | 值     | 描述                                          |
+| ---- | ------ | --------------------------------------------- |
+| xs   | 100%   | 在非常小的屏幕中，不设置网格宽度              |
+| sm   | 540px  | 最小宽度为 576px 时候，设置网格宽度为 540px   |
+| md   | 720px  | 最小宽度为 768px 时候，设置网格宽度为 720px   |
+| lg   | 960px  | 最小宽度为 992px 时候，设置网格宽度为 960px   |
+| xl   | 1140px | 最小宽度为 1200px 时候，设置网格宽度为 1140px |
+
+
+
+### 实时案例
+
+
+
+你可以查看实时案例，Angular 版本查看 [这里](https://stackblitz.com/edit/ionic-ng-fixed-width-grid)，React 版本查看 [这里](https://stackblitz.com/edit/ionic-react-fixed-width-grid)。
+
+
+
+### 网格属性
+
+
+
+默认情况下，网格会占据整个屏幕的宽度。这可以使用下面的属性进行修改。
+
+
+
+| 属性  | 描述                       |
+| ----- | -------------------------- |
+| fixed | 设置基于当前屏幕的最大宽度 |
+
+
+
+### 默认断点
+
+
+
+默认断点在下表中定义。此时不能自定义断点。有关为什么不能自定义它们的更多信息，请参见[媒体查询中的变量](https://ionicframework.com/docs/theming/advanced#variables-in-media-queries)。
+
+
+
+| 名称 | 值     | Width Prefix | Offset Prefix | Push Prefix | Pull Prefix | 描述                            |
+| ---- | ------ | ------------ | ------------- | ----------- | ----------- | ------------------------------- |
+| xs   | 0      | `size-`      | `offset-`     | `push-`     | `pull-`     | 当 min-width: 0 时，设置列      |
+| sm   | 576px  | `size-sm-`   | `offset-sm-`  | `push-sm-`  | `pull-sm-`  | 当 min-width: 576px 时，设置列  |
+| md   | 768px  | `size-md-`   | `offset-md-`  | `push-md-`  | `pull-md-`  | 当 min-width: 768px 时，设置列  |
+| lg   | 992px  | `size-lg-`   | `offset-lg-`  | `push-lg-`  | `pull-lg-`  | 当 min-width: 992px 时，设置列  |
+| xl   | 1200px | `size-xl-`   | `offset-xl-`  | `push-xl-`  | `pull-xl-`  | 当 min-width: 1200px 时，设置列 |
 
