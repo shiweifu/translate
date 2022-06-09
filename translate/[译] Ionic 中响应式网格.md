@@ -110,3 +110,93 @@
 | lg   | 992px  | `size-lg-`   | `offset-lg-`  | `push-lg-`  | `pull-lg-`  | 当 min-width: 992px 时，设置列  |
 | xl   | 1200px | `size-xl-`   | `offset-xl-`  | `push-xl-`  | `pull-xl-`  | 当 min-width: 1200px 时，设置列 |
 
+
+
+### 自动布局列
+
+
+
+#### 等宽
+
+
+
+默认情况下，对于所有设备和屏幕大小，列将在一行内，占用相等的宽度。
+
+
+
+```
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col>
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <div>1 of 3</div>
+    </ion-col>
+    <ion-col>
+      <div>2 of 3</div>
+    </ion-col>
+    <ion-col>
+      <div>3 of 3</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+#### 设置一列宽度
+
+
+
+设置一列的宽度，其他列将自动调整大小。这可以使用我们的预定义网格属性来完成。下面示例中，无论中心列的宽度如何，其他列将调整大小。
+
+
+
+```
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <div>1 of 3</div>
+    </ion-col>
+    <ion-col size="8">
+      <div>2 of 3 (wider)</div>
+    </ion-col>
+    <ion-col>
+      <div>3 of 3</div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <div>1 of 3</div>
+    </ion-col>
+    <ion-col size="6">
+      <div>2 of 3 (wider)</div>
+    </ion-col>
+    <ion-col>
+      <div>3 of 3</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+#### 实时案例
+
+
+
+你可以查看实时案例，Angular 版本查看 [这里](https://stackblitz.com/edit/ionic-ng-set-width-col)，React 版本查看 [这里](https://stackblitz.com/edit/ionic-react-set-width-col)。
+
+
+
+
+
+
+
+ 
