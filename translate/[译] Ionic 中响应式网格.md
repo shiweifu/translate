@@ -195,6 +195,70 @@
 
 
 
+#### 可变宽度
+
+
+
+通过设置 `size-{breakpoint}` 属性为 `"auto"`，列可以根据其内容自然宽度，自动调整大小。这对于使用像素设置列宽，非常有用。可变宽度列旁边的列，将调整大小，以填充行。
+
+
+
+```
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <div>1 of 3</div>
+    </ion-col>
+    <ion-col size="auto">
+      <div>Variable width content</div>
+    </ion-col>
+    <ion-col>
+      <div>3 of 3</div>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <div>1 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>2 of 4</div>
+    </ion-col>
+    <ion-col size="auto">
+      <div>
+        <ion-input placeholder="Variable width input"></ion-input>
+      </div>
+    </ion-col>
+    <ion-col>
+      <div>4 of 4</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+#### 实时案例
+
+
+
+你可以查看实时案例，Angular 版本查看 [这里](https://stackblitz.com/edit/ionic-ng-var-width-col) ，React 版本查看 [这里](https://stackblitz.com/edit/ionic-react-var-width-col)。
+
+
+
+### 响应属性
+
+
+
+#### 所有断点
+
+
+
+要为所有设备和屏幕定制列的宽度，请设置 `size` 属性。此属性的值确定该列应占可用列总数的多少列。
+
+
+
+
+
 
 
 
