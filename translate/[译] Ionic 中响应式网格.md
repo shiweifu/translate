@@ -257,6 +257,82 @@
 
 
 
+```
+<ion-grid>
+  <ion-row>
+    <ion-col size="4">
+      <div>1 of 4</div>
+    </ion-col>
+    <ion-col size="2">
+      <div>2 of 4</div>
+    </ion-col>
+    <ion-col size="2">
+      <div>3 of 4</div>
+    </ion-col>
+    <ion-col size="4">
+      <div>4 of 4</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+### 水平堆放
+
+
+
+使用宽度和断点属性的组合来创建一个网格，它在小屏幕上开始堆叠，然后在小屏幕上变成水平的。
+
+
+
+```
+<ion-grid>
+  <ion-row>
+    <ion-col size="12" size-sm>
+      <div>1 of 4</div>
+    </ion-col>
+    <ion-col size="12" size-sm>
+      <div>2 of 4</div>
+    </ion-col>
+    <ion-col size="12" size-sm>
+      <div>3 of 4</div>
+    </ion-col>
+    <ion-col size="12" size-sm>
+      <div>4 of 4</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+#### 实时案例
+
+
+
+你可以查看实时案例，Angular 版本查看 [这里](https://stackblitz.com/edit/ionic-ng-stacked-horizontal-grid) ，React 版本查看 [这里](https://stackblitz.com/edit/ionic-react-stacked-horizontal-grid)。
+
+
+
+### 重新排序
+
+
+
+#### 列边距
+
+
+
+通过添加 offset 属性向右移动列。此属性将列的左边距增加指定列的数目。例如，在下面的网格中，最后一列将偏移3列并占用3列。
+
+
+
+
+
+
+
+
+
 
 
 
