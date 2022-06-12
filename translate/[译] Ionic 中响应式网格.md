@@ -327,11 +327,52 @@
 
 
 
+```
+<ion-grid>
+  <ion-row>
+    <ion-col size="3">
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col size="3" offset="3">
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
 
 
 
+偏移量也可以基于屏幕断点添加。下面是一个网格的例子，在`md`屏幕上，最后一列将被偏移3列
 
 
+
+```
+<ion-grid>
+  <ion-row>
+    <ion-col size-md="3">
+      <div>1 of 3</div>
+    </ion-col>
+    <ion-col size-md="3">
+      <div>2 of 3</div>
+    </ion-col>
+    <ion-col size-md="3" offset-md="3">
+      <div>3 of 3</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+你可以查看实时案例，Angular 版本查看 [这里](https://stackblitz.com/edit/ionic-ng-offset-grid-cols) ，React 版本查看 [这里](https://stackblitz.com/edit/ionic-ng-offset-grid-cols) 。
+
+
+
+### 推和拉
+
+
+
+通过添加推和拉属性来重新排序列。这些属性可以根据指定的列数调整列的左右，从而方便对列进行重新排序。例如，在下面的网格中，描述为2中的1的列实际上是最后一列，而描述为2中的2的列将是第一列。
 
 
 
