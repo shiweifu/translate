@@ -376,6 +376,110 @@
 
 
 
+```
+<ion-grid>
+  <ion-row>
+    <ion-col size="9" push="3">
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col size="3" pull="9">
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+推和拉也可以基于屏幕断点添加。在下面的例子中，包含`3 / 3`列描述的列实际上是`md`屏幕上的第一列。
+
+
+
+```
+<ion-grid>
+  <ion-row>
+    <ion-col size-md="6" push-md="3">
+      <div>1 of 3</div>
+    </ion-col>
+    <ion-col size-md="3" push-md="3">
+      <div>2 of 3</div>
+    </ion-col>
+    <ion-col size-md="3" pull-md="9">
+      <div>3 of 3</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+你可以查看实时案例，Angular 版本查看 [这里](https://stackblitz.com/edit/ionic-ng-grid-push-pull) ，React 版本查看 [这里](https://stackblitz.com/edit/ionic-react-grid-push-pull) 。
+
+
+
+### 对齐
+
+
+
+#### 垂直对齐
+
+
+
+通过向行中添加不同的类，所有列都可以在行内部垂直对齐。有关可用类的列表，请参阅[css 实用工具](https://ionicframework.com/docs/layout/css-utilities#flex-container-properties)。
+
+
+
+```
+<ion-grid>
+  <ion-row class="ion-align-items-start">
+    <ion-col>
+      <div>1 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>2 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>3 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>4 of 4 # # #</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-align-items-center">
+    <ion-col>
+      <div>1 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>2 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>3 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>4 of 4 # # #</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-align-items-end">
+    <ion-col>
+      <div>1 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>2 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>3 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>4 of 4 # # #</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
 
 
 
