@@ -480,6 +480,104 @@
 
 
 
+通过直接向列添加对齐类，列自身的对齐方式也可以与其他列不同。有关可用类的列表，请参考：[CSS 实用工具](https://ionicframework.com/docs/layout/css-utilities#flex-item-properties)。
+
+
+
+```
+<ion-grid>
+  <ion-row>
+    <ion-col class="ion-align-self-start">
+      <div>1 of 4</div>
+    </ion-col>
+    <ion-col class="ion-align-self-center">
+      <div>2 of 4</div>
+    </ion-col>
+    <ion-col class="ion-align-self-end">
+      <div>3 of 4</div>
+    </ion-col>
+    <ion-col>
+      <div>4 of 4 # # #</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+#### 在线案例
+
+
+
+你可以查看在线案例，Angular 版本查看 [这里](https://stackblitz.com/edit/ionic-ng-grid-vertical-align) ，React 版本查看 [这里](https://stackblitz.com/edit/ionic-react-grid-vertical-align) 。
+
+
+
+### 水平对齐
+
+
+
+通过向行中，添加不同的类，所有列都可以在行内，水平对齐。有关可用的类，请查阅  [CSS 实用工具](https://ionicframework.com/docs/layout/css-utilities#flex-container-properties)。
+
+
+
+```
+<ion-grid>
+  <ion-row class="ion-justify-content-start">
+    <ion-col size="3">
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col size="3">
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="3">
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col size="3">
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-end">
+    <ion-col size="3">
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col size="3">
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-around">
+    <ion-col size="3">
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col size="3">
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="ion-justify-content-between">
+    <ion-col size="3">
+      <div>1 of 2</div>
+    </ion-col>
+    <ion-col size="3">
+      <div>2 of 2</div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+```
+
+
+
+
+
+
+
+
+
 
 
 
