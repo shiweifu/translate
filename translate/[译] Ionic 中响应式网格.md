@@ -572,6 +572,90 @@
 
 
 
+#### 在线案例
+
+
+
+你可以查看在线案例，Angular 版本查看 [这里](https://stackblitz.com/edit/ionic-ng-grid-horizontal-align) ，React 版本查看 [这里](https://stackblitz.com/edit/ionic-react-grid-horizontal-align) 。
+
+
+
+#### 自定义网格
+
+
+
+使用我们内置的CSS变量，可以定制预定义的网格属性。更改填充的值、列数等。
+
+
+
+#### 网格数量
+
+
+
+可以使用 `ion-grid-columns` CSS变量修改网格列的数量。默认情况下，有12个网格列，但这可以更改为任何正整数，并用于计算每一列的宽度。
+
+
+
+```
+--ion-grid-columns: 12;
+```
+
+
+
+#### 网格边距
+
+
+
+网格容器边距，在一切查询断点下，都可以通过使用 `--ion-grid-padding` CSS 变量进行设置。如果要覆盖独立的断点，使用 `--ion-grid-padding-{breakpoint}` CSS 变量进行设置。
+
+
+
+```
+--ion-grid-padding: 5px;
+
+--ion-grid-padding-xs: 5px;
+--ion-grid-padding-sm: 5px;
+--ion-grid-padding-md: 5px;
+--ion-grid-padding-lg: 5px;
+--ion-grid-padding-xl: 5px;
+```
+
+
+
+### 网格宽度
+
+
+
+根据屏幕尺寸，来自定义固定的网格宽度值，请为每个断点重写 `--ion-grid-width-{breakpoint}` 的值。
+
+
+
+```
+--ion-grid-width-xs: 100%;
+--ion-grid-width-sm: 540px;
+--ion-grid-width-md: 720px;
+--ion-grid-width-lg: 960px;
+--ion-grid-width-xl: 1140px;
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
