@@ -640,6 +640,24 @@
 
 
 
+#### 列边距
+
+
+
+可以通过 `--ion-grid-column-padding` 变量来设置列边距。如果要覆盖不同的断点，使用 `ion-grid-column-padding-{breakpoint}` CSS 变量来设置。
+
+
+
+```
+--ion-grid-column-padding: 5px;
+
+--ion-grid-column-padding-xs: 5px;
+--ion-grid-column-padding-sm: 5px;
+--ion-grid-column-padding-md: 5px;
+--ion-grid-column-padding-lg: 5px;
+--ion-grid-column-padding-xl: 5px;
+```
+
 
 
 
