@@ -78,7 +78,43 @@ Typography 改变整个文档的 `font-family`，以及修改标题元素的  fo
 
 
 
+#### text-alignment.css
 
+
+
+将工具类添加到元素，以对齐文本或者基于媒体查询断点，调整空行，查看 [CSS Utilities](https://ionicframework.com/docs/layout/css-utilities#content-space)  了解更多信息。
+
+
+
+#### text-transformation.css
+
+
+
+将工具类添加到元素，以转换文本的字形，也可以带上媒体查询断点。例如 `uppercase`，`lowercase` 或者 `capitalize` 均可改变，查看 [CSS Utilities](https://ionicframework.com/docs/layout/css-utilities#content-space)  了解更多信息。
+
+
+
+#### flex-utils.css
+
+
+
+将工具类添加到元素，以调整 flex 布局容器和条目，查看  [CSS Utilities](https://ionicframework.com/docs/layout/css-utilities#content-space)  了解更多信息。
+
+
+
+#### display.css
+
+
+
+将工具类添加到元素，以调整元素的可视化，情况。查看   [CSS Utilities](https://ionicframework.com/docs/layout/css-utilities#content-space)  了解更多信息。
+
+
+
+### 用法
+
+
+
+关于如何包含基于框架的全局样式表和如何使用可选实用程序的 [CSS Utilities](https://ionicframework.com/docs/layout/css-utilities)，请参阅  [Ionic Packages](https://ionicframework.com/docs/intro/cdn) 。
 
 
 
