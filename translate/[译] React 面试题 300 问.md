@@ -73,3 +73,76 @@ const element = React.createElement('div', { id: 'login-btn' }, 'Login');
 
 
 
+上面的 `React.createElement()` 方法，返回下面的对象：
+
+
+
+```
+{
+  type: 'div',
+  props: {
+    children: 'Login',
+    id: 'login-btn'
+  }
+}
+```
+
+
+
+最终，使用 `ReactDOM.render` 来渲染 DOM：
+
+
+
+```
+<div id="login-btn">Login</div>
+```
+
+
+
+而组件可以用几种不同的方式声明。它可以是一个具有render()方法的类。或者，在简单的情况下，它可以定义为一个函数。在这两种情况下，它都以props作为输入，并返回JSX树作为输出：
+
+
+
+```
+const Button = ({ onLogin }) => (
+  <div id={'login-btn'} onClick={onLogin}>
+    Login
+  </div>
+);
+```
+
+
+
+JSX 被转译为一个 `React.createElement()` 函数树：
+
+
+
+```
+const Button = ({ onLogin }) =>
+  React.createElement('div', { id: 'login-btn', onClick: onLogin }, 'Login');
+```
+
+
+
+#### 如何在 React 中创建组件？
+
+
+
+有两种方式创建 React 组件。
+
+
+
+1. `函数组件`：这是创建组件的最简单方法。这些是纯JavaScript函数，接受道具对象作为第一个参数并返回React元素：
+
+```
+function Greeting({ message }) {
+  return <h1>{`Hello, ${message}`}</h1>;
+}
+```
+
+
+
+
+
+
+
