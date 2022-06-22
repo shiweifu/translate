@@ -142,7 +142,33 @@ function Greeting({ message }) {
 
 
 
+2. `类组件`：你可以通过 ES6 类的方式来定义组件。上面的组件，使用类的方式来编写：
 
+
+
+```
+class Greeting extends React.Component {
+  render() {
+    return <h1>{`Hello, ${this.props.message}`}</h1>;
+  }
+}
+```
+
+
+
+#### 什么时候使用类组件来替换函数组件？
+
+
+
+如果组件需要状态或者生命周期函数，使用类组件。其他情况，使用函数组件。然而，自 React 16.8 开始，可以使用引入的 React Hooks，来控制状态、生命周期函数等类组件的特性。
+
+
+
+#### 什么是纯组件
+
+
+
+`React.PureComponent` 与 `React.Component`，除了 `shouldComponentUpdate()` 函数的处理，其他完全相等。当 `props` 或者 `state` 发生改变，PureComponent 会与其进行一个浅比较。其他方面，组件不会将当前的 props 和 state 与下一次比较。因此，当调用 `shouldComponentUpdate` 时，默认情况下，组件将重新渲染。
 
 
 
