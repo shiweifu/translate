@@ -172,3 +172,61 @@ class Greeting extends React.Component {
 
 
 
+#### 什么是 React 的 state？
+
+
+
+组件的状态是一个对象，它包含一些在组件生命周期内可能会更改的信息。我们应该总是尽量使我们的状态尽可能简单，并尽量减少有状态组件的数量。
+
+
+
+让我们创建一个带有消息状态的用户组件
+
+
+
+```
+class User extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      message: 'Welcome to React world',
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>{this.state.message}</h1>
+      </div>
+    );
+  }
+}
+```
+
+
+
+![state](https://res.cloudinary.com/practicaldev/image/fetch/s--jbyEa70---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/qtv1ex4jequcrlpjntgx.jpg)
+
+State类似于props，但它是私有的，完全由组件控制。也就是说，除了拥有和设置它的组件外，其他组件都不能访问它。
+
+
+
+#### 什么是 React 的 Props？
+
+
+
+Props 是组件的输入。它们是单个值或包含一组值的对象，这些值在创建时使用类似于html标签属性的命名约定传递给组件。它们是从父组件传递到子组件的数据。
+
+
+
+
+
+
+
+
+
+
+
+
+
