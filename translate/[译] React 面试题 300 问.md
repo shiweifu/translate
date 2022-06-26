@@ -298,9 +298,60 @@ this.setState({ message: 'Hello World' });
 
 
 
+#### HTML 事件和 React 事件处理之间有什么不同？
 
 
 
+下面是 HTML 事件处理和 React 事件处理的一些主要区别：
+
+
+
+1. HTML 中，事件名字是小写：
+
+```
+<button onclick="activateLasers()"></button>
+```
+
+
+
+React 的事件，是驼峰格式：
+
+```
+<button onClick={activateLasers}>
+```
+
+
+
+2. 在 HTML 中，你可以返回 `false`，来阻止事件默认行为：
+
+```
+<a href="#" onclick='console.log("The link was clicked."); return false;' />
+```
+
+
+
+在 React 中，你必须明确调用 `preventDefault()`：
+
+
+
+```
+function handleClick(event) {
+  event.preventDefault();
+  console.log('The link was clicked.');
+}
+```
+
+
+
+3. 在 HTML 中，你调用函数需要带上 `()`，而在 React 中，你不需要添加 `()` 在函数名称后面。（例如，请参考第一点中的 `activateLasers` 函数）。
+
+
+
+#### 如何在 JSX 回调中，绑定函数或者事件处理程序？
+
+
+
+有三种方式，来实现这个目标：
 
 
 
