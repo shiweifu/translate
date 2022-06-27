@@ -351,7 +351,60 @@ function handleClick(event) {
 
 
 
-有三种方式，来实现这个目标：
+有三种方式，来实现这个需求：
+
+
+
+1. `在构造函数中绑定：` 在 JavaScript 类中，默认情况下，方法是不会被绑定的。该规则同样也适用于定义自定义类方法的 React 事件处理程序。通常我们在构造函数中，绑定它们。
+
+   
+
+```
+class Component extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    // ...
+  }
+}
+```
+
+
+
+2. 公共类字段语法：如果你不喜欢使用绑定方法，那么可以使用公共类字段的语法，来正确绑定回调。
+
+   
+
+```
+handleClick = () => {
+  console.log('this is:', this);
+};
+```
+
+```
+<button onClick={this.handleClick}>{'Click me'}</button>
+```
+
+
+
+3. 回调使用箭头函数：你可以在回调中，直接使用箭头函数。
+
+
+
+```
+<button onClick={(event) => this.handleClick(event)}>{'Click me'}</button>
+```
+
+
+
+> 注意：如果回调通过 prop ，传递给子组件，那些组件可能被重新渲染（渲染多次）。这些情况下，考虑到性能，最好使用 `bind()` 或者公共类字段语法的方法来绑定。
+
+
+
+
 
 
 
