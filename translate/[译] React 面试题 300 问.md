@@ -404,11 +404,50 @@ handleClick = () => {
 
 
 
+#### 如何传递参数到一个事件处理器或者回调？
 
 
 
+你可以使用箭头方法来封装一个事件处理器，并传递参数：
+
+```
+<button onClick={() => this.handleClick(id)} />
+```
 
 
+
+等同于调用 `.bind`：
+
+
+
+```
+<button onClick={this.handleClick.bind(this, id)} />
+```
+
+
+
+除了这两种方式以外，你也可以把方法作为参数，传递给箭头函数：
+
+
+
+```
+<button onClick={this.handleClick(id)} />;
+handleClick = (id) => () => {
+  console.log('Hello, your ticket number is', id);
+};
+```
+
+
+
+#### React 中的合成事件是指什么？
+
+
+
+`SyntheticEvent` 是一个针对不同浏览器的事件，所作的一个跨浏览器的封装。它的 API 接口与浏览器的本地事件相同，包括 `stopPropagation()` 以及 `preventDefault()` 这些事件，只是这些事件在所有浏览器中都是相同的。
+
+
+
+#### 什么是内联条件表达式？
 
 
 
