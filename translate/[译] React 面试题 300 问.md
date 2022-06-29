@@ -451,7 +451,46 @@ handleClick = (id) => () => {
 
 
 
+你可以使用if语句或从JS中获得的三元表达式来有条件地呈现表达式。除了这些方法之外，您还可以将任何表达式嵌入JSX中，方法是将它们包装在花括号中，然后再使用JS逻辑运算符&&。
 
 
 
+```
+<h1>Hello!</h1>;
+{
+  messages.length > 0 && !isLogin ? (
+    <h2>You have {messages.length} unread messages.</h2>
+  ) : (
+    <h2>You don't have unread messages.</h2>
+  );
+}f
+```
+
+
+
+#### 什么是 `key` prop？它在数组中使用，有什么好处？
+
+
+
+`key` 是在创建元素数组时应该包含的特殊字符串属性。关键道具帮助 React 识别哪些项目被更改、添加或删除。
+
+
+
+通常我们使用对象的 ID 作为 Key：
+
+
+
+```
+const todoItems = todos.map((todo) => <li key={todo.id}>{todo.text}</li>);
+```
+
+
+
+当渲染数组条目，但并没有合适的 ID 作为 Key 的时候，可以使用索引作为 Key：
+
+
+
+```
+const todoItems = todos.map((todo, index) => <li key={index}>{todo.text}</li>);
+```
 
