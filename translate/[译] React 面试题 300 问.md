@@ -494,3 +494,48 @@ const todoItems = todos.map((todo) => <li key={todo.id}>{todo.text}</li>);
 const todoItems = todos.map((todo, index) => <li key={index}>{todo.text}</li>);
 ```
 
+
+
+##### 提示：
+
+
+
+1. 如果 Item 的顺序会改变，则使用索引作为 key，是不推荐的。这可能对性能产生负面影响，并可能导致组件状态问题。
+
+2. 如果将列表项提取为单单独的组件，那么将键应用于列表组件，而不是 `li` 标签。
+3. 如果渲染一个列表，而 `key` 没有传递，则在终端中会打印错误信息。
+
+
+
+#### refs 的作用是什么？
+
+
+
+`refs` 用于引用一个元素。大多数情况下，用不上这种方式，但当你想直接访问 DOM 组件或者一个组件实例的时候，这很有用。
+
+
+
+#### 如何创建 refs？
+
+
+
+有两种方式创建 refs
+
+
+
+1. 这是最近添加的一种方式。`Refs` 使用 `React.createRef()` 方法来创建，然后通过 `ref` 关键字，来关联 React 元素。为了在整个组件中使用 `ref`，只需要在构造函数中，将 `ref` 赋值给 `实例` 即可。
+
+
+
+```
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
+  render() {
+    return <div ref={this.myRef} />;
+  }
+}
+```
+
