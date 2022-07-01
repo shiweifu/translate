@@ -539,3 +539,70 @@ class MyComponent extends React.Component {
 }
 ```
 
+
+
+2. 无论React版本如何，你也可以使用ref回调方法。例如，搜索栏组件的输入元素访问如下：
+
+
+
+```
+class SearchBar extends Component {
+  constructor(props) {
+    super(props);
+    this.txtSearch = null;
+    this.state = { term: '' };
+    this.setInputSearchRef = (e) => {
+      this.txtSearch = e;
+    };
+  }
+  onInputChange(event) {
+    this.setState({ term: this.txtSearch.value });
+  }
+  render() {
+    return (
+      <input
+        value={this.state.term}
+        onChange={this.onInputChange.bind(this)}
+        ref={this.setInputSearchRef}
+      />
+    );
+  }
+}
+```
+
+
+
+你也可以在使用闭包构建的函数组件中，使用 `refs` 。注意：您也可以使用内联引用回调，尽管这不是一个推荐的方法。
+
+
+
+#### 什么是引用转发？
+
+
+
+引用转发是一项特性，它允许一些组件，接收引用，并将其进一步传递给子组件。
+
+
+
+```
+const ButtonElement = React.forwardRef((props, ref) => (
+  <button ref={ref} className="CustomButton">
+    {props.children}
+  </button>
+));
+
+// Create ref to the DOM button:
+const ref = React.createRef();
+<ButtonElement ref={ref}>{'Forward Ref'}</ButtonElement>;
+```
+
+
+
+#### 引用回调和寻找DOM节点，哪种做法是更推荐的？
+
+
+
+
+
+
+
