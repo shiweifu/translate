@@ -600,6 +600,64 @@ const ref = React.createRef();
 
 #### 引用回调和寻找DOM节点，哪种做法是更推荐的？
 
+ 
+
+使用回调 refs 优于 findDOMNode() API。因为 findDOMNode() 阻止了 React 将来的某些改进。
+
+
+
+使用 findDOMNode 的传统做法：
+
+
+
+```
+class MyComponent extends Component {
+  componentDidMount() {
+    findDOMNode(this).scrollIntoView();
+  }
+
+  render() {
+    return <div />;
+  }
+}
+```
+
+
+
+推荐的做法：
+
+
+
+```
+class MyComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.node = createRef();
+  }
+  componentDidMount() {
+    this.node.current.scrollIntoView();
+  }
+
+  render() {
+    return <div ref={this.node} />;
+  }
+}
+```
+
+
+
+#### 为什么是字符串引用特性遗留下来的？
+
+
+
+如果您以前使用过React，您可能熟悉较老的API，其中ref属性是一个字符串，比如ref={'textInput'}， DOM节点通过this.ref .textInput访问。我们不建议这样做，因为字符串引用有以下问题，并且被认为是遗留问题。字符串ref在React v16中被删除。
+
+
+
+1. 它们强制React跟踪当前正在执行的组件。这是有问题的，因为它使react模块有状态，因此当react模块在包中重复出现时，会导致奇怪的错误。
+
+
+
 
 
 
