@@ -655,8 +655,35 @@ class MyComponent extends Component {
 
 
 1. 它们强制React跟踪当前正在执行的组件。这是有问题的，因为它使react模块有状态，因此当react模块在包中重复出现时，会导致奇怪的错误。
+2. 如果库在传递的子对象上放置一个引用，则它们是不可组合的，用户不能在其上放置另一个引用。回调引用是完全可组合的。
+3. 它们不适合像Flow这样的静态分析。流无法猜到框架使字符串引用出现在此的魔力。以及它的类型(可以是不同的)。回调引用对静态分析更友好。
+4. 它不像大多数人期望的“渲染回调”模式那样工作(例如)。
 
 
+
+```
+class MyComponent extends Component {
+  renderRow = (index) => {
+    // This won't work. Ref will get attached to DataTable rather than MyComponent:
+    return <input ref={'input-' + index} />;
+
+    // This would work though! Callback refs are awesome.
+    return <input ref={(input) => (this['input-' + index] = input)} />;
+  };
+
+  render() {
+    return <DataTable data={this.props.data} renderRow={this.renderRow} />;
+  }
+}
+```
+
+
+
+#### 为什么是虚拟 DOM
+
+
+
+虚拟DOM (VDOM)是真实DOM的内存表示。UI的表示保存在内存中，并与“真正的”DOM保持同步。这是一个发生在调用渲染函数和在屏幕上显示元素之间的步骤。这整个过程叫做和解。
 
 
 
