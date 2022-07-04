@@ -679,15 +679,41 @@ class MyComponent extends Component {
 
 
 
-#### 为什么是虚拟 DOM
+#### 什么是虚拟 DOM
 
 
 
-虚拟DOM (VDOM)是真实DOM的内存表示。UI的表示保存在内存中，并与“真正的”DOM保持同步。这是一个发生在调用渲染函数和在屏幕上显示元素之间的步骤。这整个过程叫做和解。
+虚拟DOM (VDOM)是真实DOM的内存表示。UI的表示保存在内存中，并与“真正的”DOM保持同步。这是一个发生在调用渲染函数和在屏幕上显示元素之间的步骤。这整个过程叫做和解。g
 
 
 
+#### 虚拟 DOM 如何工作？
 
+
+
+虚拟 DOM 工作原理可以概括为三步：
+
+
+
+1. 每当底层数据发生变化时，整个UI都将以Virtual DOM表示方式重新呈现。
+
+![Alt Text](https://res.cloudinary.com/practicaldev/image/fetch/s--KTTPlm0G--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/3e7nivcb8kfqiewnzs66.png)
+
+
+
+2. 然后计算前一个DOM表示和新DOM表示之间的差异。
+
+![Alt Text](https://res.cloudinary.com/practicaldev/image/fetch/s--RWG1iA-z--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/a3fw7zi3hq5a8of38so3.png)
+
+3. 一旦计算完成，实际的DOM将只更新实际更改的内容。
+
+
+
+#### 影子 DOM 和 虚拟 DOM 有什么不同？
+
+
+
+Shadow DOM是一种浏览器技术，主要用于Web组件中的范围范围变量和CSS。虚拟DOM是库API顶部JavaScript中库实现的概念。
 
 
 
