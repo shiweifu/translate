@@ -741,6 +741,73 @@ React Fiber的目标是提高它在动画、布局和手势等领域的适用性
 
 
 
+例如，要将所有名称都写成大写字母，我们使用如下所示的 `handleChange`：
+
+```
+handleChange(event) {
+this.setState({value: event.target.value.toUpperCase()})
+}
+```
+
+
+
+#### 什么是非受控组件？
+
+
+
+`非受控组件`（controlled Components）在内部存储它们自己的状态，当你需要它时，你可以使用引用来查询DOM，以找到它的当前值。这有点像传统的 HTML。
+
+
+
+在下面的 UserProfile 组件中，`name` 输入框通过 `ref` 来访问它。
+
+
+
+```
+class UserProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.input = React.createRef();
+  }
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.input.current.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          {'Name:'}
+          <input type="text" ref={this.input} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+```
+
+
+
+在大多数情况下，建议使用受控组件来实现表单。
+
+
+
+#### createElement 和 cloneElement 之间的区别是什么？
+
+
+
+JSX 元素将被转换为 React. createelement() 函数，以创建用于 UI 对象表示的 React 元素。而 cloneElement 用于克隆一个元素并向其传递新的参数。
+
+
+
+
+
+
+
 
 
 
