@@ -804,6 +804,29 @@ JSX 元素将被转换为 React. createelement() 函数，以创建用于 UI 对
 
 
 
+#### 什么 React 中的是上升状态？
+
+
+
+当多个组件需要共享相同的更改数据时，建议将共享状态提升到它们最近的公共祖先。这意味着如果两个子组件共享来自父组件的相同数据，那么将状态移到父组件，而不是在两个子组件中维护本地状态。
+
+
+
+#### 组件包括哪些生命周期阶段？
+
+
+
+组件的生命周期包括以下阶段：
+
+
+
+1. 挂载：组件已经准备好挂载到浏览器DOM中。这个阶段涵盖了`构造函数()`、`getDerivedStateFromProps()`、`render()`和`componentDidMount()`生命周期方法的初始化。
+2. 更新：在这个阶段，组件有两种更新方式，发送新属性和从 `setState()` 或 `forceUpdate()` 更新状态。这个阶段涵盖了 `getDerivedStateFromProps()`，`shouldComponentUpdate()`，`render()`， `getSnapshotBeforeUpdate()`和`componentDidUpdate()`生命周期方法。
+
+
+
+
+
 
 
 
