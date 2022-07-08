@@ -822,6 +822,29 @@ JSX 元素将被转换为 React. createelement() 函数，以创建用于 UI 对
 
 1. 挂载：组件已经准备好挂载到浏览器DOM中。这个阶段涵盖了`构造函数()`、`getDerivedStateFromProps()`、`render()`和`componentDidMount()`生命周期方法的初始化。
 2. 更新：在这个阶段，组件有两种更新方式，发送新属性和从 `setState()` 或 `forceUpdate()` 更新状态。这个阶段涵盖了 `getDerivedStateFromProps()`，`shouldComponentUpdate()`，`render()`， `getSnapshotBeforeUpdate()`和`componentDidUpdate()`生命周期方法。
+3. 取消挂载：在最后这个阶段，不需要组件，从浏览器 DOM 中卸载。这个阶段包括 `componentWillUnmount()` 生命周期方法。
+
+
+
+值得一提的是，在对DOM应用更改时，React内部有一个阶段概念。它们分别如下：
+
+
+
+1. 渲染：组件渲染时不会产生任何副作用。这适用于Pure组件，在此阶段，React可以暂停、中止或重新启动渲染。
+2. 预提交：在组件将更改实际应用于DOM之前，有一个时刻允许React通过getSnapshotBeforeUpdate()从DOM读取数据。
+3. 提交：React与DOM一起工作，分别执行用于挂载的componentDidMount()、用于更新的componentDidUpdate()和用于卸载的componentWillUnmount()。
+
+React 16.3 以上版本阶段图：
+
+
+
+![Alt Text](https://res.cloudinary.com/practicaldev/image/fetch/s--x5MvIzGD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/drzx5s17mp2ac2zpnzk6.jpg)
+
+
+
+16.3 之前
+
+![Alt Text](https://res.cloudinary.com/practicaldev/image/fetch/s--ZPFk0rF0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/sb3po6oyw2cwmgvvvdvb.png)
 
 
 
