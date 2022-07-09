@@ -848,6 +848,21 @@ React 16.3 以上版本阶段图：
 
 
 
+#### React 的生命周期方法都有哪些？
+
+
+
+16.3 之前：
+
+- `componentWillMount`：在渲染前执行，用于根组件中的应用级配置。
+
+- componentDidMount：在第一次渲染之后执行，这里所有的AJAX请求、DOM或状态更新以及设置事件监听器都将发生。
+- componentWillReceiveProps：当特定参数更新以触发状态转换时执行。
+- shouldComponentUpdate：确定组件是否要更新。默认情况下返回true。如果你确定组件在状态或道具更新后不需要渲染，你可以返回false值。这是一个提高性能的好地方，因为如果组件接收到新的道具，它允许你防止重新渲染。
+- componentWillUpdate:当有属性和状态变化被 shouldComponentUpdate() 确认时，在重新渲染组件之前执行，它会返回true。
+- componentDidUpdate：它主要用于更新DOM以响应道具或状态的变化。
+- componentWillUnmount：它将用于取消任何传出的网络请求，或删除所有与该组件相关的事件监听器。
+
 
 
 
