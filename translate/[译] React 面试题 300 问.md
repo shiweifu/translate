@@ -875,6 +875,70 @@ React 16.3+
 
 
 
+#### 什么是高阶组件？
+
+
+
+高阶组件(HOC)是接受组件并返回新组件的函数。简单来说，这是一个源自React的组合特性的模式。
+
+
+
+我们称它们为纯组件，因为它们可以接受任何动态提供的子组件，但它们不会修改或复制输入组件的任何行为。
+
+
+
+```
+const EnhancedComponent = higherOrderComponent(WrappedComponent);
+```
+
+
+
+HOC 的一些使用场景：
+
+1. 代码复用，逻辑和启动抽象
+2. 渲染劫持
+3. 状态抽象和操作。
+4. 属性操作
+
+
+
+#### 如何为 HOC 组件创建属性代理？
+
+
+
+你可以向组件添加/编辑属性，使用属性代理模式：
+
+
+
+```
+function HOC(WrappedComponent) {
+  return class Test extends Component {
+    render() {
+      const newProps = {
+        title: 'New Header',
+        footer: false,
+        showFeatureX: false,
+        showFeatureY: true,
+      };
+
+      return <WrappedComponent {...this.props} {...newProps} />;
+    }
+  };
+}
+```
+
+
+
+#### 什么是上下文？
+
+
+
+
+
+
+
+
+
 
 
 
