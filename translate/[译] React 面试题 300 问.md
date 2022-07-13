@@ -931,6 +931,52 @@ function HOC(WrappedComponent) {
 
 #### 什么是上下文？
 
+Context 提供了一种通过组件树传递数据的方法，而不必在每一层都手动传递 props。
+
+例如，许多组件需要在应用程序中访问经过身份验证的用户、区域设置首选项、UI主题。
+
+```
+const { Provider, Consumer } = React.createContext(defaultValue);
+```
+
+
+
+#### 什么是子 prop？
+
+Children是一种道具(this.props.children)，它允许你将组件作为数据传递给其他组件，就像你使用的其他道具一样。放在组件开始和结束标签之间的组件树将作为子组件传递给该组件。
+
+
+
+在React API中有许多可用的方法来处理这个 prop。这些包括 `React.Children.map`，`React.Children.forEach `，`React.Children.only`，`React.Children.toArray`。
+
+
+
+下面是一个使用子 prop 的一个例子：
+
+```
+const MyDiv = React.createClass({
+  render: function () {
+    return <div>{this.props.children}</div>;
+  },
+});
+
+ReactDOM.render(
+  <MyDiv>
+    <span>{'Hello'}</span>
+    <span>{'World'}</span>
+  </MyDiv>,
+  node,
+);
+```
+
+
+
+
+
+
+
+
+
 
 
 
