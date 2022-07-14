@@ -971,6 +971,87 @@ ReactDOM.render(
 
 
 
+#### 在 React 中，如何写注释？
+
+
+
+React/JSX 中的注释，与 JavaScript 中的多行注释类似，但是包在大括号中的。
+
+
+
+#### 单行注释：
+
+```
+<div>
+  {/* Single-line comments(In vanilla JavaScript, the single-line comments are represented by double slash(//)) */}
+  {`Welcome ${user}, let's play React`}
+</div>
+```
+
+
+
+#### 多行注释：
+
+```
+<div>
+  {/* Multi-line comments for more than
+  one line */}
+  {`Welcome ${user}, let's play React`}
+</div>
+```
+
+
+
+### 在构造函数中，调用 `super` 方法，传递 props 作为参数的目的是什么？
+
+
+
+子类构造函数在调用super()方法之前不能使用此引用。同样的情况也适用于ES6的子类。将props参数传递给super()调用的主要原因是为了访问这个参数。子构造函数中的道具。
+
+
+
+#### 传递 props：
+
+
+
+```
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    console.log(this.props); // prints { name: 'John', age: 42 }
+  }
+}
+```
+
+
+
+#### 不传递 props：
+
+
+
+```
+class MyComponent extends React.Component {
+  constructor(props) {
+    super();
+
+    console.log(this.props); // prints undefined
+
+    // but props parameter is still available
+    console.log(props); // prints { name: 'John', age: 42 }
+  }
+
+  render() {
+    // no difference outside constructor
+    console.log(this.props); // prints { name: 'John', age: 42 }
+  }
+}
+```
+
+
+
+上面的代码片段揭示了这一点。props 仅在构造函数中有所不同。在构造函数外也是一样的。
+
 
 
 
