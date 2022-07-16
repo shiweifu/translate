@@ -1054,6 +1054,64 @@ class MyComponent extends React.Component {
 
 
 
+#### 什么是 reconciliation？
+
+
+
+当组件的 props 或状态发生变化时，React 会通过比较新返回的元素，和之前渲染的元素，来决定是否需要进行真实的 DOM 更新。当它们不相等时，React将更新DOM。这个过程被称为 reconciliation。
+
+
+
+#### 如何动态的设置键值名称？
+
+
+
+如果您使用ES6或Babel transpiler来转换JSX代码，那么您可以使用计算属性名称来完成这一点。
+
+```
+handleInputChange(event) {
+this.setState({ [event.target.id]: event.target.value })
+}
+```
+
+
+
+#### 每次组件渲染时调用函数的常见错误是什么？
+
+
+
+在将函数作为参数传递时，需要确保该函数没有被调用。
+
+```
+render() {
+// Wrong: handleClick is called instead of passed as a reference!
+return <button onClick={this.handleClick()}>{'Click Me'}</button>
+}
+```
+
+相反，传递不带圆括号的函数本身。
+
+```
+render() {
+// Correct: handleClick is passed as a reference!
+return <button onClick={this.handleClick}>{'Click Me'}</button>
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
