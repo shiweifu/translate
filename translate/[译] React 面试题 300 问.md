@@ -1100,6 +1100,60 @@ return <button onClick={this.handleClick}>{'Click Me'}</button>
 
 
 
+#### 惰性函数支持导出吗？
+
+
+
+不,目前 `React.lazy` 函数只支持默认导出。如果要导入名为exports的模块，可以创建一个中间模块，将其作为默认值重新导出。它还确保摇树持续工作，不会拉出未使用的组件。让我们以导出多个命名组件的组件文件为例：
+
+
+
+```
+// MoreComponents.js
+export const SomeComponent = /* ... */;
+export const UnusedComponent = /* ... */;
+```
+
+
+
+接下来，在 `IntermediateComponent.js` 中，重新导出 `MoreComponents.js` 组件
+
+
+
+```
+// IntermediateComponent.js
+export { SomeComponent as default } from './MoreComponents.js';
+```
+
+
+
+现在，你可以使用下面的方式，来导入惰性函数了：
+
+
+
+```
+import React, { lazy } from 'react';
+const SomeComponent = lazy(() => import('./IntermediateComponent.js'));
+```
+
+
+
+#### 为什么 React 使用 `className` 来覆盖 `class` 属性？
+
+
+
+`class` 是 JavaScript 中的关键字，JSX 是 JavaScript 的扩展。这就是 React 使用 `className` 而不是使用 `class` 的主要原因。`className` 属性也接收字符串：
+
+
+
+```
+render() {
+return <span className={'menu navigation-menu'}>{'Menu'}</span>
+}
+```
+
+
+
 
 
 
