@@ -1154,6 +1154,63 @@ return <span className={'menu navigation-menu'}>{'Menu'}</span>
 
 
 
+#### 什么是片段？
+
+
+
+片段是 React 中，一种常用的模式，返回多个元素。片段可以让你将一组子元素打包为一个列表，一起返回，而无需额外的 DOM 结构。
+
+
+
+```
+render() {
+return (
+  <React.Fragment>
+    <ChildA />
+    <ChildB />
+    <ChildC />
+  </React.Fragment>
+)
+}
+```
+
+
+
+还有一个更短的写法，但很多工具不支持。
+
+
+
+```
+render() {
+return (
+  <>
+    <ChildA />
+    <ChildB />
+    <ChildC />
+  </>
+)
+}
+```
+
+
+
+#### 为什么比起包裹在 div 之中，片段（Fragments）是一种更好的写法？
+
+
+
+下面是一些理由：
+
+
+
+1. Fragments 更快，而且不需要创建额外的DOM节点，因此使用的内存更少。这只对非常大和深的树有真正的好处。
+
+2. 一些CSS机制，如Flexbox和CSS Grid有一种特殊的父子关系，在中间添加div会使其难以保持所需的布局。
+3. DOM检查器不那么混乱。
+
+
+
+
+
 
 
 
