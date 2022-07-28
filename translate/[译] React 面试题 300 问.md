@@ -1235,6 +1235,147 @@ ReactDOM.createPortal(child, container);
 
 
 
+#### 什么是有状态组件？
+
+
+
+如果一个组件的行为依赖于该组件的状态，那么它可以被称为有状态组件。这些有状态组件始终是类组件，并且具有在构造函数中初始化的状态。
+
+
+
+```
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
+
+  render() {
+    // ...
+  }
+}
+```
+
+
+
+#### React 16.8 更新：
+
+
+
+Hook 使你可以使用 React 状态和其他特性，而无需编写类。
+
+
+
+与之相等的函数组件：
+
+```
+import React, {useState} from 'react';
+
+const App = (props) => {
+  const [count, setCount] = useState(0);
+
+  return (
+    // JSX
+  )
+}
+```
+
+
+
+#### 在 React 中，如何验证属性？
+
+
+
+当应用程序在开发模式下运行时，React会自动检查我们设置在组件上的所有道具，以确保它们具有正确的类型。如果类型不正确，React将在控制台中生成警告消息。由于性能的影响，它在生产模式中被禁用。强制道具是用isRequired定义的。
+
+
+
+可验证的属性类型列表：
+
+
+
+1. `PropTypes.number`
+2. `PropTypes.string`
+3. `PropTypes.array`
+4. `PropTypes.object`
+5. `PropTypes.func`
+6. `PropTypes.node`
+7. `PropTypes.element`
+8. `PropTypes.bool`
+9. `PropTypes.symbol`
+10. `PropTypes.any`
+
+
+
+我们可以为 `User` 组件，定义 `propTypes`，如下所示：
+
+
+
+```
+import React from 'react';
+import PropTypes from 'prop-types';
+
+class User extends React.Component {
+  static propTypes = {
+    name: PropTypes.string.isRequired,
+    age: PropTypes.number.isRequired,
+  };
+
+  render() {
+    return (
+      <>
+        <h1>{`Welcome, ${this.props.name}`}</h1>
+        <h2>{`Age, ${this.props.age}`}</h2>
+      </>
+    );
+  }
+}
+```
+
+
+
+注意:在React v15.5中，PropTypes从React中移动。PropTypes到prop-types库。
+
+
+
+#### React 的优势是什么？
+
+
+
+下面是 React 的一些优势：
+
+
+
+1. 使用Virtual DOM提高应用程序的性能。
+2. JSX使代码易于读和写。
+3. 它同时呈现在客户端和服务器端（SSR）。
+4. 很容易与框架集成(Angular、Backbone)，因为它只是一个视图库。
+5. 使用Jest等工具编写单元和集成测试很容易。
+
+
+
+#### 什么是 React 的限制？
+
+
+
+除了优点之外，React也有一些限制。
+
+
+
+1. React只是一个视图库，而不是一个完整的框架。
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
