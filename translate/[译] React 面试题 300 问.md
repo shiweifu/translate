@@ -1363,10 +1363,67 @@ class User extends React.Component {
 
 
 1. React只是一个视图库，而不是一个完整的框架。
+2. 对于新的 Web 开发者，有一定学习门槛
+3. 集成 React 到传统 MVC 项目，需要一些额外的配置
+4. 使用内联模板和 JSX，导致复杂度增加
+5. 太多的组件，导致过度工程化或者样板话
 
 
 
+#### React v16 的边界错误是什么？
 
+
+
+错误边界是指组件在其子组件树的任何地方捕获 JavaScript 错误，记录这些错误，并显示回退UI，而不是崩溃的组件树。
+
+
+
+如果类组件定义了一个新的生命周期方法 componentDidCatch(error, info) 或静态 getDerivedStateFromError()，那么它就会成为错误边界。
+
+
+
+```
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  componentDidCatch(error, info) {
+    // You can also log the error to an error reporting service
+    logErrorToMyService(error, info);
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>{'Something went wrong.'}</h1>;
+    }
+    return this.props.children;
+  }
+}
+```
+
+
+
+标准组件中使用：
+
+
+
+```
+<ErrorBoundary>
+  <MyWidget />
+</ErrorBoundary>
+```
+
+
+
+#### 如何在 React v15 中使用边界错误？
 
 
 
