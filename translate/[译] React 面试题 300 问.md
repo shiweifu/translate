@@ -1427,6 +1427,46 @@ class ErrorBoundary extends React.Component {
 
 
 
+React v15，对于边界错误，通过使用 `unstable_handleError` 方法，提供非常基本的支持。在 React v16 中，它已经改名为 `componentDidCatch`。
+
+
+
+#### 关于静态类型检查，推荐的方法有哪些？
+
+
+
+通常我们使用PropTypes库(React。PropTypes从React v15.5开始移动到prop-types包)，用于在React应用程序中进行类型检查。对于大型代码库，建议使用静态类型检查器，如Flow或TypeScript，它们在编译时执行类型检查，并提供自动完成功能。
+
+
+
+#### `react-dom` 包有什么用？
+
+
+
+react-dom包提供了特定于dom的方法，可以在应用程序的顶层使用。大多数组件都不需要使用此模块。这个包的一些方法是：
+
+
+
+1. `render()`
+2. `hydrate()`
+3. `unmountComponentAtNode()`
+4. `findDOMNode()`
+5. `createPortal()`
+
+
+
+#### 渲染方法的目的是什么？
+
+
+
+
+
+
+
+
+
+
+
 
 
 
