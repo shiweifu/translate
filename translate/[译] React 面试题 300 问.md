@@ -1459,7 +1459,34 @@ react-dom包提供了特定于dom的方法，可以在应用程序的顶层使�
 
 
 
+此方法用于在提供的容器中将React元素呈现到DOM中，并返回对组件的引用。如果React元素之前被呈现到容器中，它将对其执行更新，并且仅根据需要改变DOM以反映最新的更改。
 
+
+
+```
+ReactDOM.render(element, container[, callback])
+```
+
+
+
+如果提供了可选回调函数，它将在组件呈现或更新后执行。
+
+
+
+### 什么是 ReactDOMServer？
+
+
+
+ReactDOMServer对象使您能够将组件呈现为静态标记(通常用于节点服务器)。该对象主要用于服务器端渲染(SSR)。以下方法可以在服务器和浏览器环境中使用：
+
+
+
+1. `renderToString()`
+2. `renderToStaticMarkup()`
+
+
+
+例如，你通常运行一个基于节点的web服务器，如Express, Hapi，或Koa，你调用 `renderToString` 将根组件渲染成一个字符串，然后作为响应发送。
 
 
 
