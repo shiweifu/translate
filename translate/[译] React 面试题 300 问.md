@@ -1490,7 +1490,52 @@ ReactDOMServer对象使您能够将组件呈现为静态标记(通常用于节�
 
 
 
+```
+// using Express
+import { renderToString } from 'react-dom/server';
+import MyPage from './MyPage';
 
+app.get('/', (req, res) => {
+  res.write('<!DOCTYPE html><html><head><title>My Page</title></head><body>');
+  res.write('<div id="content">');
+  res.write(renderToString(<MyPage />));
+  res.write('</div></body></html>');
+  res.end();
+});
+```
+
+
+
+#### 如何在 React 中，使用 innerHTML
+
+
+
+`dangerouslySetInnerHTML` 属性是 React 在浏览器 DOM 中使用 innerHTML 的替代品。就像 innerHTML 一样，考虑到跨站点脚本(XSS) 攻击，使用这个属性是有风险的。你只需要传递一个 html 对象作为键，html 文本作为值。
+
+
+
+本例中，`MyComponent` 使用 `dangerouslySetInnerHTML` 属性来设置 HTML 标签。
+
+
+
+#### React 中，如何使用样式？
+
+
+
+style 属性接受一个带有驼峰格式属性的 JavaScript 对象，而不是一个 CSS 字符串。这与 DOM 样式的 JavaScript 属性是一致的，更有效，并防止 XSS 安全漏洞。
+
+
+
+```
+const divStyle = {
+  color: 'blue',
+  backgroundImage: 'url(' + imgUrl + ')',
+};
+
+function HelloWorldComponent() {
+  return <div style={divStyle}>Hello World!</div>;
+}
+```
 
 
 
