@@ -1594,6 +1594,78 @@ function HelloWorldComponent() {
 
 
 
+```
+componentDidMount() {
+axios.get(`api/todos`)
+  .then((result) => {
+    this.setState({
+      messages: [...result.data]
+    })
+  })
+}
+```
+
+
+
+#### 如果你在初始状态下使用 props 会发生什么
+
+
+
+如果组件上的 props 被更改而组件没有被刷新，那么新的 props 将永远不会显示出来，因为构造函数永远不会更新组件的当前状态。props 的状态初始化只在组件第一次创建时运行。
+
+
+
+下面的组件不会显示更新后的输入值。
+
+
+
+```
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      records: [],
+      inputValue: this.props.inputValue,
+    };
+  }
+
+  render() {
+    return <div>{this.state.inputValue}</div>;
+  }
+}
+```
+
+
+
+在 `render` 方法中，使用 `props`，将更新对应的值：
+
+
+
+```
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      record: [],
+    };
+  }
+
+  render() {
+    return <div>{this.props.inputValue}</div>;
+  }
+}
+```
+
+
+
+#### 根据什么条件，判断是否渲染组件？
+
+
+
+在某些情况下，您希望根据某些状态呈现不同的组件。JSX不会呈现为false或未定义，因此您可以使用条件短路来仅在某个条件为真时呈现组件的给定部分。
+
 
 
 
