@@ -1668,6 +1668,66 @@ class MyComponent extends React.Component {
 
 
 
+```
+const MyComponent = ({ name, address }) => (
+  <div>
+    <h2>{name}</h2>
+    {address && <p>{address}</p>}
+  </div>
+);
+```
+
+
+
+如果需要If -else条件，则使用三元操作符。
+
+
+
+```
+const MyComponent = ({ name, address }) => (
+  <div>
+    <h2>{name}</h2>
+    {address ? <p>{address}</p> : <p>{'Address is not available'}</p>}
+  </div>
+);
+```
+
+
+
+#### 为什么在DOM元素上传递 props 时要小心？
+
+
+
+当我们传递 props 时，我们会遇到添加未知HTML属性的风险，这是一种糟糕的做法。相反，我们可以使用道具解构`…Rest`操作符，因此它将只添加所需的道具。
+
+
+
+举个例子，
+
+
+
+```
+const ComponentA = () => <ComponentB isDisplay={true} className={'componentStyle'} />;
+
+const ComponentB = ({ isDisplay, ...domProps }) => <div {...domProps}>{'ComponentB'}</div>;
+```
+
+
+
+#### 如何在 React 中使用装饰器？
+
+
+
+你可以装饰你的类组件，这和把组件传递给一个函数是一样的。装饰器是修改组件功能的灵活且易读的方式。
+
+
+
+注意：装饰器是ES7中没有的一个特性，但目前是第二阶段的提案。
+
+
+
+
+
 
 
 
