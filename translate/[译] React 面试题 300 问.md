@@ -1722,11 +1722,83 @@ const ComponentB = ({ isDisplay, ...domProps }) => <div {...domProps}>{'Componen
 
 
 
+```
+@setTitle('Profile')
+class Profile extends React.Component {
+  //....
+}
+
+/*
+title is a string that will be set as a document title
+WrappedComponent is what our decorator will receive when
+put directly above a component class as seen in the example above
+*/
+const setTitle = (title) => (WrappedComponent) => {
+  return class extends React.Component {
+    componentDidMount() {
+      document.title = title;
+    }
+
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
+  };
+};
+```
+
+
+
 注意：装饰器是ES7中没有的一个特性，但目前是第二阶段的提案。
 
 
 
+#### 如何使用记忆组件？
 
+
+
+有一些可用的memoize库可用于函数组件。
+
+
+
+例如moize库可以记忆其他组件中的组件。
+
+
+
+```
+import moize from 'moize';
+import Component from './components/Component'; // this module exports a non-memoized component
+
+const MemoizedFoo = moize.react(Component);
+
+const Consumer = () => {
+  <div>
+    {'I will memoize the following entry:'}
+    <MemoizedFoo />
+  </div>;
+};
+```
+
+
+
+更新:自React v16.6.0以来，我们有了一个React.memo。它提供了一个更高阶的组件来记忆组件，除非道具发生变化。要使用它，只需使用React包装组件，简单封装了之前使用的 `React.memo`。
+
+
+
+```
+const MemoComponent = React.memo(function MemoComponent(props) {
+  /* render using props */
+});
+OR;
+export default React.memo(MyFunctionComponent);
+```
+
+
+
+#### 如何实现服务器端渲染或SSR
+
+
+
+React已经可以处理Node服务器上的呈现。DOM呈现程序的一个特殊版本是可用的，它遵循与客户端相同的模式。
 
 
 
