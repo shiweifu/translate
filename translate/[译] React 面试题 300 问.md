@@ -1802,11 +1802,86 @@ React已经可以处理Node服务器上的呈现。DOM呈现程序的一个特�
 
 
 
+```
+import ReactDOMServer from 'react-dom/server';
+import App from './App';
+
+ReactDOMServer.renderToString(<App />);
+```
 
 
 
+该方法将常规HTML输出为字符串，然后可以将其放置在页面主体中作为服务器响应的一部分。在客户端，React会检测到预渲染的内容，并无缝地从停止的地方开始。
 
 
+
+#### 如何在 React 中激活 production 模式？
+
+
+
+你应该使用 Webpack 的 DefinePlugin 方法来将 NODE_ENV 设置为生产版本，这样就去掉了 propType 验证和额外的警告。除此之外，如果你缩小代码，例如，去除 Uglify 的死代码，去掉开发代码和注释，这将大大减少你的包的大小。
+
+
+
+#### 什么是 CRA？有什么好处？
+
+
+
+`create-react-app` CLI工具允许您快速创建和运行React应用程序，无需配置步骤。
+
+
+
+让我们使用 CRA 创建 Todo App：
+
+
+
+```
+# Installation
+$ npm install -g create-react-app
+
+# Create new project
+$ create-react-app todo-app
+$ cd todo-app
+
+# Build, test and run
+$ npm run build
+$ npm run test
+$ npm start
+```
+
+
+
+它包含了我们构建React应用所需的一切：
+
+
+
+1. React、JSX、ES6和Flow语法支持。
+2. ES6之外的语言附加，如对象扩展操作符。
+3. 自动修复CSS，所以你不需要-webkit-或其他前缀。
+4. 一个快速的交互式单元测试运行器，内置了对覆盖率报告的支持。
+5. 对常见错误发出警告的活动开发服务器。
+6. 一个构建脚本，将JS、CSS和图像与散列和源地图捆绑在一起用于生产。
+
+
+
+#### 组件的生命周期都包括什么？
+
+
+
+当创建组件实例并将其插入到DOM中时，生命周期方法按以下顺序调用。
+
+1. `constructor()`
+2. `static getDerivedStateFromProps()`
+3. `render()`
+4. `componentDidMount()`
+
+
+
+#### 在 React 16 中，哪些声明周期相关的方法被废弃？
+
+
+
+以下生命周期方法将是不安全的编码实践，并且异步渲染将更加问题。
 
 
 
