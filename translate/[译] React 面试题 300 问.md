@@ -1885,6 +1885,54 @@ $ npm start
 
 
 
+1. `componentWillMount()`
+2. `componentWillReceiveProps()`
+3. `componentWillUpdate()`
+
+
+
+从React v16.3开始，这些方法使用了不安全的前缀，无前缀的版本将在React v17中删除。
+
+
+
+#### getDerivedStateFromProps()生命周期方法的目的是什么
+
+
+
+新的静态 `getDerivedStateFromProps()` 生命周期方法在组件实例化之后以及重新呈现之前被调用。它可以返回一个对象来更新状态，或者返回null来表示新道具不需要任何状态更新。
+
+
+
+```
+class MyComponent extends React.Component {
+  static getDerivedStateFromProps(props, state) {
+    // ...
+  }
+}
+```
+
+
+
+这个生命周期方法和`componentDidUpdate()`一起涵盖了`componentWillReceiveProps()`的所有用例。
+
+
+
+#### hook是否替换了渲染道具和更高阶的组件
+
+
+
+渲染道具和高阶组件都只渲染一个子组件，但在大多数情况下，通过减少树中的嵌套，hook是一种更简单的服务方式。
+
+
+
+
+
+
+
+
+
+
+
 
 
 
