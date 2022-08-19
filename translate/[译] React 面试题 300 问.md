@@ -1917,6 +1917,28 @@ class MyComponent extends React.Component {
 
 
 
+#### getSnapshotBeforeUpdate() 生命周期方法的目的是什么
+
+
+
+新的 `getSnapshotBeforeUpdate()` 生命周期方法在DOM更新之前被调用。这个方法的返回值将作为第三个参数传递给 `componentDidUpdate()`。
+
+
+
+```
+class MyComponent extends React.Component {
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    // ...
+  }
+}
+```
+
+
+
+这个生命周期方法和`componentDidUpdate()`一起涵盖了`componentWillUpdate()`的所有用例。
+
+
+
 #### hook是否替换了渲染道具和更高阶的组件
 
 
@@ -1924,6 +1946,76 @@ class MyComponent extends React.Component {
 渲染道具和高阶组件都只渲染一个子组件，但在大多数情况下，通过减少树中的嵌套，hook是一种更简单的服务方式。
 
 
+
+
+
+#### 推荐的组件命名方式是什么
+
+
+
+建议使用引用的方式命名组件，而不是使用`displayName`。
+
+
+
+使用 `displayName` 用于命名组件：
+
+
+
+```
+export default React.createClass({
+  displayName: 'TodoApp',
+  // ...
+});
+```
+
+
+
+`推荐` 的方法：
+
+
+
+```
+export default class TodoApp extends React.Component {
+  // ...
+}
+```
+
+
+
+#### 组件类中方法的推荐顺序是什么
+
+
+
+建议从安装到渲染阶段的方法排序：
+
+
+
+1. `static` 方法
+2. `constructor()`
+3. `getChildContext()`
+4. `componentWillMount()`
+5. `componentDidMount()`
+6. `componentWillReceiveProps()`
+7. `shouldComponentUpdate()`
+8. `componentWillUpdate()`
+9. `componentDidUpdate()`
+10. `componentWillUnmount()`
+11. 点击事件或者事件处理函数，如 `onClickSubmit()` 或者 `onChangeDescription()`
+12. 渲染中，用到的获取属性的方法： `getSelectReason()` 或者 `getFooterContent()`
+13. 可选渲染方法： `renderNavigation()` 或者 `renderProfilePicture()`
+14. `render()`
+
+
+
+#### #### 什么是切换组件
+
+
+
+切换组件是呈现多个组件中的一个的组件。我们需要使用对象，将属性值映射到组件。
+
+
+
+例如，切换组件根据页面道具显示不同的页面：
 
 
 
