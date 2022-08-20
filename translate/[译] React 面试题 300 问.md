@@ -2019,6 +2019,39 @@ export default class TodoApp extends React.Component {
 
 
 
+```
+import HomePage from './HomePage';
+import AboutPage from './AboutPage';
+import ServicesPage from './ServicesPage';
+import ContactPage from './ContactPage';
+
+const PAGES = {
+  home: HomePage,
+  about: AboutPage,
+  services: ServicesPage,
+  contact: ContactPage,
+};
+
+const Page = (props) => {
+  const Handler = PAGES[props.page] || ContactPage;
+
+  return <Handler {...props} />;
+};
+
+// The keys of the PAGES object can be used in the prop types to catch dev-time errors.
+Page.propTypes = {
+  page: PropTypes.oneOf(Object.keys(PAGES)).isRequired,
+};
+```
+
+
+
+#### 为什么我们需要向 setState 传递一个方法？
+
+
+
+这背后的原因是setState()是一个异步操作。出于性能原因对批处理状态更改作出反应，因此在调用setState()后状态可能不会立即更改。这意味着在调用setState()时不应该依赖于当前状态，因为您无法确定当前状态是什么。解决方案是将一个函数传递给setState()，并将前一个状态作为参数。通过这样做，您可以避免由于setState()的异步特性而导致用户在访问时获取旧状态值的问题。
+
 
 
 
