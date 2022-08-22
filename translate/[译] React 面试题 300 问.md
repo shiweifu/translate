@@ -2054,6 +2054,87 @@ Page.propTypes = {
 
 
 
+假设初始计数值为0。连续进行三次增量操作后，该值将只增加1。
+
+
+
+```
+// assuming this.state.count === 0
+this.setState({ count: this.state.count + 1 });
+this.setState({ count: this.state.count + 1 });
+this.setState({ count: this.state.count + 1 });
+// this.state.count === 1, not 3
+```
+
+
+
+如果我们将一个函数传递给`setState()`，计数器将正确地增加。
+
+
+
+```
+this.setState((prevState, props) => ({
+  count: prevState.count + props.increment,
+}));
+// this.state.count === 3 as expected
+```
+
+
+
+或者
+
+
+
+#### 为什么 `setState` 接受方法，优先于接受对象？
+
+
+
+为了提高性能，React可以将多个setState()调用批量处理为一个更新。因为这个。props 和 state 可以异步更新，您不应该依赖它们的值来计算下一个状态。
+
+
+
+下面的计数例子，将不会如你期待的那样工作：
+
+```
+// Wrong
+this.setState({
+  counter: this.state.counter + this.props.increment,
+});
+```
+
+
+
+首选的方法是用函数而不是对象调用setState()。该函数将接收前一个状态作为第一个参数，应用更新时的 props 作为第二个参数。
+
+
+
+```
+// Correct
+this.setState((prevState, props) => ({
+  counter: prevState.counter + props.increment,
+}));
+```
+
+
+
+#### React 中的严格模式是什么？
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
