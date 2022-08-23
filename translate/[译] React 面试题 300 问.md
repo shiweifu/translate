@@ -2121,9 +2121,55 @@ this.setState((prevState, props) => ({
 
 
 
+反应。StrictMode是一个用来突出应用程序中潜在问题的有用组件。就像<Fragment>一样，<StrictMode>不渲染任何额外的DOM元素。它会为它的后代启动额外的检查和警告。这些检查只适用于开发模式。
 
 
 
+```
+import React from 'react';
+
+function ExampleApplication() {
+  return (
+    <div>
+      <Header />
+      <React.StrictMode>
+        <div>
+          <ComponentOne />
+          <ComponentTwo />
+        </div>
+      </React.StrictMode>
+      <Footer />
+    </div>
+  );
+}
+```
+
+
+
+在上面的例子中，严格模式检查仅适用于<ComponentOne>和<ComponentTwo>组件。
+
+
+
+###  什么是 React Mixins？
+
+
+
+mixin是一种完全分离组件以拥有通用功能的方法。mixin不应该被使用，可以用高阶组件或装饰器替换。
+
+
+
+最常用的mixin之一是`PureRenderMixin`。你可能会在一些组件中使用它来防止不必要的重新渲染，当道具和状态与之前的道具和状态粗略相等时：
+
+
+
+```
+const PureRenderMixin = require('react-addons-pure-render-mixin');
+
+const Button = React.createClass({
+  mixins: [PureRenderMixin],
+  // ...
+});
+```
 
 
 
