@@ -2173,6 +2173,34 @@ const Button = React.createClass({
 
 
 
+#### 为什么isMounted()是反模式，正确的解决方案是什么？
+
+
+
+isMounted() 的主要用途是避免在组件卸载后调用 setState()，因为它会发出警告。
+
+```
+if (this.isMounted()) {
+this.setState({...})
+}
+```
+
+
+
+调用 `setState()` 之前，检查 `isMounted()`，确实可以消除警告，但这样会失去警告的目的。代码中出现 `isMounted()` 的唯一情况是，你想判断，是否有组件在 unmounted 之后，依然持有引用。
+
+
+
+一个替代方案是，检查在组件 `unmounted` 之后，依然有哪些地方调用 `setState()`，找出他们，并修复。比较常见的一个调用点是，回调函数中，组件正在等待一些数据，然而在到达之前，已经卸载了。理想情况下，应该在 unmount 之前，在 componentWillUnmount() 中，取消任何回调。
+
+
+
+
+
+
+
+
+
 
 
 
