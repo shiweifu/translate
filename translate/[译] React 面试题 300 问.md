@@ -2195,6 +2195,39 @@ this.setState({...})
 
 
 
+#### React中支持的指针事件是什么
+
+
+
+Pointer Events提供了处理所有输入事件的统一方式。在过去，我们有鼠标和相应的事件监听器来处理它们，但现在我们有许多设备与鼠标无关，如带有触控表面的手机或笔。我们需要记住，这些事件只能在支持指针事件规范的浏览器中工作。
+
+
+
+以下事件类型现在可以在React DOM中使用：
+
+
+
+1. `onPointerDown`
+2. `onPointerMove`
+3. `onPointerUp`
+4. `onPointerCancel`
+5. `onGotPointerCapture`
+6. `onLostPointerCapture`
+7. `onPointerEnter`
+8. `onPointerLeave`
+9. `onPointerOver`
+10. `onPointerOut`
+
+
+
+#### 为什么组件名称要以大写字母开头
+
+
+
+如果使用JSX呈现组件，该组件的名称必须以大写字母开头，否则React将抛出一个错误，称其为无法识别的标记。这是因为只有HTML元素和SVG标记可以以小写字母开头。
+
+
+
 
 
 
