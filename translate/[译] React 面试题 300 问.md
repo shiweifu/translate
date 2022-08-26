@@ -2228,6 +2228,80 @@ Pointer Events提供了处理所有输入事件的统一方式。在过去，我
 
 
 
+```
+class SomeComponent extends Component {
+  // Code goes here
+}
+```
+
+
+
+你可以定义以小写字母开头的组件，但当它被导入时，它必须以大写字母开头。在这里，小写字母是可以的：
+
+```
+class myComponent extends Component {
+  render() {
+    return <div />;
+  }
+}
+
+export default myComponent;
+```
+
+
+
+当引入其他文件中的组件时，必须以大写字母开头：
+
+
+
+```
+import MyComponent from './MyComponent';
+```
+
+
+
+#### 组件名称有哪些例外规则？
+
+
+
+组件名称应该以大写字母开头，但在此约定中也有一些例外。带有点的小写标记名称(属性访问器)仍然被认为是有效的组件名称。
+
+
+
+例如，下面的标签可以被编译为有效的组件：
+
+
+
+```
+render(){
+  return (
+      <obj.component /> // `React.createElement(obj.component)`
+      )
+}
+```
+
+
+
+#### 在React v16中是否支持自定义DOM属性
+
+
+
+答案是可以。在过去，React 会忽略未知的 DOM 属性。如果你在 JSX 中，写了一些 React 不能识别的属性，React 将忽略它。
+
+
+
+举个例子，让我们看以下这段代码：
+
+
+
+```
+<div mycustomattribute={'something'} />
+```
+
+
+
+
+
 
 
 
