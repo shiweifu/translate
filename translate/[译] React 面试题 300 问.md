@@ -2300,6 +2300,81 @@ render(){
 
 
 
+在 React v15 中，讲生成一个空的 `div`：
+
+
+
+```
+<div />
+```
+
+
+
+在 React v16 中，未知的属性，将放在 DOM 的结尾：
+
+
+
+```
+<div mycustomattribute="something" />
+```
+
+
+
+这对于提供特定于浏览器的非标准属性、尝试新的DOM api以及集成特定的第三方库非常有用。
+
+
+
+#### 构造函数和getInitialState之间的区别是什么？
+
+
+
+使用ES6类时应该在构造函数中初始化state，使用`React.createClass()`时应该在`getInitialState()`方法中初始化。
+
+
+
+##### 使用 ES6 类：
+
+```
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      /* initial state */
+    };
+  }
+}
+```
+
+
+
+##### 使用 `React.createClass()`：
+
+```
+const MyComponent = React.createClass({
+  getInitialState() {
+    return {
+      /* initial state */
+    };
+  },
+});
+```
+
+`注意`：`React.createClass()` 方法已经废弃，在 React v16 中，被移除。使用标准的 JavaScript 类方法进行替代。
+
+
+
+#### 可以在不调用setState的情况下强制组件重新呈现吗？
+
+
+
+默认情况下，当组件的状态或 props 改变时，组件将重新渲染。如果 render() 方法依赖于其他数据，可以通过调用 forceUpdate() 告诉 React 组件需要重新渲染。
+
+
+
+
+
+
+
 
 
 
