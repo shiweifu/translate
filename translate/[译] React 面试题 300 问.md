@@ -2371,6 +2371,90 @@ const MyComponent = React.createClass({
 
 
 
+#### 在 ES6 类中，`super()` 和 `super(props)` 有何不同？
+
+
+
+当你想要在 `constructor()` 构造方法中，访问 `this.props`，此时你需要向 `super()` 方法传递 props。
+
+
+
+##### 使用 `super(props)`：
+
+```
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(this.props); // { name: 'John', ... }
+  }
+}
+```
+
+
+
+##### 使用 `super()`：
+
+
+
+```
+class MyComponent extends React.Component {
+  constructor(props) {
+    super();
+    console.log(this.props); // undefined
+  }
+}
+```
+
+
+
+在 `constructor()` 方法之外，将显示 `this.props` 相同的值。
+
+
+
+#### 如何在 JSX 中进行循环？
+
+
+
+可以简单的使用 `Array.proptype.map`，配合 ES6 中的箭头函数语法。
+
+
+
+举个例子，下面 `items` 对象数组，将生成组件数组：
+
+
+
+```
+<tbody>
+  {items.map((item) => (
+    <SomeComponent key={item.id} name={item.name} />
+  ))}
+</tbody>
+```
+
+
+
+但你不能通过 `for` 循环，来生成：
+
+
+
+```
+<tbody>
+for (let i = 0; i < items.length; i++) {
+  <SomeComponent key={items[i].id} name={items[i].name} />
+}
+</tbody>
+```
+
+
+
+这是因为，JSX 标签，将会翻译函数调用，你不能在表达式中，返回语法结构。这个行为，有可能通过 `do` 表达式进行改变，该草案在 `stage 1` 阶段。
+
+
+
+
+
+
+
 
 
 
