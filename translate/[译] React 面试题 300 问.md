@@ -2451,6 +2451,87 @@ for (let i = 0; i < items.length; i++) {
 
 
 
+#### 如何访问 props 引号中的内容？
+
+
+
+React(或JSX)不支持在属性值中插入变量。下面的代码不能工作：
+
+
+
+```
+<img className="image" src="images/{this.props.image}" />
+```
+
+
+
+使用模板字符串可以正常工作：
+
+
+
+```
+<img className="image" src={`images/${this.props.image}`} />
+```
+
+
+
+#### 什么是 React proptype 形状的数组？
+
+
+
+如果您想将一个对象数组传递给具有特定形状的组件，那么使用React.PropTypes.shape()作为React.PropTypes.arrayOf()的参数。
+
+
+
+```
+ReactComponent.propTypes = {
+  arrayWithShape: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      color: React.PropTypes.string.isRequired,
+      fontSize: React.PropTypes.number.isRequired,
+    }),
+  ).isRequired,
+};
+```
+
+
+
+#### 如何有条件的应用类属性？
+
+
+
+你不应该在引号内使用大括号，因为它将被作为一个字符串计算。
+
+
+
+```
+<div className="btn-panel {this.props.visible ? 'show' : 'hidden'}">
+```
+
+
+
+相反，您需要将大括号移到外面（不要忘记在类名之间包含空格）：
+
+
+
+```
+<div className={'btn-panel ' + (this.props.visible ? 'show' : 'hidden')}>
+```
+
+
+
+字符串模板也可以工作：
+
+
+
+```
+<div className={`btn-panel ${this.props.visible ? 'show' : 'hidden'}`}>
+```
+
+
+
+
+
 
 
 
