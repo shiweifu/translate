@@ -2530,6 +2530,24 @@ ReactComponent.propTypes = {
 
 
 
+#### React 和 ReactDOM 之间有什么不同？
+
+
+
+`React` 代码包包含 `React.createElement()`，`React.Component`，`React.Children`，以及其他辅助的元素和组件类。你可以把它们想象成构建组件所需要用到的同构或者帮助组件。`react-dom` 包含 `ReactDOM.render()`，以及在 `react-dom/server`，我们有针对服务端渲染，通过 `RenderDOMServer.renderToString` 和 `ReactDOMServer.renderToStaticMarkup()` 来提供支持。
+
+
+
+#### 为什么 ReactDOM 从 React 中拆分出来？
+
+
+
+React团队致力于将所有与dom相关的特性提取到一个名为ReactDOM的独立库中。React v0.14是分离库的第一个版本。通过观察一些包，React -native, React -art, React -canvas，和React -three，可以清楚地看到React的美和本质与浏览器或DOM无关。
+
+
+
+为了构建更多React可以渲染的环境，React团队计划将主要的React包拆分成两个：React和React-dom。这为编写可以在React和React Native的web版本之间共享的组件铺平了道路。
+
 
 
 
