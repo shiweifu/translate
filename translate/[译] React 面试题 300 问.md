@@ -2550,7 +2550,96 @@ React团队致力于将所有与dom相关的特性提取到一个名为ReactDOM�
 
 
 
+#### 如何使用 React label 元素？
 
+
+
+如果您试图使用标准for属性呈现绑定到文本输入的<label>元素，那么它将生成缺少该属性的HTML并向控制台打印一个警告。
+
+
+
+```
+<label for={'user'}>{'User'}</label>
+<input type={'text'} id={'user'} />
+```
+
+
+
+因为for在JavaScript中是一个保留关键字，所以使用htmlFor。
+
+
+
+```
+<label htmlFor={'user'}>{'User'}</label>
+<input type={'text'} id={'user'} />
+```
+
+
+
+#### 如何合并多个内联样式对象？
+
+
+
+您可以在常规 React 中使用扩展运算符：
+
+
+
+```
+<button style={{ ...styles.panel.button, ...styles.panel.submitButton }}>{'Submit'}</button>
+```
+
+
+
+如果你使用React Native，那么你可以使用数组表示法：
+
+
+
+```
+<button style={[styles.panel.button, styles.panel.submitButton]}>{'Submit'}</button>
+```
+
+
+
+#### 重新调整窗口大小后，如何重新渲染视图？
+
+
+
+您可以在`componentDidMount()`中监听`resize`事件，然后更新宽度和高度。您应该在`componentWillUnmount()`方法中删除侦听器。
+
+
+
+```
+class WindowDimensions extends React.Component {
+  constructor(props) {
+    super(props);
+    this.updateDimensions = this.updateDimensions.bind(this);
+  }
+
+  componentWillMount() {
+    this.updateDimensions();
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+
+  updateDimensions() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  }
+
+  render() {
+    return (
+      <span>
+        {this.state.width} x {this.state.height}
+      </span>
+    );
+  }
+}
+```
 
 
 
