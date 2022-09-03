@@ -2643,55 +2643,25 @@ class WindowDimensions extends React.Component {
 
 
 
+#### `setState()` 和 `replaceState()` 方法之间的区别是什么？
 
 
 
+当你使用 `setState()`，当前和以前的状态被合并。`replaceState()` 抛出当前状态，并用您提供的内容替换它。通常，使用setState()，除非由于某些原因确实需要删除以前所有的键。您还可以将状态设置为 `setState()` 中的 `false/null`，而不是使用`replaceState()`。
 
 
 
+#### 如何监听状态改变？
 
 
 
+当状态发生变化时，`componentDidUpdate` 生命周期方法将被调用。您可以将提供的状态和道具值与当前状态和道具值进行比较，以确定是否发生了有意义的更改。
 
+```
+componentDidUpdate(object prevProps, object prevState)
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+注意：`ReactJS` 之前的版本也使用componentWillUpdate(object nextProps, object nextState)来进行状态更改。它在最新版本中已被弃用。
 
 
 
