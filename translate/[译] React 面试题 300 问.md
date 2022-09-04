@@ -2665,6 +2665,108 @@ componentDidUpdate(object prevProps, object prevState)
 
 
 
+#### 在React状态下移除数组元素的推荐方法是什么？
+
+
+
+更好的方法是使用Array.prototype.filter()方法。
+
+
+
+例如，让我们创建一个removeItem()方法来更新状态。
+
+
+
+```
+removeItem(index) {
+  this.setState({
+    data: this.state.data.filter((item, i) => i !== index)
+  })
+}
+```
+
+
+
+#### 是否有可能使用React而不呈现HTML？
+
+
+
+在最新版本(>=16.2)中是可能的。以下是可选的方法：
+
+
+
+```
+render() {
+  return false
+}
+```
+
+
+
+```
+render() {
+  return null
+}
+```
+
+
+
+```
+render() {
+  return []
+}
+```
+
+
+
+```
+render() {
+  return <React.Fragment></React.Fragment>
+}
+```
+
+
+
+```
+render() {
+  return <></>
+}
+```
+
+
+
+返回 `undefined` 无法工作。
+
+
+
+#### 如何漂亮打印 JSON 与 React？
+
+
+
+我们可以使用`<pre>`标记，以便保留`JSON.stringify()`的格式：
+
+
+
+```\
+const data = { name: 'John', age: 42 };
+
+class User extends React.Component {
+  render() {
+    return <pre>{JSON.stringify(data, null, 2)}</pre>;
+  }
+}
+
+React.render(<User />, document.getElementById('container'));
+```
+
+
+
+#### 为什么你不能在 React 中更新 props？
+
+
+
+React 的理念是，props 应该是不可变的、自上而下的。这意味着父节点可以向子节点发送任何 props 值，但子节点不能修改接收到的 props。
+
 
 
 
