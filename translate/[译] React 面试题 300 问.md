@@ -2769,6 +2769,92 @@ React 的理念是，props 应该是不可变的、自上而下的。这意味�
 
 
 
+#### 如何在页面加载时聚焦输入元素？
+
+
+
+可以通过为 `input` 元素创建 `ref `并在 `componentDidMount()` 中使用它来实现：
+
+
+
+```
+class App extends React.Component {
+  componentDidMount() {
+    this.nameInput.focus();
+  }
+
+  render() {
+    return (
+      <div>
+        <input defaultValue={"Won't focus"} />
+        <input ref={(input) => (this.nameInput = input)} defaultValue={'Will focus'} />
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, document.getElementById('app'));
+```
+
+
+
+#### 在状态中更新对象的可能方法有哪些？
+
+
+
+1. 用一个对象调用 `setState()` 来与 `state` 合并：
+
+- 使用object .assign()创建对象的副本：
+
+```
+ const user = Object.assign({}, this.state.user, { age: 42 });
+ this.setState({ user });
+```
+
+- 使用散列操作符：
+
+```
+ const user = { ...this.state.user, age: 42 };
+ this.setState({ user });
+```
+
+
+
+2. 带着函数调用 `setState()`：
+
+```
+   this.setState((prevState) => ({
+     user: {
+       ...prevState.user,
+       age: 42,
+     },
+   }));
+```
+
+
+
+#### 如何在运行时在浏览器中找到React的版本？
+
+
+
+您可以使用 `React.version` 获取版本。
+
+```
+const REACT_VERSION = React.version;
+
+ReactDOM.render(<div>{`React version: ${REACT_VERSION}`}</div>, document.getElementById('app'));
+```
+
+
+
+#### 在你的 `create-react-app` 中包含 `polyfills` 的方法是什么？
+
+
+
+
+
+
+
 
 
 
