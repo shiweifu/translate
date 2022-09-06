@@ -2851,6 +2851,64 @@ ReactDOM.render(<div>{`React version: ${REACT_VERSION}`}</div>, document.getElem
 
 
 
+有一些方法可以在create-react-app中包含 polyfills 脚本，
+
+
+
+1. 从 `core-js` 中，手动引入：
+
+
+
+创建一个名为polyfills.js的文件，并将其导入到根index.js文件中。运行npm install core-js或yarn add core-js并导入你需要的特定特性。
+
+
+
+```
+   import 'core-js/fn/array/find';
+   import 'core-js/fn/array/includes';
+   import 'core-js/fn/number/is-nan';
+```
+
+
+
+使用 Polyfill 服务：
+
+使用 polyfill.io CDN 在index.html中添加这一行来检索定制的、特定于浏览器的 polyfill 脚本：
+
+
+
+```
+   <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=default,Array.prototype.includes"></script>
+```
+
+
+
+在上面的脚本中，我们必须显式地请求Array.prototype.includes特性，因为它不包含在默认特性集中。
+
+
+
+#### 如何使用 https 而不是 http 在create-react-app？
+
+
+
+您只需要使用HTTPS=true配置。您可以编辑您的包。json脚本部分:
+
+
+
+```
+"scripts": {
+  "start": "set HTTPS=true && react-scripts start"
+}
+```
+
+
+
+或者执行 `set HTTPS=true && npm start`
+
+
+
+
+
 
 
 
