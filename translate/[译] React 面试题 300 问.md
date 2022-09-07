@@ -2907,13 +2907,56 @@ ReactDOM.render(<div>{`React version: ${REACT_VERSION}`}</div>, document.getElem
 
 
 
+#### 如何避免在 `create-react-app` 使用相对路径导入？
 
 
 
+在项目根目录中创建一个名为`.env`的文件，并写入导入路径：
 
 
 
+```
+NODE_PATH=src/app
+```
 
+
+
+在此之后，重新启动开发服务器。现在，您应该能够在没有相对路径的情况下，导入`src/app` 中的任何内容。
+
+
+
+#### 如何为 React 路由，添加 Google Analytics？
+
+
+
+在 `history` 对象上添加一个监听器，以记录每个页面视图：
+
+```
+history.listen(function (location) {
+  window.ga('set', 'page', location.pathname + location.search);
+  window.ga('send', 'pageview', location.pathname + location.search);
+});
+```
+
+
+
+#### 如何每秒更新一次组件视图？
+
+
+
+您需要使用 `setInterval()` 来触发更改，但是您还需要在组件卸载时清除计时器，以防止错误和内存泄漏。
+
+
+
+```
+componentDidMount() {
+  this.interval = setInterval(() => this.setState({ time: Date.now() }), 1000)
+}
+
+componentWillUnmount() {
+  clearInterval(this.interval)
+}
+```
 
 
 
