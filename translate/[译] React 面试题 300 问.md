@@ -2960,5 +2960,56 @@ componentWillUnmount() {
 
 
 
+#### 如何在React中将供应商前缀应用到内联样式中？
 
+
+
+React 不会自动应用供应商前缀。需要手动添加厂商前缀。
+
+
+
+```
+<div
+  style={{
+    transform: 'rotate(90deg)',
+    WebkitTransform: 'rotate(90deg)', // note the capital 'W' here
+    msTransform: 'rotate(90deg)', // 'ms' is the only lowercase vendor prefix
+  }}
+/>
+```
+
+
+
+
+
+#### 如何使用React和ES6导入和导出组件？
+
+
+
+您应该使用默认值导出组件。
+
+
+
+```
+import React from 'react';
+import User from 'user';
+
+export default class MyProfile extends React.Component {
+  render() {
+    return <User type="customer">//...</User>;
+  }
+}
+```
+
+
+
+有了导出说明符，MyProfile 将成为该模块的成员并导出到该模块，并且可以导入相同的成员，而无需在其他组件中提及名称。
+
+
+
+#### 为什么组件构造函数只被调用一次？
+
+
+
+React的协调算法假设，在没有任何相反信息的情况下，如果一个自定义组件在后续渲染的相同位置出现，那么它就是以前的组件，因此重用以前的实例，而不是创建一个新的实例。
 
