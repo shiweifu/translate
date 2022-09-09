@@ -3013,3 +3013,61 @@ export default class MyProfile extends React.Component {
 
 React的协调算法假设，在没有任何相反信息的情况下，如果一个自定义组件在后续渲染的相同位置出现，那么它就是以前的组件，因此重用以前的实例，而不是创建一个新的实例。
 
+
+
+#### 如何在 React 中，定义常量？
+
+
+
+你可以使用 ES 7 中的 `static` 关键字来定义常量。
+
+
+
+```
+class MyComponent extends React.Component {
+  static DEFAULT_PAGINATION = 10;
+}
+```
+
+
+
+`static` 关键字的提案，目前在第三阶段。
+
+
+
+#### 如何以编码的形式，在 React 中，触发事件？
+
+
+
+您可以使用ref道具通过回调获取底层HTMLInputElement对象的引用，将引用存储为类属性，然后使用该引用在以后使用HTMLElement触发事件处理程序中的 `HTMLElement.click` 方法。
+
+
+
+可以通过两步定义：
+
+
+
+1. 在渲染方法中，创建 `ref`：
+
+```
+   <input ref={(input) => (this.inputElement = input)} />
+```
+
+
+
+2. 在你的事件处理方法中，应用点击事件：
+
+```
+   this.inputElement.click();
+```
+
+
+
+#### 如何在 React 中，使用 `async/await` 方法？
+
+
+
+如果你想在 `React` 中，使用 `async/await`，你需要 Babel 和 `[transform-async-to-generator](https://babeljs.io/docs/en/babel-plugin-transform-async-to-generator) ` 插件。React Native 通过 Babel，以及一系列转换函数，来实现。
+
+
+
