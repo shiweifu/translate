@@ -3071,3 +3071,76 @@ class MyComponent extends React.Component {
 
 
 
+#### React常用的文件夹结构是什么？
+
+
+
+构建项目结构的一种常见方法是将CSS、JS和测试放在一起，按特性或路由分组。
+
+
+
+```
+common/
+   ├─ Avatar.js
+   ├─ Avatar.css
+   ├─ APIUtils.js
+   └─ APIUtils.test.js
+   feed/
+   ├─ index.js
+   ├─ Feed.js
+   ├─ Feed.css
+   ├─ FeedStory.js
+   ├─ FeedStory.test.js
+   └─ FeedAPI.js
+   profile/
+   ├─ index.js
+   ├─ Profile.js
+   ├─ ProfileHeader.js
+   ├─ ProfileHeader.css
+   └─ ProfileAPI.js
+```
+
+
+
+##### 按类型分组
+
+
+
+构造项目结构的另一种流行方法是将类似的文件分组在一起。
+
+
+
+```
+   api/
+   ├─ APIUtils.js
+   ├─ APIUtils.test.js
+   ├─ ProfileAPI.js
+   └─ UserAPI.js
+   components/
+   ├─ Avatar.js
+   ├─ Avatar.css
+   ├─ Feed.js
+   ├─ Feed.css
+   ├─ FeedStory.js
+   ├─ FeedStory.test.js
+   ├─ Profile.js
+   ├─ ProfileHeader.js
+   └─ ProfileHeader.css
+```
+
+
+
+#### 有哪些流行的动画管理？
+
+
+
+React Transition Group 和 React Motion 是 React 生态系统中流行的动画包。
+
+
+
+#### 样式模块的好处是什么？
+
+
+
+建议避免在组件中使用硬编码风格的值。任何可能跨不同UI组件使用的值都应该提取到它们自己的模块中。
+
