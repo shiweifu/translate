@@ -3144,3 +3144,41 @@ React Transition Group 和 React Motion 是 React 生态系统中流行的动画
 
 建议避免在组件中使用硬编码风格的值。任何可能跨不同UI组件使用的值都应该提取到它们自己的模块中。
 
+
+
+例如，这些样式可以提取到一个单独的组件中：
+
+
+
+```
+export const colors = {
+  white,
+  black,
+  blue,
+};
+
+export const space = [0, 8, 16, 32, 64];
+```
+
+
+
+然后在其他组件中单独导入：
+
+
+
+```
+import { space, colors } from './styles';
+```
+
+
+
+#### 什么是流行的 React-specific linter？
+
+
+
+ESLint是一个很流行的JavaScript检查器。有一些插件可以分析特定的代码风格。React中最常见的一个npm包叫做eslint-plugin-react。默认情况下，它将检查许多最佳实践，规则检查从迭代器中的键到一组完整的prop类型。
+
+
+
+另一个流行的插件是eslint-plugin-jsx-a11y，它将帮助解决常见的可访问性问题。由于JSX提供了与常规HTML稍有不同的语法，例如，alt文本和tabindex的问题是常规插件无法解决的。
+
