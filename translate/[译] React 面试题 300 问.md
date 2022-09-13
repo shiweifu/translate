@@ -3182,3 +3182,75 @@ ESLint是一个很流行的JavaScript检查器。有一些插件可以分析特�
 
 另一个流行的插件是eslint-plugin-jsx-a11y，它将帮助解决常见的可访问性问题。由于JSX提供了与常规HTML稍有不同的语法，例如，alt文本和tabindex的问题是常规插件无法解决的。
 
+
+
+#### 如何进行AJAX调用，在哪些组件生命周期方法中应该进行AJAX调用
+
+
+
+您可以使用AJAX库，如Axios、jQuery AJAX和浏览器内置的fetch。你应该在 componentDidMount() 生命周期方法中获取数据。这样就可以在检索数据时使用 setState() 更新组件。
+
+
+
+例如，从API获取员工列表并设置本地状态：
+
+
+
+```
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      employees: [],
+      error: null,
+    };
+  }
+
+  componentDidMount() {
+    fetch('https://api.example.com/items')
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            employees: result.employees,
+          });
+        },
+        (error) => {
+          this.setState({ error });
+        },
+      );
+  }
+
+  render() {
+    const { error, employees } = this.state;
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else {
+      return (
+        <ul>
+          {employees.map((employee) => (
+            <li key={employee.name}>
+              {employee.name}-{employee.experience}
+            </li>
+          ))}
+        </ul>
+      );
+    }
+  }
+}
+```
+
+
+
+#### 什么是渲染 props？
+
+
+
+`渲染 Props` 是一种简单的技术，用于使用一个值为函数的道具在组件之间共享代码。下面的组件使用render prop返回一个React元素。
+
+
+
+React Router和DownShift等库正在使用这种模式。
+
+
+
