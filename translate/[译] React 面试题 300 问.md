@@ -3250,7 +3250,67 @@ class MyComponent extends React.Component {
 
 
 
-React Router和DownShift等库正在使用这种模式。
+React Router和 DownShift 等库正在使用这种模式。
+
+
+
+
+
+### React Router
+
+
+
+#### 什么是 React Router？
+
+React Router是建立在React之上的一个功能强大的路由库，它可以帮助你快速添加新屏幕和流程到你的应用程序，同时保持URL与页面上显示的内容同步。
+
+
+
+
+
+#### React Router 和 history 库有什么区别？
+
+
+
+React Router是一个包装历史库的包装器，它处理与浏览器窗口的交互。历史，它的浏览器和哈希历史。它还提供了内存历史记录，这对于没有全局历史记录的环境很有用，比如移动应用程序开发(React Native)和使用Node的单元测试。
+
+
+
+#### React Router v4的<Router>组件是什么？
+
+
+
+React Router v4提供以下3个<Router>组件：
+
+
+
+1. `<BrowserRouter>`
+2. `<HashRouter>`
+3. `<MemoryRouter>`
+
+
+
+上面的组件将创建浏览器、散列和内存历史实例。React Router v4通过路由器对象中的上下文使与路由器关联的历史实例的属性和方法可用。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
