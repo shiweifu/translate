@@ -3294,6 +3294,77 @@ React Router v4提供以下3个<Router>组件：
 
 
 
+### 历史的push()和replace()方法的目的是什么
+
+
+
+历史实例有两个用于导航的方法。
+
+
+
+1. `push()`
+2. `replace()`
+
+
+
+如果您认为历史记录是访问过的位置的数组，那么push()将向数组中添加一个新位置，而replace()将用新位置替换数组中的当前位置。
+
+
+
+#### 1. 使用 `withRouter()` 高阶方法：
+
+
+
+withRouter()高阶函数将把历史对象作为组件的支柱注入。该对象提供了push()和replace()方法来避免使用上下文。
+
+
+
+```
+ import { withRouter } from 'react-router-dom'; // this also works with 'react-router-native'
+
+   const Button = withRouter(({ history }) => (
+     <button
+       type="button"
+       onClick={() => {
+         history.push('/new-location');
+       }}
+     >
+       {'Click Me!'}
+     </button>
+   ));
+```
+
+
+
+#### 2. 使用 `<Router>` 组件，并渲染 props 模式：
+
+
+
+<Route> 组件传递与 withouter() 相同的 props，因此您将能够通过历史 props 访问历史方法。
+
+
+
+```
+   import { Route } from 'react-router-dom';
+
+   const Button = () => (
+     <Route
+       render={({ history }) => (
+         <button
+           type="button"
+           onClick={() => {
+             history.push('/new-location');
+           }}
+         >
+           {'Click Me!'}
+         </button>
+       )}
+     />
+   );
+```
+
+
+
 
 
 
