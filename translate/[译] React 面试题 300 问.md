@@ -3365,13 +3365,78 @@ withRouter()高阶函数将把历史对象作为组件的支柱注入。该对�
 
 
 
+### 3. 使用上下文：
 
 
 
+不建议使用此选项，并将其视为不稳定的API。
 
 
 
+```
+   const Button = (props, context) => (
+     <button
+       type="button"
+       onClick={() => {
+         context.history.push('/new-location');
+       }}
+     >
+       {'Click Me!'}
+     </button>
+   );
 
+   Button.contextTypes = {
+     history: React.PropTypes.shape({
+       push: React.PropTypes.func.isRequired,
+     }),
+   };
+```
+
+
+
+### 如何在 React 路由器 V4 中获取查询参数？
+
+
+
+解析查询字符串的能力从React Router v4中去掉了，因为多年来一直有用户请求支持不同的实现。因此，决定权已经交给用户来选择他们喜欢的实现。推荐的方法是使用查询字符串库。
+
+
+
+```
+const queryString = require('query-string');
+const parsed = queryString.parse(props.location.search);
+```
+
+
+
+如果你想要一些本地的东西，你也可以使用URLSearchParams
+
+
+
+```
+const params = new URLSearchParams(props.location.search);
+const foo = params.get('name');
+```
+
+
+
+你可以在 IE11 下，使用 polyfill。
+
+
+
+### 为什么显示 `Router may have only one child element` 警告？
+
+
+
+你必须将你的路由包装在 <Switch> 块中，因为 <Switch> 是唯一的，因为它只呈现一条路由。
+
+
+
+首先，你需要引入并添加 `Switch`：
+
+```
+import { Switch, Router, Route } from 'react-router';
+```
 
 
 
