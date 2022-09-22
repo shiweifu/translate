@@ -3440,6 +3440,85 @@ import { Switch, Router, Route } from 'react-router';
 
 
 
+然后在<Switch>块内定义路由：
+
+
+
+```
+<Router>
+  <Switch>
+    <Route {/* ... */} />
+    <Route {/* ... */} />
+  </Switch>
+</Router>
+```
+
+
+
+### 如何向 `history.push` 方法传递参数？
+
+
+
+在导航时，您可以将`props`传递给 history 对象：
+
+
+
+```
+this.props.history.push({
+  pathname: '/template',
+  search: '?name=sudheer',
+  state: { detail: response.data },
+});
+```
+
+
+
+
+
+`search` 属性，用于 `push()` 方法的参数传递。
+
+
+
+### 如何实现默认或未发现页面？
+
+
+
+<Switch>呈现匹配的第一个子路由>。没有路径的路由，总是匹配的。因此，您只需要简单地删除如下所示的path属性
+
+```
+<Switch>
+  <Route exact path="/" component={Home} />
+  <Route path="/user" component={User} />
+  <Route component={NotFound} />
+</Switch>
+```
+
+
+
+### 如何获取React Router v4的历史记录？
+
+
+
+下面是在React Router v4上获取历史对象的步骤列表：
+
+
+
+1. 创建一个导出历史对象的模块，并在整个项目中导入该模块。
+
+举个例子，创建 `history.js` 文件：
+
+
+
+```
+   import { createBrowserHistory } from 'history';
+
+   export default createBrowserHistory({
+     /* pass a configuration object here if needed */
+   });
+```
+
+
+
 
 
 
