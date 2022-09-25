@@ -3519,6 +3519,73 @@ this.props.history.push({
 
 
 
+1. 你应该使用<Router>组件而不是内置路由器。在index.js文件中导入了上面的history.js
+
+
+
+```
+   import { Router } from 'react-router-dom';
+   import history from './history';
+   import App from './App';
+
+   ReactDOM.render(
+     <Router history={history}>
+       <App />
+     </Router>,
+     holder,
+   );
+```
+
+
+
+2. 你也可以使用类似于内置历史对象的历史对象的push方法
+
+
+
+```
+  // some-other-file.js
+   import history from './history';
+
+   history.push('/go-here');
+```
+
+
+
+### 登录后如何自动重定向？
+
+
+
+React - Router包在React Router中提供<Redirect>组件。呈现<Redirect>将导航到一个新位置。与服务器端重定向一样，新位置将覆盖历史堆栈中的当前位置。
+
+
+
+```
+import React, { Component } from 'react';
+import { Redirect } from 'react-router';
+
+export default class LoginComponent extends Component {
+  render() {
+    if (this.state.isLoggedIn === true) {
+      return <Redirect to="/your/redirect/page" />;
+    } else {
+      return <div>{'Login Please'}</div>;
+    }
+  }
+}
+```
+
+
+
+### React 国际化
+
+
+
+#### 什么是国际化？
+
+
+
+React Intl库通过现成的组件和API使React中的内部化变得简单，这些API可以处理从格式化字符串、日期和数字到多元化的所有事情。React Intl是FormatJS的一部分，通过它的组件和API为React提供绑定。
+
 
 
 
