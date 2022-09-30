@@ -3588,6 +3588,63 @@ React Intl库通过现成的组件和API使React中的内部化变得简单，�
 
 
 
+#### React Intl 的有哪些主要特性？
+
+
+
+下面是一些 React Intl 的主要特性：
+
+
+
+1. 使用分隔符显示数字
+2. 正确显示日期和时间
+3. 显示相对于“当前”的日期
+4. 复数显示标签中的字符串
+5. 支持 150 种以上语言
+6. 支持在浏览器和 Node 环境中运行
+7. 标准库内置
+
+
+
+#### 在 React Intl 中，有哪两种格式化的方式？
+
+
+
+该库提供两种方式格式化字符串，数字和日期：
+
+
+
+1. 使用 React 组件
+
+```
+   <FormattedMessage id={'account'} defaultMessage={'The amount is less than minimum balance.'} />
+```
+
+2. 使用 API：
+
+```
+   const messages = defineMessages({
+     accountMessage: {
+       id: 'account',
+       defaultMessage: 'The amount is less than minimum balance.',
+     },
+   });
+
+   formatMessage(messages.accountMessage);
+```
+
+
+
+#### 使用 React Intl 时，如何使用 `<FormattedMessage>` 作为占位？
+
+
+
+```
+来自React-Intl返回元素的<Formatted... />组件，而不是纯文本，因此它们不能用于占位符，Alt Text等。在这种情况下，您应该使用较低级别的API格式格式（）。您可以使用InjectIntl（）高阶组件将INTL对象注入组件中，然后使用该对象上可用的FormatMessage（）格式化消息。
+```
+
+
+
 
 
 
