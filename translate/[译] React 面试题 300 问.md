@@ -3639,9 +3639,89 @@ React Intl库通过现成的组件和API使React中的内部化变得简单，�
 
 
 
-```
 来自React-Intl返回元素的<Formatted... />组件，而不是纯文本，因此它们不能用于占位符，Alt Text等。在这种情况下，您应该使用较低级别的API格式格式（）。您可以使用InjectIntl（）高阶组件将INTL对象注入组件中，然后使用该对象上可用的FormatMessage（）格式化消息。
+
+
+
 ```
+import React from 'react';
+import { injectIntl, intlShape } from 'react-intl';
+
+const MyComponent = ({ intl }) => {
+  const placeholder = intl.formatMessage({ id: 'messageId' });
+  return <input placeholder={placeholder} />;
+};
+
+MyComponent.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(MyComponent);
+```
+
+
+
+#### 如何通过 React Intl，访问当前区域？
+
+
+
+你可以在你应用程序中的，任意组件中，通过 `injectIntl()` 方法，得到当前区域信息：
+
+
+
+```
+import { injectIntl, intlShape } from 'react-intl';
+
+const MyComponent = ({ intl }) => <div>{`The current locale is ${intl.locale}`}</div>;
+
+MyComponent.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(MyComponent);
+```
+
+
+
+#### 如何通过 React Intl 格式化日期？
+
+
+
+injectIntl() 高阶组件将允许您通过组件中的 props 访问 formatDate() 方法。该方法由FormattedDate 的实例在内部使用，它返回格式化日期的字符串表示形式。
+
+
+
+```
+import { injectIntl, intlShape } from 'react-intl';
+
+const stringDate = this.props.intl.formatDate(date, {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+});
+
+const MyComponent = ({ intl }) => <div>{`The formatted date is ${stringDate}`}</div>;
+
+MyComponent.propTypes = {
+  intl: intlShape.isRequired,
+};
+
+export default injectIntl(MyComponent);
+```
+
+
+
+#### React 测试
+
+
+
+什么是 React 测试中的浅渲染？
+
+浅渲染对于在React中编写单元测试用例非常有用。它允许您渲染一个更深一层的组件，并断言关于其渲染方法返回的事实，而不必担心未实例化或渲染的子组件的行为。
+
+
+
+
 
 
 
