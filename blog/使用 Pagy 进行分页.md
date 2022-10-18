@@ -39,6 +39,76 @@ Pagy 2017 年才发布，作者认为，分页是一项简单的任务，应该�
 
 
 
+#### 安装
+
+
+
+Gemfile 文件中，添加：
+
+```
+gem 'pagy', '~> 5.10'
+```
+
+接着使用 `bundle install` 安装即可。
+
+如果不使用 bundle 进行包管理，手动安装：
+
+```
+gem install pagy
+```
+
+然后在 Web 应用执行入口，引入 `pagy`：
+
+`require 'pagy'`。
+
+
+
+下面以 Rails 环境下，来介绍 Pagy 的使用。
+
+
+
+#### 使用
+
+
+
+首先，在 `ApplicationController` 中，引入 Pagy 后端模块：
+
+```
+include Pagy::Backend
+```
+
+这句话引入了 `pagy` 方法，接下来就可以在需要分页的 action 中，调用 pagy 方法，进行分页了：
+
+
+
+```
+ @pagy, @records = pagy(Product.some_scope)
+```
+
+
+
+Product 是要进行分页的对象，some_scope 可以是用户自定义的 scope，也可以是模型自带的 scope，如 `Product.all`。
+
+
+
+注意用到的 `scope`，不要附带 `limit`，如果带了 `limit`，会导致分页异常。
+
+
+
+#### 配置默认参数
+
+
+
+Rails 应用在加载阶段，会加载 `config/initializers` 目录下的文件，项目所用到的第三方库初始化一般放在这个地方。Pagy 的配置，是通过一系列全局变量来进行配置的，也可以放在这里。
+
+
+
+
+
+
+
+
+
 
 
 
