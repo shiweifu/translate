@@ -1,4 +1,4 @@
-# Rails Concerns：该不该使用？
+# 该不该使用 Rails Concerns？
 
 
 
@@ -44,6 +44,32 @@ class Song < ApplicationRecord
   # ...
 end
 ```
+
+
+
+此时该模型变的更加简单和顺手了，对吧？而模型定义时减掉的部分，现在变得可复用，可以在其他模型中进行引用这些内容，而不只是 Song 模型独占。
+
+好吧，事情会变得复杂，我们来一探究竟。
+
+
+
+## 一个 Mixin 的经典示例
+
+
+
+在我们进一步深入讨论这些问题之前，让我们再解释一下。当你看到 `include SomeModule` 或 `extend AnotherModule` 时，它们被称为`mixins`。
+
+
+
+mixin 是一组可以被添加到其他类中的代码，如 [Ruby documentation](https://ruby-doc.org/core-2.2.0/Module.html) 中所说，一个 module 是一组方法或者常量。所以，我们在这里所做的是将带有方法和常量的模块包含到不同的类中，以便它们可以使用它们。
+
+
+
+
+
+
+
+
 
 
 
