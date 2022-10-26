@@ -79,6 +79,61 @@ mixin 是一组可以被添加到其他类中的代码，如 [Ruby documentation
 
 
 
+如果我们再次查看 `Trashable`：
+
+
+
+```
+module Trashable
+  extend ActiveSupport::Concern
+
+  included do
+    scope :existing, -> { where(trashed: false) }
+    scope :trashed, -> { where(trashed: true) }
+  end
+
+  def trash
+    update_attribute :trashed, true
+  end
+end
+```
+
+
+
+concerns 的逻辑依赖于这样一个事实：即无论哪里包含了 concern，都存在 `trashable` 的字段。对吧？没什么大不了的，这毕竟是我们想要的。但是，我所看到的情况是，人们倾向于从模型中引入其他东西到`concern`中。为了描绘出这是如何发生的，让我们想象一下，`Song` 模型有另一种以作者相关的方法：`featured_authors`：
+
+
+
+```
+class Song < ApplicationRecord
+  include Trashable
+
+  has_many :authors
+
+  def featured_authors
+    authors.where(featured: true)
+  end
+
+  # ...
+end
+
+class Album < ApplicationRecord
+  include Trashable
+
+  has_many :authors
+
+  def featured_authors
+    authors.where(featured: true)
+  end
+
+  # ...
+end
+```
+
+
+
+为了更好地说明，我添加了一个 `Album` 模型，它还包括 `Trashable` 。
+
 
 
 
