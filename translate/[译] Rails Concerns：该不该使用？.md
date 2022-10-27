@@ -136,13 +136,38 @@ end
 
 
 
+然后，假设我们想要在 Song 和 Album 的主打作者被丢弃时通知他们，人们会倾向于像这样将这个逻辑放入关注中：
 
 
 
+```
+module Trashable
+  extend ActiveSupport::Concern
+
+  included do
+    scope :existing, -> { where(trashed: false) }
+    scope :trashed, -> { where(trashed: true) }
+  end
+
+  def trash
+    update_attribute :trashed, true
+
+    notify(featured_authors)
+  end
+
+  def notify(authors)
+    # ...
+  end
+end
+```
 
 
 
+在这里，事情开始变得有点复杂了。由于我们在Song模型之外有丢弃逻辑，所以我们可能会倾向于将通知放在可丢弃关注点中。在那里，发生了一些“错误”的事情。特色作者取自宋模型。好的，假设它通过了拉请求审查和CI检查。
 
+
+
+然后，几个月后，一个新的要求被设定了，开发者需要改变我们呈现歌曲特色作者的方式。例如，一项新要求只想显示来自欧洲的特色作者。自然，开发人员会找到定义特色作者的位置并编辑它们。
 
 
 
