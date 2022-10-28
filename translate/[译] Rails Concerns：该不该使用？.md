@@ -171,7 +171,35 @@ end
 
 
 
+```
+class Song < ApplicationRecord
+  include Trashable
 
+  has_many :authors
+
+  def featured_authors
+    authors.where(featured: true).where(region: 'Europe')
+  end
+
+  # ...
+end
+
+class Album < ApplicationRecord
+  include Trashable
+
+  has_many :authors
+
+  # ...
+end
+```
+
+
+
+这在任何我们向作者展示歌曲的地方都能很好地工作，但在我们部署到生产之后，来自世界其他地方的人们就不会再收到关于他们歌曲的通知了。使用关注点时很容易犯这样的错误。上面的例子是一个简单而人为的例子，但“在野外”的例子可能超级棘手。
+
+
+
+这里的风险在于关注点(mixin)对包含它的模型有很多了解。这就是所谓的循环依赖。Song和Album依赖于可丢弃的垃圾，可丢弃的特征作者定义依赖于两者。为了让可丢弃的关注点工作，两个模型中都需要存在一个被丢弃的字段，这也是同样的道理。
 
 
 
