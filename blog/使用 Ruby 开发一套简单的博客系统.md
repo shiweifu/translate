@@ -69,7 +69,7 @@ run App.freeze.app
 
 
 
-可以看到，Roda 自己实现了一套 DSL，用于请求配置，下面简单介绍一下。
+可以看到，Roda 自己实现了一套 DSL，用于请求配置，下面简单介绍一下基本语法。
 
 
 
@@ -80,6 +80,75 @@ run App.freeze.app
 `r.get/r.post`：匹配 HTTP 请求类型。
 
 
+
+这种路由和实现在一起的写法的好处是：
+
+
+
+1. 定义和实现在一起，很清晰
+2. 根据层级关系嵌套路由，没什么心智成本
+
+
+
+当然，需要需要处理的请求很复杂，那么，这种写法就不是很合适了，处理部分的代码一多，就会很混乱。Roda 也支持通过插件来实现传统的 hash route 拆分，这样就可以将不同的路由路由拆到不同的文件里。Roda 的核心实现代码并不多，很多特性都是通过插件来实现的，官方直接提供了大量的插件：
+
+
+
+[Roda Plugins](http://roda.jeremyevans.net/documentation.html)
+
+
+
+当然，我们这个项目代码量很少，路由这块，只用到最基本写法就可以了。
+
+
+
+## 构建基本 App
+
+
+
+```
+# cat config.ru
+require "roda"
+
+class App < Roda
+  route do |r|
+    r.root do
+      "index"
+    end
+    
+    r.on "posts", String, method: :get do |post_title|
+    	post_title
+    end
+
+    r.on "pages", String, method: :get do |page_title|
+      page_title
+    end
+
+    r.on "about" do
+      r.get do
+      	"about page"
+      end
+    end
+
+  end
+end
+
+run App.freeze.app
+```
+
+
+
+
+
+## 视图渲染
+
+
+
+网站最终会渲染到浏览器中，供用户使用。Roda 默认只返回 string 类型，通过 render 插件来实现渲染特性。
+
+
+
+## 编译资源
 
 
 
