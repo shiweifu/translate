@@ -12,7 +12,7 @@
 
 
 
-这种简单的需求，使用轻量级框架最合适了，我们这里选用的框架是 Roda，是个很有特色的 Ruby 框架，将路由和实现放在了一起。
+这种简单的需求，使用轻量级框架最合适了，标准的 Web 框架，默认会带很多我们不需要的功能。我们这里选用的框架是 Roda，它的核心实现，只包括一个路由，其他功能均通过插件来完成，而路由实现部分，也是通过嵌套 proc 来实现的，是个很有特色的 Ruby 框架。
 
 
 
@@ -148,7 +148,73 @@ run App.freeze.app
 
 
 
-## 编译资源
+render 插件的页面：[Roda::RodaPlugins::Render (jeremyevans.net)](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Render.html)
+
+
+
+### 引入 render 插件
+
+
+
+render 是 Roda 自带的插件，不需要额外引用外部文件或安装 Gem 包，默认已经引入了，只需要在 Roda 项目开始时声明一下即可：
+
+
+
+```
+plugin :render
+
+route do |r|
+  r.is 'foo' do
+    view('foo') # renders views/foo.erb inside views/layout.erb
+  end
+
+  r.is 'bar' do
+    render('bar') # renders views/bar.erb
+  end
+end
+```
+
+
+
+可以看到通过调用 `view` 语句，来渲染页并返回。
+
+
+
+render 的功能很强大，我们渲染页面时的常用功能：
+
+- 指定模板引擎
+- 指定 layout 文件
+- 配置视图目录
+- 页面缓存
+
+
+
+均支持。此外还有大量的配置选项和其他功能，详情可见上面的插件链接。
+
+
+
+## 前端编译资源
+
+
+
+编译资源这里，分为两部分：
+
+1. JavaScript、CSS 前端资源打包
+2. 打包后的资源的 Server
+
+
+
+和渲染一样，Roda 的资源响应，也是通过插件来完成的：[Roda::RodaPlugins::Assets (jeremyevans.net)](https://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Assets.html)
+
+
+
+
+
+
+
+
+
+
 
 
 
