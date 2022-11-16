@@ -152,6 +152,89 @@ end
 
 
 
+完整的插件列表数量非常庞大，超过90个，还有一些社区插件，基本上，您所用到的内容，这些插件都已涵盖。如果您想做一个插件，下面是基本结构：
+
+
+
+```
+class Roda
+  module RodaPlugins
+    module MyPlugin
+      module ClassMethods
+      end
+      module InstanceMethods
+      end
+      module RequestClassMethods
+      end
+      module RequestMethods
+      end
+      module ResponseClassMethods
+      end
+      module ResponseMethods
+      end
+    end
+    register_plugin(:my_plugin, MyPlugin)
+  end
+end
+```
+
+
+
+## 性能
+
+
+
+一图胜千言。下面这张图，表示了每秒请求数，和内存使用情况：
+
+![img](https://res.cloudinary.com/practicaldev/image/fetch/s--KiViLwid--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.ibb.co/bvWRMqG/image1.png)
+
+
+
+性能表现非常接近原始 Rack 的值，但是，这是包含 DSL 的。
+
+
+
+## 维护情况
+
+
+
+Jeremy 在邮件列表中的回复很快，并且他解决了一切 github repo 中反馈的问题：
+
+
+
+![img](https://res.cloudinary.com/practicaldev/image/fetch/s--gwfMV-Ko--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.ibb.co/gSnnpzz/image2.png)
+
+（如图所示，所有问题都已处理）
+
+
+
+## 一些劣势
+
+
+
+-  没有路由列表功能（尽管通过[插件](https://github.com/jeremyevans/roda-route_list) 可以实现）
+- 更少的 gem 支持，许多与默认框架绑定
+- 相较于 Rails 或者 Sinatra，社区支持更少
+- 重新发明一些轮子，不可避免
+- 这种风格的路由，也许不是你的风格（但通过该 [插件](http://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/ClassLevelRouting.html) 可以实现 Sinatra 的路由定义风格）
+
+
+
+## 扩展链接
+
+- 这是一本不错的书：[Roda book](https://fiachetti.gitlab.io/mastering-roda/)
+- 这是官方 [mailing list](https://groups.google.com/forum/#!forum/ruby-roda)
+- 如果你想了解更多关于这个插件系统模式的信息，请查看 [Shrine](https://github.com/shrinerb/shrine) 作者的[这篇文章](https://twin.github.io/the-plugin-system-of-sequel-and-roda/)。
+- 其他测试：[ruby web frameworks micro benchmarks](https://github.com/luislavena/bench-micro) 项目，著名的 [TechEmpower web benchmarks](https://www.techempower.com/benchmarks/#section=data-r18&hw=ph&test=json&l=zijxtr-f) （Ruby frameworks 实现的过滤器）和 [另一个测试项目](https://github.com/jeremyevans/r10k/).
+
+
+
+
+
+
+
+
+
 
 
 
