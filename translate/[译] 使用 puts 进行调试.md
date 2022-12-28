@@ -113,3 +113,106 @@ def show
   render params[:id]
 end
 ```
+
+
+
+将代码改为下面的形式：
+
+
+
+```
+def index
+  p method(:render).source_location
+  render params[:id]
+end
+```
+
+
+
+运行下面的语句：
+
+```
+$ curl http://localhost:3000/users/xxxx
+```
+
+
+
+会输出以下日志：
+
+
+
+```
+Processing by UsersController#show as */*
+  Parameters: {"id"=>"xxxx"}
+["/Users/aaron/git/rails/actionpack/lib/action_controller/metal/instrumentation.rb", 40]
+Completed 500 Internal Server Error in 35ms (ActiveRecord: 0.0ms)
+```
+
+
+
+现在，我知道了 `render` 方法在 [instrumentation.rb 的第 40 行](https://github.com/rails/rails/blob/6fcc3c47eb363d0d3753ee284de2fbc68df03194/actionpack/lib/action_controller/metal/instrumentation.rb#L40)。
+
+
+
+### 我调用了 `super` 方法，但我不知道该方法会调用哪里
+
+
+
+这里，我看到了 `render` 调用了父方法的 `render`，但我不知道该实现在哪里。在这种情况下，我调用   `method` 类型的 `super_method` 方法。
+
+
+
+所以，我将修改代码：
+
+
+
+```
+def index
+  p method(:render).source_location
+  render params[:id]
+end
+```
+
+为：
+
+```
+def index
+  p method(:render).super_method.source_location
+  render params[:id]
+end
+```
+
+
+
+再次调用请求，将会获得以下日志输出：
+
+
+
+```
+Processing by UsersController#show as */*
+  Parameters: {"id"=>"xxxx"}
+["/Users/aaron/git/rails/actionpack/lib/action_controller/metal/rendering.rb", 34]
+Completed 500 Internal Server Error in 34ms (ActiveRecord: 0.0ms)
+```
+
+
+
+现在，我看到了 `super` 的位置被输出。该方法也调用了 super，但是我们可以重复这个操作（或者使用循环），来查找我们真正关心的方法。
+
+
+
+### 如何查看一个方法的实现？
+
+
+
+有时候，`method` 无法正常工作，因为我们想挖掘的对象，实现了它自己版本的 `method`。举个例子，如果我们尝查看 request 对象的 `headers` 方法，，我们写出以下代码：
+
+
+
+```
+def index
+  p request.method(:headers).source_location
+  @users = User.all
+end
+```
+
