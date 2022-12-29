@@ -216,3 +216,64 @@ def index
 end
 ```
 
+
+
+当我发起一个请求，我将看到错误信息：
+
+
+
+```
+ArgumentError (wrong number of arguments (given 1, expected 0)):
+  app/controllers/users_controller.rb:5:in `index'
+```
+
+
+
+这是因为，`request` 对象，实现它自己名为 `method` 的方法。并非我们想要的 `headers` 的方法，我将在 `Kernel` 中找到该方法，然后重新绑定至 `request`，执行以下代码：
+
+
+
+```
+def index
+  method = Kernel.instance_method(:method)
+  p method.bind(request).call(:headers).source_location
+  @users = User.all
+end
+```
+
+
+
+再次发起请求，将得到以下输出：
+
+
+
+```
+Processing by UsersController#index as */*
+["/Users/aaron/git/rails/actionpack/lib/action_dispatch/http/request.rb", 201]
+```
+
+
+
+现在，我知道 `headers` 方法的实现  [在此](https://github.com/rails/rails/blob/6fcc3c47eb363d0d3753ee284de2fbc68df03194/actionpack/lib/action_dispatch/http/request.rb#L201)。
+
+
+
+我甚至可以找到 method 方法的实现：
+
+
+
+```
+def index
+  method = Kernel.instance_method(:method)
+  p method.bind(request).call(:method).source_location
+  @users = User.all
+end
+```
+
+
+
+### 我调用了一个方法，但我不知道它将去哪里（再一次）
+
+
+
+有时候直接的方法并不是我真正关心的方法，所以使用方法技巧来找出我要去的地方是没有帮助的。在这种情况下，我将使用一个更大的锤子，也就是 TracePoint。我们可以重做呈现示例以获得从呈现调用的所有方法的列表。我们将看到列出的方法可能不会直接从呈现调用，而是从某个地方调用。
