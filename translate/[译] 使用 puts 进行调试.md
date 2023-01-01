@@ -277,3 +277,54 @@ end
 
 
 有时候直接的方法并不是我真正关心的方法，所以使用方法技巧来找出我要去的地方是没有帮助的。在这种情况下，我将使用一个更大的锤子，也就是 TracePoint。我们可以重做呈现示例以获得从呈现调用的所有方法的列表。我们将看到列出的方法可能不会直接从呈现调用，而是从某个地方调用。
+
+```
+  # GET /users
+  # GET /users.json
+  def index
+    @users = User.all
+    tp = TracePoint.new(:call) do |x|
+      p x
+    end
+    tp.enable
+    render 'index'
+  ensure
+    tp.disable
+  end
+```
+
+`TracePoint` 这里进行分配后，将会捕获所有 `call` 事件，代码块中的内容将会执行，输出所有调用的方法名称和所在的文件。一个“call”，即使当一个 Ruby 方法被调用(而不是 C 方法)。如果你想捕获 C 方法被调用，你需要使用 `:c_call` 作为参数。这个例子，将会输出一大堆内容。我只在确认被调用的内容很少的时候，或者我并不知道要寻找什么的时候，才会使用这种方式进行排查。
+
+### 我知道有一个异常被抛出了，但我不知道是在哪发生的
+
+有时候，一个异常被抛出了，而此时，我并不知道是在哪里抛出的。这个例子使用了 Rails 3.0.0（我们已经修复了这个问题）。假设你写了以下代码：
+
+```
+ActiveRecord::Base.logger = Logger.new $stdout
+
+User.connection.execute "oh no!"
+```
+
+我知道，此时 SQL 无法工作，会抛出异常。让我们来看看此时的异常，它看起来像以下内容：
+
+```
+  SQL (0.1ms)  oh no!
+SQLite3::SQLException: near "oh": syntax error: oh no!
+activerecord-3.0.0/lib/active_record/connection_adapters/abstract_adapter.rb:202:in `rescue in log': SQLite3::SQLException: near "oh": syntax error: oh no! (ActiveRecord::StatementInvalid)
+	from activerecord-3.0.0/lib/active_record/connection_adapters/abstract_adapter.rb:194:in `log'
+	from activerecord-3.0.0/lib/active_record/connection_adapters/sqlite_adapter.rb:135:in `execute'
+	from test.rb:6:in `<top (required)>'
+	from railties-3.0.0/lib/rails/commands/runner.rb:48:in `eval'
+	from railties-3.0.0/lib/rails/commands/runner.rb:48:in `<top (required)>'
+	from railties-3.0.0/lib/rails/commands.rb:39:in `require'
+	from railties-3.0.0/lib/rails/commands.rb:39:in `<top (required)>'
+	from script/rails:6:in `require'
+	from script/rails:6:in `<main>'
+```
+
+
+
+
+
+
+
