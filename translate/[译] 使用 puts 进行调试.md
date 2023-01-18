@@ -331,3 +331,102 @@ activerecord-3.0.0/lib/active_record/connection_adapters/abstract_adapter.rb:202
 ```
 
 
+
+如果您读取了这个回溯跟踪，那么看起来这个异常就像来自团队适配器。RB 线202。但是，您很快就会注意到，这段代码正在拯救一个异常，然后再次引发。那么，真正的例外是从哪里产生的呢？为了找到它，我们可以添加一些 put 语句，或者像下面这样在 Ruby 上使用-d 标志:
+
+
+
+```
+[aaron@TC okokok (master)]$ bundle exec ruby -d script/rails runner test.rb
+```
+
+
+
+D 标志将启用警告，并打印出引发异常的每一行。是的，这确实打印了很多东西，但是如果你看看最后的输出，它看起来像这样:
+
+
+
+
+
+```
+Exception `NameError' at activesupport-3.0.0/lib/active_support/core_ext/module/remove_method.rb:3 - method `_validators' not defined in Class
+Exception `SQLite3::SQLException' at sqlite3-1.3.11/lib/sqlite3/database.rb:91 - near "oh": syntax error
+Exception `SQLite3::SQLException' at activesupport-3.0.0/lib/active_support/notifications/instrumenter.rb:24 - near "oh": syntax error
+  SQL (0.1ms)  oh no!
+SQLite3::SQLException: near "oh": syntax error: oh no!
+Exception `ActiveRecord::StatementInvalid' at activerecord-3.0.0/lib/active_record/connection_adapters/abstract_adapter.rb:202 - SQLite3::SQLException: near "oh": syntax error: oh no!
+Exception `ActiveRecord::StatementInvalid' at railties-3.0.0/lib/rails/commands/runner.rb:48 - SQLite3::SQLException: near "oh": syntax error: oh no!
+activerecord-3.0.0/lib/active_record/connection_adapters/abstract_adapter.rb:202:in `rescue in log': SQLite3::SQLException: near "oh": syntax error: oh no! (ActiveRecord::StatementInvalid)
+	from activerecord-3.0.0/lib/active_record/connection_adapters/abstract_adapter.rb:194:in `log'
+	from activerecord-3.0.0/lib/active_record/connection_adapters/sqlite_adapter.rb:135:in `execute'
+	from test.rb:6:in `<top (required)>'
+	from railties-3.0.0/lib/rails/commands/runner.rb:48:in `eval'
+	from railties-3.0.0/lib/rails/commands/runner.rb:48:in `<top (required)>'
+	from railties-3.0.0/lib/rails/commands.rb:39:in `require'
+	from railties-3.0.0/lib/rails/commands.rb:39:in `<top (required)>'
+	from script/rails:6:in `require'
+	from script/rails:6:in `<main>'
+```
+
+
+
+​	您将看到这里发生了最初的异常
+
+
+
+```
+Exception `SQLite3::SQLException' at sqlite3-1.3.11/lib/sqlite3/database.rb:91 - near "oh": syntax error
+```
+
+
+
+它在这里被重新提起:
+
+
+
+```
+Exception `SQLite3::SQLException' at sqlite3-1.3.11/lib/sqlite3/database.rb:91 - near "oh": syntax error
+```
+
+
+
+它在这里重新施加了：
+
+
+
+```
+Exception `SQLite3::SQLException' at activesupport-3.0.0/lib/active_support/notifications/instrumenter.rb:24 - near "oh": syntax error
+```
+
+
+
+
+
+异常被包装和重新引发的情况应该公开原始的回溯跟踪。这是一个 bug，但它已经被修复了，我们可以改天再讨论如何修复它。
+
+
+
+### 我想用 -d 运行一个命令行工具
+
+
+
+假设您想使用上面的技术使用-d 标志运行 RSpec 测试，您可以这样做:
+
+
+
+```
+$ ruby -d -S rspec
+```
+
+
+
+### 我想使用-d 标志，但是我不知道如何运行这个过程
+
+
+
+默认的耙测试任务将在子进程中运行您的测试。这意味着运行Ruby -D -S Rake不会在运行测试的子过程中设置调试标志。在这种情况下，我使用像这样的Rubyopt环境变量：
+
+
+
+
+
