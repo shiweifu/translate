@@ -21,6 +21,82 @@ https://zh.wikipedia.org/wiki/MVC
 
 ### 什么是依赖注入
 
+假设我们创建一个服务实例类，这个类需要依赖其他对象，传统做法，我们可以在这个类中，创建所依赖的对象。这种做法对调用者是无感知的，直接调用就可以了。缺点耦合了，不方便自定义所依赖的对象，不够灵活。
+
+
+
+也可以从该类外部，创建所依赖的对象，然后将对象传递给所调用的对象。这种写法被称为依赖注入。
+
+
+
+传统写法：
+
+```go
+type DBConfig struct {
+    dsn string
+}
+
+type Server struct {
+    dbConfig *DBConfig
+}
+
+func NewServer() *server {
+    return &Server{DBConfig{}}
+}
+```
+
+
+
+依赖注入的写法：
+
+```go
+type DBConfig struct {
+    dsn string
+}
+
+type Server struct {
+    dbConfig *DBConfig
+}
+
+func NewServer(cfg *DBConfig) *server {
+    if cfg == nil {
+        return &Server{DBConfig{}}        
+    }
+    return &Server{cfg}
+}
+```
+
+
+
+这个例子比较简单，实际应用中，可能会出现多个对象依赖的情况。
+
+
+
+在 Iris 中，MVC 的路由和参数绑定，使用了依赖注入的方式：
+
+- 将全局参数绑定在 MVC 对象
+
+- 自动解析并绑定路由处理方法的参数
+
+
+
+```go
+// 获取某个物品
+func (s *StuffController) GetBy(id uint) models.Response {
+	if id != 0 {
+		return models.NewResponse(nil, models.ResponseCodeSuccess)
+	}
+	err := fmt.Errorf("id is invalid")
+	return models.NewResponse(err, models.ResponseCodeError)
+}
+```
+
+
+
+假设我们这个 MVC 对象，绑定的路由是 `http://localhost/stuffs`，我们定义该方法后，此时直接请求 `http://localhost:/stuffs/1` 即可通过 id 参数，读取到请求的参数，而无需显示绑定路由。
+
+
+
 ## 上代码
 
 Iris 是通过：github.com/kataras/iris/v12/mvc 代码包来实现 MVC 的，Golang 是编译型语言，接口并不漂亮，但能用。
