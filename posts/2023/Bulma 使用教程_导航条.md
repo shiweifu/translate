@@ -71,7 +71,55 @@ Bulma 的导航条，位于顶部，响应式且功能丰富。
 
 
 ```scss
+$navbar-background-color: $scheme-main !default
+$navbar-box-shadow-size: 0 2px 0 0 !default
+$navbar-box-shadow-color: $background !default
+$navbar-height: 3.25rem !default
+$navbar-padding-vertical: 1rem !default
+$navbar-padding-horizontal: 2rem !default
+$navbar-z: 30 !default
+$navbar-fixed-z: 30 !default
 
+$navbar-item-color: $text !default
+$navbar-item-hover-color: $link !default
+$navbar-item-hover-background-color: $scheme-main-bis !default
+$navbar-item-active-color: $scheme-invert !default
+$navbar-item-active-background-color: transparent !default
+$navbar-item-img-max-height: 1.75rem !default
+
+$navbar-burger-color: $navbar-item-color !default
+
+$navbar-tab-hover-background-color: transparent !default
+$navbar-tab-hover-border-bottom-color: $link !default
+$navbar-tab-active-color: $link !default
+$navbar-tab-active-background-color: transparent !default
+$navbar-tab-active-border-bottom-color: $link !default
+$navbar-tab-active-border-bottom-style: solid !default
+$navbar-tab-active-border-bottom-width: 3px !default
+
+$navbar-dropdown-background-color: $scheme-main !default
+$navbar-dropdown-border-top: 2px solid $border !default
+$navbar-dropdown-offset: -4px !default
+$navbar-dropdown-arrow: $link !default
+$navbar-dropdown-radius: $radius-large !default
+$navbar-dropdown-z: 20 !default
+
+$navbar-dropdown-boxed-radius: $radius-large !default
+$navbar-dropdown-boxed-shadow: 0 8px 8px bulmaRgba($scheme-invert, 0.1), 0 0 0 1px bulmaRgba($scheme-invert, 0.1) !default
+
+$navbar-dropdown-item-hover-color: $scheme-invert !default
+$navbar-dropdown-item-hover-background-color: $background !default
+$navbar-dropdown-item-active-color: $link !default
+$navbar-dropdown-item-active-background-color: $background !default
+
+$navbar-divider-background-color: $background !default
+$navbar-divider-height: 2px !default
+
+$navbar-bottom-box-shadow-size: 0 -2px 0 0 !default
+
+$navbar-breakpoint: $desktop !default
+
+$navbar-colors: $colors !default
 ```
 
 
