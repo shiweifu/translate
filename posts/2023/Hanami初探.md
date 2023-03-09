@@ -24,11 +24,7 @@ Hanami 用于在不断增长的应用程序的不同上下文之间设置边界�
 
 切片将会出现，您只需将您的代码放在应用程序目录中的“ main”切片下。
 
-
-
 为已经创建了的 Hanami 应用，创建新的切片，可以使用 Hanami 命令行进行生成：
-
-
 
 ```shell
 > hanami generate slice accounts
@@ -38,19 +34,11 @@ Created slices/accounts/action.rb
 Created slices/accounts/actions/.keep
 ```
 
-
-
 这样就产生了一个非常简单的结构，位于切片子目录下，带有一个 Account: : Action 超类和一个将创建帐户管理操作的目录。按照约定，这些类将从 Account: : Action 继承。通过这样做，它们获得特定于应用程序用户 user 区域的行为。
-
-
 
 你也许好奇，"action" 到底是什么。它对应的是 Hanami 组织 Web 的一个端点。在Rails 中，”action“ 是在控制器类中进行组织的（明显的通过公共方法）。然而，在 Hanami，每个 ”action“ 只能创建一个类。因此，一个动作是一个独立的代码单元，可以单独测试，并且非常清楚地说明它做了什么。
 
-
-
 让我们看一个 action 实例类：
-
-
 
 ```ruby
 class Accounts::Actions::UpdatePassword < Accounts::Action
@@ -81,3 +69,57 @@ end
 ```
 
 
+
+这里汇聚了一些信息：
+
+
+
+- 行为依赖 `change_password` 命令
+
+- 它需要一个已经验证过的用户上下文
+
+- 它需要传递两个参数(其中一个必须至少有8个字符长)
+
+- 最后，我们有一个包含端点核心逻辑的 handle 方法: 检查参数的有效性、调用依赖项和设置适当的响应
+
+
+
+您可能想知道这个语法是什么意思：
+
+
+
+```
+include Accounts::Deps["commands.change_password"]
+```
+
+这就把我们带到了关于依赖关系的下一节。
+
+
+
+## 依赖
+
+
+
+`Accounts::Deps` 是一个用于帐户切片的依赖混合第一类物件，Hanami 使不同类之间的依赖关系成为一种依赖关系。
+
+
+
+与在代码中隐藏依赖关系不同，您可以(并且应该，如果您想要遵循 Hanami 哲学)在类的顶部定义它们。它不仅澄清了您所依赖的内容，而且还使类更容易测试。
+
+
+
+在上面的示例中，“ change _ password”命令定义在存储区/帐户/命令/change _ password 中。命令: : ChangePassword 类。依赖项 Mixin 将使它的一个实例作为 change _ password 在您使用它的类中可用。这都是基于`dry-system`。
+
+
+
+在测试中，您可以使用内置的存根方法轻松地存根依赖项：
+
+
+
+```
+Accounts::Container.stub("commands.change_password", FakePasswordChanger.new)
+```
+
+
+
+例如，如果您的原始命令使用了一个缓慢设计的哈希算法(比如 bcrypt) ，那么您可以在测试中将其与一些更快的算法进行交换。
