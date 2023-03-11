@@ -94,13 +94,13 @@ include Accounts::Deps["commands.change_password"]
 
 这就把我们带到了关于依赖关系的下一节。
 
-
+                
 
 ## 依赖
 
 
 
-`Accounts::Deps` 是一个用于帐户切片的依赖混合第一类物件，Hanami 使不同类之间的依赖关系成为一种依赖关系。
+`Accounts::Deps` 是一个用于帐户切片的依赖混合第一类物件，Hanami 使不同类之间的依赖关系成为一种依赖关系。                                                                                                                                                                                
 
 
 
@@ -123,3 +123,33 @@ Accounts::Container.stub("commands.change_password", FakePasswordChanger.new)
 
 
 例如，如果您的原始命令使用了一个缓慢设计的哈希算法(比如 bcrypt) ，那么您可以在测试中将其与一些更快的算法进行交换。
+
+
+
+## Hanami 中更好的性能
+
+
+
+说到性能，花见很快。它的引导速度非常快，因为提供程序只在需要时引导，而不是在应用程序启动时引导。因此， [`hanami-reloader` gem](https://rubygems.org/gems/hanami-reloader/versions/0.2.1) (用于在对开发中的代码进行更改后重新加载应用程序)不需要复杂和脆弱的重新加载机制。相反，它只是在毫秒内重启整个应用程序。简单而有效。
+
+
+
+但类似这种优化，还有很多。Hanami 2.0包含了一个全新的路由器，这使得它在基准测试中[比 Sinatra，Grape，以及 Rails 更加快](https://web-frameworks-benchmark.netlify.app/result?asc=0&l=ruby&order_by=level64)。对于一个数据库繁多的 Web 应用程序来说，这可能不是最重要的指标，但是值得注意。
+
+
+
+Hanami action 本身也可以非常迅速。作为一个轶事，在最终版本发布的前几天，核心团队的 Peter Solnica 调整了一个日志记录器，以显示处理请求所需的时间(以微秒为单位) ，因为他得到了次微秒的时间。
+
+
+
+## Hanami 到目前为止，还缺少什么？
+
+
+
+在你开始重写你在 Hanami 的主要应用程序之前，你应该记住一些事情。
+
+
+
+
+
+
