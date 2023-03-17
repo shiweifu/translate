@@ -34,11 +34,7 @@ Docker 通过虚拟化的方式，解决了生产环境配置的问题。在开�
 
 
 
-仓库：
-
-
-
-Docker仓库是用来存储镜像的地方。Docker中有两种类型的仓库：公共仓库和私有仓库。公共仓库中存储着成千上万的镜像，如Docker Hub。私有仓库则是由个人或企业创建，用来存储他们的私有镜像。在使用Docker时，用户可以从一个仓库中获取一个或多个镜像，并将它们用于创建容器等操作。
+仓库：Docker 仓库是用来存储镜像的地方。Docker中有两种类型的仓库：公共仓库和私有仓库。公共仓库中存储着成千上万的镜像，如Docker Hub。私有仓库则是由个人或企业创建，用来存储他们的私有镜像。在使用Docker时，用户可以从一个仓库中获取一个或多个镜像，并将它们用于创建容器等操作。
 
 
 
@@ -46,9 +42,49 @@ Docker仓库是用来存储镜像的地方。Docker中有两种类型的仓库�
 
 
 
+Docker 根据 Dockerfile 生成镜像，Dockerfile 其中的内容，用于描述镜像。为一个文本文件，它包含了操作系统环境的全部构建步骤，包括软件的安装、配置和部署等，最终生成一个可运行的 Docker 镜像。使用 Dockerfile 可以自动化地构建 Docker 镜像，使得应用程序可以运行在 Docker 的环境中。在 Dockerfile 中，你可以指定容器的基础镜像、运行的命令、需要安装的软件包及其版本、设置运行环境的变量等等。Dockerfile 可以在构建过程中自动执行命令，将构建应用和部署在基础镜像上的所有依赖包装在一个镜像中。
+
+
+
 #### Dockerfile 示例
 
-### 
+
+
+```bash
+# 基础镜像
+FROM ruby:2.6-alpine
+
+# 将 Alpine 和 Ruby 安装的必备工具添加到容器中
+RUN apk --no-cache add build-base \
+    libxml2-dev libxslt-dev tzdata sqlite-dev \
+    yaml-dev postgresql-dev
+
+# 复制应用程序代码到容器中
+COPY . /app
+WORKDIR /app
+
+# 安装必备的 gem 包
+RUN gem install bundler
+RUN bundle install --without development test
+
+# 配置应用程序的环境变量
+ENV RAILS_ENV production
+ENV RAILS_SERVE_STATIC_FILES true
+
+# 将数据库迁移命令添加到容器中
+RUN bundle exec rake db:create db:migrate
+
+# 暴露端口（可选）
+EXPOSE 3000
+
+# 启动应用程序
+CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0"]
+
+```
+
+
+
+
 
 ### 什么是 Docker Compose？
 
