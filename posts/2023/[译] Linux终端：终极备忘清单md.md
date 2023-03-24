@@ -38,6 +38,55 @@
 
 **列表目录 (ls)**
 
+- 列出全部可见文件和目录➜ `ls`
+
+- 列出全部文件和目录（包括隐藏属性的文件）➜ `ls -a`
+
+- 长清单格式 ➜ `ls -l`
+
+- 对人类可读的格式 ➜ `ls -lh`
+
+- 参数合并在一起，包括人类可读，以及显示隐藏文件 ➜ `ls -lah`
+
+- 学习如何使用 ls 命令 ➜ `man ls`
+
+
+
+**搜索**
+
+- 查找二进制文件 ➜ `which [name-of-the-program]`
+- 查找二进制文件，源文件和用户手册 ➜ `whereis [name-of-the-program]`
+- 通过提供的名字，查找文件和目录 ➜ `find [path-to-search] -iname [name-of-the-file-you-want-to-search]`
+  - 学习如何使用该命令 ➜ `man find`
+- 获得一个命令的简要描述 ➜ `whatis [command-name]`
+
+
+
+**历史**
+
+- 获取上一条命令 ➜ 使用 `向上键` ⬆️ 来导航历史
+- 获取之前的命令历史记录 (完整列表) ➜ `history`。
+- 重复历史记录中的某条记录 ➜ `history` ➜ `![number-of-the-command-to-repeat]`
+- 重复上一条命令（bang-bang command）➜ `!!`
+
+
+
+**文件和目录操作**
+
+- 创建新文件（不打开）➜ `touch [name-of-your-file]`
+
+- 创建新文件，并使用编辑器打开 ➜ `vim [name-of-your-file]` or `nano [name-of-your-file]`
+
+- 复制文件 ➜ `cp [source-path-of-your-file] [destination-path-for-your-file]`
+
+- 创建新的目录 ➜ `mkdir [new-directory-name]`
+
+- 删除空的目录 ➜ `rmdir [name-of-the-directory-you-want-to-remove]`
+
+
+
+
+
 
 
 
