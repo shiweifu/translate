@@ -102,7 +102,6 @@ mauro_codes@DESKTOP-HIQ7662:~$ pwd
 
 mauro_codes@DESKTOP-HIQ7662:~/projects$ pwd
 /home/mauro_codes/projects
-
 ```
 
 ## 清理命令
@@ -232,3 +231,81 @@ mauro_codes@DESKTOP-HIQ7662:~$ pwd
 mauro_codes@DESKTOP-HIQ7662:~$ cd -
 /home/mauro_codes/projects/landing-page
 ```
+
+
+
+## 列表命令（ls）
+
+
+
+列出当前所在目录的内容。
+
+
+
+**列出所有可见的文件和目录**
+
+
+
+键入ls（不带任何附加参数）以获取所有文件和目录（此命令将排除像点文件这样的隐藏文件）。
+
+
+
+```
+## Check the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects$ pwd
+/home/mauro_codes/projects
+
+## List the content for the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects$ ls
+awesome-app  landing-page  nextjs-tailwindcss-blog-starter  personal-blog
+```
+
+
+
+## 列出全部文件和目录
+
+
+
+键入`ls -a`以获取所有文件和目录（包括隐藏文件）。
+
+
+
+```
+## Check the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects$ pwd
+/home/mauro_codes/projects
+
+## List the content for the working directory (including hidden files)
+mauro_codes@DESKTOP-HIQ7662:~/projects$ ls -a
+.  ..  .config  .configu  awesome-app  landing-page  nextjs-tailwindcss-blog-starter  personal-blog
+```
+
+
+
+## 长列表格式
+
+
+
+键入`ls -l`以获取所有可见的文件和目录，包括其他元数据，如权限、所有者、大小以及修改的日期和时间。
+
+
+
+```
+## Check the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/nextjs-tailwindcss-blog-starter$ pwd
+/home/mauro_codes/projects/nextjs-tailwindcss-blog-starter
+
+## List the content for the working directory (using the long listed format)
+mauro_codes@DESKTOP-HIQ7662:~/projects/nextjs-tailwindcss-blog-starter$ ls -l
+total 140
+-rw-r--r-- 1 mauro_codes mauro_codes   4487 Jan 22 12:55 README.md
+drwxr-xr-x 1 mauro_codes mauro_codes    512 Jan 22 12:55 components
+-rw-r--r-- 1 mauro_codes mauro_codes   1068 Jan 22 12:55 config.ts
+drwxr-xr-x 1 mauro_codes mauro_codes    512 Jan 22 12:55 helpers
+```
+
+## 人类可读的格式
+
+
+
+键入`ls -lh`以获取所有可见的文件和目录，这些文件和目录的格式为长列表格式，但具有可读格式（用户友好的文件大小）。
