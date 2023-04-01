@@ -232,23 +232,13 @@ mauro_codes@DESKTOP-HIQ7662:~$ cd -
 /home/mauro_codes/projects/landing-page
 ```
 
-
-
 ## 列表命令（ls）
-
-
 
 列出当前所在目录的内容。
 
-
-
 **列出所有可见的文件和目录**
 
-
-
 键入ls（不带任何附加参数）以获取所有文件和目录（此命令将排除像点文件这样的隐藏文件）。
-
-
 
 ```
 ## Check the working directory
@@ -260,15 +250,9 @@ mauro_codes@DESKTOP-HIQ7662:~/projects$ ls
 awesome-app  landing-page  nextjs-tailwindcss-blog-starter  personal-blog
 ```
 
-
-
 ## 列出全部文件和目录
 
-
-
 键入`ls -a`以获取所有文件和目录（包括隐藏文件）。
-
-
 
 ```
 ## Check the working directory
@@ -280,15 +264,9 @@ mauro_codes@DESKTOP-HIQ7662:~/projects$ ls -a
 .  ..  .config  .configu  awesome-app  landing-page  nextjs-tailwindcss-blog-starter  personal-blog
 ```
 
-
-
 ## 长列表格式
 
-
-
 键入`ls -l`以获取所有可见的文件和目录，包括其他元数据，如权限、所有者、大小以及修改的日期和时间。
-
-
 
 ```
 ## Check the working directory
@@ -306,6 +284,77 @@ drwxr-xr-x 1 mauro_codes mauro_codes    512 Jan 22 12:55 helpers
 
 ## 人类可读的格式
 
-
-
 键入`ls -lh`以获取所有可见的文件和目录，这些文件和目录的格式为长列表格式，但具有可读格式（用户友好的文件大小）。
+
+
+
+```shell
+## Check the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/nextjs-tailwindcss-blog-starter$ pwd
+/home/mauro_codes/projects/nextjs-tailwindcss-blog-starter
+
+## List the content for the working directory (using the long listed format + human readable format)
+mauro_codes@DESKTOP-HIQ7662:~/projects/nextjs-tailwindcss-blog-starter$ ls -lh
+total 140K
+-rw-r--r-- 1 mauro_codes mauro_codes 4.4K Jan 22 12:55 README.md
+drwxr-xr-x 1 mauro_codes mauro_codes  512 Jan 22 12:55 components
+-rw-r--r-- 1 mauro_codes mauro_codes 1.1K Jan 22 12:55 config.ts
+drwxr-xr-x 1 mauro_codes mauro_codes  512 Jan 22 12:55 helpers
+```
+
+
+
+## 合并参数
+
+
+
+输入 `ls -lah`，获取全部的文件和目录（包括隐藏文件），以人类可读的格式输出。
+
+
+
+```
+## Check the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/nextjs-tailwindcss-blog-starter$ pwd
+/home/mauro_codes/projects/nextjs-tailwindcss-blog-starter
+
+## List the content for the working directory (include hidden files + human readable format)
+mauro_codes@DESKTOP-HIQ7662:~/projects/nextjs-tailwindcss-blog-starter$ ls -lah
+total 140K
+drwxr-xr-x 1 mauro_codes mauro_codes  512 Jan 22 13:08 .
+drwxr-xr-x 1 mauro_codes mauro_codes  512 Jan 22 12:55 ..
+drwxr-xr-x 1 mauro_codes mauro_codes  512 Jan 22 12:55 .git
+-rw-r--r-- 1 mauro_codes mauro_codes  362 Jan 22 12:55 .gitignore
+-rw-r--r-- 1 mauro_codes mauro_codes 4.4K Jan 22 12:55 README.md
+drwxr-xr-x 1 mauro_codes mauro_codes  512 Jan 22 12:55 components
+-rw-r--r-- 1 mauro_codes mauro_codes 1.1K Jan 22 12:55 config.ts
+drwxr-xr-x 1 mauro_codes mauro_codes  512 Jan 22 12:55 helpers
+```
+
+
+
+**学习更多关于 `ls` 命令的内容**
+
+
+
+您可以 `ls` 命令后面，一起使用一大堆可选参数。如果您想继续了解相关内容，在您的终端中键入 `man ls`，以显查看 `ls` 命令的用户手册。
+
+
+
+## 搜索
+
+
+
+**定位二进制文件**
+
+
+
+如果要定位特定命令或程序的二进制文件（可执行文件）所在的位置。您可以使用`which`命令：
+
+```
+## Locate binary for the ls command
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ which ls
+/usr/bin/ls
+## Locate binary for git
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ which git
+/usr/bin/git
+```
