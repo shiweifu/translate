@@ -358,3 +358,95 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ which ls
 mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ which git
 /usr/bin/git
 ```
+
+
+
+**定位二进制文件，源码和你程序的用户手册**
+
+
+
+您可以使用`whereis`命令来查找程序的二进制文件、源代码和用户手册。您可以使用`-b`、`-m`和`-s`参数将结果分别限制为二进制文件、手动文件和源文件。
+
+
+
+```
+## Locate binary, manual, and source for git
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ whereis git
+git: /usr/bin/git /mnt/c/Program Files/Git/cmd/git.exe /usr/share/man/man1/git.1.gz
+## Locate only binary and manual for Git, and only the manual for ls command
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ whereis -bm git -m ls
+git: /usr/bin/git /mnt/c/Program Files/Git/cmd/git.exe /usr/share/man/man1/git.1.gz
+ls: /usr/share/man/man1/ls.1.gz
+```
+
+
+
+**通过名称，定位文件和目录**
+
+
+
+键入`find (path to search) -iname`〔要搜索的文件的名称〕，查找标题中包含给定名称的任何文件或目录。
+
+
+
+- 要搜索的路径是可选的。如果未指定，find命令将在当前工作目录（及其子目录）上运行
+
+- `-iname` 意味着我们的搜索将不区分大小写。
+
+```
+- If you want to learn more about this command, type `man find` to display the user manual.
+## Check current working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects$ pwd
+/home/mauro_codes/projects
+
+## Find files that contain "posts" on my current working directory and its descendants
+mauro_codes@DESKTOP-HIQ7662:~/projects$ find -iname posts
+./nextjs-tailwindcss-blog-starter/pages/posts
+./nextjs-tailwindcss-blog-starter/posts
+## Find files that contain "posts" on a specific directory and its descendants
+mauro_codes@DESKTOP-HIQ7662:~/projects$ find ./nextjs-tailwindcss-blog-starter/pages/ -iname posts
+./nextjs-tailwindcss-blog-starter/pages/posts
+```
+
+
+
+**获取命令的简要描述**
+
+
+
+如果您不知道某个命令的作用，请键入 `whatis [命令名]`，如下所示：
+
+
+
+```
+## Asking about the cat command
+mauro_codes@DESKTOP-HIQ7662:~/projects$ whatis catcat (1)              - concatenate files and print on the standard output
+## Asking about the find command
+mauro_codes@DESKTOP-HIQ7662:~/projects$ whatis find
+find (1)             - search for files in a directory hierarchy
+```
+
+
+
+## 历史
+
+
+
+**获取上一条命令**
+
+
+
+按向上箭头键可以访问最近的命令⬆️. 如果您想重复上一个命令，这将非常有用。假设我们移动到一个特定的目录，然后像这样检查我们的工作目录：
+
+```
+## Move to a specific directory
+mauro_codes@DESKTOP-HIQ7662:~$ cd projects/awesome-app/
+
+## Check the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/awesome-app$ pwd
+/home/mauro_codes/projects/awesome-app
+```
+
+⬆️ 我们将获得 `pwd` 命令
+
+⬆️⬆️ 我们将得到 `cd projects/awesome-app` 命令
