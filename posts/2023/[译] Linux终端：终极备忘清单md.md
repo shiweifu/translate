@@ -450,3 +450,82 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/awesome-app$ pwd
 ⬆️ 我们将获得 `pwd` 命令
 
 ⬆️⬆️ 我们将得到 `cd projects/awesome-app` 命令
+
+
+
+## 重复之前的命令（完整列表）
+
+
+
+键入 `history` 获取之前执行的命令列表。然后，输入 `![number-of-the-command-to-repeat]` 可以重复这条命令。
+
+
+
+```
+## Get the history list
+mauro_codes@DESKTOP-HIQ7662:~$ history    1  ls    2  clear
+    3  pwd    4  mkdir projects
+    5  cd projects
+
+## Run command number 1 (ls)
+mauro_codes@DESKTOP-HIQ7662:~$ !1
+projects
+```
+
+
+
+## 重复上一条命令
+
+
+
+输入`!!`（bang-bang命令），是重复最后一个命令。当您忘记在最后一个命令中添加 sudo时，这一点尤其有用：
+
+```
+## Running update without sudo (Permission denied)
+mauro_codes@DESKTOP-HIQ7662:~$ apt update
+Reading package lists... Done
+E: Could not open lock file /var/lib/apt/lists/lock - open (13: Permission denied)
+E: Unable to lock directory /var/lib/apt/lists/
+W: Problem unlinking the file /var/cache/apt/pkgcache.bin - RemoveCaches (13: Permission denied)
+W: Problem unlinking the file /var/cache/apt/srcpkgcache.bin - RemoveCaches (13: Permission denied)
+
+## Using the bang-bang command to append the last command after sudo
+mauro_codes@DESKTOP-HIQ7662:~$ sudo !!
+sudo apt update
+[sudo] password for mauro_codes:
+Get:1 http://security.ubuntu.com/ubuntu focal-security InRelease [109 kB]
+Hit:2 http://archive.ubuntu.com/ubuntu focal InRelease
+Get:3 http://archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+...
+```
+
+
+
+## 工作文件和目录
+
+
+
+**创建新文件（并不打开）**
+
+
+
+输入 `touch [name-of-your-file]` 创建一个新文件，而不使用文本编辑器打开它。这通常用于你想创建一个新的空文件，而不想改变其中内容的时候。
+
+
+
+```
+## Check the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ pwd
+/home/mauro_codes/projects/landing-page
+
+## List the content for the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
+README.md
+
+## Create an empty js file
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ touch main.js
+
+## List the content for the working directory (including your new file) 
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
+README.md  main.js
+```
