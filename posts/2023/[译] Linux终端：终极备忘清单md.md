@@ -286,8 +286,6 @@ drwxr-xr-x 1 mauro_codes mauro_codes    512 Jan 22 12:55 helpers
 
 键入`ls -lh`以获取所有可见的文件和目录，这些文件和目录的格式为长列表格式，但具有可读格式（用户友好的文件大小）。
 
-
-
 ```shell
 ## Check the working directory
 mauro_codes@DESKTOP-HIQ7662:~/projects/nextjs-tailwindcss-blog-starter$ pwd
@@ -302,15 +300,9 @@ drwxr-xr-x 1 mauro_codes mauro_codes  512 Jan 22 12:55 components
 drwxr-xr-x 1 mauro_codes mauro_codes  512 Jan 22 12:55 helpers
 ```
 
-
-
 ## 合并参数
 
-
-
 输入 `ls -lah`，获取全部的文件和目录（包括隐藏文件），以人类可读的格式输出。
-
-
 
 ```
 ## Check the working directory
@@ -330,23 +322,13 @@ drwxr-xr-x 1 mauro_codes mauro_codes  512 Jan 22 12:55 components
 drwxr-xr-x 1 mauro_codes mauro_codes  512 Jan 22 12:55 helpers
 ```
 
-
-
 **学习更多关于 `ls` 命令的内容**
-
-
 
 您可以 `ls` 命令后面，一起使用一大堆可选参数。如果您想继续了解相关内容，在您的终端中键入 `man ls`，以显查看 `ls` 命令的用户手册。
 
-
-
 ## 搜索
 
-
-
 **定位二进制文件**
-
-
 
 如果要定位特定命令或程序的二进制文件（可执行文件）所在的位置。您可以使用`which`命令：
 
@@ -359,15 +341,9 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ which git
 /usr/bin/git
 ```
 
-
-
 **定位二进制文件，源码和你程序的用户手册**
 
-
-
 您可以使用`whereis`命令来查找程序的二进制文件、源代码和用户手册。您可以使用`-b`、`-m`和`-s`参数将结果分别限制为二进制文件、手动文件和源文件。
-
-
 
 ```
 ## Locate binary, manual, and source for git
@@ -379,15 +355,9 @@ git: /usr/bin/git /mnt/c/Program Files/Git/cmd/git.exe /usr/share/man/man1/git.1
 ls: /usr/share/man/man1/ls.1.gz
 ```
 
-
-
 **通过名称，定位文件和目录**
 
-
-
 键入`find (path to search) -iname`〔要搜索的文件的名称〕，查找标题中包含给定名称的任何文件或目录。
-
-
 
 - 要搜索的路径是可选的。如果未指定，find命令将在当前工作目录（及其子目录）上运行
 
@@ -408,15 +378,9 @@ mauro_codes@DESKTOP-HIQ7662:~/projects$ find ./nextjs-tailwindcss-blog-starter/p
 ./nextjs-tailwindcss-blog-starter/pages/posts
 ```
 
-
-
 **获取命令的简要描述**
 
-
-
 如果您不知道某个命令的作用，请键入 `whatis [命令名]`，如下所示：
-
-
 
 ```
 ## Asking about the cat command
@@ -426,15 +390,9 @@ mauro_codes@DESKTOP-HIQ7662:~/projects$ whatis find
 find (1)             - search for files in a directory hierarchy
 ```
 
-
-
 ## 历史
 
-
-
 **获取上一条命令**
-
-
 
 按向上箭头键可以访问最近的命令⬆️. 如果您想重复上一个命令，这将非常有用。假设我们移动到一个特定的目录，然后像这样检查我们的工作目录：
 
@@ -451,15 +409,9 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/awesome-app$ pwd
 
 ⬆️⬆️ 我们将得到 `cd projects/awesome-app` 命令
 
-
-
 ## 重复之前的命令（完整列表）
 
-
-
 键入 `history` 获取之前执行的命令列表。然后，输入 `![number-of-the-command-to-repeat]` 可以重复这条命令。
-
-
 
 ```
 ## Get the history list
@@ -472,11 +424,7 @@ mauro_codes@DESKTOP-HIQ7662:~$ !1
 projects
 ```
 
-
-
 ## 重复上一条命令
-
-
 
 输入`!!`（bang-bang命令），是重复最后一个命令。当您忘记在最后一个命令中添加 sudo时，这一点尤其有用：
 
@@ -499,19 +447,11 @@ Get:3 http://archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
 ...
 ```
 
-
-
 ## 工作文件和目录
-
-
 
 **创建新文件（并不打开）**
 
-
-
 输入 `touch [name-of-your-file]` 创建一个新文件，而不使用文本编辑器打开它。这通常用于你想创建一个新的空文件，而不想改变其中内容的时候。
-
-
 
 ```
 ## Check the working directory
@@ -528,4 +468,84 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ touch main.js
 ## List the content for the working directory (including your new file) 
 mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
 README.md  main.js
+```
+
+
+
+## 使用文本编辑器，创建一个文件
+
+
+
+键入`nano[文件名]`创建一个新文件，然后使用文本编辑器nano打开它。如果你想了解更多关于nano的信息，你可以在终端上键入`man nano`来显示 nano 用户手册。
+
+
+
+```
+## Check the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ pwd
+/home/mauro_codes/projects/landing-page
+
+## List the content for the working directory 
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
+README.md  main.js
+
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ nano index.html
+```
+
+在执行完毕上一条指令后，你将看到文本编辑器使用 nano 打开，并处在编辑的状态。
+
+
+
+![Nano text editor](https://res.cloudinary.com/practicaldev/image/fetch/s--TqGbrKcm--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.imgur.com/3MxGlF2.png)
+
+
+
+**复制文件**
+
+
+
+您可以使用 `cp(拷贝)` 命令复制文件和目录
+
+键入`cp [源文件源] [fordition-path for your-file]`，将文件复制到新的目的地。
+
+
+
+```
+## List the content for the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
+README.md  index.html  main.js  temp
+
+## Copy the README.md file into the temp directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ cp README.md temp/README.md
+
+## List the content for the working directory and check that your file is still there.
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
+README.md  index.html  main.js  temp
+
+## List the temp directory's content and check if your file was copied.
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls temp/
+README.md  index-copy.html
+```
+
+
+
+## 创建新目录
+
+
+
+键入 `mkdir [new-directory-name]` 来创建一个新的目录，在当前的工作目录下。
+
+
+
+```
+## List the content for the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
+README.md  index-empty-copy.html  index.html  main.js
+
+## Create a new directory called "scripts"
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ mkdir scripts
+
+## List the content to check if our new directory was created
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
+README.md  index-empty-copy.html  index.html  main.js  scripts
 ```
