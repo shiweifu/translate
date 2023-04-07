@@ -470,15 +470,9 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
 README.md  main.js
 ```
 
-
-
 ## 使用文本编辑器，创建一个文件
 
-
-
 键入`nano[文件名]`创建一个新文件，然后使用文本编辑器nano打开它。如果你想了解更多关于nano的信息，你可以在终端上键入`man nano`来显示 nano 用户手册。
-
-
 
 ```
 ## Check the working directory
@@ -494,21 +488,13 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ nano index.html
 
 在执行完毕上一条指令后，你将看到文本编辑器使用 nano 打开，并处在编辑的状态。
 
-
-
 ![Nano text editor](https://res.cloudinary.com/practicaldev/image/fetch/s--TqGbrKcm--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.imgur.com/3MxGlF2.png)
 
-
-
 **复制文件**
-
-
 
 您可以使用 `cp(拷贝)` 命令复制文件和目录
 
 键入`cp [源文件源] [fordition-path for your-file]`，将文件复制到新的目的地。
-
-
 
 ```
 ## List the content for the working directory
@@ -527,15 +513,9 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls temp/
 README.md  index-copy.html
 ```
 
-
-
 ## 创建新目录
 
-
-
 键入 `mkdir [new-directory-name]` 来创建一个新的目录，在当前的工作目录下。
-
-
 
 ```
 ## List the content for the working directory
@@ -548,4 +528,84 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ mkdir scripts
 ## List the content to check if our new directory was created
 mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
 README.md  index-empty-copy.html  index.html  main.js  scripts
+```
+
+
+
+## 删除空目录
+
+
+
+键入 `rmdir [name-of-the-directory-you-want-to-remove]`，来删除一个空文件夹。请注意，这个命令只可以删除空的文件夹。
+
+
+
+```
+## List the content for the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
+README.md  index.html  main.js  temp
+
+## Remove the "temp" empty directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ rmdir temp
+
+## List the content and check that the directory was removed
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
+README.md  index.html  main.js
+```
+
+
+
+## 删除命令
+
+
+
+**删除一个文件**
+
+
+
+键入 `rm [name-of-your-file]` 来删除一个文件。
+
+
+
+```
+## List the content for the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page/temp$ ls
+README.md  index-copy.html
+
+## Remove the index-copy.html file
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page/temp$ rm index-copy.html
+
+## List the content for the working directory and check that the file was removed
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page/temp$ ls
+README.md
+```
+
+
+
+**递归删除文件夹**
+
+
+
+键入 `rm -rfi [name-of-your-directory]`，来递归删除目录，以及其中的全部子文件夹和子文件。
+
+
+
+> 请小心！这是您可以运行的最危险的命令之一。如果您运行`rm -rfi /`，您将擦除整个根分区。请确保指定要删除的目录的路径。在这个例子中，在这个例子里，我包含了 `-I` 参数来请求确认。
+
+
+
+```
+## List the content of the temp folder (It has one file)
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls temp/
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 24 19:45 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 24 19:44 ..
+-rw-r--r-- 1 mauro_codes mauro_codes   8 Jan 24 19:45 file.txt
+
+## Recursively remove the temp folder
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ rm -rf temp/
+
+## Check that the temp folder was removed
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls temp/
+ls: cannot access 'temp/': No such file or directory
 ```
