@@ -609,3 +609,124 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ rm -rf temp/
 mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls temp/
 ls: cannot access 'temp/': No such file or directory
 ```
+
+
+
+## 连接命令（cat）
+
+
+
+你可以使用 `cat`（concatenate）命令，从文件读取数据，然后输出其中的内容。
+
+
+
+**显示单个文件**
+
+
+
+键入 `cat [name-of-your-file]`：
+
+
+
+```
+## Check the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ pwd
+/home/mauro_codes/projects/landing-page
+
+## Print the content of the index.html file
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ cat index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>My Website</title>
+  </head>
+
+  <body>
+    <script src="js/main.js"></script>
+  </body>
+</html>
+```
+
+
+
+**显示一个文件的内容，以及行号**
+
+
+
+键入 `cat -n [name-of-your-file]`：
+
+
+
+```
+## Check the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ pwd
+/home/mauro_codes/projects/landing-page
+
+## Print the content of the index.html file
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ cat -n index.html
+     1  <!DOCTYPE html>
+     2  <html lang="en">
+     3    <head>
+     4      <meta charset="utf-8" />
+     5      <meta http-equiv="x-ua-compatible" content="ie=edge" />
+     6      <meta name="viewport" content="width=device-width, initial-scale=1" />
+     7
+     8      <title>My Website</title>
+     9    </head>
+    10
+    11    <body>
+    12      <script src="js/main.js"></script>
+    13    </body>
+    14  </html>
+```
+
+
+
+**复制一个文件的内容，从一个文件到另一个文件**：
+
+
+
+```
+## Create an empty file called index-empty-copy.html
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ touch index-empty-copy.html
+
+## Copy the content of index.html to index-empty-copy.html
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ cat index.html > index-empty-copy.html
+
+## Print the content of the index-empty-copy.html file
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ cat index-empty-copy.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>My Website</title>
+  </head>
+
+  <body>
+    <script src="js/main.js"></script>
+  </body>
+</html>
+```
+
+
+
+**了解更多有关 `cat` 命令的内容**
+
+
+
+键入 `man cat` 显示 `cat` 命令的用户手册。
+
+
+
+## 移动命令（mv）
+
+
+
+你可以使用 `mv`（move） 命令，移动或者重命名一个文件。
