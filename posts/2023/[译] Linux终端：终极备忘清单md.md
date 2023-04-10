@@ -530,15 +530,9 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
 README.md  index-empty-copy.html  index.html  main.js  scripts
 ```
 
-
-
 ## 删除空目录
 
-
-
 键入 `rmdir [name-of-the-directory-you-want-to-remove]`，来删除一个空文件夹。请注意，这个命令只可以删除空的文件夹。
-
-
 
 ```
 ## List the content for the working directory
@@ -553,19 +547,11 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
 README.md  index.html  main.js
 ```
 
-
-
 ## 删除命令
-
-
 
 **删除一个文件**
 
-
-
 键入 `rm [name-of-your-file]` 来删除一个文件。
-
-
 
 ```
 ## List the content for the working directory
@@ -580,19 +566,11 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page/temp$ ls
 README.md
 ```
 
-
-
 **递归删除文件夹**
-
-
 
 键入 `rm -rfi [name-of-your-directory]`，来递归删除目录，以及其中的全部子文件夹和子文件。
 
-
-
 > 请小心！这是您可以运行的最危险的命令之一。如果您运行`rm -rfi /`，您将擦除整个根分区。请确保指定要删除的目录的路径。在这个例子中，在这个例子里，我包含了 `-I` 参数来请求确认。
-
-
 
 ```
 ## List the content of the temp folder (It has one file)
@@ -610,23 +588,13 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls temp/
 ls: cannot access 'temp/': No such file or directory
 ```
 
-
-
 ## 连接命令（cat）
-
-
 
 你可以使用 `cat`（concatenate）命令，从文件读取数据，然后输出其中的内容。
 
-
-
 **显示单个文件**
 
-
-
 键入 `cat [name-of-your-file]`：
-
-
 
 ```
 ## Check the working directory
@@ -651,15 +619,9 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ cat index.html
 </html>
 ```
 
-
-
 **显示一个文件的内容，以及行号**
 
-
-
 键入 `cat -n [name-of-your-file]`：
-
-
 
 ```
 ## Check the working directory
@@ -684,11 +646,7 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ cat -n index.html
     14  </html>
 ```
 
-
-
 **复制一个文件的内容，从一个文件到另一个文件**：
-
-
 
 ```
 ## Create an empty file called index-empty-copy.html
@@ -715,18 +673,50 @@ mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ cat index-empty-copy.html
 </html>
 ```
 
-
-
 **了解更多有关 `cat` 命令的内容**
-
-
 
 键入 `man cat` 显示 `cat` 命令的用户手册。
 
-
-
 ## 移动命令（mv）
 
-
-
 你可以使用 `mv`（move） 命令，移动或者重命名一个文件。
+
+```
+## List the content for the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
+README.md  index-empty-copy.html  index.html  main.js  temp
+
+## Move the index-empty-copy.html file to the temp directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ mv index-empty-copy.html temp/index-empty-copy.html
+
+## List the content again and check that the file is no longer in the current working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls
+README.md  index.html  main.js  temp
+
+## List the temp folder and check that the file is now there.
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page$ ls temp/
+index-empty-copy.html
+```
+
+**重命名一个文件**
+
+键入 `mv [name-of-your-file] [new name-of-your-file]`，重命名一个文件
+
+```
+## List the content for the working directory
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page/temp$ ls
+index-empty-copy.html
+
+## Rename the index-empty-copy.html file
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page/temp$ mv index-empty-copy.html index-copy.html
+
+## List the content for the working directory (check if your file's name was updated)
+mauro_codes@DESKTOP-HIQ7662:~/projects/landing-page/temp$ ls
+index-copy.html
+```
+
+## 结语
+
+我在本文中，错过了很多强有力的命令，但我决定把它们留到未来的文章中。本文已经足够长了。😄
+
+**我很愿意听到你对本文内容的反馈。它是否描述清楚？是否足够有用？如果你想在下一篇文章中，了解哪些命令，请让我知道。**
