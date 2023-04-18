@@ -37,11 +37,7 @@ https://dev.to/mauro_codes/linux-terminal-the-ultimate-cheat-sheet-2g5b
 - 移除所有人的可执行权限 ➜ `chmod a-wr [name-of-the-file]`
 - 移除所有人对当前目录中所有文件的写入和读取权限 ➜ `chmod a-wr *.*`
 
-
-
 ## 群组
-
-
 
 - 列出全部可用的组 ➜ `getent group`
 - 列出当前账号，全部所在的组 ➜ `groups`
@@ -49,11 +45,7 @@ https://dev.to/mauro_codes/linux-terminal-the-ultimate-cheat-sheet-2g5b
 - 创建新的组 ➜ `sudo groupadd [name-for-the-new-group]`
 - 将用户添加到另一个已经存在的组 ➜ `usermod -a -G [group-you-want-to-add-the-user-to] [user-name-to-add]`
 
-
-
 ## 拥有权限：更改文件拥有者和组（chown）
-
-
 
 - 更改一个文件的拥有者 ➜ `sudo chown [new-owner-name] [file-to-change-ownership]`
 - 更改数个文件的拥有者 ➜ `sudo chown [new-owner-name] [file-1-to-change-ownership] [file-n-to-change-ownership]`
@@ -62,11 +54,7 @@ https://dev.to/mauro_codes/linux-terminal-the-ultimate-cheat-sheet-2g5b
 - 更改一个文件的拥有者 ➜ `sudo chown :[new-group-name] [file-to-change-ownership]`
 - 更改一个文件的用户和群组拥有者 ➜ `sudo chown [new-owner-name]:[new-group-name] [file-to-change-ownership]`
 
-
-
 ## 快捷键
-
-
 
 - 搜索历史记录 ➜ `[CTRL] + r`. 然后键入要搜索的命令片段
 - 粘贴前一行的内容 ➜ `[CTRL] + p`
@@ -77,17 +65,90 @@ https://dev.to/mauro_codes/linux-terminal-the-ultimate-cheat-sheet-2g5b
 - 清空当前已经完成的行 ➜ `[CTRL] + u`
 - 清空最后一个单词 ➜ `[CTRL] + w`
 
-
-
 ## 长文件的一些操作方法
-
-
 
 - 打印一个文件的最后几行 ➜ `tail [name-of-the-file]`
 - 打印一个文件的最后 N 行 ➜ `tail -n [number-of-lines] [name-of-the-file]`
 - 打印一个文件的开始几行 ➜ `head [name-of-the-file]`
 - 打印一个文件的开始 N 行 ➜ `head -n [number-of-lines] [name-of-the-file]`
 - 按页，翻阅文件 ➜ `less [name-of-the-file]`
+
+
+
+## 全局正则表达式搜索（grep命令）
+
+
+
+Linux `grep` 命令是一个字符串和模式匹配实用程序，用于显示来自多个文件的匹配行。
+
+
+
+**搜索文件中的一个字符串**
+
+
+
+键入 `grep [term-to-search] [source-file-to-search]` 来搜索文件中的某个文本。如果您想打印每个匹配的行号，您可以选择添加 `-n` 参数。
+
+
+
+```
+## List the content for the working directory
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls
+README.md  index.html  main.js  script.txt
+
+## Print the content of the index.html file
+mauro_codes@mauro-desktop:~/projects/landing-page$ cat index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>My Website</title>
+  </head>
+
+  <body>
+    <script src="js/main.js"></script>
+  </body>
+</html>
+
+## Search for "meta" within the index.html file using grep
+mauro_codes@mauro-desktop:~/projects/landing-page$ grep meta index.html -n
+4:    <meta charset="utf-8" />
+5:    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+6:    <meta name="viewport" content="width=device-width, initial-scale=1" />
+```
+
+
+
+## 搜索一个文件，但不区分大小写
+
+
+
+键入  `grep -i [term-to-search] [source-file-to-search]` ，来执行大小写无关的搜索：
+
+```
+## Print the content of the main.js file
+mauro_codes@mauro-desktop:~/projects/landing-page$ cat main.js
+const sum = (num1, num2) => {
+        return num1 + num2
+}
+
+// Call the Sum function
+sum(10,4)
+
+## Search for "sum" without ignoring case (we get 2 results)
+mauro_codes@mauro-desktop:~/projects/landing-page$ grep sum main.js -n
+1:const sum = (num1, num2) => {
+6:sum(10,4)
+
+## Search for "sum" using the ignore case argument (we get 3 results)
+mauro_codes@mauro-desktop:~/projects/landing-page$ grep sum main.js -in
+1:const sum = (num1, num2) => {
+5:// Call the Sum function
+6:sum(10,4)
+```
 
 
 
