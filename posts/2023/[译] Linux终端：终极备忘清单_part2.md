@@ -73,23 +73,13 @@ https://dev.to/mauro_codes/linux-terminal-the-ultimate-cheat-sheet-2g5b
 - 打印一个文件的开始 N 行 ➜ `head -n [number-of-lines] [name-of-the-file]`
 - 按页，翻阅文件 ➜ `less [name-of-the-file]`
 
-
-
 ## 全局正则表达式搜索（grep命令）
-
-
 
 Linux `grep` 命令是一个字符串和模式匹配实用程序，用于显示来自多个文件的匹配行。
 
-
-
 **搜索文件中的一个字符串**
 
-
-
 键入 `grep [term-to-search] [source-file-to-search]` 来搜索文件中的某个文本。如果您想打印每个匹配的行号，您可以选择添加 `-n` 参数。
-
-
 
 ```
 ## List the content for the working directory
@@ -120,11 +110,7 @@ mauro_codes@mauro-desktop:~/projects/landing-page$ grep meta index.html -n
 6:    <meta name="viewport" content="width=device-width, initial-scale=1" />
 ```
 
-
-
 ## 搜索一个文件，但不区分大小写
-
-
 
 键入  `grep -i [term-to-search] [source-file-to-search]` ，来执行大小写无关的搜索：
 
@@ -148,6 +134,93 @@ mauro_codes@mauro-desktop:~/projects/landing-page$ grep sum main.js -in
 1:const sum = (num1, num2) => {
 5:// Call the Sum function
 6:sum(10,4)
+```
+
+## 搜索文件中，不匹配的行
+
+
+
+键入  `grep -v [term-to-search] [source-file-to-search]` 来获取文件中，全部不匹配的行。
+
+
+
+```
+## Print the content of the main.js file
+mauro_codes@mauro-desktop:~/projects/landing-page$ cat main.js
+const sum = (num1, num2) => {
+        return num1 + num2
+}
+
+// Call the Sum function
+sum(10,4)
+
+## Search for each line that doesn't include "sum" (case sensitive)
+mauro_codes@mauro-desktop:~/projects/landing-page$ grep sum main.js -v
+        return num1 + num2
+}
+
+// Call the Sum function
+```
+
+
+
+## 递归搜索目录
+
+
+
+键入 `grep -r [term-to-search] [path-to-directory-to-search]`  来搜索当前文件夹下，嵌套的目录和子目录中的内容。
+
+
+
+```
+## List the content for the working directory
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls
+README.md  index.html  main.js  script.txt  temp
+
+## Search recursively for "sum" within the current directory (including sub-directories)
+mauro_codes@mauro-desktop:~/projects/landing-page$ grep -r sum .
+./index.html:    <p>Calling the sum function:<p>
+./index.html:    <!-- TODO: Call the sum function and display the value -->
+./main.js:const sum = (num1, num2) => {
+./main.js:sum(10,4)
+./temp/index.html:    <p>Calling the sum function:<p>
+./temp/index.html:    <!-- TODO: Call the sum function and display the value -->
+```
+
+
+
+## 多次搜索一个文件
+
+
+
+键入 `grep -E "[first-term-to-search|second-term-to-search]" [source-file-to-search]` 来搜索一个文件中的多个部分。
+
+
+
+```
+## Print the content of the main.js file
+mauro_codes@mauro-desktop:~/projects/landing-page$ cat main.js
+const sum = (num1, num2) => {
+        return num1 + num2
+}
+
+// Call the Sum function
+sum(10,4)
+
+const printMessage(message) {
+        console.log(message)
+}
+
+// Call the printMessage function
+printMessage("Hello world")
+
+## Search for "sum" or "printMessage" within the main.js file
+mauro_codes@mauro-desktop:~/projects/landing-page$ grep -E "sum|printMessage" main.js
+const sum = (num1, num2) => {
+sum(10,4)
+const printMessage(message) {
+// Call the printMessage function
+printMessage("Hello world")
 ```
 
 
