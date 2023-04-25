@@ -138,11 +138,7 @@ mauro_codes@mauro-desktop:~/projects/landing-page$ grep sum main.js -in
 
 ## 搜索文件中，不匹配的行
 
-
-
 键入  `grep -v [term-to-search] [source-file-to-search]` 来获取文件中，全部不匹配的行。
-
-
 
 ```
 ## Print the content of the main.js file
@@ -162,15 +158,9 @@ mauro_codes@mauro-desktop:~/projects/landing-page$ grep sum main.js -v
 // Call the Sum function
 ```
 
-
-
 ## 递归搜索目录
 
-
-
 键入 `grep -r [term-to-search] [path-to-directory-to-search]`  来搜索当前文件夹下，嵌套的目录和子目录中的内容。
-
-
 
 ```
 ## List the content for the working directory
@@ -187,15 +177,9 @@ mauro_codes@mauro-desktop:~/projects/landing-page$ grep -r sum .
 ./temp/index.html:    <!-- TODO: Call the sum function and display the value -->
 ```
 
-
-
 ## 多次搜索一个文件
 
-
-
 键入 `grep -E "[first-term-to-search|second-term-to-search]" [source-file-to-search]` 来搜索一个文件中的多个部分。
-
-
 
 ```
 ## Print the content of the main.js file
@@ -224,6 +208,83 @@ printMessage("Hello world")
 ```
 
 
+
+## 统计搜索结果
+
+
+
+键入 `grep -c [term-to-search] [source-file-to-search]`，来计算当前文件，共有多少行的结果返回。
+
+
+
+```
+## List the content for the working directory
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls
+README.md  index.html  main.js  script.txt  temp
+
+## Count how many times "sum" appears on the main.js file
+mauro_codes@mauro-desktop:~/projects/landing-page$ grep -c sum main.js
+2
+
+## Count how many times "sum" or "printMessage" appears on the main.js file 
+mauro_codes@mauro-desktop:~/projects/landing-page$ grep -c -E "sum|printMessage" main.js
+5
+
+## Recursive count to get how many times "sum" or "printMessage" appears in the current working directory
+mauro_codes@mauro-desktop:~/projects/landing-page$ grep -c -E -r "sum|printMessage" .
+./index.html:2
+./main.js:5
+./README.md:0
+./script.txt:0
+./temp/index.html:2
+```
+
+
+
+## 查看匹配到的文件名
+
+
+
+键入 `grep -l [term-to-search] [matching-files-to-search]`，获取包含搜索内容的文件列表。
+
+
+
+```
+## List the content for the working directory
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls
+README.md  about.html  index.html  main.js  script.txt  temp
+
+## Get a list of html files that contains "<h1>"
+mauro_codes@mauro-desktop:~/projects/landing-page$ grep -l "<h1>" *.html
+index.html
+
+## Get a list of html files that contains "<p>"
+mauro_codes@mauro-desktop:~/projects/landing-page$ grep -l "<p>" *.html
+about.html
+index.html
+
+## Recursively get a list of files that contains "<p>" within the current directory
+mauro_codes@mauro-desktop:~/projects/landing-page$ grep -l -r "<p>" .
+./about.html
+./index.html
+./temp/index.html
+```
+
+
+
+## 管道
+
+
+
+管道是Linux上最有用的命令行功能之一，允许您通过将多个操作”管道化“在一起来执行复杂的操作，这意味着管道中每个命令的输出将作为下一个命令的输入。
+
+
+
+## 管道过滤搜索结果到一个新的文件
+
+
+
+比方说，我想得到一份我所有博客文章的列表，标题中有“苗条”一词。我想在一个名为`svelte-articles.txt` 的新文件上写下完整的列表。
 
 
 
