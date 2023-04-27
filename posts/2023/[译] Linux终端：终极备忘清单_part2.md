@@ -207,15 +207,9 @@ const printMessage(message) {
 printMessage("Hello world")
 ```
 
-
-
 ## 统计搜索结果
 
-
-
 键入 `grep -c [term-to-search] [source-file-to-search]`，来计算当前文件，共有多少行的结果返回。
-
-
 
 ```
 ## List the content for the working directory
@@ -239,15 +233,9 @@ mauro_codes@mauro-desktop:~/projects/landing-page$ grep -c -E -r "sum|printMessa
 ./temp/index.html:2
 ```
 
-
-
 ## 查看匹配到的文件名
 
-
-
 键入 `grep -l [term-to-search] [matching-files-to-search]`，获取包含搜索内容的文件列表。
-
-
 
 ```
 ## List the content for the working directory
@@ -270,21 +258,65 @@ mauro_codes@mauro-desktop:~/projects/landing-page$ grep -l -r "<p>" .
 ./temp/index.html
 ```
 
-
-
 ## 管道
-
-
 
 管道是Linux上最有用的命令行功能之一，允许您通过将多个操作”管道化“在一起来执行复杂的操作，这意味着管道中每个命令的输出将作为下一个命令的输入。
 
-
-
 ## 管道过滤搜索结果到一个新的文件
 
-
-
 比方说，我想得到一份我所有博客文章的列表，标题中有“苗条”一词。我想在一个名为`svelte-articles.txt` 的新文件上写下完整的列表。
+
+
+
+我们可以使用管道列出我的所有文章，使用grep过滤那些包含“svelte”的文章，并将过滤后的列表保存在一个新文件中。
+
+
+
+```
+## Check that my current working directory is the "posts" folder that includes all my posts
+mauro_codes@mauro-desktop:~/projects/maurogarcia.dev/posts$ pwd
+/home/mauro_codes/projects/maurogarcia.dev/posts
+
+## Piping the list of posts with grep to check how many posts include the term "svelte" (I get five items)
+mauro_codes@mauro-desktop:~/projects/maurogarcia.dev/posts$ ls | grep svelte
+5
+
+## Piping the list of post --> Filter svelte posts --> move the content to a new file using cat
+mauro_codes@mauro-desktop:~/projects/maurogarcia.dev/posts$ ls | grep svelte | cat > /home/mauro_codes/projects/svelte-articles.txt
+
+## Print the content of our new file
+mauro_codes@mauro-desktop:~/projects/maurogarcia.dev/posts$ cat /home/mauro_codes/projects/svelte-articles.txt
+-rw-r--r-- 1 mauro_codes mauro_codes 4.2K Jan 27 18:29 -5-things-i-love-about-svelte-.md
+-rw-r--r-- 1 mauro_codes mauro_codes  11K Jan 27 18:29 angular-vs-svelte-card-component.md
+-rw-r--r-- 1 mauro_codes mauro_codes 5.3K Jan 27 18:29 component-driven-development-with-svelte.md
+-rw-r--r-- 1 mauro_codes mauro_codes 5.0K Jan 27 18:29 how-to-build-your-next-chrome-extension-with-svelte.md
+-rw-r--r-- 1 mauro_codes mauro_codes 4.7K Jan 27 18:29 sapper-svelte-tailwindcss-boilerplate.md
+```
+
+
+
+## 搜索命令历史
+
+
+
+通过键入 `history | grep“[term to search]”`，可以使用管道使用grep搜索命令历史记录。
+
+
+
+```
+## Searching for the term svelte on your command history
+mauro_codes@mauro-desktop:~$ history | grep "svelte"
+  415  ls | grep svelte
+  416  ls | grep -C svelte
+  417  ls | grep -c svelte
+  418  ls | grep -c svelte |
+  419  ls | grep -c svelte | cat  420  ls | grep svelte | cat  421  ls | grep svelte | cat > /home/mauro_codes/projects/svelte-articles.txt
+  422  cat /home/mauro_codes/projects/svelte-articles.txt
+  444  ls grep -c svelte
+  445  ls | grep -c svelte
+  446  cat /home/mauro_codes/projects/svelte-articles.txt
+  448  history | grep "svelte"感谢 [@bradnichol](https://dev.to/bradnichol) 在我之前的帖子中提出了这种方法！
+```
 
 
 
