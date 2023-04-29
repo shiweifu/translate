@@ -303,6 +303,8 @@ mauro_codes@mauro-desktop:~/projects/maurogarcia.dev/posts$ cat /home/mauro_code
 
 
 
+感谢 [@bradnichol](https://dev.to/bradnichol) 在我之前的帖子中提出了这种方法！
+
 ```
 ## Searching for the term svelte on your command history
 mauro_codes@mauro-desktop:~$ history | grep "svelte"
@@ -315,9 +317,89 @@ mauro_codes@mauro-desktop:~$ history | grep "svelte"
   444  ls grep -c svelte
   445  ls | grep -c svelte
   446  cat /home/mauro_codes/projects/svelte-articles.txt
-  448  history | grep "svelte"感谢 [@bradnichol](https://dev.to/bradnichol) 在我之前的帖子中提出了这种方法！
+  448  history | grep "svelte"
 ```
 
 
+
+## 权限：更改文件模式位命令（chmod）
+
+
+
+在Linux中更改权限是一个广泛的主题，值得发表自己的文章。但我决定加入一些可以派上用场的例子。
+
+
+
+您可以使用 `chmod` 命令向不同用户添加或删除一个或多个文件的读取、写入和执行权限。
+
+
+
+作为参考，这里有一个例子，说明当我们使用 `ls-lah` 时，如何显示每个文件或目录的权限：
+
+
+
+![Linux permissions](https://res.cloudinary.com/practicaldev/image/fetch/s--G1zf9R4v--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.imgur.com/fpk9bna.png)
+
+
+
+## 向每个人添加执行权限
+
+
+
+键入 `chmod a+x [文件名]` 或 `chmod+x [文件名]` 为特定文件的每个人添加执行权限：
+
+
+
+```
+## Check file permissions
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------------- 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+--------------- 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+
+## Add execute permission to everyone in the main.js file
+mauro_codes@mauro-desktop:~/projects/landing-page$ chmod +x main.js
+
+## Check permissions again
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x--x--x 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+--------------- 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+```
+
+
+
+## 删除所有人的执行权限
+
+
+
+键入`chmod a-x [文件名]` 或 `chmod-x [文件名]` 以删除特定文件的所有人的执行权限：
+
+
+
+```
+## Check file permissions
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+-rwxrwxrwx 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+-rwxrwxrwx 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+
+## Remove the execute permissions to everyone in the main.js file
+mauro_codes@mauro-desktop:~/projects/landing-page$ chmod a-x main.js
+
+## Check permissions again
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+-rw-rw-rw- 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+-rwxrwxrwx 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+```
 
 
