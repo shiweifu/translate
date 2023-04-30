@@ -403,3 +403,69 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 ```
 
 
+
+## 向所有者添加执行权限
+
+
+
+键入 `chmod u+x [name-of-the-file]` 来只向文件的所有者，添加可执行权限。
+
+
+
+```
+## Check file permissions
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------------- 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+--------------- 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+
+## Add the execute permissions only to the owner in the main.js file
+mauro_codes@mauro-desktop:~/projects/landing-page$ chmod u+x main.js
+
+## Check permissions again
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x------ 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+--------------- 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+```
+
+
+
+## 移除其他用户的可写入权限
+
+
+
+键入 `chmod o-w [name-of-the-file]`，来移除指定文件的，其他用户的可写入权限（非拥有者或者所属组）。
+
+
+
+```
+## Check file permissions
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+-rwxrwxrwx 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+-rwxrwxrwx 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+
+## Remove the write permission only to other users (not owner or group) in the main.js file
+mauro_codes@mauro-desktop:~/projects/landing-page$ chmod o-w main.js
+
+## Check permissions again
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+-rwxrwxr-x 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+-rwxrwxrwx 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+```
+
+
+
+
+
+
