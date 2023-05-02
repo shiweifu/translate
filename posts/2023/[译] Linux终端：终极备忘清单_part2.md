@@ -266,11 +266,7 @@ mauro_codes@mauro-desktop:~/projects/landing-page$ grep -l -r "<p>" .
 
 比方说，我想得到一份我所有博客文章的列表，标题中有“苗条”一词。我想在一个名为`svelte-articles.txt` 的新文件上写下完整的列表。
 
-
-
 我们可以使用管道列出我的所有文章，使用grep过滤那些包含“svelte”的文章，并将过滤后的列表保存在一个新文件中。
-
-
 
 ```
 ## Check that my current working directory is the "posts" folder that includes all my posts
@@ -293,15 +289,9 @@ mauro_codes@mauro-desktop:~/projects/maurogarcia.dev/posts$ cat /home/mauro_code
 -rw-r--r-- 1 mauro_codes mauro_codes 4.7K Jan 27 18:29 sapper-svelte-tailwindcss-boilerplate.md
 ```
 
-
-
 ## 搜索命令历史
 
-
-
 通过键入 `history | grep“[term to search]”`，可以使用管道使用grep搜索命令历史记录。
-
-
 
 感谢 [@bradnichol](https://dev.to/bradnichol) 在我之前的帖子中提出了这种方法！
 
@@ -320,35 +310,19 @@ mauro_codes@mauro-desktop:~$ history | grep "svelte"
   448  history | grep "svelte"
 ```
 
-
-
 ## 权限：更改文件模式位命令（chmod）
-
-
 
 在Linux中更改权限是一个广泛的主题，值得发表自己的文章。但我决定加入一些可以派上用场的例子。
 
-
-
 您可以使用 `chmod` 命令向不同用户添加或删除一个或多个文件的读取、写入和执行权限。
-
-
 
 作为参考，这里有一个例子，说明当我们使用 `ls-lah` 时，如何显示每个文件或目录的权限：
 
-
-
 ![Linux permissions](https://res.cloudinary.com/practicaldev/image/fetch/s--G1zf9R4v--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.imgur.com/fpk9bna.png)
-
-
 
 ## 向每个人添加执行权限
 
-
-
 键入 `chmod a+x [文件名]` 或 `chmod+x [文件名]` 为特定文件的每个人添加执行权限：
-
-
 
 ```
 ## Check file permissions
@@ -371,15 +345,9 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 --------------- 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
 ```
 
-
-
 ## 删除所有人的执行权限
 
-
-
 键入`chmod a-x [文件名]` 或 `chmod-x [文件名]` 以删除特定文件的所有人的执行权限：
-
-
 
 ```
 ## Check file permissions
@@ -402,16 +370,10 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 -rwxrwxrwx 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
 ```
 
-
-
 ## 向所有者添加执行权限
-
-
 
 键入 `chmod u+x [name-of-the-file]` 来只向文件的所有者，添加可执行权限。
 
-
-
 ```
 ## Check file permissions
 mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
@@ -432,16 +394,10 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 --------x------ 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
 --------------- 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
 ```
-
-
 
 ## 移除其他用户的可写入权限
 
-
-
 键入 `chmod o-w [name-of-the-file]`，来移除指定文件的，其他用户的可写入权限（非拥有者或者文件所属组）。
-
-
 
 ```
 ## Check file permissions
@@ -464,15 +420,9 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 -rwxrwxrwx 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
 ```
 
-
-
 ## 为文件拥有者，增加可执行权限
 
-
-
 键入 `chmod u+x [name-of-the-file]` 来为指定文件，增加可执行权限：
-
-
 
 ```
 ## Check file permissions
@@ -495,15 +445,9 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 --------------- 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
 ```
 
-
-
 ## 移除其他用户的写入权限
 
-
-
 键入 `chmod o-w [name-of-the-file]` 来移除其他用户（非拥有者或者拥有群组），指定文件的写入权限：
-
-
 
 ```
 ## Check file permissions
@@ -527,5 +471,65 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 ```
 
 
+
+## 为当前组添加读取权限
+
+
+
+键入 `chmod g+r [name-of-the-file]` 来为指定文件添加目标文件的读取权限，针对当前组有效：
+
+
+
+```
+## Check file permissions
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------------- 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+--------------- 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+
+## Add the read permission only to the group in the main.js file
+mauro_codes@mauro-desktop:~/projects/landing-page$ chmod g+r main.js
+
+## Check permissions again
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+---------r----- 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+--------------- 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+```
+
+
+
+## 移除所有用户针对目标文件的读取和写入权限
+
+
+
+键入 `chmod a-wr [name-of-the-file]` 来移除目标文件，针对所有用户的写入和读取权限
+
+
+
+```
+## Check file permissions
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+-rwxrwxrwx 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+-rwxrwxrwx 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+
+## Remove the write and read permission to everyone in the main.js file
+mauro_codes@mauro-desktop:~/projects/landing-page$ chmod a-wr main.js
+
+## Check permissions again
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x--x--x 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+-rwxrwxrwx 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+```
 
 
