@@ -474,7 +474,7 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 
 ## 为当前组添加读取权限
 
-
+T
 
 键入 `chmod g+r [name-of-the-file]` 来为指定文件添加目标文件的读取权限，针对当前组有效：
 
@@ -531,5 +531,98 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 --------x--x--x 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
 -rwxrwxrwx 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
 ```
+
+
+
+## 删除每个人对多个文件的写入和读取权限
+
+
+
+键入 `chmod a-wr *.*` 以删除对当前工作目录中所有文件的所有人的写入和读取权限。
+
+
+
+```
+## Check file permissions
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+-rwxrwxrwx 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+-rwxrwxrwx 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+
+## Remove the write and read permissions to everyone for all the files in the current working directory
+mauro_codes@mauro-desktop:~/projects/landing-page$ chmod a-wr *.*
+
+## Check permissions again
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x--x--x 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+--------x--x--x 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+```
+
+
+
+## 组
+
+
+
+## 列出所有可用的组
+
+
+
+键入`getent group`以获取一个列表，其中包括系统中所有可用的组。
+
+
+
+```
+mauro_codes@mauro-desktop:~/projects/landing-page$ getent group
+root:x:0:
+daemon:x:1:
+bin:x:2:
+sys:x:3:
+mauro_codes:x:1000:
+```
+
+
+
+## 列出我的帐户分配到的所有组
+
+
+
+键入 `groups` 以获取您所属的所有组的列表。
+
+
+
+```
+## List all my groups
+mauro_codes@mauro-desktop:~/projects/landing-page$ groups
+mauro_codes adm dialout cdrom floppy sudo audio dip video plugdev netdev
+```
+
+
+
+## 搜索特定组（使用管道）
+
+
+
+键入 `getent group | grep [要搜索的组名]`以使用管道搜索特定的组。
+
+
+
+```
+## List all the groups that contains the term "mauro_codes"
+mauro_codes@mauro-desktop:~/projects/landing-page$ getent group | grep "mauro_codes"
+adm:x:4:syslog,mauro_codes
+mauro_codes:x:1000:
+
+## List all the groups that contains the term "root"
+mauro_codes@mauro-desktop:~/projects/landing-page$ getent group | grep "root"
+root:x:0:
+```
+
+
 
 
