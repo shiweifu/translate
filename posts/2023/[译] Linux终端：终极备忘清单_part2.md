@@ -470,15 +470,11 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 -rwxrwxrwx 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
 ```
 
-
-
 ## 为当前组添加读取权限
 
 T
 
 键入 `chmod g+r [name-of-the-file]` 来为指定文件添加目标文件的读取权限，针对当前组有效：
-
-
 
 ```
 ## Check file permissions
@@ -501,15 +497,9 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 --------------- 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
 ```
 
-
-
 ## 移除所有用户针对目标文件的读取和写入权限
 
-
-
 键入 `chmod a-wr [name-of-the-file]` 来移除目标文件，针对所有用户的写入和读取权限
-
-
 
 ```
 ## Check file permissions
@@ -532,15 +522,9 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 -rwxrwxrwx 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
 ```
 
-
-
 ## 删除每个人对多个文件的写入和读取权限
 
-
-
 键入 `chmod a-wr *.*` 以删除对当前工作目录中所有文件的所有人的写入和读取权限。
-
-
 
 ```
 ## Check file permissions
@@ -563,19 +547,11 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 --------x--x--x 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
 ```
 
-
-
 ## 组
-
-
 
 ## 列出所有可用的组
 
-
-
 键入`getent group`以获取一个列表，其中包括系统中所有可用的组。
-
-
 
 ```
 mauro_codes@mauro-desktop:~/projects/landing-page$ getent group
@@ -586,15 +562,9 @@ sys:x:3:
 mauro_codes:x:1000:
 ```
 
-
-
 ## 列出我的帐户分配到的所有组
 
-
-
 键入 `groups` 以获取您所属的所有组的列表。
-
-
 
 ```
 ## List all my groups
@@ -602,15 +572,9 @@ mauro_codes@mauro-desktop:~/projects/landing-page$ groups
 mauro_codes adm dialout cdrom floppy sudo audio dip video plugdev netdev
 ```
 
-
-
 ## 搜索特定组（使用管道）
 
-
-
 键入 `getent group | grep [要搜索的组名]`以使用管道搜索特定的组。
-
-
 
 ```
 ## List all the groups that contains the term "mauro_codes"
@@ -624,5 +588,110 @@ root:x:0:
 ```
 
 
+
+## 创建新的组
+
+
+
+键入 `sudo groupadd [name-for-the-new-group]`，来创建新的组。
+
+
+
+```
+## Create a new group called "development"
+mauro_codes@mauro-desktop:~/projects/landing-page$ sudo groupadd development
+
+## Check if the new group was created
+mauro_codes@mauro-desktop:~/projects/landing-page$ getent group | grep development
+development:x:1001:
+```
+
+
+
+## 将已存在的用户，添加第二个组
+
+
+
+键入 `usermod -a -G [group-you-want-to-add-the-user-to] [user-name-to-add]`，来添加一个已存在的用户到第二个组。
+
+
+
+```
+## Add mauro_codes to the secondary group "development"
+mauro_codes@mauro-desktop:~/projects$ sudo usermod -a -G development mauro_codes
+
+## Check changes
+mauro_codes@mauro-desktop:~/projects$ getent group | grep "mauro"
+adm:x:4:syslog,mauro_codes
+dialout:x:20:mauro_codes
+mauro_codes:x:1000:
+development:x:1001:mauro_codes
+```
+
+
+
+## 所有权：更改文件所有者和组（chown）
+
+
+
+**更改文件的用户所有权**
+
+
+
+键入 `sudo chown [new-owner-name] [file-to-change-ownership]`，来更改用户文件的所有权。
+
+
+
+```
+## Check user ownership
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x--x--x 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+--------x--x--x 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+
+## Change user ownership (the root user will be the owner of the main.js file)
+mauro_codes@mauro-desktop:~/projects/landing-page$ sudo chown root main.js
+
+## Check user ownership again
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x--x--x 1 root        mauro_codes 206 Jan 27 16:36 main.js
+--------x--x--x 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+```
+
+
+
+## 更改多个文件的用户所有权
+
+
+
+键入 `sudo chown [new-owner-name] [file-1-to-change-ownership] [file-n-to-change-ownership]`，来同时改变多个文件的所有者。
+
+
+
+```
+## Check user ownership
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x--x--x 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+--------x--x--x 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+
+## Change user ownership (the root user will be the owner of the main.js and script.txt files)
+mauro_codes@mauro-desktop:~/projects/landing-page$ sudo chown root main.js script.txt
+
+## Check user ownership again
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x--x--x 1 root        mauro_codes 206 Jan 27 16:36 main.js
+--------x--x--x 1 root        mauro_codes  23 Jan 24 17:31 script.txt
+```
 
 
