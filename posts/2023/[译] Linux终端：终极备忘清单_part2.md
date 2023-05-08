@@ -587,15 +587,9 @@ mauro_codes@mauro-desktop:~/projects/landing-page$ getent group | grep "root"
 root:x:0:
 ```
 
-
-
 ## 创建新的组
 
-
-
 键入 `sudo groupadd [name-for-the-new-group]`，来创建新的组。
-
-
 
 ```
 ## Create a new group called "development"
@@ -606,15 +600,9 @@ mauro_codes@mauro-desktop:~/projects/landing-page$ getent group | grep developme
 development:x:1001:
 ```
 
-
-
 ## 将已存在的用户，添加第二个组
 
-
-
 键入 `usermod -a -G [group-you-want-to-add-the-user-to] [user-name-to-add]`，来添加一个已存在的用户到第二个组。
-
-
 
 ```
 ## Add mauro_codes to the secondary group "development"
@@ -628,19 +616,11 @@ mauro_codes:x:1000:
 development:x:1001:mauro_codes
 ```
 
-
-
 ## 所有权：更改文件所有者和组（chown）
-
-
 
 **更改文件的用户所有权**
 
-
-
 键入 `sudo chown [new-owner-name] [file-to-change-ownership]`，来更改用户文件的所有权。
-
-
 
 ```
 ## Check user ownership
@@ -663,15 +643,9 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 --------x--x--x 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
 ```
 
-
-
 ## 更改多个文件的用户所有权
 
-
-
 键入 `sudo chown [new-owner-name] [file-1-to-change-ownership] [file-n-to-change-ownership]`，来同时改变多个文件的所有者。
-
-
 
 ```
 ## Check user ownership
@@ -692,6 +666,72 @@ drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
 drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
 --------x--x--x 1 root        mauro_codes 206 Jan 27 16:36 main.js
 --------x--x--x 1 root        mauro_codes  23 Jan 24 17:31 script.txt
+```
+
+
+
+## 更改目录的用户所有权
+
+
+
+  键入 `sudo chown [new-owner-name] [directory-to-change-ownership]` 来改变目录的所有者。
+
+
+
+```
+## Check directories user ownership
+mauro_codes@mauro-desktop:~/projects$ ls -lah
+total 4.0K
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 28 10:48 ..
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 landing-page
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 22 12:15 personal-blog
+
+## Change user ownership (the root user will be the owner of the "landing-page" directory)
+mauro_codes@mauro-desktop:~/projects$ sudo chown root ./landing-page/
+
+## Check directories user ownership again
+mauro_codes@mauro-desktop:~/projects$ ls -lah
+total 4.0K
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 28 10:48 ..
+drwxr-xr-x 1 root        mauro_codes 512 Jan 27 17:49 landing-page
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 22 12:15 personal-blog
+```
+
+
+
+## 递归更改目录及其所有文件的用户所有权
+
+
+
+键入`sudo chown -R [new-owner-name] [directory-to-change-ownership]`，以递归方式更改目录及其所有文件的用户所有权。
+
+
+
+```
+## Check files ownershop within the landing-page directory
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 root        mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x--x--x 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+--------x--x--x 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 16:27 temp_dir
+
+## Recursively change the user ownership (the root user will be the owner 
+## of all the files and directories within the current directory)
+mauro_codes@mauro-desktop:~/projects/landing-page$ sudo chown -R root .
+
+## Check user ownership again
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls -lah
+total 0
+drwxr-xr-x 1 root        mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x--x--x 1 root        mauro_codes 206 Jan 27 16:36 main.js
+--------x--x--x 1 root        mauro_codes  23 Jan 24 17:31 script.txt
+drwxr-xr-x 1 root        mauro_codes 512 Jan 27 16:27 temp_dir
+
 ```
 
 
