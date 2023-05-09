@@ -735,3 +735,71 @@ drwxr-xr-x 1 root        mauro_codes 512 Jan 27 16:27 temp_dir
 ```
 
 
+
+## 为单个文件更改所有者
+
+
+
+键入 `sudo chown :[new-group-name] [file-to-change-ownership]` 来更改单个文件的所属群组。
+
+
+
+```
+## Check group ownership
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x--x--x 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+--------x--x--x 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+
+## Change group ownership (the main.js file will now have "development" as a group)
+mauro_codes@mauro-desktop:~/projects/landing-page$ sudo chown :development main.js
+
+## Check group ownership again
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x--x--x 1 mauro_codes development 206 Jan 27 16:36 main.js
+--------x--x--x 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+```
+
+
+
+## 更改文件的用户和组所有权
+
+
+
+键入 `sudo chown [new-owner-name]:[new-group-name] [file-to-change-ownership]` 同时更改单个文件的所属用户和所有权。
+
+
+
+```
+## Check ownership
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x--x--x 1 mauro_codes mauro_codes 206 Jan 27 16:36 main.js
+--------x--x--x 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+
+## Change user and group ownership (the main.js file will now have "development" as a group and root as owner)
+mauro_codes@mauro-desktop:~/projects/landing-page$ sudo chown root:development main.js
+
+## Check ownership again
+mauro_codes@mauro-desktop:~/projects/landing-page$ ls
+total 0
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 17:49 .
+drwxr-xr-x 1 mauro_codes mauro_codes 512 Jan 27 20:00 ..
+--------x--x--x 1 root        development 206 Jan 27 16:36 main.js
+--------x--x--x 1 mauro_codes mauro_codes  23 Jan 24 17:31 script.txt
+```
+
+
+
+## 快捷方式
+
+
+
+向 @bogkonstantin 和 @samuelabreu 大声呼喊，因为他们让我知道了这些我不知道的命令。
