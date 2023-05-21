@@ -103,3 +103,61 @@ Docker扩展使从Visual Studio代码构建、管理和部署容器化应用程�
 
 
 ![Regex Previewer in Action](https://res.cloudinary.com/practicaldev/image/fetch/s--dt0_BfW6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://github.com/chrmarti/vscode-regex/raw/main/images/in_action.gif)
+
+
+
+### 10. [Better Comments](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments)
+
+
+
+有了这个扩展，您将能够将注释分类为警报、查询、TODO、高亮显示等。
+
+注释后的代码也可以进行样式设置，以明确代码不应该存在。您想要的任何其他注释样式都可以在设置中指定。
+
+
+
+![Couldn't use vs code ''better comments extension'' for Python - Stack  Overflow](https://res.cloudinary.com/practicaldev/image/fetch/s--San4crM7--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://i.stack.imgur.com/MFQJN.png)
+
+
+
+### 11. [Bookmarks](https://marketplace.visualstudio.com/items?itemName=alefragnani.Bookmarks)
+
+
+
+Bookmarks扩展可帮助您导航代码，轻松快速地在重要位置之间移动。
+
+不再需要搜索代码。它还支持一组选择命令，允许您选择书签行和书签行之间的区域。它对于日志文件分析非常有用。
+
+
+
+![Toggle](https://res.cloudinary.com/practicaldev/image/fetch/s--NRS8Q3sc--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://github.com/alefragnani/vscode-bookmarks/raw/HEAD/images/printscreen-toggle.png)
+
+
+
+### 12. [Project Manager](https://marketplace.visualstudio.com/items?itemName=alefragnani.project-manager)
+
+
+
+无论项目位于何处，项目经理都可以帮助您轻松访问项目。不要再错过那些重要的项目了。
+
+您可以定义您的项目（也称为收藏夹），也可以选择自动检测Git、Mercurial或SVN存储库、VS代码文件夹或任何其他文件夹。
+
+此外，您还可以使用标记来组织您的项目。
+
+
+
+![Side Bar](https://res.cloudinary.com/practicaldev/image/fetch/s--rc_xIgRD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://github.com/alefragnani/vscode-project-manager/raw/HEAD/images/vscode-project-manager-side-bar-tags.gif)
+
+
+
+### 13. [Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
+
+
+
+一个基本的拼写检查器，可以很好地处理代码和文档。
+
+这个拼写检查器的目标是帮助发现常见的拼写错误，同时保持低误报率。
+
+
+
+![Example](https://res.cloudinary.com/practicaldev/image/fetch/s--zDtAwx5v--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://raw.githubusercontent.com/streetsidesoftware/vscode-spell-checker/main/images/example.gif)
