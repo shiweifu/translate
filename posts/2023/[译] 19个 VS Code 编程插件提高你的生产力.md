@@ -161,3 +161,63 @@ Bookmarks扩展可帮助您导航代码，轻松快速地在重要位置之间�
 
 
 ![Example](https://res.cloudinary.com/practicaldev/image/fetch/s--zDtAwx5v--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://raw.githubusercontent.com/streetsidesoftware/vscode-spell-checker/main/images/example.gif)
+
+
+
+### 14. [Image Optimizer](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.ImageOptimizer)
+
+
+
+在解决方案资源管理器中的任何文件夹和图像中添加右键菜单，使您能够自动优化该文件夹中的所有PNG、GIF和JPEG文件。
+
+
+
+只需右键单击包含图像的任何文件或文件夹，然后单击其中一个图像优化按钮。
+
+
+
+![](C:\Users\shiweifu\AppData\Roaming\marktext\images\2023-05-24-14-54-46-image.png)
+
+
+
+### 15. [CSS Peek](https://marketplace.visualstudio.com/items?itemName=pranaygp.vscode-css-peek)
+
+
+
+该扩展支持符号定义跟踪的所有常规功能，但也支持CSS选择器（类、ID和HTML标记）。
+
+
+
+您可以内联加载CSS文件并在那里进行快速编辑，直接跳转到CSS文件或在新编辑器中打开它，或在悬停中显示定义。
+
+
+
+![working](https://res.cloudinary.com/practicaldev/image/fetch/s--0OwG0Uhw--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://github.com/pranaygp/vscode-css-peek/raw/master/readme/working.gif)
+
+
+
+### 16. [Placeholder Images](https://marketplace.visualstudio.com/items?itemName=JakeWilson.vscode-placeholder-images)
+
+
+
+使用各种第三方服务，如Unsplash、LoremFlickr等，在Visual Studio代码中生成占位符图像并将其插入HTML。
+
+
+
+您可以选择图像的宽度、高度、文本和颜色，将生成的IMG标记插入HTML或将其复制到剪贴板，或将图像URL插入HTML、复制到剪贴板或在浏览器中打开。
+
+
+
+### 17. [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+
+
+
+一个快速开发的实时服务器，可实时重新加载浏览器。只需在状态栏中单击一次即可启动或停止服务器。
+
+
+
+允许用户创建可自定义的端口号，设置服务器根目录，并在设置中提供默认的浏览器配置选项。
+
+
+
+![Live Server Demo VSCode](https://res.cloudinary.com/practicaldev/image/fetch/s--QJrpuDo8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://github.com/ritwickdey/vscode-live-server/raw/HEAD/images/Screenshot/vscode-live-server-animated-demo.gif)
