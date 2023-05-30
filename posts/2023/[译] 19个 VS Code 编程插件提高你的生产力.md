@@ -50,23 +50,15 @@ Remote-SSH扩展允许您使用任何带有SSH服务器的远程机器作为开�
 
 您可以打开远程计算机上的任何文件夹并使用它，就像文件夹在您的计算机上一样。
 
-
-
 ### 6. [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
 
 Docker扩展使从Visual Studio代码构建、管理和部署容器化应用程序变得容易。
 
 它还提供了在容器内一键调试Node.js、Python和.NET。
 
-
-
 ![Image description](https://res.cloudinary.com/practicaldev/image/fetch/s--LXeQM4jJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kifgjwnunn9ynmr2odcf.png)
 
-
-
 ### 7. [Git History](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory)
-
-
 
 有了这个扩展，用户可以轻松地查看提交历史记录、检查文件更改以及比较不同版本的代码。
 
@@ -74,11 +66,7 @@ Docker扩展使从Visual Studio代码构建、管理和部署容器化应用程�
 
 用户还可以查看与每次提交相关联的分支和标记名称。
 
-
-
 ![Image description](https://res.cloudinary.com/practicaldev/image/fetch/s--IodnRRvA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/y7us7mebno5di3f7lp1l.png)
-
-
 
 ### 8. [Markdown All in One](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one)
 
@@ -86,57 +74,33 @@ Docker扩展使从Visual Studio代码构建、管理和部署容器化应用程�
 
 这些功能包括语法高亮显示、代码块格式、目录、预览模式、表情符号支持、键盘快捷键等。
 
-
-
 ![Image description](https://res.cloudinary.com/practicaldev/image/fetch/s--ZLh3KwS---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8f1ygmrmzd1ifz2q2pfq.png)
 
-
-
 ### 9. [Regex Previewer](https://marketplace.visualstudio.com/items?itemName=chrmarti.regex)
-
-
 
 扩展插件在并排文档中显示当前正则表达式的匹配项。这可以通过Ctrl+Alt+M打开/关闭。
 
 全局和多行选项可以通过状态栏条目添加到并排文档中进行评估。当并排文档有多个要匹配的示例时，这可能很有用。
 
-
-
 ![Regex Previewer in Action](https://res.cloudinary.com/practicaldev/image/fetch/s--dt0_BfW6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://github.com/chrmarti/vscode-regex/raw/main/images/in_action.gif)
 
-
-
 ### 10. [Better Comments](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments)
-
-
 
 有了这个扩展，您将能够将注释分类为警报、查询、TODO、高亮显示等。
 
 注释后的代码也可以进行样式设置，以明确代码不应该存在。您想要的任何其他注释样式都可以在设置中指定。
 
-
-
 ![Couldn't use vs code ''better comments extension'' for Python - Stack  Overflow](https://res.cloudinary.com/practicaldev/image/fetch/s--San4crM7--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://i.stack.imgur.com/MFQJN.png)
 
-
-
 ### 11. [Bookmarks](https://marketplace.visualstudio.com/items?itemName=alefragnani.Bookmarks)
-
-
 
 Bookmarks扩展可帮助您导航代码，轻松快速地在重要位置之间移动。
 
 不再需要搜索代码。它还支持一组选择命令，允许您选择书签行和书签行之间的区域。它对于日志文件分析非常有用。
 
-
-
 ![Toggle](https://res.cloudinary.com/practicaldev/image/fetch/s--NRS8Q3sc--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://github.com/alefragnani/vscode-bookmarks/raw/HEAD/images/printscreen-toggle.png)
 
-
-
 ### 12. [Project Manager](https://marketplace.visualstudio.com/items?itemName=alefragnani.project-manager)
-
-
 
 无论项目位于何处，项目经理都可以帮助您轻松访问项目。不要再错过那些重要的项目了。
 
@@ -144,80 +108,78 @@ Bookmarks扩展可帮助您导航代码，轻松快速地在重要位置之间�
 
 此外，您还可以使用标记来组织您的项目。
 
-
-
 ![Side Bar](https://res.cloudinary.com/practicaldev/image/fetch/s--rc_xIgRD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://github.com/alefragnani/vscode-project-manager/raw/HEAD/images/vscode-project-manager-side-bar-tags.gif)
 
-
-
 ### 13. [Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
-
-
 
 一个基本的拼写检查器，可以很好地处理代码和文档。
 
 这个拼写检查器的目标是帮助发现常见的拼写错误，同时保持低误报率。
 
-
-
 ![Example](https://res.cloudinary.com/practicaldev/image/fetch/s--zDtAwx5v--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://raw.githubusercontent.com/streetsidesoftware/vscode-spell-checker/main/images/example.gif)
-
-
 
 ### 14. [Image Optimizer](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.ImageOptimizer)
 
-
-
 在解决方案资源管理器中的任何文件夹和图像中添加右键菜单，使您能够自动优化该文件夹中的所有PNG、GIF和JPEG文件。
-
-
 
 只需右键单击包含图像的任何文件或文件夹，然后单击其中一个图像优化按钮。
 
-
-
 ![](C:\Users\shiweifu\AppData\Roaming\marktext\images\2023-05-24-14-54-46-image.png)
-
-
 
 ### 15. [CSS Peek](https://marketplace.visualstudio.com/items?itemName=pranaygp.vscode-css-peek)
 
-
-
 该扩展支持符号定义跟踪的所有常规功能，但也支持CSS选择器（类、ID和HTML标记）。
-
-
 
 您可以内联加载CSS文件并在那里进行快速编辑，直接跳转到CSS文件或在新编辑器中打开它，或在悬停中显示定义。
 
-
-
 ![working](https://res.cloudinary.com/practicaldev/image/fetch/s--0OwG0Uhw--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://github.com/pranaygp/vscode-css-peek/raw/master/readme/working.gif)
-
-
 
 ### 16. [Placeholder Images](https://marketplace.visualstudio.com/items?itemName=JakeWilson.vscode-placeholder-images)
 
-
-
 使用各种第三方服务，如Unsplash、LoremFlickr等，在Visual Studio代码中生成占位符图像并将其插入HTML。
-
-
 
 您可以选择图像的宽度、高度、文本和颜色，将生成的IMG标记插入HTML或将其复制到剪贴板，或将图像URL插入HTML、复制到剪贴板或在浏览器中打开。
 
-
-
 ### 17. [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
-
-
 
 一个快速开发的实时服务器，可实时重新加载浏览器。只需在状态栏中单击一次即可启动或停止服务器。
 
-
-
 允许用户创建可自定义的端口号，设置服务器根目录，并在设置中提供默认的浏览器配置选项。
 
-
-
 ![Live Server Demo VSCode](https://res.cloudinary.com/practicaldev/image/fetch/s--QJrpuDo8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://github.com/ritwickdey/vscode-live-server/raw/HEAD/images/Screenshot/vscode-live-server-animated-demo.gif)
+
+
+
+### 18. [Peacock](https://marketplace.visualstudio.com/items?itemName=johnpapa.vscode-peacock)
+
+
+
+使用Peacock，您可以巧妙地更改VS代码工作区的颜色。
+
+当您有多个VS Code实例、使用VS Live Share或使用VS Code的远程功能，并且您希望快速识别编辑器时，这是理想的选择。
+
+
+
+![Peacock Windows](https://res.cloudinary.com/practicaldev/image/fetch/s--ugi0scMO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://raw.githubusercontent.com/johnpapa/vscode-peacock/main/resources/hero.png)
+
+
+
+### 19. [Polacode](https://marketplace.visualstudio.com/items?itemName=pnp.polacode)
+
+
+
+Polacode是VS代码的扩展，它可以对您的代码进行截屏。
+
+该扩展生成一个与源屏幕截图具有相同样式和主题的屏幕截图。
+
+
+
+![usage](https://res.cloudinary.com/practicaldev/image/fetch/s--fo72vUBo--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://github.com/octref/polacode/raw/master/demo/usage.gif)
+
+
+
+写作一直是我的热情所在，帮助和激励人们给了我快乐。如果您有任何问题，请随时联系！
+
+在[Twitter](https://twitter.com/madzadev)，[LinkedIn](https://www.linkedin.com/in/madzadev/) 和 [GitHub](https://github.com/madzadev)!和我连接！
+
+访问我的博客，了解更多这样的文章。
