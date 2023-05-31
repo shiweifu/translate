@@ -44,4 +44,39 @@ $ mkdir -p $GOPATH/src/github.com/firebase007
 
 
 
+> 注意：pkg目录是Go存储预编译文件缓存以供后续编译的地方。关于如何使用$GOPATH编写Go代码的更多详细信息，请点击[这里](https://golang.org/doc/gopath_code.html)。
+
+
+
+## 包
+
+
+
+为了封装、依赖性管理和可重用性，程序被分组为包。[包](https://golang.org/pkg/)是存储在同一目录中并一起编译的源文件。它们存储在模块中，其中模块是执行特定操作的一组相关Go包。
+
+
+
+> 注意：Go存储库通常只包含一个模块，该模块位于存储库的根目录下。但是，存储库也可以包含多个模块。
+
+
+
+如今，随着Go模块在1.13及以上版本中的引入，我们将运行并编译一个简单的Go模块或程序，如下所示：
+
+
+
+```
+retina@alex Desktop % mkdir examplePackage // create a directory on our machine outside $GOPATH/src
+retina@alex Desktop % cd examplePackage  // navigate into that directory
+retina@alex examplePackage % go mod init github.com/firebase007/test  // choose a module path and create a go.mod file that declares that path
+go: creating new go.mod: module github.com/firebase007/test
+retina@Terra-011 examplePackage % ls
+go.mod
+```
+
+
+
+假设`test`是上面模块的名称，我们可以继续创建一个包目录，然后在同一目录中创建新文件。让我们看一个简单的例子。
+
+
+
 
