@@ -79,4 +79,64 @@ go.mod
 
 
 
+```
+retina@alex examplePackage % mkdir test
+retina@alex examplePackage % ls
+go.mod  test
+retina@alex examplePackage % cd test 
+retina@alex test % ls
+retina@alex test % touch test.go
+retina@alex test % ls
+test.go
+retina@alex test % go run test.go 
+Hello, Go
+retina@alex test % %
+```
+
+
+
+示例代码 `test.go` 在下方：
+
+
+
+```
+package main  // specifies the package name
+
+import "fmt"
+
+func main() {
+  fmt.Println("Hello, Go")
+}
+```
+
+
+
+注意：go.mod文件声明模块的路径，其中还包括模块内所有包的导入路径前缀。这与它在工作区或远程存储库中的位置相对应。有关使用模块组织Go代码的更多详细信息，请参阅 [此处](https://golang.org/doc/code.html#Organization)。
+
+
+
+## Go 语言中的类型系统
+
+
+
+就像其他语言中的类型系统一样，GO的类型系统指定了一组将类型属性分配给变量，函数和标识符的规则。
+
+
+
+Go中的类型可分为以下类别：
+
+
+
+`String 类型`：表示一组字符串值，这是Go中的一个字节片。它们在创建后是不可变的或只读的。字符串是定义的类型，因为它们附加了方法
+
+
+
+`Boolean 类型`：由预先声明的常量true和false表示
+
+
+
+`数组类型`：相同类型的元素的编号集合。基本上，它们是切片的构建块。数组是Go中的值，这意味着当它们被分配给变量或作为参数传递给函数时，它们的原始值会被复制，而不是它们的内存地址
+
+
+
 
