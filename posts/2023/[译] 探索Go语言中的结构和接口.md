@@ -139,4 +139,82 @@ Go中的类型可分为以下类别：
 
 
 
+`切片类型`：切片只是底层数组的一段，或者基本上是对底层数组的引用。[]T是具有类型T的元素的切片。
+
+
+
+`指针类型`：引用类型，表示指向给定类型变量的所有指针的集合。通常，指针类型保存另一个变量的内存地址。指针的零值为零。
+
+
+
+## 接口和结构简介
+
+
+
+### 结构
+
+
+
+Go具有包含相同或不同类型字段的结构类型。结构基本上是具有逻辑意义或构造的命名字段的集合，其中每个字段都有特定的类型。
+
+
+
+通常，结构类型是用户定义类型的组合。它们是专门的类型，因为它们允许我们在内置类型不足的情况下定义自定义数据类型。让我们用一个例子来更好地理解这一点。
+
+
+
+比方说，我们有一个博客文章，我们打算发表。使用结构类型来表示数据字段如下所示：
+
+
+
+```
+type blogPost struct {
+  author  string    // field
+  title   string    // field  
+  postId  int       // field
+}
+// Note that we can create instances of a struct types
+```
+
+
+
+在上面的结构定义中，我们添加了不同的字段值。现在，要使用文字实例化或初始化结构，我们可以执行以下操作：
+
+
+
+```
+package main
+
+import "fmt"
+
+type blogPost struct {
+  author  string
+  title   string
+  postId  int  
+}
+
+func main() {
+        var b blogPost // initialize the struct type
+
+        fmt.Println(b) // print the zero value       
+
+        b = blogPost{ //
+        author: "Alex",
+        title: "Understand struct and interface types",
+        postId: 12345,
+        }
+
+        fmt.Println(b)        
+
+}
+
+//output
+{  0}  // zero values of the struct type is shown
+{Alex Understand struct and interface types 12345}
+```
+
+
+
+
+
 
