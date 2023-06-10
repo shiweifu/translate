@@ -132,7 +132,7 @@ func main() {
 在上面的结构定义中，我们添加了不同的字段值。现在，要使用文字实例化或初始化结构，我们可以执行以下操作：
 
 > 注意：我们也可以用 new 关键字初始化结构类型。在这种情况下，我们可以做到：
->
+> 
 > ```
 > b := new(blogPost)
 > ```
@@ -252,3 +252,88 @@ func main() {
        fmt.Println("Author's name", b.author) // in this case Go would handle the dereferencing on our behalf
 }
 ```
+
+
+
+这里有一个 [链接](https://play.golang.org/p/WSPB_KUQeTM)到 Playground 来运行代码。
+
+
+
+在我们继续学习关于方法和接口的部分时，我们将开始了解这种方法的好处。
+
+
+
+## 嵌套或嵌入的结构字段
+
+
+
+早些时候，我们提到结构类型是复合类型。因此，我们还可以具有嵌套在其他结构内部的结构。例如，假设我们有一个`author`和一个`blogPost结构，以下定义：
+
+
+
+```
+type blogPost struct {
+  title      string
+  postId     int
+  published  bool 
+}
+
+type Author struct {
+  firstName, lastName, Biography string
+  photoId    int
+}
+```
+
+
+
+然后，我们可以在blogPost结构中嵌套Author结构，如下所示：
+
+
+
+```
+package main
+
+import "fmt"
+
+type blogPost struct {
+  author  Author // nested struct field
+  title   string
+  postId  int 
+  published  bool  
+}
+
+type Author struct {
+  firstName, lastName, Biography string
+  photoId    int
+}
+
+func main() {
+        b := new(blogPost)
+
+        fmt.Println(b)
+
+        b.author.firstName= "Alex"
+        b.author.lastName= "Nnakwue"
+        b.author.Biography = "I am a lazy engineer"
+        b.author.photoId = 234333
+        b.published=true
+        b.title= "understand interface and struct type in Go"
+        b.postId= 12345
+
+        fmt.Println(*b)        
+
+}
+
+// output
+
+&{{   0}  0 false}  // again default values
+{{Alex Nnakwue I am a lazy engineer 234333} understand interface and struct type in Go 12345 true}
+```
+
+
+
+这是在Playground上运行代码的 [链接](https://play.golang.org/p/aWpZcpcJvGt)。
+
+
+
+在Go中，有一个概念，即嵌套结构类型的提升字段。在这种情况下，我们可以直接访问嵌入结构中定义的结构类型，而不必深入一些层次，例如执行`b.author.firstName`。让我们看看如何实现这一点：
