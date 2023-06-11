@@ -253,23 +253,13 @@ func main() {
 }
 ```
 
-
-
 这里有一个 [链接](https://play.golang.org/p/WSPB_KUQeTM)到 Playground 来运行代码。
-
-
 
 在我们继续学习关于方法和接口的部分时，我们将开始了解这种方法的好处。
 
-
-
 ## 嵌套或嵌入的结构字段
 
-
-
 早些时候，我们提到结构类型是复合类型。因此，我们还可以具有嵌套在其他结构内部的结构。例如，假设我们有一个`author`和一个`blogPost结构，以下定义：
-
-
 
 ```
 type blogPost struct {
@@ -284,11 +274,7 @@ type Author struct {
 }
 ```
 
-
-
 然后，我们可以在blogPost结构中嵌套Author结构，如下所示：
-
-
 
 ```
 package main
@@ -330,10 +316,70 @@ func main() {
 {{Alex Nnakwue I am a lazy engineer 234333} understand interface and struct type in Go 12345 true}
 ```
 
-
-
 这是在Playground上运行代码的 [链接](https://play.golang.org/p/aWpZcpcJvGt)。
 
-
-
 在Go中，有一个概念，即嵌套结构类型的提升字段。在这种情况下，我们可以直接访问嵌入结构中定义的结构类型，而不必深入一些层次，例如执行`b.author.firstName`。让我们看看如何实现这一点：
+
+
+
+```
+package main
+
+import "fmt"
+
+type Author struct {
+  firstName, lastName, Biography string
+  photoId    int
+}
+
+type BlogPost struct {
+  Author  // directly passing the Author struct as a field - also called an anonymous field orembedded type 
+  title   string
+  postId  int 
+  published  bool  
+}
+
+func main() {
+        b := BlogPost{
+        Author: Author{"Alex", "Nnakwue", "I am a lazy engineer", 234333},
+        title:"understand interface and struct type in Go",
+        published:true,
+        postId: 12345,
+        }
+
+        fmt.Println(b.firstName) // remember the firstName field is present on the Author struct??
+
+        fmt.Println(b)        
+
+}
+
+//output
+Alex
+{{Alex Nnakwue I am a lazy engineer 234333} understand interface and struct type in Go 12345 true}
+```
+
+
+
+这里有一个 [link](https://play.golang.org/p/Rc-dgED1QRd) 到 Playground 来运行代码。
+
+
+
+> 注意：Go不支持继承，而是支持组合。在接下来的部分中，我们将了解如何将这些概念应用于结构和接口类型，以及如何使用方法向它们添加行为。
+
+
+
+
+
+## Go中的方法和函数
+
+### 方法集合
+
+类型T的方法集由用接收器类型T声明的所有方法组成。注意，接收器是通过方法名称前面的一个额外参数指定的。有关接收器类型的更多详细信息，请点击[这里](https://golang.org/ref/spec#Method_declarations)。
+
+
+
+> Go中的方法是具有接收器的特殊类型的函数。
+
+
+
+在Go中，我们可以通过定义一个具有行为的类型的方法来创建该类型。本质上，方法集是一个类型必须具有的方法列表，以便实现接口。让我们看一个例子：
