@@ -320,8 +320,6 @@ func main() {
 
 在Go中，有一个概念，即嵌套结构类型的提升字段。在这种情况下，我们可以直接访问嵌入结构中定义的结构类型，而不必深入一些层次，例如执行`b.author.firstName`。让我们看看如何实现这一点：
 
-
-
 ```
 package main
 
@@ -358,17 +356,9 @@ Alex
 {{Alex Nnakwue I am a lazy engineer 234333} understand interface and struct type in Go 12345 true}
 ```
 
-
-
 这里有一个 [link](https://play.golang.org/p/Rc-dgED1QRd) 到 Playground 来运行代码。
 
-
-
 > 注意：Go不支持继承，而是支持组合。在接下来的部分中，我们将了解如何将这些概念应用于结构和接口类型，以及如何使用方法向它们添加行为。
-
-
-
-
 
 ## Go中的方法和函数
 
@@ -376,10 +366,64 @@ Alex
 
 类型T的方法集由用接收器类型T声明的所有方法组成。注意，接收器是通过方法名称前面的一个额外参数指定的。有关接收器类型的更多详细信息，请点击[这里](https://golang.org/ref/spec#Method_declarations)。
 
-
-
 > Go中的方法是具有接收器的特殊类型的函数。
 
-
-
 在Go中，我们可以通过定义一个具有行为的类型的方法来创建该类型。本质上，方法集是一个类型必须具有的方法列表，以便实现接口。让我们看一个例子：
+
+
+
+```
+// BlogPost struct with fields defined
+type BlogPost struct {
+  author  string
+  title   string
+  postId  int  
+}
+
+// Create a BlogPost type called (under) Technology
+type Technology BlogPost
+```
+
+
+
+> 注意：我们在这里使用结构类型，因为我们在本文中关注的是结构。方法也可以在其他命名类型上定义。
+
+
+
+```
+// write a method that publishes a blogPost - accepts the Technology type as a pointer receiver
+func (t *Technology) Publish() {
+    fmt.Printf("The title on %s has been published by %s, with postId %d\n" , t.title, t.author, t.postId)
+}
+
+
+// Create an instance of the type
+t := Technology{"Alex","understand structs and interface types",12345}
+
+
+// Publish the BlogPost -- This method can only be called on the Technology type
+t.Publish()
+
+// output
+The title on understand structs and interface types has been published by Alex, with postId 12345
+```
+
+
+
+这里有一个[链接](https://play.golang.org/p/D3mVOBux2PM)到Playground来运行代码。
+
+
+
+注意：带有指针接收器的方法将同时处理指针或值。然而，情况并非如此。关于方法集的更多详细信息可以在这里的语言规范中[找到](https://golang.org/ref/spec#Method_sets)。
+
+
+
+## 接口
+
+
+
+在Go中，接口主要用于封装，并允许我们编写更干净、更健壮的代码。这样做只会暴露程序中的方法和行为。正如我们在上一节中提到的，方法集将行为添加到一个或多个类型中。
+
+
+
+接口类型定义一个或多个方法集。因此，一个类型被称为通过实现其方法来实现接口。有鉴于此，接口使我们能够组成具有共同行为的自定义类型。
