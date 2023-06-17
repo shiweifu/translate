@@ -370,8 +370,6 @@ Alex
 
 在Go中，我们可以通过定义一个具有行为的类型的方法来创建该类型。本质上，方法集是一个类型必须具有的方法列表，以便实现接口。让我们看一个例子：
 
-
-
 ```
 // BlogPost struct with fields defined
 type BlogPost struct {
@@ -384,11 +382,7 @@ type BlogPost struct {
 type Technology BlogPost
 ```
 
-
-
 > 注意：我们在这里使用结构类型，因为我们在本文中关注的是结构。方法也可以在其他命名类型上定义。
-
-
 
 ```
 // write a method that publishes a blogPost - accepts the Technology type as a pointer receiver
@@ -408,22 +402,125 @@ t.Publish()
 The title on understand structs and interface types has been published by Alex, with postId 12345
 ```
 
-
-
 这里有一个[链接](https://play.golang.org/p/D3mVOBux2PM)到Playground来运行代码。
-
-
 
 注意：带有指针接收器的方法将同时处理指针或值。然而，情况并非如此。关于方法集的更多详细信息可以在这里的语言规范中[找到](https://golang.org/ref/spec#Method_sets)。
 
-
-
 ## 接口
 
-
-
 在Go中，接口主要用于封装，并允许我们编写更干净、更健壮的代码。这样做只会暴露程序中的方法和行为。正如我们在上一节中提到的，方法集将行为添加到一个或多个类型中。
+
+接口类型定义一个或多个方法集。因此，一个类型被称为通过实现其方法来实现接口。有鉴于此，接口使我们能够组成具有共同行为的自定义类型。
 
 
 
 接口类型定义一个或多个方法集。因此，一个类型被称为通过实现其方法来实现接口。有鉴于此，接口使我们能够组成具有共同行为的自定义类型。
+
+
+
+在Go中，接口是隐含的。这意味着，如果属于接口类型的方法集的每个方法都是由一个类型实现的，则称该类型实现接口。要声明接口，请执行以下操作：
+
+
+
+```
+type Publisher interface {
+    publish()  error
+}
+```
+
+
+
+在我们上面设置的 `publish()` 接口方法中，如果一个类型（例如struct）实现了该方法，那么我们可以说该类型实现了接口。让我们在下面定义一个接受结构类型`blogpost`的方法：
+
+
+
+```
+func (b blogPost) publish() error {
+   fmt.Println("The title has been published by ", b.author)
+   return nil
+}
+```
+
+
+
+现在要实现接口：
+
+
+
+```
+package main
+
+import "fmt"
+
+// interface definition
+type Publisher interface {
+     Publish()  error
+}
+
+type blogPost struct {
+  author  string
+  title   string
+  postId  int  
+}
+
+// method with a value receiver
+func (b blogPost) Publish() error {
+   fmt. Printf("The title on %s has been published by %s, with postId %d\n" , b.title, b.author, b.postId)
+   return nil
+}
+
+ func test(){
+
+  b := blogPost{"Alex","understanding structs and interface types",12345}
+
+  fmt.Println(b.Publish())
+
+   d := &b   // pointer receiver for the struct type
+
+   b.author = "Chinedu"
+
+
+   fmt.Println(d.Publish())
+
+}
+
+
+func main() {
+
+        var p Publisher
+
+        fmt.Println(p)
+
+        p = blogPost{"Alex","understanding structs and interface types",12345}
+
+        fmt.Println(p.Publish())
+
+        test()  // call the test function 
+
+}
+
+//output
+<nil>
+The title on understanding structs and interface types has been published by Alex, with postId 12345
+<nil>
+The title on understanding structs and interface types has been published by Alex, with postId 12345
+<nil>
+The title on understanding structs and interface types has been published by Chinedu, with postId 12345
+<nil>
+```
+
+
+
+这里有一个 [链接](https://play.golang.org/p/L4SzJiaJ99w)到操场来运行代码。
+
+
+
+我们还可以这样别名接口类型：
+
+
+
+```
+type publishPost Publisher // alias to the interface defined above - only suited for third-party interfaces
+```
+
+> 
