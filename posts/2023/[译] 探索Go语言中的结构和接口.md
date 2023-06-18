@@ -504,3 +504,62 @@ type publishPost Publisher // alias to the interface defined above - only suited
 > 注意：如果多个类型实现相同的方法，则方法集可以形成一个接口类型。这允许我们将该接口类型作为参数传递给打算实现该接口行为的函数。通过这种方式，可以实现[多态性](https://en.wikipedia.org/wiki/Polymorphism_(computer_science))。
 
 与函数不同的是，方法只能从定义它们的类型的实例中调用。其好处是，与其指定我们要接受的特定数据类型作为函数的参数，不如指定需要作为参数传递给该函数的对象的行为。
+
+
+
+
+
+让我们看看如何使用接口类型作为函数的参数。首先，让我们向结构类型添加一个方法：
+
+```
+package main
+
+import "fmt"
+
+
+type Publisher interface {
+     Publish()  error
+}
+
+type blogPost struct {
+  author  string
+  title   string
+  postId  int  
+}
+
+
+func (b blogPost) Publish() error {
+   fmt.Printf("The title on %s has been published by %s\n" , b.title, b.author)
+   return nil
+}
+
+// Receives any type that satisfies the Publisher interface
+func PublishPost(publish Publisher) error {
+    return publish.Publish()
+}
+
+func main() {
+
+        var p Publisher
+
+        fmt.Println(p)
+
+        b := blogPost{"Alex","understand structs and interface types",12345}
+
+        fmt.Println(b)
+
+        PublishPost(b)
+
+}
+
+//output
+<nil>
+{Alex understand structs and interface types 12345}
+The title on understand structs and interface types has been published by Alex
+```
+
+这是在 Playground 上运行代码的 [链接](https://play.golang.org/p/tTqgdV--7KX)。
+
+正如我们前面提到的，我们可以通过值或指针类型传递方法接收器。当我们传递值时，我们会存储正在传递的值的副本。这意味着，当我们调用该方法时，我们不会对基本值进行更改。然而，当我们通过指针传递时，我们直接共享底层内存地址，从而共享底层类型中声明的变量的位置。
+
+注意：作为提醒，当一个类型定义接口类型上可用的方法集时，它被称为实现接口。
