@@ -505,10 +505,6 @@ type publishPost Publisher // alias to the interface defined above - only suited
 
 与函数不同的是，方法只能从定义它们的类型的实例中调用。其好处是，与其指定我们要接受的特定数据类型作为函数的参数，不如指定需要作为参数传递给该函数的对象的行为。
 
-
-
-
-
 让我们看看如何使用接口类型作为函数的参数。首先，让我们向结构类型添加一个方法：
 
 ```
@@ -562,4 +558,65 @@ The title on understand structs and interface types has been published by Alex
 
 正如我们前面提到的，我们可以通过值或指针类型传递方法接收器。当我们传递值时，我们会存储正在传递的值的副本。这意味着，当我们调用该方法时，我们不会对基本值进行更改。然而，当我们通过指针传递时，我们直接共享底层内存地址，从而共享底层类型中声明的变量的位置。
 
-注意：作为提醒，当一个类型定义接口类型上可用的方法集时，它被称为实现接口。
+
+
+> 注意：作为提醒，当一个类型定义接口类型上可用的方法集时，它被称为实现接口。
+
+
+
+同样，类型不需要指定它们实现一个接口；相反，任何类型都实现一个接口，前提是它具有签名与接口声明匹配的方法。
+
+
+
+最后，我们将研究在Go中嵌入接口类型的签名。让我们使用一个伪示例：
+
+
+
+```
+//embedding interfaces
+type interface1 interface {
+    Method1()
+}
+
+type interface2 interface {
+    Method2()
+}
+
+type embeddedinterface interface {
+    interface1
+    interface2
+}
+
+func (s structName)  method1 (){
+
+}
+
+func (s structName)  method2 (){
+
+}
+
+
+type structName struct {
+  field1  type1
+  field2  type2
+
+}
+
+// initialize struct type inside main func
+var e embeddedinterface = structName // struct initialized
+e.method1() // call method defined on struct type
+```
+
+
+
+> 注意：作为经验法则，当我们开始在软件包中具有多种类型时实现相同的方法签名时，我们可以开始重构代码并使用接口类型。这样做避免了早期的抽象。
+
+
+
+## 关于结构类型需要注意的事项
+
+
+
+- 字段名可以使用变量隐式指定，也可以作为没有字段名的嵌入类型指定。在这种情况下，必须将字段指定为类型名称T或指定为指向非接口类型名称*T的指针
+
+- 字段名称必须在结构类型中是唯一的
