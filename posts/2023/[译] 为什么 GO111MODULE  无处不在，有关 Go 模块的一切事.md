@@ -1,18 +1,56 @@
 翻译自：[Why is GO111MODULE everywhere, and everything about Go Modules (updated with Go 1.20) - DEV Community](https://dev.to/maelvls/why-is-go111module-everywhere-and-everything-about-go-modules-24k)
 
-
-
 你可能注意到了，`GO111MODULE=on` 无处不在。许多 README，包含以下内容：
-
-
 
 ```
 GO111MODULE=on go get golang.org/x/tools/gopls@latest
 ```
 
-
-
 注意，安装二进制文件的 `go get` 从 Go 1.17 版以后，已经废弃使用，在 1.18 中，已经不再可用。如果你在使用 Go 1.16 或者以上版本，应该使用：
+
+```
+go install golang.org/x/tools/gopls@latest
+```
+
+在这篇短文中，我将解释为什么在Go 1.11中引入GO111MODULE，它的注意事项和在处理Go模块时需要了解的有趣之处。
+
+### 从 GOPATH 到 GO111MODULE
+
+首先，我们来谈谈GOPATH。当Go在2009年首次推出时，它并没有附带软件包管理器。相反，go-get将使用它们的导入路径获取所有源，并将它们存储在$GOPATH/src中。没有版本控制，“master”分支将代表包的稳定版本。
+
+Go模块（以前称为vgo，版本为Go）是在Go 1.11中引入的。Go Modules不是使用GOPATH来存储每个包的单位数签出，而是使用Go.mod来存储标记的版本，以跟踪每个包的版本。
+
+从那时起，“ Gopath行为”与“ GO模块行为”之间的相互作用已成为GO的最大陷阱之一。一个环境变量负责这种疼痛的95％：GO111MODULE。
+
+
+
+## `go.mod` 的陷阱正在悄悄更新（Go 1.15 及以下）
+
+
+
+对于Go 1.15及以下版本，我们安装二进制文件的唯一选择是使用Go get。你可能在项目的 README 文件中，中发现过这样一句奇怪的话：
+
+
+
+```
+(cd && GO111MODULE=on go get golang.org/x/tools/gopls@latest)
+```
+
+
+
+> 备注：`@latest` 后缀将使用 `gopl` 最新的 git 标签。请注意，`-u`（更新的意思） 从 `@v0.1.8` 以后，不再是必要的，并且更新固定版本，也没什么意义。有趣的是，如果标签是 `@v0.1`，`go get` 将获取该标签的最新补丁版本。
+
+
+
+那么，为什么我们需要使用这个人为的命令，调用一个子命令并移动到你的 HOME？这是Go 1.16修复的另一个Go意识形态：在Go 1.15及以下版本中，默认情况下（你不能关闭它），如果你所在的文件夹中有go.mod，go get会用你刚刚安装的内容更新该 go.mod。在像 [gopls](https://github.com/golang/tools/tree/master/gopls) 或者 [kind](https://github.com/kubernetes-sigs/kind)这样的开发二进制文件的情况下，你肯定不想让这些出现在go.mod文件中！
+
+
+
+因此，对于任何使用 go 1.15 及以下版本的人来说，解决方法是提供一行代码，确保你不会在 go.mod-enabled 文件夹中：（cd && go-get）正是这样做的。
+
+
+
+幸运的是，在`go 1.16`的情况下，现在可以清楚地分离出`go.mod`（例如 `npm install`）的依赖性，并且`go`安装旨在安装二进制，而无需弄乱您的`go.mod`。使用`go 1.16`，上述过程成为：
 
 
 
@@ -22,22 +60,33 @@ go install golang.org/x/tools/gopls@latest
 
 
 
-在这篇短文中，我将解释为什么在Go 1.11中引入GO111MODULE，它的注意事项和在处理Go模块时需要了解的有趣之处。
+## `-u` 和 `@version` 缺陷
+
+
+
+我多次陷入过同一个陷阱：`go get @latest`（获取最新版本的二进制文件），你应该避免使用 `-u`，以便它使用 `go.sum` 中的定义。否则，它会将所有依赖，更新为最新版本。并且，由于大量项目小版本之间，会有破坏性更新（如v0.2.0到v0.3.0），因此，使用 `-u` 参数，很有可能搞砸。
+
+
+
+如果你看到下面：
+
+
+
+```
+# Both -u and @latest!
+GO111MODULE=on go get -u golang.org/x/tools/gopls@latest
+```
+
+
+
+你可以立即确认两点：1. 它使用的是老版本的 Go，早于 1.16 版本。2. 当获取二进制文件时，你会获取 `go.sum` 文件中，记录的二进制版本。
+
+
+
+> -u不应该与@latest标记一起使用，因为它会给您提供不正确的依赖关系版本。
 
 
 
 
 
-### 从 GOPATH 到 GO111MODULE
-
-
-
-首先，我们来谈谈GOPATH。当Go在2009年首次推出时，它并没有附带软件包管理器。相反，go-get将使用它们的导入路径获取所有源，并将它们存储在$GOPATH/src中。没有版本控制，“master”分支将代表包的稳定版本。
-
-
-
-Go模块（以前称为vgo，版本为Go）是在Go 1.11中引入的。Go Modules不是使用GOPATH来存储每个包的单位数签出，而是使用Go.mod来存储标记的版本，以跟踪每个包的版本。
-
-
-
-从那时起，“ Gopath行为”与“ GO模块行为”之间的相互作用已成为GO的最大陷阱之一。一个环境变量负责这种疼痛的95％：GO111MODULE。
+但它有点隐藏在这个问题中。。。我想它写在Go帮助的某个地方（顺便说一句，与git help相比，这是一个多么可怕的帮助），但这种警告应该更明显：也许在安装带有@version和-u的二进制文件时会打印警告？
