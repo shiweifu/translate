@@ -90,3 +90,42 @@ GO111MODULE=on go get -u golang.org/x/tools/gopls@latest
 
 
 但它有点隐藏在这个问题中。。。我想它写在Go帮助的某个地方（顺便说一句，与git help相比，这是一个多么可怕的帮助），但这种警告应该更明显：也许在安装带有@version和-u的二进制文件时会打印警告？
+
+
+
+## 使用 Go Modules 时的注意事项
+
+
+
+现在，让我们来了解一下使用 Go 模块时的一些注意事项。
+
+
+
+### 记住，`go get` 一直会更新 `go.mod`
+
+
+
+在 go 1.16 出现之前，go get 有一个奇怪的地方：有时，它的目的是安装二进制文件或下载包。有了 Go 模块，如果你在一个有 go.mod 的项目中，它会悄悄地将你要去的二进制文件添加到你的 go.mod 中！
+
+
+
+幸运的是，Go 1.16 之后，`go install` [引入了](https://blog.golang.org/go116-module-changes) `@version` 前缀。通过 `go install foo@version`，你本地的 `go.mod` 不会受影响！在 Go 1.18 中，`go get` 不会再安装二进制文件，并且只会将依赖添加到您的 `go.mod` 中。
+
+
+
+如果你想运行 `go test` 或者 `go install`，但不想更新 `go.mod`，你可以使用 `-mod=readonly` 参数。举个例子：
+
+
+
+```
+go test -mod=readonly ./...
+go build -mod=readonly ./...
+```
+
+
+
+### Go 模块依赖关系的保存地址在哪里？
+
+
+
+使用Go模块时，Go构建过程中使用的软件包存储在$GOPATH/pkg/mod中。当试图检查vim或VSCode中的“import”时，您可能会得到该包的GOPATH版本，而不是编译过程中使用的pkg/mod版本。
