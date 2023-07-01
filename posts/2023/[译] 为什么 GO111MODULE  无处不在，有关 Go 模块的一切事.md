@@ -129,3 +129,39 @@ go build -mod=readonly ./...
 
 
 使用Go模块时，Go构建过程中使用的软件包存储在$GOPATH/pkg/mod中。当试图检查vim或VSCode中的“import”时，您可能会得到该包的GOPATH版本，而不是编译过程中使用的pkg/mod版本。
+
+
+
+出现的第二个问题是，当您想修改其中一个依赖项时，例如出于测试目的。
+
+
+
+`方案1`：使用 `go mod vendor` + `go build mod=vendor`。这将强制 go 使用 vendor/ 文件，而不是使用 `$GOPATH/pkg/mod` 文件。此选项还解决了 `vim` 和 `VSCode` 无法打开包文件的正确版本的问题。
+
+
+
+`方案2`：添加 'replace' 行，在 `go.mod` 文件中：
+
+
+
+```
+replace github.com/maelvls/beers => ../beers
+```
+
+其中`../beers` 是我想检查和修改的依赖项的本地副本。
+
+
+
+## 使用 direnv 按文件夹设置GO111MODULE
+
+
+
+在旧版本的Go（1.15及以下）上，当我从基于GOPATH的项目（主要使用Dep）迁移到Go模块时，我发现自己在两个不同的地方挣扎：GOPATH内部和外部。所有Go模块都必须保存在GOPATH之外，这意味着我的项目位于不同的文件夹中。为了补救这个问题，我广泛使用了GO111MODULE。我会将我的所有项目都保存在GOPATH中，对于启用Go模块的项目，我会将导出 `GO111MODULE=on` 为打开。
+
+
+
+> 注意：由于Go 1.16中的默认行为现在是GO111MODULE=on，因此不再需要此技巧。
+
+
+
+这就是 [`direnv`](https://direnv.net/) 派上用场的地方。Direnv是一个用Go编写的轻量级命令，每当您输入目录并且.envrc存在时，它都会加载一个文件.envrc。对于每个启用Go模块的项目，我都会有以下.envrc：
