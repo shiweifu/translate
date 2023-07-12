@@ -685,19 +685,11 @@ func (l *Like) DeletePostLikes(db *gorm.DB, pid uint64) (int64, error) {
 }
 ```
 
-
-
 ### Comment 模型
-
-
 
 一个 Post 可以有评论。
 
-
-
 评论可以被：
-
-
 
 1. 创建
 
@@ -705,13 +697,167 @@ func (l *Like) DeletePostLikes(db *gorm.DB, pid uint64) (int64, error) {
 
 3. 删除
 
-
-
 创建 `Comment.go` 文件
 
-
-
 `touch Comment.go`
+
+```
+package models
+
+import (
+    "errors"
+    "fmt"
+    "html"
+    "strings"
+    "time"
+
+    "github.com/jinzhu/gorm"
+)
+
+type Comment struct {
+    ID        uint64    `gorm:"primary_key;auto_increment" json:"id"`
+    UserID    uint32    `gorm:"not null" json:"user_id"`
+    PostID    uint64    `gorm:"not null" json:"post_id"`
+    Body      string    `gorm:"text;not null;" json:"body"`
+    User      User      `json:"user"`
+    CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+    UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+}
+
+func (c *Comment) Prepare() {
+    c.ID = 0
+    c.Body = html.EscapeString(strings.TrimSpace(c.Body))
+    c.User = User{}
+    c.CreatedAt = time.Now()
+    c.UpdatedAt = time.Now()
+}
+
+func (c *Comment) Validate(action string) map[string]string {
+    var errorMessages = make(map[string]string)
+    var err error
+
+    switch strings.ToLower(action) {
+    case "update":
+        if c.Body == "" {
+            err = errors.New("Required Comment")
+            errorMessages["Required_body"] = err.Error()
+        }
+    default:
+        if c.Body == "" {
+            err = errors.New("Required Comment")
+            errorMessages["Required_body"] = err.Error()
+        }
+    }
+    return errorMessages
+}
+
+func (c *Comment) SaveComment(db *gorm.DB) (*Comment, error) {
+    err := db.Debug().Create(&c).Error
+    if err != nil {
+        return &Comment{}, err
+    }
+    if c.ID != 0 {
+        err = db.Debug().Model(&User{}).Where("id = ?", c.UserID).Take(&c.User).Error
+        if err != nil {
+            return &Comment{}, err
+        }
+    }
+    return c, nil
+}
+
+func (c *Comment) GetComments(db *gorm.DB, pid uint64) (*[]Comment, error) {
+
+    comments := []Comment{}
+    err := db.Debug().Model(&Comment{}).Where("post_id = ?", pid).Order("created_at desc").Find(&comments).Error
+    if err != nil {
+        return &[]Comment{}, err
+    }
+    if len(comments) > 0 {
+        for i, _ := range comments {
+            err := db.Debug().Model(&User{}).Where("id = ?", comments[i].UserID).Take(&comments[i].User).Error
+            if err != nil {
+                return &[]Comment{}, err
+            }
+        }
+    }
+    return &comments, err
+}
+
+func (c *Comment) UpdateAComment(db *gorm.DB) (*Comment, error) {
+
+    var err error
+
+    err = db.Debug().Model(&Comment{}).Where("id = ?", c.ID).Updates(Comment{Body: c.Body, UpdatedAt: time.Now()}).Error
+    if err != nil {
+        return &Comment{}, err
+    }
+
+    fmt.Println("this is the comment body: ", c.Body)
+    if c.ID != 0 {
+        err = db.Debug().Model(&User{}).Where("id = ?", c.UserID).Take(&c.User).Error
+        if err != nil {
+            return &Comment{}, err
+        }
+    }
+    return c, nil
+}
+
+func (c *Comment) DeleteAComment(db *gorm.DB) (int64, error) {
+
+    db = db.Debug().Model(&Comment{}).Where("id = ?", c.ID).Take(&Comment{}).Delete(&Comment{})
+
+    if db.Error != nil {
+        return 0, db.Error
+    }
+    return db.RowsAffected, nil
+}
+
+//When a user is deleted, we also delete the comments that the user had
+func (c *Comment) DeleteUserComments(db *gorm.DB, uid uint32) (int64, error) {
+    comments := []Comment{}
+    db = db.Debug().Model(&Comment{}).Where("user_id = ?", uid).Find(&comments).Delete(&comments)
+    if db.Error != nil {
+        return 0, db.Error
+    }
+    return db.RowsAffected, nil
+}
+
+//When a post is deleted, we also delete the comments that the post had
+func (c *Comment) DeletePostComments(db *gorm.DB, pid uint64) (int64, error) {
+    comments := []Comment{}
+    db = db.Debug().Model(&Comment{}).Where("post_id = ?", pid).Find(&comments).Delete(&comments)
+    if db.Error != nil {
+        return 0, db.Error
+    }
+    return db.RowsAffected, nil
+}
+```
+
+
+
+### c. Like Model
+
+
+
+日志可以被标记喜欢或者不喜欢。
+
+
+
+一个喜欢，可以被：
+
+
+
+1. 创建
+
+2. 删除
+
+
+
+创建 `Like.go` 文件：
+
+
+
+`touch Like.go`
 
 
 
@@ -721,125 +867,82 @@ package models
 import (
 	"errors"
 	"fmt"
-	"html"
-	"strings"
 	"time"
 
 	"github.com/jinzhu/gorm"
 )
 
-type Comment struct {
+type Like struct {
 	ID        uint64    `gorm:"primary_key;auto_increment" json:"id"`
 	UserID    uint32    `gorm:"not null" json:"user_id"`
 	PostID    uint64    `gorm:"not null" json:"post_id"`
-	Body      string    `gorm:"text;not null;" json:"body"`
-	User      User      `json:"user"`
 	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
-func (c *Comment) Prepare() {
-	c.ID = 0
-	c.Body = html.EscapeString(strings.TrimSpace(c.Body))
-	c.User = User{}
-	c.CreatedAt = time.Now()
-	c.UpdatedAt = time.Now()
-}
+func (l *Like) SaveLike(db *gorm.DB) (*Like, error) {
 
-func (c *Comment) Validate(action string) map[string]string {
-	var errorMessages = make(map[string]string)
-	var err error
-
-	switch strings.ToLower(action) {
-	case "update":
-		if c.Body == "" {
-			err = errors.New("Required Comment")
-			errorMessages["Required_body"] = err.Error()
-		}
-	default:
-		if c.Body == "" {
-			err = errors.New("Required Comment")
-			errorMessages["Required_body"] = err.Error()
-		}
-	}
-	return errorMessages
-}
-
-func (c *Comment) SaveComment(db *gorm.DB) (*Comment, error) {
-	err := db.Debug().Create(&c).Error
+	// Check if the auth user has liked this post before:
+	err := db.Debug().Model(&Like{}).Where("post_id = ? AND user_id = ?", l.PostID, l.UserID).Take(&l).Error
 	if err != nil {
-		return &Comment{}, err
-	}
-	if c.ID != 0 {
-		err = db.Debug().Model(&User{}).Where("id = ?", c.UserID).Take(&c.User).Error
-		if err != nil {
-			return &Comment{}, err
-		}
-	}
-	return c, nil
-}
-
-func (c *Comment) GetComments(db *gorm.DB, pid uint64) (*[]Comment, error) {
-
-	comments := []Comment{}
-	err := db.Debug().Model(&Comment{}).Where("post_id = ?", pid).Order("created_at desc").Find(&comments).Error
-	if err != nil {
-		return &[]Comment{}, err
-	}
-	if len(comments) > 0 {
-		for i, _ := range comments {
-			err := db.Debug().Model(&User{}).Where("id = ?", comments[i].UserID).Take(&comments[i].User).Error
+		if err.Error() == "record not found" {
+			// The user has not liked this post before, so lets save incomming like:
+			err = db.Debug().Model(&Like{}).Create(&l).Error
 			if err != nil {
-				return &[]Comment{}, err
+				return &Like{}, err
 			}
 		}
+	} else {
+		// The user has liked it before, so create a custom error message
+		err = errors.New("double like")
+		return &Like{}, err
 	}
-	return &comments, err
+	return l, nil
 }
 
-func (c *Comment) UpdateAComment(db *gorm.DB) (*Comment, error) {
-
+func (l *Like) DeleteLike(db *gorm.DB) (*Like, error) {
 	var err error
+	var deletedLike *Like
 
-	err = db.Debug().Model(&Comment{}).Where("id = ?", c.ID).Updates(Comment{Body: c.Body, UpdatedAt: time.Now()}).Error
+	err = db.Debug().Model(Like{}).Where("id = ?", l.ID).Take(&l).Error
 	if err != nil {
-		return &Comment{}, err
-	}
-
-	fmt.Println("this is the comment body: ", c.Body)
-	if c.ID != 0 {
-		err = db.Debug().Model(&User{}).Where("id = ?", c.UserID).Take(&c.User).Error
-		if err != nil {
-			return &Comment{}, err
+		return &Like{}, err
+	} else {
+		//If the like exist, save it in deleted like and delete it
+		deletedLike = l
+		db = db.Debug().Model(&Like{}).Where("id = ?", l.ID).Take(&Like{}).Delete(&Like{})
+		if db.Error != nil {
+			fmt.Println("cant delete like: ", db.Error)
+			return &Like{}, db.Error
 		}
 	}
-	return c, nil
+	return deletedLike, nil
 }
 
-func (c *Comment) DeleteAComment(db *gorm.DB) (int64, error) {
+func (l *Like) GetLikesInfo(db *gorm.DB, pid uint64) (*[]Like, error) {
 
-	db = db.Debug().Model(&Comment{}).Where("id = ?", c.ID).Take(&Comment{}).Delete(&Comment{})
+	likes := []Like{}
+	err := db.Debug().Model(&Like{}).Where("post_id = ?", pid).Find(&likes).Error
+	if err != nil {
+		return &[]Like{}, err
+	}
+	return &likes, err
+}
 
+//When a post is deleted, we also delete the likes that the post had
+func (l *Like) DeleteUserLikes(db *gorm.DB, uid uint32) (int64, error) {
+	likes := []Like{}
+	db = db.Debug().Model(&Like{}).Where("user_id = ?", uid).Find(&likes).Delete(&likes)
 	if db.Error != nil {
 		return 0, db.Error
 	}
 	return db.RowsAffected, nil
 }
 
-//When a user is deleted, we also delete the comments that the user had
-func (c *Comment) DeleteUserComments(db *gorm.DB, uid uint32) (int64, error) {
-	comments := []Comment{}
-	db = db.Debug().Model(&Comment{}).Where("user_id = ?", uid).Find(&comments).Delete(&comments)
-	if db.Error != nil {
-		return 0, db.Error
-	}
-	return db.RowsAffected, nil
-}
-
-//When a post is deleted, we also delete the comments that the post had
-func (c *Comment) DeletePostComments(db *gorm.DB, pid uint64) (int64, error) {
-	comments := []Comment{}
-	db = db.Debug().Model(&Comment{}).Where("post_id = ?", pid).Find(&comments).Delete(&comments)
+//When a post is deleted, we also delete the likes that the post had
+func (l *Like) DeletePostLikes(db *gorm.DB, pid uint64) (int64, error) {
+	likes := []Like{}
+	db = db.Debug().Model(&Like{}).Where("post_id = ?", pid).Find(&likes).Delete(&likes)
 	if db.Error != nil {
 		return 0, db.Error
 	}
