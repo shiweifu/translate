@@ -956,219 +956,195 @@ Comment 有以下操作：
 package models
 
 import (
-	"errors"
-	"fmt"
-	"html"
-	"strings"
-	"time"
+    "errors"
+    "fmt"
+    "html"
+    "strings"
+    "time"
 
-	"github.com/jinzhu/gorm"
+    "github.com/jinzhu/gorm"
 )
 
 type Comment struct {
-	ID        uint64    `gorm:"primary_key;auto_increment" json:"id"`
-	UserID    uint32    `gorm:"not null" json:"user_id"`
-	PostID    uint64    `gorm:"not null" json:"post_id"`
-	Body      string    `gorm:"text;not null;" json:"body"`
-	User      User      `json:"user"`
-	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
-	UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
+    ID        uint64    `gorm:"primary_key;auto_increment" json:"id"`
+    UserID    uint32    `gorm:"not null" json:"user_id"`
+    PostID    uint64    `gorm:"not null" json:"post_id"`
+    Body      string    `gorm:"text;not null;" json:"body"`
+    User      User      `json:"user"`
+    CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+    UpdatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
 }
 
 func (c *Comment) Prepare() {
-	c.ID = 0
-	c.Body = html.EscapeString(strings.TrimSpace(c.Body))
-	c.User = User{}
-	c.CreatedAt = time.Now()
-	c.UpdatedAt = time.Now()
+    c.ID = 0
+    c.Body = html.EscapeString(strings.TrimSpace(c.Body))
+    c.User = User{}
+    c.CreatedAt = time.Now()
+    c.UpdatedAt = time.Now()
 }
 
 func (c *Comment) Validate(action string) map[string]string {
-	var errorMessages = make(map[string]string)
-	var err error
+    var errorMessages = make(map[string]string)
+    var err error
 
-	switch strings.ToLower(action) {
-	case "update":
-		if c.Body == "" {
-			err = errors.New("Required Comment")
-			errorMessages["Required_body"] = err.Error()
-		}
-	default:
-		if c.Body == "" {
-			err = errors.New("Required Comment")
-			errorMessages["Required_body"] = err.Error()
-		}
-	}
-	return errorMessages
+    switch strings.ToLower(action) {
+    case "update":
+        if c.Body == "" {
+            err = errors.New("Required Comment")
+            errorMessages["Required_body"] = err.Error()
+        }
+    default:
+        if c.Body == "" {
+            err = errors.New("Required Comment")
+            errorMessages["Required_body"] = err.Error()
+        }
+    }
+    return errorMessages
 }
 
 func (c *Comment) SaveComment(db *gorm.DB) (*Comment, error) {
-	err := db.Debug().Create(&c).Error
-	if err != nil {
-		return &Comment{}, err
-	}
-	if c.ID != 0 {
-		err = db.Debug().Model(&User{}).Where("id = ?", c.UserID).Take(&c.User).Error
-		if err != nil {
-			return &Comment{}, err
-		}
-	}
-	return c, nil
+    err := db.Debug().Create(&c).Error
+    if err != nil {
+        return &Comment{}, err
+    }
+    if c.ID != 0 {
+        err = db.Debug().Model(&User{}).Where("id = ?", c.UserID).Take(&c.User).Error
+        if err != nil {
+            return &Comment{}, err
+        }
+    }
+    return c, nil
 }
 
 func (c *Comment) GetComments(db *gorm.DB, pid uint64) (*[]Comment, error) {
 
-	comments := []Comment{}
-	err := db.Debug().Model(&Comment{}).Where("post_id = ?", pid).Order("created_at desc").Find(&comments).Error
-	if err != nil {
-		return &[]Comment{}, err
-	}
-	if len(comments) > 0 {
-		for i, _ := range comments {
-			err := db.Debug().Model(&User{}).Where("id = ?", comments[i].UserID).Take(&comments[i].User).Error
-			if err != nil {
-				return &[]Comment{}, err
-			}
-		}
-	}
-	return &comments, err
+    comments := []Comment{}
+    err := db.Debug().Model(&Comment{}).Where("post_id = ?", pid).Order("created_at desc").Find(&comments).Error
+    if err != nil {
+        return &[]Comment{}, err
+    }
+    if len(comments) > 0 {
+        for i, _ := range comments {
+            err := db.Debug().Model(&User{}).Where("id = ?", comments[i].UserID).Take(&comments[i].User).Error
+            if err != nil {
+                return &[]Comment{}, err
+            }
+        }
+    }
+    return &comments, err
 }
 
 func (c *Comment) UpdateAComment(db *gorm.DB) (*Comment, error) {
 
-	var err error
+    var err error
 
-	err = db.Debug().Model(&Comment{}).Where("id = ?", c.ID).Updates(Comment{Body: c.Body, UpdatedAt: time.Now()}).Error
-	if err != nil {
-		return &Comment{}, err
-	}
+    err = db.Debug().Model(&Comment{}).Where("id = ?", c.ID).Updates(Comment{Body: c.Body, UpdatedAt: time.Now()}).Error
+    if err != nil {
+        return &Comment{}, err
+    }
 
-	fmt.Println("this is the comment body: ", c.Body)
-	if c.ID != 0 {
-		err = db.Debug().Model(&User{}).Where("id = ?", c.UserID).Take(&c.User).Error
-		if err != nil {
-			return &Comment{}, err
-		}
-	}
-	return c, nil
+    fmt.Println("this is the comment body: ", c.Body)
+    if c.ID != 0 {
+        err = db.Debug().Model(&User{}).Where("id = ?", c.UserID).Take(&c.User).Error
+        if err != nil {
+            return &Comment{}, err
+        }
+    }
+    return c, nil
 }
 
 func (c *Comment) DeleteAComment(db *gorm.DB) (int64, error) {
 
-	db = db.Debug().Model(&Comment{}).Where("id = ?", c.ID).Take(&Comment{}).Delete(&Comment{})
+    db = db.Debug().Model(&Comment{}).Where("id = ?", c.ID).Take(&Comment{}).Delete(&Comment{})
 
-	if db.Error != nil {
-		return 0, db.Error
-	}
-	return db.RowsAffected, nil
+    if db.Error != nil {
+        return 0, db.Error
+    }
+    return db.RowsAffected, nil
 }
 
 //When a user is deleted, we also delete the comments that the user had
 func (c *Comment) DeleteUserComments(db *gorm.DB, uid uint32) (int64, error) {
-	comments := []Comment{}
-	db = db.Debug().Model(&Comment{}).Where("user_id = ?", uid).Find(&comments).Delete(&comments)
-	if db.Error != nil {
-		return 0, db.Error
-	}
-	return db.RowsAffected, nil
+    comments := []Comment{}
+    db = db.Debug().Model(&Comment{}).Where("user_id = ?", uid).Find(&comments).Delete(&comments)
+    if db.Error != nil {
+        return 0, db.Error
+    }
+    return db.RowsAffected, nil
 }
 
 //When a post is deleted, we also delete the comments that the post had
 func (c *Comment) DeletePostComments(db *gorm.DB, pid uint64) (int64, error) {
-	comments := []Comment{}
-	db = db.Debug().Model(&Comment{}).Where("post_id = ?", pid).Find(&comments).Delete(&comments)
-	if db.Error != nil {
-		return 0, db.Error
-	}
-	return db.RowsAffected, nil
+    comments := []Comment{}
+    db = db.Debug().Model(&Comment{}).Where("post_id = ?", pid).Find(&comments).Delete(&comments)
+    if db.Error != nil {
+        return 0, db.Error
+    }
+    return db.RowsAffected, nil
 }
 ```
 
-
-
 ### e. ResetPassword Model
-
-
 
 用户可能忘记了自己的密码。当这种情况发生时，他们可以请求更改为新的。将向他们的电子邮件地址发送通知，并附上创建新密码的说明。
 
-
-
 在 `models` 目录，创建 `ResetPassword.go` 文件：
 
-
-
 `touch ResetPassword.go`
-
-
 
 ```
 package models
 
 import (
-	"html"
+    "html"
 
-	"strings"
+    "strings"
 
-	"github.com/jinzhu/gorm"
+    "github.com/jinzhu/gorm"
 )
 
 type ResetPassword struct {
-	gorm.Model
-	Email string `gorm:"size:100;not null;" json:"email"`
-	Token string `gorm:"size:255;not null;" json:"token"`
+    gorm.Model
+    Email string `gorm:"size:100;not null;" json:"email"`
+    Token string `gorm:"size:255;not null;" json:"token"`
 }
 
 func (resetPassword *ResetPassword) Prepare() {
-	resetPassword.Token = html.EscapeString(strings.TrimSpace(resetPassword.Token))
-	resetPassword.Email = html.EscapeString(strings.TrimSpace(resetPassword.Email))
+    resetPassword.Token = html.EscapeString(strings.TrimSpace(resetPassword.Token))
+    resetPassword.Email = html.EscapeString(strings.TrimSpace(resetPassword.Email))
 }
 
 func (resetPassword *ResetPassword) SaveDatails(db *gorm.DB) (*ResetPassword, error) {
-	var err error
-	err = db.Debug().Create(&resetPassword).Error
-	if err != nil {
-		return &ResetPassword{}, err
-	}
-	return resetPassword, nil
+    var err error
+    err = db.Debug().Create(&resetPassword).Error
+    if err != nil {
+        return &ResetPassword{}, err
+    }
+    return resetPassword, nil
 }
 
 func (resetPassword *ResetPassword) DeleteDatails(db *gorm.DB) (int64, error) {
 
-	db = db.Debug().Model(&ResetPassword{}).Where("id = ?", resetPassword.ID).Take(&ResetPassword{}).Delete(&ResetPassword{})
+    db = db.Debug().Model(&ResetPassword{}).Where("id = ?", resetPassword.ID).Take(&ResetPassword{}).Delete(&ResetPassword{})
 
-	if db.Error != nil {
-		return 0, db.Error
-	}
-	return db.RowsAffected, nil
+    if db.Error != nil {
+        return 0, db.Error
+    }
+    return db.RowsAffected, nil
 }
 ```
 
-
-
 ## 步骤3：安全
-
-
 
 ### a. 密码安全
 
-
-
 在User.go文件中观察到，在将密码保存到我们的数据库中之前，必须首先对其进行哈希处理。我们调用了一个函数来帮助我们做到这一点。让我们把它接线。
-
-
 
 在api目录（路径：/forum/backend/api/）中，创建 `security` 目录：
 
-
-
 在安全目录中，创建 `password.go` 文件：
 
-
-
 `cd security && touch password.go`
-
-
 
 ```
 package security
@@ -1177,12 +1153,135 @@ import "golang.org/x/crypto/bcrypt"
 
 func Hash(password string) ([]byte, error) {
 
-	return bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+    return bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 }
 
 func VerifyPassword(hashedPassword, password string) error {
 
-	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
+    return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 
+}
+```
+
+
+
+
+
+### b. ResetPassword 创建 Token
+
+
+
+这种情况是：当用户请求更改密码时，会向该用户的电子邮件发送一个令牌。编写了一个函数来对令牌进行散列。当我们连接ResetPassword控制器文件时，将使用此功能。
+
+
+
+`touch tokenhash.go`
+
+
+
+```
+package security
+
+import (
+	"crypto/md5"
+	"encoding/hex"
+	"github.com/twinj/uuid"
+
+)
+
+func TokenHash(text string) string {
+
+	hasher := md5.New()
+	hasher.Write([]byte(text))
+	theHash :=  hex.EncodeToString(hasher.Sum(nil))
+
+	//also use uuid
+	u := uuid.NewV4()
+	theToken := theHash + u.String()
+
+	return theToken
+}
+```
+
+
+
+## 步骤4：Seeder
+
+
+
+我认为有数据进行实验是个好主意。当我们最终连接数据库时，我们将对users和posts表进行种子设定。
+
+
+
+在API目录（在路径中：/forum/api/）中，创建一个种子目录：
+
+
+
+`touch seeder.go`
+
+
+
+```
+package seed
+
+import (
+	"log"
+
+	"github.com/jinzhu/gorm"
+	"github.com/victorsteven/forum/api/models"
+)
+
+var users = []models.User{
+	models.User{
+		Username: "steven",
+		Email:    "steven@example.com",
+		Password: "password",
+	},
+	models.User{
+		Username: "martin",
+		Email:    "luther@example.com",
+		Password: "password",
+	},
+}
+
+var posts = []models.Post{
+	models.Post{
+		Title:   "Title 1",
+		Content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+	},
+	models.Post{
+		Title:   "Title 2",
+		Content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+	},
+}
+
+func Load(db *gorm.DB) {
+
+	err := db.Debug().DropTableIfExists(&models.Post{}, &models.User{}, &models.Like{}, &models.Comment{}).Error
+	if err != nil {
+		log.Fatalf("cannot drop table: %v", err)
+	}
+	err = db.Debug().AutoMigrate(&models.User{}, &models.Post{}).Error
+	if err != nil {
+		log.Fatalf("cannot migrate table: %v", err)
+	}
+
+	err = db.Debug().Model(&models.Post{}).AddForeignKey("author_id", "users(id)", "cascade", "cascade").Error
+	if err != nil {
+		log.Fatalf("attaching foreign key error: %v", err)
+	}
+
+	for i, _ := range users {
+		err = db.Debug().Model(&models.User{}).Create(&users[i]).Error
+		if err != nil {
+			log.Fatalf("cannot seed users table: %v", err)
+		}
+		posts[i].AuthorID = users[i].ID
+
+		err = db.Debug().Model(&models.Post{}).Create(&posts[i]).Error
+		if err != nil {
+			log.Fatalf("cannot seed posts table: %v", err)
+		}
+	}
 }
 ```
