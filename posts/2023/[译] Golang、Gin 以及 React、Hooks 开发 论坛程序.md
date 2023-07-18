@@ -1163,125 +1163,221 @@ func VerifyPassword(hashedPassword, password string) error {
 }
 ```
 
-
-
-
-
 ### b. ResetPassword 创建 Token
-
-
 
 这种情况是：当用户请求更改密码时，会向该用户的电子邮件发送一个令牌。编写了一个函数来对令牌进行散列。当我们连接ResetPassword控制器文件时，将使用此功能。
 
-
-
 `touch tokenhash.go`
-
-
 
 ```
 package security
 
 import (
-	"crypto/md5"
-	"encoding/hex"
-	"github.com/twinj/uuid"
+    "crypto/md5"
+    "encoding/hex"
+    "github.com/twinj/uuid"
 
 )
 
 func TokenHash(text string) string {
 
-	hasher := md5.New()
-	hasher.Write([]byte(text))
-	theHash :=  hex.EncodeToString(hasher.Sum(nil))
+    hasher := md5.New()
+    hasher.Write([]byte(text))
+    theHash :=  hex.EncodeToString(hasher.Sum(nil))
 
-	//also use uuid
-	u := uuid.NewV4()
-	theToken := theHash + u.String()
+    //also use uuid
+    u := uuid.NewV4()
+    theToken := theHash + u.String()
 
-	return theToken
+    return theToken
 }
 ```
 
-
-
 ## 步骤4：Seeder
-
-
 
 我认为有数据进行实验是个好主意。当我们最终连接数据库时，我们将对users和posts表进行种子设定。
 
-
-
 在API目录（在路径中：/forum/api/）中，创建一个种子目录：
 
-
-
 `touch seeder.go`
-
-
 
 ```
 package seed
 
 import (
-	"log"
+    "log"
 
-	"github.com/jinzhu/gorm"
-	"github.com/victorsteven/forum/api/models"
+    "github.com/jinzhu/gorm"
+    "github.com/victorsteven/forum/api/models"
 )
 
 var users = []models.User{
-	models.User{
-		Username: "steven",
-		Email:    "steven@example.com",
-		Password: "password",
-	},
-	models.User{
-		Username: "martin",
-		Email:    "luther@example.com",
-		Password: "password",
-	},
+    models.User{
+        Username: "steven",
+        Email:    "steven@example.com",
+        Password: "password",
+    },
+    models.User{
+        Username: "martin",
+        Email:    "luther@example.com",
+        Password: "password",
+    },
 }
 
 var posts = []models.Post{
-	models.Post{
-		Title:   "Title 1",
-		Content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-	},
-	models.Post{
-		Title:   "Title 2",
-		Content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-	},
+    models.Post{
+        Title:   "Title 1",
+        Content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+    },
+    models.Post{
+        Title:   "Title 2",
+        Content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+    },
 }
 
 func Load(db *gorm.DB) {
 
-	err := db.Debug().DropTableIfExists(&models.Post{}, &models.User{}, &models.Like{}, &models.Comment{}).Error
-	if err != nil {
-		log.Fatalf("cannot drop table: %v", err)
-	}
-	err = db.Debug().AutoMigrate(&models.User{}, &models.Post{}).Error
-	if err != nil {
-		log.Fatalf("cannot migrate table: %v", err)
-	}
+    err := db.Debug().DropTableIfExists(&models.Post{}, &models.User{}, &models.Like{}, &models.Comment{}).Error
+    if err != nil {
+        log.Fatalf("cannot drop table: %v", err)
+    }
+    err = db.Debug().AutoMigrate(&models.User{}, &models.Post{}).Error
+    if err != nil {
+        log.Fatalf("cannot migrate table: %v", err)
+    }
 
-	err = db.Debug().Model(&models.Post{}).AddForeignKey("author_id", "users(id)", "cascade", "cascade").Error
-	if err != nil {
-		log.Fatalf("attaching foreign key error: %v", err)
-	}
+    err = db.Debug().Model(&models.Post{}).AddForeignKey("author_id", "users(id)", "cascade", "cascade").Error
+    if err != nil {
+        log.Fatalf("attaching foreign key error: %v", err)
+    }
 
-	for i, _ := range users {
-		err = db.Debug().Model(&models.User{}).Create(&users[i]).Error
-		if err != nil {
-			log.Fatalf("cannot seed users table: %v", err)
+    for i, _ := range users {
+        err = db.Debug().Model(&models.User{}).Create(&users[i]).Error
+        if err != nil {
+            log.Fatalf("cannot seed users table: %v", err)
+        }
+        posts[i].AuthorID = users[i].ID
+
+        err = db.Debug().Model(&models.Post{}).Create(&posts[i]).Error
+        if err != nil {
+            log.Fatalf("cannot seed posts table: %v", err)
+        }
+    }
+}
+```
+
+
+
+
+
+## 步骤5：使用 JWT 进行验证
+
+
+
+这个应用程序需要进行身份验证，例如创建帖子、点赞帖子、更新个人资料、评论帖子等等。我们需要建立一个身份验证系统。
+
+
+
+在api目录中，创建auth目录：
+
+
+
+`mkdir auth`
+
+
+
+在auth目录中，创建token.go文件：
+
+
+
+`cd auth && touch token.go`
+
+
+
+```
+package auth
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"strconv"
+	"strings"
+
+	"github.com/dgrijalva/jwt-go"
+)
+
+func CreateToken(id uint32) (string, error) {
+	claims := jwt.MapClaims{}
+	claims["authorized"] = true
+	claims["id"] = id
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(os.Getenv("API_SECRET")))
+}
+
+func TokenValid(r *http.Request) error {
+	tokenString := ExtractToken(r)
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
-		posts[i].AuthorID = users[i].ID
-
-		err = db.Debug().Model(&models.Post{}).Create(&posts[i]).Error
-		if err != nil {
-			log.Fatalf("cannot seed posts table: %v", err)
-		}
+		return []byte(os.Getenv("API_SECRET")), nil
+	})
+	if err != nil {
+		return err
 	}
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		Pretty(claims)
+	}
+	return nil
+}
+
+func ExtractToken(r *http.Request) string {
+	keys := r.URL.Query()
+	token := keys.Get("token")
+	if token != "" {
+		return token
+	}
+	bearerToken := r.Header.Get("Authorization")
+	if len(strings.Split(bearerToken, " ")) == 2 {
+		return strings.Split(bearerToken, " ")[1]
+	}
+	return ""
+}
+
+func ExtractTokenID(r *http.Request) (uint32, error) {
+
+	tokenString := ExtractToken(r)
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte(os.Getenv("API_SECRET")), nil
+	})
+	if err != nil {
+		return 0, err
+	}
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if ok && token.Valid {
+		uid, err := strconv.ParseUint(fmt.Sprintf("%.0f", claims["id"]), 10, 32)
+		if err != nil {
+			return 0, err
+		}
+		return uint32(uid), nil
+	}
+	return 0, nil
+}
+
+//Pretty display the claims licely in the terminal
+func Pretty(data interface{}) {
+	b, err := json.MarshalIndent(data, "", " ")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	fmt.Println(string(b))
 }
 ```
