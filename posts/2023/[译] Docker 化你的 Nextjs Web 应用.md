@@ -41,31 +41,17 @@ code .
 
 在这里，您将看到应用程序的目录。这看起来像这样。
 
-
-
 [注意：我使用的是TypeScript，这就是您看到tsconfig.json和以.ts结尾的文件的原因]
-
-
 
 ![file contents](https://res.cloudinary.com/practicaldev/image/fetch/s--EH1dDAQq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pt1050neh8694gdzl9on.png)
 
-
-
 继续创建一个新文件，并将其命名为Dockerfile。默认情况下，这个文件由docker识别，它将执行我们将提供的一堆命令和指令。
-
-
 
 请记住：命令将按照编写方式的顺序执行。
 
-
-
 在Dockerfile中编写这些代码。我将在教程结束时仔细阅读每一个，并解释它是如何工作的。
 
-
-
 [注意：我在本教程中使用了yarn，你可以使用npm，但你必须用npm交换那些yarn可执行代码]
-
-
 
 ```
 FROM node:lts as builder
@@ -87,15 +73,9 @@ EXPOSE 3000
 CMD ["yarn", "start"]
 ```
 
-
-
 ## 构建 Docker 镜像
 
-
-
 执行以下命令来构建Docker镜像。
-
-
 
 ```
 docker build . -t <project-name>
@@ -103,41 +83,82 @@ docker build . -t <project-name>
 
 该命令将构建名为＜project name＞的Docker镜像。
 
-
-
 使用以下命令在构建完成后运行Docker映像。
-
-
 
 ```
 docker run -p 3000:3000 <project-name>
 ```
 
-
-
 现在，打开浏览器并导航到
-
-
 
 ```
 http://localhost:3000 
 ```
 
-
-
 去查看我们的项目。
-
-
 
 ## 恭喜！您已成功将您的应用程序 Docker 化！
 
-
-
 ### Dockerfile的访问内容
 
-
-
 现在，让我们浏览一下 `Dockerfile` 的代码内容。
+
+
+
+记住，代码的执行是基于它们的编写方式，自上而下的方法。
+
+
+
+让我们以自上而下的方法分三个不同阶段来研究代码：
+
+
+
+1. 安装依赖
+
+2. 构建我们的 `Next.js` 应用
+
+3. 配置我们环境的运行时
+
+
+
+### 1. 安装依赖
+
+
+
+```
+FROM node:lts as dependencies
+WORKDIR /<your-app-name>
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
+```
+
+
+
+让我们来谈谈这个代码上发生了什么。
+
+
+
+首先，我们想定义我们要从中构建的映像，我们使用node:lts的最新node版本
+
+
+
+您可以使用任何特定版本的节点。例如：FROM node:16将使用node版本16构建您的映像。我们使用作为依赖项，这样我们就可以导出这些代码，并在稍后用docker构建应用程序时重用它。
+
+
+
+其次，我们想创建一个应用程序目录，其中包含我们使用WORKDIR的应用程序代码。
+
+
+
+第三，我们想复制我们的package.json和yarn.lock文件，这使我们能够利用缓存的Docker层。Docker缓存的一个很好的解释在这里。
+
+
+
+最后，我们希望能够运行我们的yarn安装来安装这些依赖项。我们使用--freezed-lockfile是因为我们的yarn.lock或package-lock.json在运行yarn install（或npm install）时会更新。我们不想检查这些更改。
+
+
+
+
 
 
 
