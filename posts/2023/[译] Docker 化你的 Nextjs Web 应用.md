@@ -103,15 +103,9 @@ http://localhost:3000
 
 现在，让我们浏览一下 `Dockerfile` 的代码内容。
 
-
-
 记住，代码的执行是基于它们的编写方式，自上而下的方法。
 
-
-
 让我们以自上而下的方法分三个不同阶段来研究代码：
-
-
 
 1. 安装依赖
 
@@ -119,11 +113,7 @@ http://localhost:3000
 
 3. 配置我们环境的运行时
 
-
-
 ### 1. 安装依赖
-
-
 
 ```
 FROM node:lts as dependencies
@@ -132,29 +122,92 @@ COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 ```
 
-
-
 让我们来谈谈这个代码上发生了什么。
-
-
 
 首先，我们想定义我们要从中构建的映像，我们使用node:lts的最新node版本
 
-
-
 您可以使用任何特定版本的节点。例如：FROM node:16将使用node版本16构建您的映像。我们使用作为依赖项，这样我们就可以导出这些代码，并在稍后用docker构建应用程序时重用它。
-
-
 
 其次，我们想创建一个应用程序目录，其中包含我们使用WORKDIR的应用程序代码。
 
-
-
 第三，我们想复制我们的package.json和yarn.lock文件，这使我们能够利用缓存的Docker层。Docker缓存的一个很好的解释在这里。
 
-
-
 最后，我们希望能够运行我们的yarn安装来安装这些依赖项。我们使用--freezed-lockfile是因为我们的yarn.lock或package-lock.json在运行yarn install（或npm install）时会更新。我们不想检查这些更改。
+
+
+
+如果你正在使用npm，你可以使用npm-ci（ci意味着干净安装/用于生产，或者只使用RUN npm安装）
+
+
+
+对于 `yarn`，该参数是 `--frozen-lockfile`
+
+
+
+## 构建我们的 `Next.js` 应用
+
+
+
+```
+FROM node:lts as builder
+WORKDIR /<your-app-name>
+COPY --from=dependencies /<your-app-name>/node_modules ./node_modules
+RUN yarn build
+```
+
+
+
+让我们看一下构建。
+
+
+
+在这里，我们构建了从node_modules复制依赖关系的应用程序。
+
+
+
+如果您使用的是npm，那么请使用RUN npm构建。
+
+
+
+```
+FROM node:lts as runner
+WORKDIR /<your-app-name>
+ENV NODE_ENV production
+```
+
+
+
+在建立了我们的项目之后，我们希望能够运行它。
+
+
+
+## 3. 配置我们应用的运行时环境
+
+
+
+```
+COPY --from=builder /<your-app-name>/public ./public
+COPY --from=builder /<your-app-name>/package.json ./package.json
+COPY --from=builder /<your-app-name>/.next ./.next
+COPY --from=builder /<your-app-name>/node_modules ./node_modules
+
+EXPOSE 3000
+CMD ["yarn", "start"]
+```
+
+
+
+在这里，我们希望能够将应用程序源代码捆绑在Docker映像中，这就是我们使用COPY的原因。
+
+
+
+对于我们的运行时环境，我们使用yarn命令。
+
+
+
+如果你安装了Docker应用程序，你可以在仪表板上查看你的容器，并从那里运行它，这看起来像下面的图像。
+
+
 
 
 
