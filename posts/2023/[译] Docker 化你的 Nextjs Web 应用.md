@@ -134,19 +134,11 @@ RUN yarn install --frozen-lockfile
 
 最后，我们希望能够运行我们的yarn安装来安装这些依赖项。我们使用--freezed-lockfile是因为我们的yarn.lock或package-lock.json在运行yarn install（或npm install）时会更新。我们不想检查这些更改。
 
-
-
 如果你正在使用npm，你可以使用npm-ci（ci意味着干净安装/用于生产，或者只使用RUN npm安装）
-
-
 
 对于 `yarn`，该参数是 `--frozen-lockfile`
 
-
-
 ## 构建我们的 `Next.js` 应用
-
-
 
 ```
 FROM node:lts as builder
@@ -155,19 +147,11 @@ COPY --from=dependencies /<your-app-name>/node_modules ./node_modules
 RUN yarn build
 ```
 
-
-
 让我们看一下构建。
-
-
 
 在这里，我们构建了从node_modules复制依赖关系的应用程序。
 
-
-
 如果您使用的是npm，那么请使用RUN npm构建。
-
-
 
 ```
 FROM node:lts as runner
@@ -175,15 +159,9 @@ WORKDIR /<your-app-name>
 ENV NODE_ENV production
 ```
 
-
-
 在建立了我们的项目之后，我们希望能够运行它。
 
-
-
 ## 3. 配置我们应用的运行时环境
-
-
 
 ```
 COPY --from=builder /<your-app-name>/public ./public
@@ -195,26 +173,20 @@ EXPOSE 3000
 CMD ["yarn", "start"]
 ```
 
-
-
 在这里，我们希望能够将应用程序源代码捆绑在Docker映像中，这就是我们使用COPY的原因。
-
-
 
 对于我们的运行时环境，我们使用yarn命令。
 
-
-
 如果你安装了Docker应用程序，你可以在仪表板上查看你的容器，并从那里运行它，这看起来像下面的图像。
 
+![Docker Dashboard](https://res.cloudinary.com/practicaldev/image/fetch/s--kf5rRphY--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/sgn0i3xa4v26bodc1lhq.png)
+
+![Docker Dashboard](https://res.cloudinary.com/practicaldev/image/fetch/s--VHQjU2bD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_800/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m6pndsjc57mq4qfu7wqp.png)
+
+到此结束。
 
 
 
-
-
-
-
-
-
+感谢阅读，如果您有任何问题，请直接联系我 [@developernit](https://twitter.com/developernit)。
 
 
