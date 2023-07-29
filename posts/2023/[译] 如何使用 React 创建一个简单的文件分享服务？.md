@@ -121,3 +121,50 @@ const uploadFile = (file, filename) => {
     );
   };
 ```
+
+
+
+handleFileDrop函数处理文件上传过程。它使用Material UI中的DropzoneDialog组件，允许用户选择和上传文件。进度条显示文件上传完成的百分比，为用户提供实时反馈。
+
+
+
+在上面的代码中，我使用了Firebase Storage来上传文件。最初，我已经草签了firebase存储参考。为了开始上传过程，我使用了uploadBytesResumeable，这样我就可以显示上传的数据或文件的百分比，同时我在进度栏中指示了这个百分比。
+
+
+
+如果上传成功，则使用函数getDownloadURL只返回上传文件的url。然后，将创建一个唯一的d，并将其显示给用户。
+
+
+
+### 生成唯一的5位PIN
+
+
+
+```
+// Generating a Unique 5-Digit PIN
+const generateUniqueNumber = () => {
+  return new Promise((resolve, reject) => {
+    const uniqueNumber = Math.floor(10000 + Math.random() * 90000);
+    checkIfNumberExists(uniqueNumber)
+      .then((exists) => {
+        if (exists) {
+          resolve(generateUniqueNumber());
+        } else {
+          resolve(uniqueNumber);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
+
+```
+
+
+
+generateUniqueNumber函数为每个上传的文件生成一个唯一的5位PIN。它使用递归方法来检查生成的PIN是否已存在于数据库中。如果是，该函数将生成一个新的PIN，直到找到唯一的PIN为止。
+
+
+
+### 在Firebase实时数据库中存储元数据
