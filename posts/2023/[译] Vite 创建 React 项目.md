@@ -197,6 +197,167 @@ Format: JSON
 
 
 
+您将被要求安装额外的软件包。回答是。完成更新配置规则时：
+
+
+
+```
+# 📄 File: .eslintrc.json
+-----------------------------------
+
+{
+    "rules": {
++     "no-console": "warn",+     "react/prop-types": "off",+     "react/self-closing-comp": "warn",+     "react/react-in-jsx-scope": "off"
+    },
++   "settings": {+     "react": {+       "version": "detect"+     }+   }
+}
+```
+
+
+
+如果你使用的是 `TypeScript`，你同样需要配置：
+
+
+
+```
+# 📄 File: .eslintrc.json
+-----------------------------------
+
+{
+    "parserOptions": {
++     "project": ["tsconfig.json"],+     "createDefaultProgram": true
+    },
+    "rules": {
+      "no-console": "warn",
+      "react/prop-types": "off",
+      "react/self-closing-comp": "warn",
++     "@typescript-eslint/consistent-type-definitions": ["error", "type"],+     "@typescript-eslint/explicit-function-return-type": "off",
+  },
+}
+```
+
+
+
+创建一个 `.eslintignore` 文件，在当前项目的根目录：
+
+
+
+```
+# 📄 File: .eslintignore
+-----------------------------------
+
+build
+coverage
+dist
+```
+
+
+
+> 不需要添加node_modules，因为默认情况下会忽略它。
+
+
+
+如果您不想使用ES Lint扩展，请在脚本末尾添加list和fix命令：
+
+
+
+```
+# 📄 File: package.json
+-----------------------------------
+
+{
+  "scripts": {
++    "lint": "eslint .",+    "lint:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx"
+  }
+}
+
+```
+
+
+
+## 忽略 React 引入错误
+
+
+
+> 自从React 17以来，您不再需要导入React来使用JSX。但我们仍然需要进口React来使用Hooks或React提供的其他出口。
+
+
+
+为了避免ES Lint对导入React发出警告，请添加一个插件：
+
+
+
+```
+# 📄 File: .eslintrc.json
+-----------------------------------
+
+{
+    "extends": [
+      "plugin:react/recommended",
+      "standard-with-typescript",
++     "plugin:react/jsx-runtime",    
+    ],
+}
+```
+
+
+
+## 空行
+
+
+
+如果要保留空行以前的定义：
+
+
+
+```
+# 📄 File: .eslintrc.json
+-----------------------------------
+
+{
+    "rules": {
++       "padding-line-between-statements": [
++           "error",
++           {
++               "blankLine": "always",
++               "prev": "*",
++               "next": "return"
++           },
++           {
++               "blankLine": "always",
++               "prev": [
++                   "const",
++                   "let",
++                   "var"
++               ],
++               "next": "*"
++           },
++           {
++               "blankLine": "any",
++               "prev": [
++                   "const",
++                   "let",
++                   "var"
++               ],
++               "next": [
++                   "const",
++                   "let",
++                   "var"
++               ]
++           }
++       ]
+    },
+}
+```
+
+
+
+## 自动排序
+
+
+
+如果您不想处理排序导入和属性，请设置此配置。
+
 
 
 
