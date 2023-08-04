@@ -360,4 +360,136 @@ dist
 
 
 
+```
+# 📄 File: .eslintrc.json
+-----------------------------------
+
+{
+    "rules": {
++       "import/order": [
++           "warn",
++           {
++               "pathGroups": [
++                   {
++                       "pattern": "~/**",
++                       "group": "external",
++                       "position": "after"
++                   }
++               ],
++               "newlines-between": "always-and-inside-groups"
++           }
++       ],
++       "react/jsx-sort-props": [
++           "warn",
++           {
++               "callbacksLast": true,
++               "shorthandFirst": true,
++               "noSortAlphabetically": false,
++               "reservedFirst": true
++           }
++       ]
+    },
+}
+```
+
+
+
+## 格式化
+
+
+
+> ES Lint就足够了，Prettier是可选的，因为它比ES Lint具有更好的性能格式化。如果你想使用它，那就去吧。但有一个问题，他们都在努力尝试格式化代码，所以你必须知道如何配置它们才能协同工作。
+
+
+
+如果你想使用它，那就去吧。
+
+
+
+- Prettier-代码格式化程序扩展
+
+
+
+```
+# 📄 File: /.vscode/settings.json
+-----------------------------------
+
+{
+-    "editor.codeActionsOnSave": {
+-        "source.fixAll.eslint": true
+-    }
++    "eslint.probe": [
++        "javascript",
++        "javascriptreact",
++        "typescript",
++        "typescriptreact"
++    ],
++    "[javascript][typescript]": {
++        "editor.defaultFormatter": "esbenp.prettier-vscode",
++        "editor.formatOnSave": false,
+         // Runs Prettier, then ESLint
++        "editor.codeActionsOnSave": [
++            "source.formatDocument",
++            "source.fixAll.eslint"
++        ],
++    }
+}
+```
+
+
+
+安装 Prettier：
+
+
+
+```
+npm install -D prettier 
+```
+
+
+
+ESLint 的 prettier 插件：
+
+
+
+```
+npm install -D eslint-config-prettier
+```
+
+
+
+或者 TSLint（TS）针对 prettier 的插件：
+
+
+
+```
+npm install -D tslint-config-prettier
+```
+
+
+
+创建一个 `.prettierignore` 文件，在项目的根目录：
+
+
+
+```
+# 📄 File: .prettierignore
+-----------------------------------
+
+build
+coverage
+dist
+package-lock.json
+```
+
+
+
+无需添加node_modules，因为默认情况下它被忽略了。
+
+
+
+
+
+
+
 
