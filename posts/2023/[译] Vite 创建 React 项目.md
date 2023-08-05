@@ -488,6 +488,198 @@ package-lock.json
 
 
 
+如果您不想使用ES Lint扩展，请在脚本末尾添加list和fix命令：
+
+
+
+```
+# 📄 File: package.json
+-----------------------------------
+
+{
+  "scripts": {
++    "lint": "eslint .",
++    "lint:fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx"
+  }
+}
+```
+
+
+
+## HTML Linter
+
+
+
+- [HTMLHint](https://marketplace.visualstudio.com/items?itemName=HTMLHint.vscode-htmlhint)
+
+
+
+```
+npm install -D htmlhint
+```
+
+
+
+如果你还想用eslint来lint HTML，请安装这个额外的插件：
+
+
+
+```
+# 📄 File: .eslintrc.json
+-----------------------------------
+
+{
+    "plugins": [
+        "react",
++       "html"
+    ],
+}
+```
+
+
+
+## CSS Linter
+
+
+
+- [Stylelint](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) 扩展
+
+
+
+在项目文件夹上进行安装和配置：
+
+
+
+```
+npm install -D stylelint stylelint-config-standard stylelint-config-idiomatic-order
+```
+
+
+
+在存储库的顶层创建一个名为.stylelintrc.json的配置文件。
+
+
+
+```
+# 📄 File: .stylelintrc.json
+-----------------------------------
+
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-idiomatic-order"
+  ],
+  "rules": {
+    "declaration-colon-newline-after": "always-multi-line"
+  },
+  "ignoreFiles": [
+    "build/**",
+    "coverage/**",
+    "dist/**",
+    "**/*.js",
+    "**/*.jsx",     "**/*.ts",
+    "**/*.tsx"   ] 
+}
+```
+
+
+
+如果您要使用样式化组件，请同时安装：
+
+
+
+```
+npm install -D stylelint-config-styled-components
+```
+
+```
+# 📄 File: .stylelintrc.json
+-----------------------------------
+
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-idiomatic-order",
++   "stylelint-config-styled-components"
+  ],
+  "ignoreFiles": [
+    "build/**",
+    "coverage/**",
+    "dist/**",
+    "**/*.js",
+-   "**/*.jsx", 
+    "**/*.ts",
+-   "**/*.tsx" 
+  ] 
+}
+```
+
+
+
+为了防止VS Code的内置linters和Stylelint报告相同的错误，可以禁用内置linters。
+
+
+
+```
+# 📄 File: /.vscode/settings.json
+-----------------------------------
+
+{ 
++    "stylelint.enable": true,
++    "css.validate": false,
++    "less.validate": false,
++    "scss.validate": false,
++    "[css][scss]": {
++        "editor.defaultFormatter": "stylelint.vscode-stylelint",
++        "editor.codeActionsOnSave": [
++            "source.fixAll.stylelint"
++        ],
++    }
+}
+```
+
+
+
+Styleint有170多条规则。有时，它会向您显示一个错误，该错误实际上会导致问题。
+
+
+
+## Git Linter
+
+
+
+如果项目没有git存储库。首先，运行：
+
+
+
+```
+git init
+```
+
+
+
+- [Lint Staged](https://github.com/okonet/lint-staged)
+
+
+
+它对Husky有效，并且只对暂存的git文件运行linters。通过这样做，您可以确保没有错误进入存储库并强制执行代码样式。
+
+
+
+在项目文件夹上进行安装和配置：
+
+
+
+```
+npx mrm@3 lint-staged
+```
+
+
+
+
+
+
+
 
 
 
