@@ -676,6 +676,145 @@ npx mrm@3 lint-staged
 
 
 
+## 测试
+
+
+
+使用Vitest。它与Jest语言API兼容，因此您不需要重新学习语法。
+
+
+
+```
+npm install -D vitest
+```
+
+
+
+有了全局标志，您就不需要在每个文件上导入去依赖项，从而自动支持Jest。
+
+
+
+```
+# 📄 File: vitest.config.ts
+-----------------------------------
+
+- import { defineConfig } from 'vite'
++ import { defineConfig } from 'vitest/config'
+
+export default defineConfig({
++  test: {
++    globals: true,
++  },
+})
+```
+
+
+
+如果您使用的是typescript，也可以添加此配置。
+
+
+
+```
+# 📄 File: tsconfig.json
+-----------------------------------
+
+{ 
++  "compilerOptions": {
++    "types": ["vitest/globals"],
++  }
+}
+```
+
+
+
+下一步，它不是必需的。但是，如果您想利用IntelliSense，建议使用以下内容启动测试文件：
+
+
+
+```
+# 📄 Files: *.test.js
+-----------------------------------
+
+import { it, expect, describe } from "vitest";
+```
+
+
+
+更新运行测试脚本如下：
+
+
+
+```
+# 📄 File: package.json
+-----------------------------------
+
+{
+  "scripts": {
++    "test":    "vitest --run --reporter verbose",+    "test:w":  "vitest",+    "test:ui": "vitest --ui",
+  }
+}
+```
+
+
+
+## 快照
+
+
+
+如果希望快照与测试文件位于同一级别，而不是__snapshots__文件夹。添加此属性。
+
+
+
+```
+# 📄 File: vitest.config.ts
+-----------------------------------
+
+export default defineConfig({
+   test: {
+     globals: true,
++    resolveSnapshotPath: (testPath, snapExtension) => testPath + snapExtension,
+   },
+})
+```
+
+
+
+## 覆盖率
+
+
+
+对于覆盖率报告，我们需要安装@vitest/coverage-v8
+
+
+
+```
+npm install -D @vitest/coverage-v8
+```
+
+
+
+更新运行测试脚本如下：
+
+
+
+```
+# 📄 File: package.json
+-----------------------------------
+
+{
+  "scripts": {
++    "test:c":  "vitest run --coverage",
++    "test:cw": "vitest watch --coverage"
+  }
+}
+```
+
+
+
+
+
+
+
 
 
 
