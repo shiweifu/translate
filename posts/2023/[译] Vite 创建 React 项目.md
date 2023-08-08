@@ -811,6 +811,172 @@ npm install -D @vitest/coverage-v8
 
 
 
+添加@vitest/coverage-v8配置。
+
+```
+# 📄 File: vitest.config.ts
+-----------------------------------
+
+import { defineConfig } from 'vitest/config'
+
+export default defineConfig({
+   test: {
+     globals: true,
++    reporters: ['verbose'],
++    coverage: {
++     all: true,
++      reporter: ['text', 'html', 'lcov'],
++      include: ['**/src/**/*.{js,jsx,ts,tsx}'],
++      exclude: [
++        '**/src/main.{js,jsx,ts,tsx}',
++        '**/*.types.{ts,tsx}',
++        '**/*.test.{js,jsx,ts,tsx}',
++        '**/src/vite-env*',
++      ],
++      statements: 0,
++      branches: 0,
++      functions: 0,
++      lines: 0,
++    },
+  },
+})
+```
+
+
+
+## RTL（React测试库）
+
+
+
+运行该命令，安装 RTL。
+
+
+
+```
+npm install -D @testing-library/react @testing-library/dom @testing-library/user-event @testing-library/jest-dom
+```
+
+
+
+同样需要安装 `jsdom` （或者 `happy-dom`）
+
+
+
+```
+npm install -D jsdom
+```
+
+
+
+添加 `environment`
+
+
+
+```
+# 📄 File: vitest.config.ts
+-----------------------------------
+
+import { defineConfig } from 'vitest/config'
+
+export default defineConfig({
+   test: {
+     globals: true,
++    environment: 'jsdom',
+   },
+})
+```
+
+
+
+使用 `setupFiles` 属性，我们可以扩展 `jest-dom` 匹配器，而无需在每个测试文件中导入它们。
+
+
+
+```
+# 📄 File: .vitest/setup.ts
+-----------------------------------
+
++ /* Extend Matchers */
++ import '@testing-library/jest-dom'
+```
+
+
+
+```
+# 📄 File: vitest.config.ts
+-----------------------------------
+
+import { defineConfig } from 'vitest/config'
+
+export default defineConfig({
+  test: {
+    globals: true,
++   setupFiles: '.vitest/setup.ts',
+  },
+})
+```
+
+
+
+如果您使用esint，最好使用以下命令添加RTL linters：
+
+
+
+```
+npm install --D eslint-plugin-testing-library eslint-plugin-jest-dom
+```
+
+
+
+并将这些配置添加到 `esint`` 配置文件中。
+
+
+
+```
+# 📄 File: .eslintrc.json
+-----------------------------------
+
+{
+    "extends": [
+        "plugin:react/recommended",
+        "standard-with-typescript",
+        "plugin:react/jsx-runtime",
+        "prettier",
++       "plugin:testing-library/react",+       "plugin:jest-dom/recommended"
+    ],
+    "plugins": [
+        "react",
+        "html",
++       "testing-library",+       "jest-dom"
+    ],
+    "rules": {
++       "testing-library/await-async-query": "error",+       "testing-library/no-await-sync-query": "error",+       "testing-library/no-debugging-utils": "warn",+       "testing-library/no-dom-import": "off",+       "jest-dom/prefer-checked": "error",+       "jest-dom/prefer-enabled-disabled": "error",+       "jest-dom/prefer-required": "error",+       "jest-dom/prefer-to-have-attribute": "error"
+    },
+}
+```
+
+
+
+在setupFiles中添加一个配置，以避免全局matcher和jest-dom冲突。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
