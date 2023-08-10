@@ -942,28 +942,148 @@ npm install --D eslint-plugin-testing-library eslint-plugin-jest-dom
         "standard-with-typescript",
         "plugin:react/jsx-runtime",
         "prettier",
-+       "plugin:testing-library/react",+       "plugin:jest-dom/recommended"
++       "plugin:testing-library/react",
++       "plugin:jest-dom/recommended"
     ],
     "plugins": [
         "react",
         "html",
-+       "testing-library",+       "jest-dom"
++       "testing-library",
++       "jest-dom"
     ],
     "rules": {
-+       "testing-library/await-async-query": "error",+       "testing-library/no-await-sync-query": "error",+       "testing-library/no-debugging-utils": "warn",+       "testing-library/no-dom-import": "off",+       "jest-dom/prefer-checked": "error",+       "jest-dom/prefer-enabled-disabled": "error",+       "jest-dom/prefer-required": "error",+       "jest-dom/prefer-to-have-attribute": "error"
++       "testing-library/await-async-query": "error",
++       "testing-library/no-await-sync-query": "error",
++       "testing-library/no-debugging-utils": "warn",
++       "testing-library/no-dom-import": "off",
++       "jest-dom/prefer-checked": "error",
++       "jest-dom/prefer-enabled-disabled": "error",
++       "jest-dom/prefer-required": "error",
++       "jest-dom/prefer-to-have-attribute": "error"
     },
 }
 ```
 
 
 
-在setupFiles中添加一个配置，以避免全局matcher和jest-dom冲突。
+在setupFiles中添加一个配置，以避免全局 `matcher` 和 `jest-dom` 冲突。
 
 
 
+```
+# 📄 File: .vitest/setup.ts
+-----------------------------------
+
+/* Extend Matchers */
+import '@testing-library/jest-dom'
++ import '@testing-library/jest-dom/extend-expect'
+```
 
 
 
+## Mock 服务
+
+
+
+如果您还想使用msw来测试HTTP请求，则需要运行此命令。
+
+
+
+```
+npm install -D msw cross-fetch
+```
+
+
+
+并将此配置添加到全局设置中。
+
+
+
+```
+# 📄 File: .vitest/setup.ts
+-----------------------------------
+
++ /* Mock Service Worker */
++ import { afterAll, afterEach, beforeAll } from 'vitest'
++ import { fetch } from 'cross-fetch'
++ import { server } from './mocks/server'
+
++ // Add `fetch` polyfill.
++ global.fetch = fetch
+
++ // Establish API mocking before all tests
++ beforeAll(() => server.listen({ onUnhandledRequest: `error` }))
+
++ // Reset any request handlers that we may add during the tests,
++ // so they don't affect other tests
++ afterEach(() => server.resetHandlers())
+
++ // Clean up after the tests are finished
++ afterAll(() => server. Close())
+```
+
+### 调试
+
+用于可视化测试。
+
+
+
+- [Vitest](https://marketplace.visualstudio.com/items?itemName=ZixuanChen.vitest-explorer) 扩展
+
+
+
+## 调试
+
+
+
+- [clic-to-component](https://github.com/ericclemmons/click-to-component) ⭐
+  
+  
+
+这不是扩展。它是一个npm包，可以安装在您的项目上，帮助调试过程。
+
+
+
+```
+npm install -S click-to-react-component
+```
+
+
+
+即使 `click-to-react-component` 已经添加到了 `dependencies`， [tree-shaking](https://esbuild.github.io/api/#tree-shaking) 也将删除  `click-to-react-component` 在 `production` 构建中。
+
+
+
+使用alt键（或macOS中的选项），结合多个键并在浏览器中单击组件，它会将您传送到编辑器中的源组件。
+
+
+
+   ![clic-to-component](https://res.cloudinary.com/practicaldev/image/fetch/s--giLLn06H--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_800/https://github.com/ericclemmons/click-to-component/raw/main/.github/vite.gif)
+
+
+
+使用 vite，在您的项目中添加以下配置：
+
+
+
+```
+# 📄 File: /src/main.jsx
+-----------------------------------
+
+import React from "react"
+import ReactDOM from "react-dom/client"
++import { ClickToComponent } from "click-to-react-component"
+
+import App from "./App"
+import "./index.css"
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
++   <ClickToComponent />
+  </React.StrictMode>
+)
+```
 
 
 
