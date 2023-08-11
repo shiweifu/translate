@@ -1087,6 +1087,112 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 
 
 
+⚠ 遗憾的是，它与WSL不兼容，但您可以使用另一种选择： [ZSH + Oh My ZSH! on Windows without WSL](https://dev.to/equiman/zsh-on-windows-without-wsl-4ah9)
+
+
+
+## 样式
+
+### PostCSS
+
+- [PostCSS](https://postcss.org/)
+
+
+
+实际上，我更喜欢PostCSS方法而不是Sass，因为它速度快，更接近CSS标准，并且不需要重命名文件扩展名。因此，在未来，您可以摆脱PostCSS，您的项目将继续工作，而无需进行重大迁移。
+
+
+
+```
+npm install -D postcss-cli postcss
+```
+
+
+
+对我来说，这些是要安装的基本插件：
+
+
+
+```
+npm install -D @csstools/postcss-nesting-experimental autoprefixer
+```
+
+
+
+> 只有当您需要旧的浏览器支持时，才安装Autoprefixer。有很多PostCSS插件，尽量不要安装太多或非常罕见的不接近CSS标准（或建议）的插件。
+
+
+
+在文件夹项目的根目录上创建postss.config.js文件：
+
+
+
+```
+# 📄 File: postcss.config.cjs
+-----------------------------------
+
+module.exports = {
+    "plugins": {
+        "@csstools/postcss-nesting-experimental": true,
+        "autoprefixer": true
+    }
+}
+```
+
+
+
+> 插件顺序很重要，因为我们需要在运行 `autoprefixer` 之前运行 `nesting`。
+
+
+
+如果您决定使用Styleint。添加此程序包：
+
+
+
+```
+npm install --D postcss-syntax
+```
+
+
+
+将其作为 `customSyntax` 添加到 `.stylelintrc.json` 文件中
+
+
+
+```
+# 📄 File: .stylelintrc.json
+-----------------------------------
+
+{
+  "extends": [
+    "stylelint-config-standard"
+  ],
++ "customSyntax": "postcss-syntax",
+}
+```
+
+
+
+### Sass
+
+
+
+- [Sass](https://sass-lang.com/)
+
+- [Sass](https://marketplace.visualstudio.com/items?itemName=Syler.sass-indented) 扩展
+
+
+
+如果你不想使用PostCSS，而是想使用Sass。Vite拥有SCSS构建的支持。安装此程序包：
+
+
+
+```
+npm install -D sass
+```
+
+> 请注意使用sass，而不是`node-sass` 包，因为它已被弃用。
+
 
 
 
