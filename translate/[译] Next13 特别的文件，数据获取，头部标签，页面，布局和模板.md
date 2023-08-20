@@ -101,3 +101,47 @@
 
 
 您可以在多个组件中获取数据，Next.js 13将自动在临时缓存中缓存具有相同输入的请求（GET）。这样可以避免多次提取相同数据的情况。它对于在布局中获取数据很有用，因为它不可能在父布局及其子布局之间传递数据。只需直接在需要的布局中获取数据，Next.js 13将负责缓存和消除请求。
+
+
+
+### 两种数据获取模式
+
+- *并行数据获取* - 如果没有一个依赖于前一个查询的查询，则可以使用并行数据获取。这减少了客户端-服务器瀑布和加载数据所需的总时间，因为路由中的请求会被急切地启动并同时开始获取。
+
+- *顺序数据获取* - 如果有一个查询依赖于前一个查询，则可以使用顺序数据获取。这可能会导致更长的加载时间，但在一次获取取决于前一次获取的结果的情况下，这很有用。
+
+
+
+如果您想了解更多关于数据获取模式的信息，请 [访问 Next.js 13 文档](https://beta.nextjs.org/docs/data-fetching/fetching#data-fetching-patterns)。
+
+如果你想在Next.js 13中扩展你对数据获取的一般知识，[这里有链接](https://beta.nextjs.org/docs/data-fetching/fundamentals)。
+
+
+
+## 修改头部标签
+
+
+
+还有一件事你应该知道的是一种修改头标签的新方法。
+
+
+
+如果在head标记中使用静态值：
+
+
+
+![Static way to modifying head tag in nextjs13](https://res.cloudinary.com/practicaldev/image/fetch/s--lsMJ7Zd6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/yb6waf9x2tytbovhffya.png)
+
+
+
+如果你想使用动态头部标签：
+
+
+
+![Dynamin way to modifying head tag in nextjs13](https://res.cloudinary.com/practicaldev/image/fetch/s--R8kRb0pe--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uro5ybahuclby3yhyc42.png)
+
+
+
+这就是本文的全部内容。如果你想扩展你的知识，请[查看文档](https://beta.nextjs.org/docs/getting-started)。
+
+我希望你喜欢！🚀
